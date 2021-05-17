@@ -42,6 +42,8 @@ private slots:
     void on_pushButton_certificates_Parse_ParseCertificate_clicked();
     void on_pushButton_certificates_Parse_ParseCSR_clicked();
     void on_textEdit_certificates_ParseCsr_InputCsr_textChanged();
+    void on_pushButton_certificates_Parse_LoadCertificate_clicked();
+    void on_pushButton_certificates_Parse_LoadCSR_clicked();
 
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();

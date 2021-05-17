@@ -436,6 +436,51 @@ void MainWindow::on_textEdit_certificates_ParseCsr_InputCsr_textChanged()
     this->ParseCSR();
 }
 
+void MainWindow::on_pushButton_certificates_Parse_LoadCertificate_clicked()
+{
+    QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
+
+    // Open file and create reading stream
+    QFile f(fileName);
+    if (!f.open(QFile::ReadOnly))
+            return;
+
+    // Read file bytes
+    QByteArray fileContent = f.readAll();
+
+    // Convert bytes to RAW hex and send them to UI
+    QString fileContentHex = fileContent.toHex(' ');
+
+    // Read content into UI
+    this->ui->textEdit_certificates_Parse_InputCertificate->setText(fileContentHex);
+
+    // Close file
+    f.close();
+}
+
+void MainWindow::on_pushButton_certificates_Parse_LoadCSR_clicked()
+{
+    QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
+
+    // Open file and create reading stream
+    QFile f(fileName);
+    if (!f.open(QFile::ReadOnly))
+            return;
+
+    // Read file bytes
+    QByteArray fileContent = f.readAll();
+
+    // Convert bytes to RAW hex and send them to UI
+    QString fileContentHex = fileContent.toHex(' ');
+
+    // Read content into UI
+    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(fileContentHex);
+
+    // Close file
+    f.close();
+}
+
+
 void MainWindow::on_textEdit_EncodeDecode_General_Ascii_textChanged()
 {
     // Skip updating the other boxes to prevent a infinite loop updates
@@ -518,5 +563,3 @@ void MainWindow::on_pushButton_EncodeDecode_General_LoadBinary_clicked()
     // Close file
     f.close();
 }
-
-

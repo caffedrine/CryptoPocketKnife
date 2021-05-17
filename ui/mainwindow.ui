@@ -942,7 +942,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabName_KeyExchange_X25519_4">
        <attribute name="title">
@@ -1006,12 +1006,25 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>10</x>
           <y>550</y>
-          <width>141</width>
+          <width>181</width>
           <height>23</height>
          </rect>
         </property>
         <property name="text">
          <string>Parse certificate</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_certificates_Parse_LoadCertificate">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>550</y>
+          <width>181</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Load certificate</string>
         </property>
        </widget>
       </widget>
@@ -1051,7 +1064,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>10</x>
           <y>550</y>
-          <width>141</width>
+          <width>181</width>
           <height>23</height>
          </rect>
         </property>
@@ -1083,6 +1096,19 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="text">
          <string>Parsed CSR</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_certificates_Parse_LoadCSR">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>550</y>
+          <width>181</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Load CSR</string>
         </property>
        </widget>
       </widget>
