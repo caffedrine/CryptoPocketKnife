@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QFileDialog>
+#include <QTextStream>
 
 #include "utils.h"
 #include <eddsa.h>
