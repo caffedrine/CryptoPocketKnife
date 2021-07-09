@@ -7,6 +7,8 @@
 #include <QProcess>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QDebug>
+#include <QClipboard>
 
 #include "utils.h"
 #include <eddsa.h>
@@ -45,6 +47,8 @@ private slots:
     void on_textEdit_certificates_ParseCsr_InputCsr_textChanged();
     void on_pushButton_certificates_Parse_LoadCertificate_clicked();
     void on_pushButton_certificates_Parse_LoadCSR_clicked();
+    void on_pushButton_certificates_Parse_CopyCertHEX_clicked();
+    void on_pushButton_certificates_Parse_CopyCSRHEX_clicked();
 
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();
@@ -53,10 +57,13 @@ private slots:
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
 
+
+
 private:
     Ui::MainWindow *ui;
     bool BypassOnChangeEventFlag = false;
 
+    QByteArray LastParsedCSR, LastParsedCert;
 
     void Status_EndWithError(QString err_msg);
     void Status_EndWithSuccess(QString err_msg);

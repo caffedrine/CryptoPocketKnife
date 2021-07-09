@@ -14,7 +14,33 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::Status_EndWithError(QString err_msg)
+{
+    ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(255,0,0,255);color:black;font-weight:bold;}");
+    ui->statusbar->showMessage("ERROR: " + err_msg);
+}
 
+void MainWindow::Status_EndWithSuccess(QString err_msg)
+{
+    ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(20,165,58,1);color:black;font-weight:bold;}");
+    ui->statusbar->showMessage("SUCCESS: " + err_msg);
+}
+
+void MainWindow::Status_Clear()
+{
+    ui->statusbar->setStyleSheet("");
+    ui->statusbar->showMessage("");
+}
+
+/*   _____        _               _             _
+    |  __ \      | |             (_)           (_)
+    | |  | | __ _| |_ __ _    ___ _  __ _ _ __  _ _ __   __ _
+    | |  | |/ _` | __/ _` |  / __| |/ _` | '_ \| | '_ \ / _` |
+    | |__| | (_| | || (_| |  \__ \ | (_| | | | | | | | | (_| |
+    |_____/ \__,_|\__\__,_|  |___/_|\__, |_| |_|_|_| |_|\__, |
+                                     __/ |               __/ |
+                                    |___/               |___/
+*/
 void MainWindow::on_ed25519_pushButton_GenerateKeysPair_clicked()
 {
     uint8_t public_key[ED25519_KEY_LEN];
@@ -32,23 +58,6 @@ void MainWindow::on_ed25519_pushButton_GenerateKeysPair_clicked()
     ui->ed25529_textEdit_publicKey->setText( Utils_Uint8ArrToHexQStr(public_key, sizeof(public_key)));
 
     this->Status_EndWithSuccess("Public/Private keys pair generated");
-}
-
-void MainWindow::Status_EndWithError(QString err_msg)
-{
-    ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(255,0,0,255);color:black;font-weight:bold;}");
-    ui->statusbar->showMessage("ERROR: " + err_msg);
-}
-
-void MainWindow::Status_EndWithSuccess(QString err_msg)
-{
-    ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(20,165,58,1);color:black;font-weight:bold;}");
-    ui->statusbar->showMessage("SUCCESS: " + err_msg);
-}
-
-void MainWindow::Status_Clear()
-{
-    ui->statusbar->showMessage("");
 }
 
 void MainWindow::on_ed25529_textEdit_privateKey_textChanged(const QString &arg1)
@@ -139,6 +148,25 @@ void MainWindow::on_ed25519_pushButton_VerifySignature_clicked()
     }
 }
 
+/*   _  __                          _
+    | |/ /                         | |
+    | ' / ___ _   _    _____  _____| |__   __ _ _ __   __ _  ___
+    |  < / _ \ | | |  / _ \ \/ / __| '_ \ / _` | '_ \ / _` |/ _ \
+    | . \  __/ |_| | |  __/>  < (__| | | | (_| | | | | (_| |  __/
+    |_|\_\___|\__, |  \___/_/\_\___|_| |_|\__,_|_| |_|\__, |\___|
+               __/ |                                   __/ |
+              |___/                                   |___/
+*/
+void MainWindow::on_x25519_pushButton_Clear_clicked()
+{
+    ui->x25529_textEdit_ownSharedSecret->setText("");
+    ui->x25529_textEdit_otherSharedSecret->setText("");
+    ui->x25529_textEdit_ownPrivateKey->setText("");
+    ui->x25529_textEdit_ownPublicKey->setText("");
+    ui->x25529_textEdit_otherPrivateKey->setText("");
+    ui->x25529_textEdit_otherPublicKey->setText("");
+}
+
 void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
 {
     uint8_t own_shared_secret[X25519_KEY_LEN], other_shared_secret[X25519_KEY_LEN];
@@ -163,7 +191,6 @@ void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
     ui->x25529_textEdit_otherPrivateKey->setText( Utils_Uint8ArrToHexQStr(other_private_key, sizeof(other_private_key)));
     ui->x25529_textEdit_otherPublicKey->setText( Utils_Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
 }
-
 
 void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_2_clicked()
 {
@@ -201,17 +228,6 @@ void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_2_clicked()
     // Send calculated keys to UI
     ui->x25529_textEdit_ownSharedSecret->setText( Utils_Uint8ArrToHexQStr(own_shared_secret, sizeof(own_shared_secret)));
     ui->x25529_textEdit_otherSharedSecret->setText( Utils_Uint8ArrToHexQStr(other_shared_secret, sizeof(other_shared_secret)));
-}
-
-
-void MainWindow::on_x25519_pushButton_Clear_clicked()
-{
-    ui->x25529_textEdit_ownSharedSecret->setText("");
-    ui->x25529_textEdit_otherSharedSecret->setText("");
-    ui->x25529_textEdit_ownPrivateKey->setText("");
-    ui->x25529_textEdit_ownPublicKey->setText("");
-    ui->x25529_textEdit_otherPrivateKey->setText("");
-    ui->x25529_textEdit_otherPublicKey->setText("");
 }
 
 void MainWindow::on_x25519_pushButton_CalcSymKeys_clicked()
@@ -268,6 +284,16 @@ void MainWindow::on_x25519_pushButton_CalcSymKeys_clicked()
 
 }
 
+
+/*    _____ _       _
+     / ____(_)     | |
+    | |     _ _ __ | |__   ___ _ __ ___
+    | |    | | '_ \| '_ \ / _ \ '__/ __|
+    | |____| | |_) | | | |  __/ |  \__ \
+     \_____|_| .__/|_| |_|\___|_|  |___/
+             | |
+             |_|
+*/
 void MainWindow::on_ciphers_AES_pushButton_Encrypt_clicked()
 {
     ssize_t aerKeyIn_len, aesIvIn_len, aesInput_len, aesOutput_len = 0;
@@ -314,6 +340,24 @@ void MainWindow::on_ciphers_AES_pushButton_Decrypt_clicked()
     ui->ciphers_AES_textEdit_AesOutput->setText(Utils_Uint8ArrToHexQStr(aesOutput, aesOutput_len));
 }
 
+
+/*   _    _           _
+    | |  | |         | |
+    | |__| | __ _ ___| |__   ___  ___
+    |  __  |/ _` / __| '_ \ / _ \/ __|
+    | |  | | (_| \__ \ | | |  __/\__ \
+    |_|  |_|\__,_|___/_| |_|\___||___/
+*/
+
+
+
+/*    _____          _   _  __ _           _
+     / ____|        | | (_)/ _(_)         | |
+    | |     ___ _ __| |_ _| |_ _  ___ __ _| |_ ___  ___
+    | |    / _ \ '__| __| |  _| |/ __/ _` | __/ _ \/ __|
+    | |___|  __/ |  | |_| | | | | (_| (_| | ||  __/\__ \
+     \_____\___|_|   \__|_|_| |_|\___\__,_|\__\___||___/
+*/
 QString MainWindow::ParseCertCsrInputStringToB64(QString input)
 {
     // #0. Prepare folders workspace
@@ -342,6 +386,12 @@ QString MainWindow::ParseCertCsrInputStringToB64(QString input)
 
 void MainWindow::ParseCert()
 {
+    // Clear message box
+    this->Status_Clear();
+
+    // Also clear output box
+    ui->textEdit_certificates_Parse_ParsedCertificate->clear();
+
     // Assume RAW hex format
     QString inputContentB64 = this->ParseCertCsrInputStringToB64(ui->textEdit_certificates_Parse_InputCertificate->toPlainText());
     if( inputContentB64.isEmpty() )
@@ -350,7 +400,10 @@ void MainWindow::ParseCert()
         return;
     }
 
-    // Add tags
+    // Store as HEX bytes parsed certificate
+    this->LastParsedCert = QByteArray::fromBase64(inputContentB64.toUtf8());
+
+    // Add tags to PEM format and write it to a file so it can be parsed by OpenSSL
     inputContentB64 = "-----BEGIN CERTIFICATE-----\n" + inputContentB64 + "\n-----END CERTIFICATE-----";
     QFile file("tmp/cert_pem");
     if( file.open(QIODevice::ReadWrite | QIODevice::Text ) )
@@ -380,6 +433,12 @@ void MainWindow::ParseCert()
 
 void MainWindow::ParseCSR()
 {
+    // Clear message box
+    this->Status_Clear();
+
+    // Also clear output box
+    ui->textEdit_certificates_Parse_ParsedCSR->clear();
+
     // Assume RAW hex format
     QString inputContentB64 = this->ParseCertCsrInputStringToB64(ui->textEdit_certificates_ParseCsr_InputCsr->toPlainText());
     if( inputContentB64.isEmpty() )
@@ -387,6 +446,9 @@ void MainWindow::ParseCSR()
         this->Status_EndWithError("Failed to parse input csr");
         return;
     }
+
+    // Store as HEX bytes parsed CSR
+    this->LastParsedCSR = QByteArray::fromBase64(inputContentB64.toUtf8());
 
     // Add tags
     inputContentB64 = "-----BEGIN NEW CERTIFICATE REQUEST-----\n" + inputContentB64 + "\n-----END NEW CERTIFICATE REQUEST-----";
@@ -433,12 +495,17 @@ void MainWindow::on_pushButton_certificates_Parse_ParseCSR_clicked()
 
 void MainWindow::on_textEdit_certificates_ParseCsr_InputCsr_textChanged()
 {
+    // Clear message box
+    this->Status_Clear();
     this->ParseCSR();
 }
 
 void MainWindow::on_pushButton_certificates_Parse_LoadCertificate_clicked()
 {
     QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
+
+    // Clear message box
+    this->Status_Clear();
 
     // Open file and create reading stream
     QFile f(fileName);
@@ -462,6 +529,9 @@ void MainWindow::on_pushButton_certificates_Parse_LoadCSR_clicked()
 {
     QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
 
+    // Clear message box
+    this->Status_Clear();
+
     // Open file and create reading stream
     QFile f(fileName);
     if (!f.open(QFile::ReadOnly))
@@ -480,7 +550,43 @@ void MainWindow::on_pushButton_certificates_Parse_LoadCSR_clicked()
     f.close();
 }
 
+void MainWindow::on_pushButton_certificates_Parse_CopyCertHEX_clicked()
+{
+    QString output = "";
+    // Loop through each byte from array and append it to output
 
+    if( this->LastParsedCert.size() > 0 )
+    {
+        output = "0x" + this->LastParsedCert.toHex(' ').replace(" ", " 0x");
+    }
+
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setText(output);
+}
+
+void MainWindow::on_pushButton_certificates_Parse_CopyCSRHEX_clicked()
+{
+    QString output = "";
+    // Loop through each byte from array and append it to output
+
+    if( this->LastParsedCSR.size() > 0 )
+    {
+        output = "0x" + this->LastParsedCSR.toHex(' ').replace(" ", " 0x");
+    }
+
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setText(output);
+}
+
+/*   ______                     _ _
+    |  ____|                   | (_)
+    | |__   _ __   ___ ___   __| |_ _ __   __ _
+    |  __| | '_ \ / __/ _ \ / _` | | '_ \ / _` |
+    | |____| | | | (_| (_) | (_| | | | | | (_| |
+    |______|_| |_|\___\___/ \__,_|_|_| |_|\__, |
+                                           __/ |
+                                          |___/
+*/
 void MainWindow::on_textEdit_EncodeDecode_General_Ascii_textChanged()
 {
     // Skip updating the other boxes to prevent a infinite loop updates
@@ -563,3 +669,11 @@ void MainWindow::on_pushButton_EncodeDecode_General_LoadBinary_clicked()
     // Close file
     f.close();
 }
+
+/*   _    _ _   _ _
+    | |  | | | (_) |
+    | |  | | |_ _| |___
+    | |  | | __| | / __|
+    | |__| | |_| | \__ \
+     \____/ \__|_|_|___/
+*/

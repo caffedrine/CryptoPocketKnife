@@ -1027,6 +1027,19 @@ p, li { white-space: pre-wrap; }
          <string>Load certificate</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton_certificates_Parse_CopyCertHEX">
+        <property name="geometry">
+         <rect>
+          <x>970</x>
+          <y>550</y>
+          <width>181</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Copy HEX</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_9">
        <attribute name="title">
@@ -1109,6 +1122,19 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="text">
          <string>Load CSR</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_certificates_Parse_CopyCSRHEX">
+        <property name="geometry">
+         <rect>
+          <x>970</x>
+          <y>550</y>
+          <width>181</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Copy HEX</string>
         </property>
        </widget>
       </widget>
