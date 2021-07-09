@@ -48,5 +48,10 @@ link_directories(${Proj_INCLUDE_DIRS})
 #    add_executable(${PROJECT_NAME} ${Proj_SOURCES_ED25519} ${Proj_UIS} ${Proj_SOURCES})
 #endif()
 
-add_executable(${PROJECT_NAME} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
+IF (WIN32)
+    add_executable(${PROJECT_NAME} WIN32 ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
+ELSE()
+    add_executable(${PROJECT_NAME} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
+ENDIF()
+
 target_link_libraries(${PROJECT_NAME} PRIVATE ${AES_SRC} ${EDDSA_SRC} eddsa Qt${QT_VERSION_MAJOR}::Widgets)
