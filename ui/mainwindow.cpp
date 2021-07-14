@@ -376,7 +376,8 @@ QString MainWindow::ParseCertCsrInputStringToB64(QString input)
     if( inputCert.count(delimitator) == 4)
     {
         // Return it, certificate is already in PEM format (cut start and end tags)
-        return inputCert.split(delimitator)[2];
+        QString strRet = inputCert.split(delimitator)[2].split(delimitator)[0];
+        return strRet;
     }
 
     // Convert to B64 in case of HEX format
@@ -515,11 +516,20 @@ void MainWindow::on_pushButton_certificates_Parse_LoadCertificate_clicked()
     // Read file bytes
     QByteArray fileContent = f.readAll();
 
-    // Convert bytes to RAW hex and send them to UI
-    QString fileContentHex = fileContent.toHex(' ');
-
-    // Read content into UI
-    this->ui->textEdit_certificates_Parse_InputCertificate->setText(fileContentHex);
+     // Read content into UI
+    QString delimitator = "-----";
+    if( QString(fileContent).contains(delimitator) )
+    {
+        // Convert certificate from B64 to binary format.
+        QString input = QString(fileContent).replace(",", "").replace(" ", "").replace("\n", "");
+        input = input.split(delimitator)[2].split(delimitator)[0];
+        this->ui->textEdit_certificates_Parse_InputCertificate->setText( QByteArray::fromBase64(input.toUtf8()).toHex(' '));
+    }
+    else
+    {
+        // Content already in as binary. Just send it to ui
+        this->ui->textEdit_certificates_Parse_InputCertificate->setText(fileContent.toHex(' '));
+    }
 
     // Close file
     f.close();
@@ -540,11 +550,21 @@ void MainWindow::on_pushButton_certificates_Parse_LoadCSR_clicked()
     // Read file bytes
     QByteArray fileContent = f.readAll();
 
-    // Convert bytes to RAW hex and send them to UI
-    QString fileContentHex = fileContent.toHex(' ');
 
     // Read content into UI
-    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(fileContentHex);
+    QString delimitator = "-----";
+    if( QString(fileContent).contains(delimitator) )
+    {
+        // Convert certificate from B64 to binary format.
+        QString input = QString(fileContent).replace(",", "").replace(" ", "").replace("\n", "");
+        input = input.split(delimitator)[2].split(delimitator)[0];
+        this->ui->textEdit_certificates_ParseCsr_InputCsr->setText( QByteArray::fromBase64(input.toUtf8()).toHex(' '));
+    }
+    else
+    {
+        // Content already in as binary. Just send it to ui
+        this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(fileContent.toHex(' '));
+    }
 
     // Close file
     f.close();
@@ -576,6 +596,74 @@ void MainWindow::on_pushButton_certificates_Parse_CopyCSRHEX_clicked()
 
     QClipboard *clipboard = QGuiApplication::clipboard();
     clipboard->setText(output);
+}
+
+void MainWindow::on_pushButton_certificates_Parse_ExportCSR_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                               "cert_sign_request.csr",
+                               tr("Binary format (*.csr);;Privacy-Enhanced Mail Base64 (*.pem);;Distinguished Encoding Rules (*.der)"));
+
+    if( fileName.isEmpty() )
+        return;
+
+    if( QFileInfo(fileName).suffix().toLower() == "pem")
+    {
+        QString output = "-----BEGIN CERTIFICATE REQUEST-----\n";
+        output+= this->LastParsedCSR.toBase64();
+        output+= "\n-----END CERTIFICATE REQUEST-----";
+
+        // Write data to file
+        QSaveFile file(fileName);
+        file.open(QIODevice::WriteOnly);
+        file.write(output.toUtf8());
+        file.commit();
+    }
+    else
+    {
+        // Write data to file
+        QSaveFile file(fileName);
+        file.open(QIODevice::WriteOnly);
+        file.write(this->LastParsedCSR);
+        file.commit();
+    }
+
+    this->Status_EndWithSuccess("Certifiate singing request successfully exported!");
+}
+
+void MainWindow::on_pushButton_certificates_Parse_ExportCRT_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                               "certificate.crt",
+                               tr("Binary format (*.crt *.cer);;Privacy-Enhanced Mail Base64 (*.pem);;Distinguished Encoding Rules (*.der)"));
+
+    if( fileName.isEmpty() )
+        return;
+
+    if( QFileInfo(fileName).suffix().toLower() == "pem")
+    {
+        QString output = "-----BEGIN CERTIFICATE-----\n";
+        output+= this->LastParsedCert.toBase64();
+        output+= "\n-----END CERTIFICATE-----";
+
+        // Write data to file
+        QSaveFile file(fileName);
+        file.open(QIODevice::WriteOnly);
+        file.write(output.toUtf8());
+        // Calling commit() is mandatory, otherwise nothing will be written.
+        file.commit();
+    }
+    else
+    {
+        // Write data to file
+        QSaveFile file(fileName);
+        file.open(QIODevice::WriteOnly);
+        file.write(this->LastParsedCert);
+        // Calling commit() is mandatory, otherwise nothing will be written.
+        file.commit();
+    }
+
+    this->Status_EndWithSuccess("Certificate successfully exported!");
 }
 
 /*   ______                     _ _

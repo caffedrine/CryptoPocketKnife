@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QFileDialog>
+#include <QSaveFile>
 #include <QTextStream>
 #include <QDebug>
 #include <QClipboard>
@@ -58,6 +59,10 @@ private slots:
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
 
 
+
+    void on_pushButton_certificates_Parse_ExportCSR_clicked();
+
+    void on_pushButton_certificates_Parse_ExportCRT_clicked();
 
 private:
     Ui::MainWindow *ui;
