@@ -65,3 +65,29 @@ QString Utils_BytesToPrintableString(const QByteArray *in_arr)
     }
     return result;
 }
+
+QString ParseCertOrCsrFromFileToHexStr(QString fileName)
+{
+    // Open file and create reading stream
+    QFile f(fileName);
+    if (!f.open(QFile::ReadOnly))
+            return "";
+
+    // Read file bytes
+    QByteArray fileContent = f.readAll();
+
+     // Read content into UI
+    QString delimitator = "-----";
+    if( QString(fileContent).contains(delimitator) )
+    {
+        // Convert certificate from B64 to binary format.
+        QString input = QString(fileContent).replace(",", "").replace(" ", "").replace("\n", "");
+        input = input.split(delimitator)[2].split(delimitator)[0];
+        return QByteArray::fromBase64(input.toUtf8()).toHex(' ');
+    }
+    else
+    {
+        // Content already in as binary. Just send it to ui
+        return fileContent.toHex(' ');
+    }
+}

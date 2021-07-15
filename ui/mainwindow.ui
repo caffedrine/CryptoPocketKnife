@@ -948,7 +948,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Parse x509 cert</string>
        </attribute>
-       <widget class="QTextEdit" name="textEdit_certificates_Parse_InputCertificate">
+       <widget class="AdvancedTextEdit" name="textEdit_certificates_Parse_InputCertificate">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1058,7 +1058,7 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Parse CSR</string>
        </attribute>
-       <widget class="QTextEdit" name="textEdit_certificates_ParseCsr_InputCsr">
+       <widget class="AdvancedTextEdit" name="textEdit_certificates_ParseCsr_InputCsr">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -1363,6 +1363,13 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AdvancedTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>advancedtextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../res/res.qrc"/>
  </resources>

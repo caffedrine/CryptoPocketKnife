@@ -10,7 +10,11 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QClipboard>
+#include <QMimeData>
+#include <QDropEvent>
+#include <QDragEnterEvent>
 
+#include "advancedtextedit.h"
 #include "utils.h"
 #include <eddsa.h>
 #include <aes.h>
@@ -42,6 +46,7 @@ private slots:
     void on_ciphers_AES_pushButton_Encrypt_clicked();
     void on_ciphers_AES_pushButton_Decrypt_clicked();
 
+    // Certificates
     void on_textEdit_certificates_Parse_InputCertificate_textChanged();
     void on_pushButton_certificates_Parse_ParseCertificate_clicked();
     void on_pushButton_certificates_Parse_ParseCSR_clicked();
@@ -50,6 +55,11 @@ private slots:
     void on_pushButton_certificates_Parse_LoadCSR_clicked();
     void on_pushButton_certificates_Parse_CopyCertHEX_clicked();
     void on_pushButton_certificates_Parse_CopyCSRHEX_clicked();
+    void on_pushButton_certificates_Parse_ExportCSR_clicked();
+    void on_pushButton_certificates_Parse_ExportCRT_clicked();
+    void OnCertFileDragged(QString filename);
+    void OnCsrFileDragged(QString filename);
+
 
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();
@@ -57,12 +67,6 @@ private slots:
     void on_pushButton_EncodeDecode_General_ClearAll_clicked();
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
-
-
-
-    void on_pushButton_certificates_Parse_ExportCSR_clicked();
-
-    void on_pushButton_certificates_Parse_ExportCRT_clicked();
 
 private:
     Ui::MainWindow *ui;

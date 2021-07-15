@@ -7,6 +7,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setAcceptDrops(false);
+    ui->textEdit_certificates_Parse_ParsedCSR->setAcceptDrops(false);
+    ui->textEdit_certificates_Parse_ParsedCertificate->setAcceptDrops(false);
+
+    ui->textEdit_certificates_Parse_InputCertificate->setAcceptDrops(true);
+    ui->textEdit_certificates_ParseCsr_InputCsr->setAcceptDrops(true);
+
+
+
+    // Conect data droping signals to slots
+    QObject::connect(this->ui->textEdit_certificates_Parse_InputCertificate, SIGNAL( OnDraggedFile(QString) ),
+            this, SLOT(OnCertFileDragged(QString)) );
+    QObject::connect(this->ui->textEdit_certificates_ParseCsr_InputCsr, SIGNAL( OnDraggedFile(QString) ),
+            this, SLOT(OnCsrFileDragged(QString)) );
 }
 
 MainWindow::~MainWindow()
@@ -503,71 +517,22 @@ void MainWindow::on_textEdit_certificates_ParseCsr_InputCsr_textChanged()
 
 void MainWindow::on_pushButton_certificates_Parse_LoadCertificate_clicked()
 {
-    QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
-
     // Clear message box
     this->Status_Clear();
 
-    // Open file and create reading stream
-    QFile f(fileName);
-    if (!f.open(QFile::ReadOnly))
-            return;
+    QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
 
-    // Read file bytes
-    QByteArray fileContent = f.readAll();
-
-     // Read content into UI
-    QString delimitator = "-----";
-    if( QString(fileContent).contains(delimitator) )
-    {
-        // Convert certificate from B64 to binary format.
-        QString input = QString(fileContent).replace(",", "").replace(" ", "").replace("\n", "");
-        input = input.split(delimitator)[2].split(delimitator)[0];
-        this->ui->textEdit_certificates_Parse_InputCertificate->setText( QByteArray::fromBase64(input.toUtf8()).toHex(' '));
-    }
-    else
-    {
-        // Content already in as binary. Just send it to ui
-        this->ui->textEdit_certificates_Parse_InputCertificate->setText(fileContent.toHex(' '));
-    }
-
-    // Close file
-    f.close();
+    this->ui->textEdit_certificates_Parse_InputCertificate->setText(ParseCertOrCsrFromFileToHexStr(fileName));
 }
 
 void MainWindow::on_pushButton_certificates_Parse_LoadCSR_clicked()
 {
-    QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
-
     // Clear message box
     this->Status_Clear();
 
-    // Open file and create reading stream
-    QFile f(fileName);
-    if (!f.open(QFile::ReadOnly))
-            return;
+    QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
 
-    // Read file bytes
-    QByteArray fileContent = f.readAll();
-
-
-    // Read content into UI
-    QString delimitator = "-----";
-    if( QString(fileContent).contains(delimitator) )
-    {
-        // Convert certificate from B64 to binary format.
-        QString input = QString(fileContent).replace(",", "").replace(" ", "").replace("\n", "");
-        input = input.split(delimitator)[2].split(delimitator)[0];
-        this->ui->textEdit_certificates_ParseCsr_InputCsr->setText( QByteArray::fromBase64(input.toUtf8()).toHex(' '));
-    }
-    else
-    {
-        // Content already in as binary. Just send it to ui
-        this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(fileContent.toHex(' '));
-    }
-
-    // Close file
-    f.close();
+    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(ParseCertOrCsrFromFileToHexStr(fileName));
 }
 
 void MainWindow::on_pushButton_certificates_Parse_CopyCertHEX_clicked()
@@ -664,6 +629,16 @@ void MainWindow::on_pushButton_certificates_Parse_ExportCRT_clicked()
     }
 
     this->Status_EndWithSuccess("Certificate successfully exported!");
+}
+
+void MainWindow::OnCertFileDragged(QString fileName)
+{
+    this->ui->textEdit_certificates_Parse_InputCertificate->setText(ParseCertOrCsrFromFileToHexStr(fileName));
+}
+
+void MainWindow::OnCsrFileDragged(QString fileName)
+{
+    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(ParseCertOrCsrFromFileToHexStr(fileName));
 }
 
 /*   ______                     _ _
