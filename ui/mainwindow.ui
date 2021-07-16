@@ -942,7 +942,7 @@ p, li { white-space: pre-wrap; }
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabName_KeyExchange_X25519_4">
        <attribute name="title">
@@ -975,7 +975,7 @@ p, li { white-space: pre-wrap; }
          </rect>
         </property>
         <property name="text">
-         <string>Input certificate (PEM/HEX)</string>
+         <string>Input certificate (PEM/HEX/File)</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_28">
@@ -1108,7 +1108,7 @@ p, li { white-space: pre-wrap; }
          </rect>
         </property>
         <property name="text">
-         <string>Input CSR (PEM/HEX)</string>
+         <string>Input CSR (PEM/HEX/File)</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_30">
