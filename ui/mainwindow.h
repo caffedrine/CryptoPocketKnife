@@ -60,15 +60,16 @@ private slots:
     void OnCertFileDragged(QString filename);
     void OnCsrFileDragged(QString filename);
 
-
+    void EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, QString exception);
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();
     void on_textEdit_EncodeDecode_General_BIN_textChanged();
     void on_pushButton_EncodeDecode_General_ClearAll_clicked();
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
+    void on_textEdit_EncodeDecode_General_AlphanumericStrings_textChanged();
 
-private:
+    private:
     Ui::MainWindow *ui;
     bool BypassOnChangeEventFlag = false;
 

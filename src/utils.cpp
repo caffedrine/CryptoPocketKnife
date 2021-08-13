@@ -52,16 +52,40 @@ bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[SHA512_HASH_
     return true;
 }
 
-QString Utils_BytesToPrintableString(const QByteArray *in_arr)
+QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr)
 {
     QString result = "";
     for( int i = 0; i < in_arr->length(); i++ )
     {
         QChar c = QChar(in_arr->at(i));
-        if( c.isPrint())
+        if( (c>= 0x20 && c <= 0x7f) || ( c == 0x0A ) )
             result += c;
         else
             result += ".";
+    }
+    return result;
+}
+
+QString Utils_BytesToAlphanumericString(const QByteArray *in_arr)
+{
+    QString result = "";
+    for( int i = 0; i < in_arr->length(); i++ )
+    {
+        QChar c = QChar(in_arr->at(i));
+        if( c.isDigit() || (c >= 0x41 && c <= 0x5A ) || (c >= 0x61 && c <= 0x7A ))
+            result += c;
+        else
+            result += ".";
+    }
+    return result;
+}
+
+QString Utils_BytesToBinaryString(const QByteArray *in_arr)
+{
+    QString result = "";
+    for( int i = 0; i < in_arr->length(); i++ )
+    {
+        result += QString("%1").arg((uint8_t)in_arr->at(i), 8, 2, QChar('0')) + " ";
     }
     return result;
 }

@@ -49,6 +49,7 @@ link_directories(${Proj_INCLUDE_DIRS})
 #endif()
 
 IF (WIN32)
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/qt5app.rc")
     add_executable(${PROJECT_NAME} WIN32 ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
 ELSE()
     add_executable(${PROJECT_NAME} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
