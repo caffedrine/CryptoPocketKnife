@@ -13,6 +13,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 #include <QDragEnterEvent>
+#include <QCryptographicHash>
 
 #include "advancedtextedit.h"
 #include "utils.h"

@@ -690,6 +690,38 @@ void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->textEdit_EncodeDecode_General_RawData->setText( QString(bytes) );
     }
 
+    // Calculate hashes and CRC
+    if( bytes.isEmpty() )
+    {
+        // clear if empty
+        this->ui->encoding_lineEdit_MD5->clear();
+        this->ui->encoding_lineEdit_SHA512->clear();
+        this->ui->encoding_lineEdit_SHA3_512->clear();
+        this->ui->encoding_lineEdit_KECCAK512->clear();
+        this->ui->encoding_lineEdit_CRC16->clear();
+        this->ui->encoding_lineEdit_CRC32->clear();
+    }
+    else
+    {
+        // Hashing
+        this->ui->encoding_lineEdit_MD5->setText(QCryptographicHash::hash(bytes, QCryptographicHash::Md5).toHex());
+        this->ui->encoding_lineEdit_SHA512->setText(QCryptographicHash::hash(bytes, QCryptographicHash::Sha512).toHex());
+        this->ui->encoding_lineEdit_SHA3_512->setText(QCryptographicHash::hash(bytes, QCryptographicHash::Sha3_512).toHex());
+        this->ui->encoding_lineEdit_KECCAK512->setText(QCryptographicHash::hash(bytes, QCryptographicHash::Keccak_512).toHex());
+
+        // Calculate quick checksums
+        this->ui->encoding_lineEdit_CRC16->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumIso3309), 16));
+        this->ui->encoding_lineEdit_CRC32->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumItuV41), 16));
+
+        // Set cursor to initial positions for cursor. Show results from the beginning
+        this->ui->encoding_lineEdit_MD5->setCursorPosition(0);
+        this->ui->encoding_lineEdit_SHA512->setCursorPosition(0);
+        this->ui->encoding_lineEdit_SHA3_512->setCursorPosition(0);
+        this->ui->encoding_lineEdit_KECCAK512->setCursorPosition(0);
+        this->ui->encoding_lineEdit_CRC16->setCursorPosition(0);
+        this->ui->encoding_lineEdit_CRC32->setCursorPosition(0);
+    }
+
     // Since the boxes were updated, enable event back. As any further change will be a user change.
     this->BypassOnChangeEventFlag = false;
 }
@@ -817,6 +849,7 @@ void MainWindow::on_pushButton_EncodeDecode_General_ClearAll_clicked()
     this->ui->textEdit_EncodeDecode_General_BIN->clear();
     this->ui->textEdit_EncodeDecode_General_AlphanumericStrings->clear();
     this->ui->textEdit_EncodeDecode_General_RawData->clear();
+    this->ui->textEdit_EncodeDecode_General_DEC->clear();
 
     // Set the flag back so the other boxes can update each other again
     this->BypassOnChangeEventFlag = false;
