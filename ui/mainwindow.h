@@ -64,6 +64,7 @@ private slots:
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();
     void on_textEdit_EncodeDecode_General_BIN_textChanged();
+    void on_textEdit_EncodeDecode_General_DEC_textChanged();
     void on_pushButton_EncodeDecode_General_ClearAll_clicked();
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();

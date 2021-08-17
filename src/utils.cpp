@@ -87,7 +87,17 @@ QString Utils_BytesToBinaryString(const QByteArray *in_arr)
     {
         result += QString("%1").arg((uint8_t)in_arr->at(i), 8, 2, QChar('0')) + " ";
     }
-    return result;
+    return result.trimmed();
+}
+
+QString Utils_BytesToDECString(const QByteArray *in_arr)
+{
+    QString result = "";
+    for( int i = 0; i < in_arr->length(); i++ )
+    {
+        result += QString::number((uint8_t)in_arr->at(i)) + " ";
+    }
+    return result.trimmed();
 }
 
 QString ParseCertOrCsrFromFileToHexStr(QString fileName)

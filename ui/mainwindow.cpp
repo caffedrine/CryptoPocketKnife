@@ -670,6 +670,11 @@ void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->textEdit_EncodeDecode_General_BIN->setText( Utils_BytesToBinaryString(&bytes) );
     }
 
+    if( exception != "dec" )
+    {
+        this->ui->textEdit_EncodeDecode_General_DEC->setText( Utils_BytesToDECString(&bytes) );
+    }
+
     if( exception != "base64" )
     {
         this->ui->textEdit_EncodeDecode_General_Base64->setText(bytes.toBase64());
@@ -782,7 +787,23 @@ void MainWindow::on_textEdit_EncodeDecode_General_AlphanumericStrings_textChange
     this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "alnum");
 }
 
+void MainWindow::on_textEdit_EncodeDecode_General_DEC_textChanged()
+{
+    // Skip updating the other boxes to prevent a infinite loop updates
+    if(BypassOnChangeEventFlag )
+        return;
 
+    // Convert content to bytes array
+    QByteArray bytes;
+    QStringList ints = this->ui->textEdit_EncodeDecode_General_DEC->toPlainText().trimmed().split(" ");
+    for(int i = 0; i < ints.count(); i++)
+    {
+        bytes.append( QString(ints.at(i)).toInt(nullptr, 10) );
+    }
+
+    // Set only bytes hex, there all the other boxes will be converted
+    this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "dec");
+}
 
 void MainWindow::on_pushButton_EncodeDecode_General_ClearAll_clicked()
 {
@@ -828,4 +849,3 @@ void MainWindow::on_pushButton_EncodeDecode_General_LoadBinary_clicked()
     | |__| | |_| | \__ \
      \____/ \__|_|_|___/
 */
-

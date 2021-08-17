@@ -14,6 +14,7 @@ bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[64]);
 QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr);
 QString Utils_BytesToAlphanumericString(const QByteArray *in_arr);
 QString Utils_BytesToBinaryString(const QByteArray *in_arr);
+QString Utils_BytesToDECString(const QByteArray *in_arr);
 
 QString ParseCertOrCsrFromFileToHexStr(QString fileName);
 
