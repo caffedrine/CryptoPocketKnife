@@ -33,17 +33,20 @@ public:
     ~MainWindow();
 
 private slots:
+    // Signatrure calculus
     void on_ed25519_pushButton_GenerateKeysPair_clicked();
     void on_ed25529_textEdit_privateKey_textChanged(const QString &arg1);
     void on_ed25529_textEdit_publicKey_textChanged(const QString &arg1);
     void on_ed25519_pushButton_CalculateSignature_clicked();
     void on_ed25519_pushButton_VerifySignature_clicked();
 
+    // Key exchange
     void on_x25519_pushButton_GenerateEphemeralKeys_clicked();
     void on_x25519_pushButton_GenerateEphemeralKeys_2_clicked();
     void on_x25519_pushButton_Clear_clicked();
     void on_x25519_pushButton_CalcSymKeys_clicked();
 
+    // Ciphers
     void on_ciphers_AES_pushButton_Encrypt_clicked();
     void on_ciphers_AES_pushButton_Decrypt_clicked();
 
@@ -61,6 +64,7 @@ private slots:
     void OnCertFileDragged(QString filename);
     void OnCsrFileDragged(QString filename);
 
+    // Encoding/decoding
     void EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, QString exception);
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();
@@ -70,6 +74,10 @@ private slots:
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
     void on_textEdit_EncodeDecode_General_AlphanumericStrings_textChanged();
+    void on_textEdit_EncodeDecode_UrlEncoded_textChanged();
+    void on_textEdit_EncodeDecode_UrlDecoded_textChanged();
+    void on_textEdit_EncodeDecode_HtmlEncoded_textChanged();
+    void on_textEdit_EncodeDecode_HtmlDecoded_textChanged();
 
     private:
     Ui::MainWindow *ui;

@@ -874,6 +874,54 @@ void MainWindow::on_pushButton_EncodeDecode_General_LoadBinary_clicked()
     f.close();
 }
 
+void MainWindow::on_textEdit_EncodeDecode_UrlEncoded_textChanged()
+{
+    // Skip updating the other boxes to prevent a infinite loop updates
+    if(BypassOnChangeEventFlag )
+        return;
+
+    this->BypassOnChangeEventFlag = true;
+    this->ui->textEdit_EncodeDecode_UrlDecoded->setText( QUrl::toPercentEncoding(this->ui->textEdit_EncodeDecode_UrlEncoded->toPlainText()) );
+    this->BypassOnChangeEventFlag = false;
+}
+
+void MainWindow::on_textEdit_EncodeDecode_UrlDecoded_textChanged()
+{
+    // Skip updating the other boxes to prevent a infinite loop updates
+    if(BypassOnChangeEventFlag )
+        return;
+
+    this->BypassOnChangeEventFlag = true;
+    this->ui->textEdit_EncodeDecode_UrlEncoded->setText( QUrl::fromPercentEncoding(this->ui->textEdit_EncodeDecode_UrlDecoded->toPlainText().toLatin1()) );
+    this->BypassOnChangeEventFlag = false;
+}
+
+void MainWindow::on_textEdit_EncodeDecode_HtmlEncoded_textChanged()
+{
+    // Skip updating the other boxes to prevent a infinite loop updates
+    if(BypassOnChangeEventFlag )
+        return;
+
+    this->BypassOnChangeEventFlag = true;
+    QTextDocument doc;
+    doc.setHtml(this->ui->textEdit_EncodeDecode_HtmlEncoded->toPlainText());
+    this->ui->textEdit_EncodeDecode_HtmlDecoded->setText( doc.toPlainText() );
+    this->BypassOnChangeEventFlag = false;
+}
+
+void MainWindow::on_textEdit_EncodeDecode_HtmlDecoded_textChanged()
+{
+    // Skip updating the other boxes to prevent a infinite loop updates
+    if(BypassOnChangeEventFlag )
+        return;
+
+    this->BypassOnChangeEventFlag = true;
+
+    QString tmp = this->ui->textEdit_EncodeDecode_HtmlDecoded->toPlainText().toHtmlEscaped();
+
+    this->ui->textEdit_EncodeDecode_HtmlEncoded->setText( tmp );
+    this->BypassOnChangeEventFlag = false;
+}
 
 /*   _    _ _   _ _
     | |  | | | (_) |
