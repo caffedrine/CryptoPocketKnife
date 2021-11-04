@@ -20,6 +20,8 @@ QString Utils_Uint8ArrToHexQStr(uint8_t *arr, ssize_t len)
 
 bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len, ssize_t max_len)
 {
+    in_hexstr = in_hexstr.replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
+
     QByteArray input_bytes = QByteArray::fromHex(in_hexstr.toLatin1());
 
     for( int i = 0; i < max_len; i++ )
