@@ -18,6 +18,22 @@ QString Utils_Uint8ArrToHexQStr(uint8_t *arr, ssize_t len)
     return result;
 }
 
+QString Utils_QByteArrayToHexQStr(QByteArray bytes_arr)
+{
+    QString result = "";
+
+    for( int i = 0; i < bytes_arr.count(); i++ )
+    {
+        result += Utils_Uint8ToHexQStr((uint8_t)bytes_arr.at(i)) + " ";
+    }
+
+    // Remove last space
+    if( !result.isEmpty() )
+        result.chop(1);
+
+    return result;
+}
+
 bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len, ssize_t max_len)
 {
     in_hexstr = in_hexstr.replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
@@ -41,6 +57,7 @@ bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len,
     *out_len = input_bytes.length();
     return true;
 }
+
 
 bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[SHA512_HASH_LENGTH])
 {
