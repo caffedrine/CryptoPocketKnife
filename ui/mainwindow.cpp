@@ -183,15 +183,31 @@ void MainWindow::on_x25519_pushButton_Clear_clicked()
 
 void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
 {
-    uint8_t own_shared_secret[X25519_KEY_LEN], other_shared_secret[X25519_KEY_LEN];
     uint8_t own_public_key[X25519_KEY_LEN], other_public_key[X25519_KEY_LEN];
     uint8_t own_private_key[X25519_KEY_LEN], other_private_key[X25519_KEY_LEN];
 
-    // Generate random private keys
-    for( int i = 0; i < sizeof(X25519_KEY_LEN); i++ )
+    // Read or generate own private key
+    QByteArray tmpArr = Utils_RawHexStrToQByteArr(this->ui->x25529_textEdit_ownPrivateKey->text());
+    if( tmpArr.count() != 32 )
     {
-        own_private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
-        other_private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
+        for( size_t i = 0; i < sizeof(own_private_key); i++ )
+            own_private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
+    }
+    else
+    {
+        memcpy(own_private_key, (uint8_t *)tmpArr.data(), sizeof(own_private_key));
+    }
+
+    // Read or generate other private key
+    tmpArr = Utils_RawHexStrToQByteArr(this->ui->x25529_textEdit_otherPrivateKey->text());
+    if( tmpArr.count() != 32 )
+    {
+        for( size_t i = 0; i < sizeof(other_private_key); i++ )
+            other_private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
+    }
+    else
+    {
+        memcpy(other_private_key, (uint8_t *)tmpArr.data(), sizeof(other_private_key));
     }
 
     // Calculate public keys
@@ -206,7 +222,7 @@ void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
     ui->x25529_textEdit_otherPublicKey->setText( Utils_Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
 }
 
-void MainWindow::on_x25519_pushButton_GenerateEphemeralKeys_2_clicked()
+void MainWindow::on_x25519_pushButton_CalculateSharedSecret_clicked()
 {
     uint8_t own_shared_secret[X25519_KEY_LEN], other_shared_secret[X25519_KEY_LEN];
     uint8_t own_public_key[X25519_KEY_LEN], other_public_key[X25519_KEY_LEN];

@@ -58,6 +58,11 @@ bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len,
     return true;
 }
 
+QByteArray Utils_RawHexStrToQByteArr(QString in_hexstr)
+{
+    in_hexstr = in_hexstr.replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
+    return QByteArray::fromHex(in_hexstr.toLatin1());
+}
 
 bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[SHA512_HASH_LENGTH])
 {

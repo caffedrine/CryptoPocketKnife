@@ -42,7 +42,7 @@ private slots:
 
     // Key exchange
     void on_x25519_pushButton_GenerateEphemeralKeys_clicked();
-    void on_x25519_pushButton_GenerateEphemeralKeys_2_clicked();
+    void on_x25519_pushButton_CalculateSharedSecret_clicked();
     void on_x25519_pushButton_Clear_clicked();
     void on_x25519_pushButton_CalcSymKeys_clicked();
 
