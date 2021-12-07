@@ -49,8 +49,11 @@ link_directories(${Proj_INCLUDE_DIRS})
 #endif()
 
 IF (WIN32)
-    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/qt5app.rc")
-    add_executable(${PROJECT_NAME} WIN32 ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
+    # Icon How-To:
+    # https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
+
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/res/win.rc")
+    add_executable(${PROJECT_NAME} WIN32 ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES} ${APP_ICON_RESOURCE_WINDOWS})
 ELSE()
     add_executable(${PROJECT_NAME} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
 ENDIF()
