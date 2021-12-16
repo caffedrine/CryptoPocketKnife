@@ -59,11 +59,14 @@ void MainWindow::on_ed25519_pushButton_GenerateKeysPair_clicked()
 {
     uint8_t public_key[ED25519_KEY_LEN];
     uint8_t private_key[ED25519_KEY_LEN];
+    ssize_t len;
 
-    // Generate a random private key
-    for( uint32_t i = 0; i < sizeof(private_key); i++ )
-        private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
-
+    // Generate a random private key if one is not already set
+    if(! (Utils_RawHexStrToArr( this->ui->ed25529_textEdit_privateKey->text(), private_key, &len, (ssize_t)sizeof(private_key)) || (len != 32) ))
+    {
+        for( uint32_t i = 0; i < sizeof(private_key); i++ )
+            private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
+    }
     // Generate keys pair
     ed25519_genpub(public_key, private_key);
 
@@ -76,12 +79,17 @@ void MainWindow::on_ed25519_pushButton_GenerateKeysPair_clicked()
 
 void MainWindow::on_ed25529_textEdit_privateKey_textChanged(const QString &arg1)
 {
-    uint8_t ReadBytes[1024] = {0xFF};
+    uint8_t ReadBytes[128] = {0xFF};
     ssize_t ReadSize = 0;
 
-    if( Utils_RawHexStrToArr(ui->ed25529_textEdit_privateKey->text(), ReadBytes, &ReadSize, sizeof(ReadBytes)))
+    if( Utils_RawHexStrToArr(arg1, ReadBytes, &ReadSize, sizeof(ReadBytes)))
     {
-        static const QString displayText = QString("Private key (" + QString::number(ReadSize) + " bytes)");
+        QString displayText = QString("Private key (" + QString::number((uint32_t)ReadSize) + " bytes)");
+        ui->ed25519_label_PrivateKey->setText(displayText);
+    }
+    else
+    {
+        QString displayText = QString("Private key (0 bytes)");
         ui->ed25519_label_PrivateKey->setText(displayText);
     }
 }
