@@ -21,9 +21,14 @@ option(USE_STACKCLEAN "clean all secret variables from stack" ON)
 include_directories("thirdparty/libeddsa/lib")
 add_subdirectory("thirdparty/libeddsa/lib")
 file(GLOB_RECURSE EDDSA_SRC "thirdparty/libeddsa/lib/*.c")
+
 # Add AES
 include_directories("thirdparty/tiny-AES-c")
 file(GLOB_RECURSE AES_SRC "thirdparty/tiny-AES-c/aes.c")
+
+# Add hashes
+include_directories("thirdparty/hashes")
+file(GLOB_RECURSE HASHES_SRC "thirdparty/hashes/*.c")
 
 ######################################Include everuthing src##################################
 file(GLOB_RECURSE Proj_SOURCES "src/*.cpp" "src/*.c")
@@ -53,9 +58,9 @@ IF (WIN32)
     # https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
 
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/res/win.rc")
-    add_executable(${PROJECT_NAME} WIN32 ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES} ${APP_ICON_RESOURCE_WINDOWS})
+    add_executable(${PROJECT_NAME} WIN32 ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES} ${APP_ICON_RESOURCE_WINDOWS})
 ELSE()
-    add_executable(${PROJECT_NAME} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
+    add_executable(${PROJECT_NAME} ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
 ENDIF()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${AES_SRC} ${EDDSA_SRC} eddsa Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} eddsa Qt${QT_VERSION_MAJOR}::Widgets)

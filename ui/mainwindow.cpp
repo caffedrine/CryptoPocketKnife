@@ -392,7 +392,45 @@ void MainWindow::on_ciphers_AES_pushButton_Decrypt_clicked()
     | |  | | (_| \__ \ | | |  __/\__ \
     |_|  |_|\__,_|___/_| |_|\___||___/
 */
+void MainWindow::on_textBrowser_SHA2_InputBytes_textChanged()
+{
+    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_SHA2_InputBytes->toPlainText());
+    if( bytes.length() <= 0 )
+    {
+        return;
+    }
 
+    // Calculate SHA2-256 hash
+    QByteArray hash = Crypto::Hash::SHA2_256(bytes);
+    this->ui->lineEdit_SHA2_256_OUTPUT->setText( Utils_QByteArrayToHexQStr(hash));
+
+}
+
+void MainWindow::on_textBrowser_SHA1_InputBytes_textChanged()
+{
+    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_SHA1_InputBytes->toPlainText());
+    if( bytes.length() <= 0 )
+    {
+        return;
+    }
+
+    // Calculate SHA1 hash
+    QByteArray hash = Crypto::Hash::SHA1(bytes);
+    this->ui->lineEdit_SHA1_Output->setText( Utils_QByteArrayToHexQStr(hash));
+}
+
+void MainWindow::on_textBrowser_MD5_InputBytes_textChanged()
+{
+    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_MD5_InputBytes->toPlainText());
+    if( bytes.length() <= 0 )
+    {
+        return;
+    }
+
+    // Calculate MD5 hash
+    QByteArray hash = Crypto::Hash::MD5(bytes);
+    this->ui->lineEdit_MD5_Output->setText( Utils_QByteArrayToHexQStr(hash));
+}
 
 
 /*    _____          _   _  __ _           _

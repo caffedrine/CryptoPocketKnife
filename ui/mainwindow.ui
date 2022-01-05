@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -713,29 +713,221 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Hashes</string>
        </attribute>
-       <widget class="QTabWidget" name="keyExchange_tabWidget_X25519_3">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>1171</width>
-          <height>661</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
+       <layout class="QGridLayout" name="gridLayout_18">
+        <property name="leftMargin">
          <number>0</number>
         </property>
-        <widget class="QWidget" name="tabName_KeyExchange_X25519_3">
-         <attribute name="title">
-          <string>SHA2 512</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="tab_5">
-         <attribute name="title">
-          <string>Tab 2</string>
-         </attribute>
-        </widget>
-       </widget>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="hashes_TabWidget">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab_Hashes_SHA1">
+           <attribute name="title">
+            <string>SHA1</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_20">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="label_43">
+              <property name="text">
+               <string>Input bytes (e.g. AA 11 22)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QTextBrowser" name="textBrowser_SHA1_InputBytes">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_44">
+              <property name="text">
+               <string>SHA1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA1_Output">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_Hashes_SHA2">
+           <attribute name="title">
+            <string>SHA2</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_19">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="label_21">
+              <property name="text">
+               <string>Input bytes (e.g. AA 11 22)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QTextBrowser" name="textBrowser_SHA2_InputBytes">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_22">
+              <property name="text">
+               <string>SHA2 224</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA2_224_OUTPUT">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_23">
+              <property name="text">
+               <string>SHA2 256</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA2_256_OUTPUT">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_25">
+              <property name="text">
+               <string>SHA2 384</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA2_384_Output">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QLabel" name="label_24">
+              <property name="text">
+               <string>SHA2 512</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA2_512_OUTPUT">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>SHA2 512/224</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA2_512_224_Output">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="label_SHA2_512_256">
+              <property name="text">
+               <string>SHA2 512/256</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="lineEdit_SHA2_512_256_Output">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_Hashes_SHA3">
+           <attribute name="title">
+            <string>SHA3</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab_Hashes_MD5">
+           <attribute name="title">
+            <string>MD5</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_21">
+            <item row="0" column="0" colspan="2">
+             <widget class="QLabel" name="label_46">
+              <property name="text">
+               <string>Input bytes (e.g. AA 11 22)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QTextBrowser" name="textBrowser_MD5_InputBytes">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_45">
+              <property name="text">
+               <string>MD5</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="lineEdit_MD5_Output">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_Hashes_KECCAK">
+           <attribute name="title">
+            <string>KECCAK</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_Certificates">
        <attribute name="title">

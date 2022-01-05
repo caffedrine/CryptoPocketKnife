@@ -19,6 +19,7 @@
 #include "utils.h"
 #include <eddsa.h>
 #include <aes.h>
+#include <Hash.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -78,6 +79,12 @@ private slots:
     void on_textEdit_EncodeDecode_UrlDecoded_textChanged();
     void on_textEdit_EncodeDecode_HtmlEncoded_textChanged();
     void on_textEdit_EncodeDecode_HtmlDecoded_textChanged();
+
+    void on_textBrowser_SHA2_InputBytes_textChanged();
+
+    void on_textBrowser_SHA1_InputBytes_textChanged();
+
+    void on_textBrowser_MD5_InputBytes_textChanged();
 
     private:
     Ui::MainWindow *ui;
