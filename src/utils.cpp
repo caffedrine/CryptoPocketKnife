@@ -36,7 +36,7 @@ QString Utils_QByteArrayToHexQStr(QByteArray bytes_arr)
 
 bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len, ssize_t max_len)
 {
-    in_hexstr = in_hexstr.replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
+    in_hexstr = in_hexstr.simplified().replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
 
     QByteArray input_bytes = QByteArray::fromHex(in_hexstr.toLatin1());
 
@@ -60,7 +60,7 @@ bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len,
 
 QByteArray Utils_RawHexStrToQByteArr(QString in_hexstr)
 {
-    in_hexstr = in_hexstr.replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
+    in_hexstr = in_hexstr.simplified().replace(",", "").replace("0x", "").replace("0X", "").replace(":", "").replace("\n", "");
     return QByteArray::fromHex(in_hexstr.toLatin1());
 }
 
@@ -139,7 +139,7 @@ QString ParseCertOrCsrFromFileToHexStr(QString fileName)
     if( QString(fileContent).contains(delimitator) )
     {
         // Convert certificate from B64 to binary format.
-        QString input = QString(fileContent).replace(",", "").replace(" ", "").replace("\n", "");
+        QString input = QString(fileContent).simplified().replace(",", "").replace(" ", "").replace("\n", "");
         input = input.split(delimitator)[2].split(delimitator)[0];
         return QByteArray::fromBase64(input.toUtf8()).toHex(' ');
     }

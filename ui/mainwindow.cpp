@@ -514,6 +514,42 @@ void MainWindow::ParseCert()
         ui->textEdit_certificates_Parse_ParsedCertificate->append(QString(processOutput));
 }
 
+//void MainWindow::ParseCert()
+//{
+//    // Clear message box
+//    this->Status_Clear();
+
+//    // Also clear output box
+//    ui->textEdit_certificates_Parse_ParsedCertificate->clear();
+
+//    // Assume RAW hex format
+//    QString inputContentB64 = this->ParseCertCsrInputStringToB64(ui->textEdit_certificates_Parse_InputCertificate->toPlainText());
+//    if( inputContentB64.isEmpty() )
+//    {
+//        this->Status_EndWithError("Failed to parse input certificate");
+//        return;
+//    }
+
+//    // Store as HEX bytes parsed certificate
+//    this->LastParsedCert = QByteArray::fromBase64(inputContentB64.toUtf8());
+
+//    // Add tags to PEM format and write it to a file so it can be parsed by OpenSSL
+//    inputContentB64 = "-----BEGIN CERTIFICATE-----\n" + inputContentB64 + "\n-----END CERTIFICATE-----";
+
+//    QByteArray certDer = Utils_RawHexStrToQByteArr(ui->textEdit_certificates_Parse_InputCertificate->toPlainText());
+
+//    QList<QSslCertificate> certs = QSslCertificate::fromPath("D:/temp/certs/backend.txt");
+
+//    QSslCertificate cert(inputContentB64.toUtf8(), QSsl::Pem);
+
+//    if( cert.isNull() )
+//        ui->textEdit_certificates_Parse_ParsedCertificate->setText("Certificate provided cannot be parsed");
+//    else
+//        ui->textEdit_certificates_Parse_ParsedCertificate->setText(cert.toText());
+
+
+//}
+
 void MainWindow::ParseCSR()
 {
     // Clear message box

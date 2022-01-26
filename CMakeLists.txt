@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt5 COMPONENTS Widgets Console REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network REQUIRED)
 find_package(Qt5Widgets)
 
 # Include EdDSA lib and it's configuration
@@ -63,4 +63,4 @@ ELSE()
     add_executable(${PROJECT_NAME} ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
 ENDIF()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} eddsa Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} eddsa Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
