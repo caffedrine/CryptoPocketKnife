@@ -1034,3 +1034,23 @@ void MainWindow::on_textEdit_EncodeDecode_HtmlDecoded_textChanged()
     | |__| | |_| | \__ \
      \____/ \__|_|_|___/
 */
+
+void MainWindow::on_pushButton_Utils_CurrentTimestamp_clicked()
+{
+    this->ui->lineEdit_Utils_LinuxTimestamp->setText( QString::number( QDateTime::currentSecsSinceEpoch() ) );
+}
+
+void MainWindow::on_pushButton_Utils_CurrentDateTime_clicked()
+{
+    this->ui->lineEdit_Utils_DateTime->setText( QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") );
+}
+
+void MainWindow::on_pushButton_TimestampToDatetime_clicked()
+{
+    this->ui->lineEdit_Utils_DateTime->setText(QDateTime::fromSecsSinceEpoch(this->ui->lineEdit_Utils_LinuxTimestamp->text().toInt()).toString("yyyy-MM-dd hh:mm:ss") );
+}
+
+void MainWindow::on_pushButton_dateTimeToTimestamp_clicked()
+{
+    this->ui->lineEdit_Utils_LinuxTimestamp->setText( QString::number( QDateTime::fromString(this->ui->lineEdit_Utils_DateTime->text(), "yyyy-MM-dd hh:mm:ss").toSecsSinceEpoch()));
+}

@@ -14,6 +14,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QCryptographicHash>
+#include <QDateTime>
 
 #include "advancedtextedit.h"
 #include "utils.h"
@@ -80,11 +81,16 @@ private slots:
     void on_textEdit_EncodeDecode_HtmlEncoded_textChanged();
     void on_textEdit_EncodeDecode_HtmlDecoded_textChanged();
 
+    // Hashing
     void on_textBrowser_SHA2_InputBytes_textChanged();
-
     void on_textBrowser_SHA1_InputBytes_textChanged();
-
     void on_textBrowser_MD5_InputBytes_textChanged();
+
+    // Utils
+    void on_pushButton_Utils_CurrentTimestamp_clicked();
+    void on_pushButton_Utils_CurrentDateTime_clicked();
+    void on_pushButton_TimestampToDatetime_clicked();
+    void on_pushButton_dateTimeToTimestamp_clicked();
 
     private:
     Ui::MainWindow *ui;
