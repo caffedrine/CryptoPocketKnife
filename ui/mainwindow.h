@@ -15,6 +15,8 @@
 #include <QDragEnterEvent>
 #include <QCryptographicHash>
 #include <QDateTime>
+#include <QDesktopServices>
+#include <QMessageBox>
 
 #include "advancedtextedit.h"
 #include "utils.h"
@@ -35,6 +37,9 @@ public:
     ~MainWindow();
 
 private slots:
+    // Appl
+    void on_actionExit_triggered();
+
     // Signatrure calculus
     void on_ed25519_pushButton_GenerateKeysPair_clicked();
     void on_ed25529_textEdit_privateKey_textChanged(const QString &arg1);
@@ -91,6 +96,10 @@ private slots:
     void on_pushButton_Utils_CurrentDateTime_clicked();
     void on_pushButton_TimestampToDatetime_clicked();
     void on_pushButton_dateTimeToTimestamp_clicked();
+
+    void on_actionSupport_triggered();
+
+    void on_actionAbout_triggered();
 
     private:
     Ui::MainWindow *ui;

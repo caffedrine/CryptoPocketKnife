@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1216</width>
-    <height>751</height>
+    <width>898</width>
+    <height>644</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Crypto Pocket Knife</string>
+   <string>Crypto Pocket Knife  //www.cryptopocketknife.com</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../res/res.qrc">
@@ -1098,7 +1098,7 @@ p, li { white-space: pre-wrap; }
         <item row="0" column="0">
          <widget class="QTabWidget" name="encoding_TabName_General">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="encoding_TabName_General_2">
            <attribute name="title">
@@ -1585,7 +1585,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1216</width>
+     <width>898</width>
      <height>21</height>
     </rect>
    </property>
@@ -1595,12 +1595,30 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionSupport"/>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionSupport">
+   <property name="text">
+    <string>Support</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

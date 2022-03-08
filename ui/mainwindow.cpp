@@ -46,6 +46,21 @@ void MainWindow::Status_Clear()
     ui->statusbar->showMessage("");
 }
 
+void MainWindow::on_actionExit_triggered()
+{
+    qApp->quit();
+}
+
+void MainWindow::on_actionSupport_triggered()
+{
+    QDesktopServices::openUrl(QUrl("https://cryptopocketknife.com"));
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::information(this, tr("About"), tr("Cryptographic tool to make life of a security engineer easier.\n\nPlease see https://cryptopocketknife.com for more info."), QMessageBox::Ok |  QMessageBox::Ok);
+}
+
 /*   _____        _               _             _
     |  __ \      | |             (_)           (_)
     | |  | | __ _| |_ __ _    ___ _  __ _ _ __  _ _ __   __ _
