@@ -98,6 +98,9 @@ private slots:
     // Web
     void tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRows);
     void tableWidget_WebScraper_OnTextPasted(QString text);
+    void on_pushButton_WebScraping_Clear_clicked();
+    void on_pushButton_WebScraper_StopDownload_clicked();
+    void on_pushButton_WebScraper_StartDownload_clicked();
 
     // Networking
 
@@ -106,7 +109,6 @@ private slots:
     void on_pushButton_Utils_CurrentDateTime_clicked();
     void on_pushButton_TimestampToDatetime_clicked();
     void on_pushButton_dateTimeToTimestamp_clicked();
-
 
     private:
     Ui::MainWindow *ui;

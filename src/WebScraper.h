@@ -4,7 +4,6 @@
 #include <QObject>
 
 #include "AdvancedTableWidget.h"
-#include "Singleton.h"
 
 class WebScraper
 {

@@ -1143,3 +1143,18 @@ void MainWindow::on_pushButton_dateTimeToTimestamp_clicked()
 {
     this->ui->lineEdit_Utils_LinuxTimestamp->setText( QString::number( QDateTime::fromString(this->ui->lineEdit_Utils_DateTime->text(), "yyyy-MM-dd hh:mm:ss").toSecsSinceEpoch()));
 }
+
+void MainWindow::on_pushButton_WebScraping_Clear_clicked()
+{
+    this->ui->tableWidget_WebScraper->model()->removeRows(0,  this->ui->tableWidget_WebScraper->rowCount());
+}
+
+void MainWindow::on_pushButton_WebScraper_StopDownload_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_WebScraper_StartDownload_clicked()
+{
+//    WebScraper::instance().Start(this->ui->tableWidget_WebScraper);
+}
