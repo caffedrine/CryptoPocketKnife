@@ -20,6 +20,7 @@
 
 #include "AdvancedTableWidget.h"
 #include "AdvancedTextEdit.h"
+#include "WebScraper.h"
 #include "utils.h"
 #include <eddsa.h>
 #include <aes.h>

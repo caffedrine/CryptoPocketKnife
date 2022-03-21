@@ -1066,7 +1066,10 @@ void MainWindow::tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRowsI
         {
             rowContents << ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(),j).data().toString();
         }
-        text += ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(), 0).data().toString() + "://" + rowContents.join("");
+
+        QString protocol = ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(), 0).data().toString();
+
+        text += (!protocol.isEmpty() ? protocol + "://" : "") + rowContents.join("");
         text += "\n";
     }
     QApplication::clipboard()->setText(text);
