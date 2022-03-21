@@ -13,6 +13,17 @@ AdvancedTableWidget::AdvancedTableWidget(int rows, int columns, QWidget *parent)
 void AdvancedTableWidget::AdvancedTableWidgetInit()
 {
     this->setAcceptDrops(true);
+
+    this->verticalHeader()->setVisible(false);
+    this->setSortingEnabled(true);
+    this->setSelectionBehavior(SelectionBehavior::SelectRows);
+
+    QString styleSheet = "::section "
+                         "{"
+                                "background-color: #edf0f5;"
+                         "}";
+    this->horizontalHeader()->setStyleSheet(styleSheet);
+
 }
 
 void AdvancedTableWidget::dragEnterEvent(QDragEnterEvent *e)

@@ -1480,109 +1480,152 @@ p, li { white-space: pre-wrap; }
            <attribute name="title">
             <string>Web scraper</string>
            </attribute>
-           <widget class="QGroupBox" name="groupBox_3">
+           <widget class="AdvancedTableWidget" name="tableWidget_WebScraper">
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>430</y>
+              <y>30</y>
               <width>861</width>
-              <height>80</height>
+              <height>481</height>
              </rect>
             </property>
-            <property name="title">
-             <string>Settings</string>
-            </property>
-            <widget class="QCheckBox" name="checkBox">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>20</y>
-               <width>111</width>
-               <height>17</height>
-              </rect>
-             </property>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <row>
              <property name="text">
-              <string>Enable javacript</string>
+              <string>New Row</string>
              </property>
-            </widget>
+            </row>
+            <row>
+             <property name="text">
+              <string>New Row</string>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string>Idx</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Domain</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Path</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>IP Address</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>HTTP Response</string>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+            </column>
+            <item row="0" column="0">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </item>
+            <item row="0" column="1">
+             <property name="text">
+              <string>google.com</string>
+             </property>
+            </item>
+            <item row="0" column="2">
+             <property name="text">
+              <string>/</string>
+             </property>
+            </item>
+            <item row="1" column="0">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </item>
+            <item row="1" column="1">
+             <property name="text">
+              <string>youtube.com</string>
+             </property>
+            </item>
+            <item row="1" column="2">
+             <property name="text">
+              <string>/</string>
+             </property>
+            </item>
            </widget>
-           <widget class="QGroupBox" name="groupBox_5">
+           <widget class="QLabel" name="label_49">
             <property name="geometry">
              <rect>
               <x>10</x>
               <y>10</y>
-              <width>861</width>
-              <height>411</height>
+              <width>361</width>
+              <height>16</height>
              </rect>
             </property>
-            <property name="title">
-             <string>Input URLs (use Ctrl+V, multiple inputs parsed)</string>
+            <property name="text">
+             <string>Hint: data is automatically parsed when pasted</string>
             </property>
-            <widget class="AdvancedTableWidget" name="tableWidget_WebScraper">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>30</y>
-               <width>631</width>
-               <height>201</height>
-              </rect>
-             </property>
-             <column>
-              <property name="text">
-               <string>Idx</string>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Domain</string>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Path</string>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>IP Address</string>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>HTTP Response</string>
-              </property>
-              <property name="font">
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-             </column>
-            </widget>
+           </widget>
+           <widget class="QPushButton" name="pushButton_WebScraper_StartDownload">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>520</y>
+              <width>101</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Download pages</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_WebScraper_StopDownload">
+            <property name="geometry">
+             <rect>
+              <x>120</x>
+              <y>520</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Stop</string>
+            </property>
            </widget>
           </widget>
           <widget class="QWidget" name="tab_Web_Settings">

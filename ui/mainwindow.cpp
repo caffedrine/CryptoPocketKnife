@@ -21,9 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this->ui->textEdit_certificates_ParseCsr_InputCsr, SIGNAL( OnDraggedFile(QString) ),
             this, SLOT(OnCsrFileDragged(QString)) );
 
-
     // WebScrapping table resize mode
-   this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 }
 
 MainWindow::~MainWindow()

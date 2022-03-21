@@ -6,6 +6,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QMimeData>
+#include <QHeaderView>
 
 
 class AdvancedTableWidget: public QTableWidget
