@@ -22,7 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCsrFileDragged(QString)) );
 
     // WebScrapping table resize mode
-    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+//    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
+    QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnRowsCopy(QModelIndexList) ), this, SLOT(tableWidget_WebScraper_OnRowsCopy(QModelIndexList)) );
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnTextPasted(QString) ), this, SLOT(tableWidget_WebScraper_OnTextPasted(QString)) );
 }
 
@@ -1045,10 +1047,71 @@ void MainWindow::on_textEdit_EncodeDecode_HtmlDecoded_textChanged()
     this->BypassOnChangeEventFlag = false;
 }
 
+/*
+    __          __  _
+    \ \        / / | |
+     \ \  /\  / /__| |__
+      \ \/  \/ / _ \ '_ \
+       \  /\  /  __/ |_) |
+        \/  \/ \___|_.__/
+*/
+
+void MainWindow::tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRowsIndexesList)
+{
+    QString text;
+    for (int i = 0; i < selectedRowsIndexesList.size(); i++)
+    {
+        QStringList rowContents;
+        for (int j = 1; j < ui->tableWidget_WebScraper->columnCount(); j++)
+        {
+            rowContents << ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(),j).data().toString();
+        }
+        text += ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(), 0).data().toString() + "://" + rowContents.join("");
+        text += "\n";
+    }
+    QApplication::clipboard()->setText(text);
+
+}
+
 void MainWindow::tableWidget_WebScraper_OnTextPasted(QString text)
 {
-    qDebug() << "Text pasted: " << text;
+    auto urls = Utils_ExtractAllUrls(text);
+
+    foreach(const QString &url_str, urls)
+    {
+        QUrl url(url_str);
+        url.setQuery(url.query(QUrl::FullyDecoded), QUrl::DecodedMode);
+        if( url.isValid() )
+        {
+           qDebug() << "Vaild URL: " << url.scheme() << url.host() << url.path() << url.query() << url.fragment();
+
+           const int currentRow = this->ui->tableWidget_WebScraper->rowCount();
+           this->ui->tableWidget_WebScraper->setRowCount(currentRow + 1);
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 0, new QTableWidgetItem(url.scheme()));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 1, new QTableWidgetItem(""));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 2, new QTableWidgetItem(url.host()));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 3, new QTableWidgetItem(url.path()));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 4, new QTableWidgetItem(!url.query().isEmpty() ? "?" + url.query() : ""));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 5, new QTableWidgetItem(url.fragment()));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 6, new QTableWidgetItem(""));
+           this->ui->tableWidget_WebScraper->setItem(currentRow, 7, new QTableWidgetItem(""));
+        }
+        else
+        {
+            qDebug() << "Invalid URL detected: " << url_str;
+        }
+    }
 }
+
+/*
+     _   _      _                      _
+    | \ | |    | |                    | |
+    |  \| | ___| |___      _____  _ __| | __
+    | . ` |/ _ \ __\ \ /\ / / _ \| '__| |/ /
+    | |\  |  __/ |_ \ V  V / (_) | |  |   <
+    |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\
+*/
+
 
 /*   _    _ _   _ _
     | |  | | | (_) |

@@ -5,6 +5,8 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QRegularExpression>
+#include <QDebug>
+#include <QUrl>
 
 QString Utils_Uint8ToHexQStr(uint8_t in);
 QString Utils_Uint8ArrToHexQStr(uint8_t *arr, ssize_t len);
@@ -19,5 +21,7 @@ QString Utils_BytesToBinaryString(const QByteArray *in_arr);
 QString Utils_BytesToDECString(const QByteArray *in_arr);
 
 QString ParseCertOrCsrFromFileToHexStr(QString fileName);
+
+QList<QString> Utils_ExtractAllUrls(QString inputText);
 
 #endif // UTILS_H

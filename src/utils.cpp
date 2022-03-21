@@ -149,3 +149,37 @@ QString ParseCertOrCsrFromFileToHexStr(QString fileName)
         return fileContent.toHex(' ');
     }
 }
+
+QList<QString> Utils_ExtractAllUrls(QString inputText)
+{
+    QList<QString> output;
+
+    QRegularExpression re(
+                "(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])"
+
+                );
+
+    re.setPatternOptions(QRegularExpression::MultilineOption | QRegularExpression::DotMatchesEverythingOption | QRegularExpression::CaseInsensitiveOption);
+
+    if( !re.isValid() )
+    {
+        qDebug() << "Invalid matching regex for URLs extraction!";
+        return output;
+    }
+
+    auto lines = inputText.split("\n");
+    foreach( const QString &line, lines )
+    {
+        auto matches = re.globalMatch(line);
+        while (matches.hasNext())
+        {
+            QRegularExpressionMatch match = matches.next();
+            if (match.hasMatch())
+            {
+                 output.append(match.captured());
+            }
+        }
+    }
+
+    return output;
+}

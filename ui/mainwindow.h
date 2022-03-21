@@ -95,6 +95,7 @@ private slots:
     void on_textBrowser_MD5_InputBytes_textChanged();
 
     // Web
+    void tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRows);
     void tableWidget_WebScraper_OnTextPasted(QString text);
 
     // Networking

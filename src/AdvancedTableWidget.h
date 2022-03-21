@@ -26,6 +26,7 @@ protected:
 signals:
     void OnDraggedFile(QString filename);
     void OnTextPasted(QString pastedText);
+    void OnRowsCopy(QModelIndexList selectedRows);
 
 private:
         void AdvancedTableWidgetInit();
