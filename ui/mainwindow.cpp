@@ -15,12 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textEdit_certificates_ParseCsr_InputCsr->setAcceptDrops(true);
 
 
-
     // Conect data droping signals to slots
     QObject::connect(this->ui->textEdit_certificates_Parse_InputCertificate, SIGNAL( OnDraggedFile(QString) ),
             this, SLOT(OnCertFileDragged(QString)) );
     QObject::connect(this->ui->textEdit_certificates_ParseCsr_InputCsr, SIGNAL( OnDraggedFile(QString) ),
             this, SLOT(OnCsrFileDragged(QString)) );
+
+
+    // WebScrapping table resize mode
+   this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 }
 
 MainWindow::~MainWindow()

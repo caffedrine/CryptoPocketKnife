@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>898</width>
+    <width>895</width>
     <height>644</height>
    </rect>
   </property>
@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -1454,6 +1454,192 @@ p, li { white-space: pre-wrap; }
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_Web">
+       <attribute name="title">
+        <string>Web</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_25">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="web_WebScraper">
+           <attribute name="title">
+            <string>Web scraper</string>
+           </attribute>
+           <widget class="QGroupBox" name="groupBox_3">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>430</y>
+              <width>861</width>
+              <height>80</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Settings</string>
+            </property>
+            <widget class="QCheckBox" name="checkBox">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>20</y>
+               <width>111</width>
+               <height>17</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Enable javacript</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QGroupBox" name="groupBox_5">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>861</width>
+              <height>411</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Input URLs (use Ctrl+V, multiple inputs parsed)</string>
+            </property>
+            <widget class="AdvancedTableWidget" name="tableWidget_WebScraper">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>30</y>
+               <width>631</width>
+               <height>201</height>
+              </rect>
+             </property>
+             <column>
+              <property name="text">
+               <string>Idx</string>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Domain</string>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Path</string>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>IP Address</string>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>HTTP Response</string>
+              </property>
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+             </column>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tab_Web_Settings">
+           <attribute name="title">
+            <string>Settings</string>
+           </attribute>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>861</width>
+              <height>80</height>
+             </rect>
+            </property>
+            <property name="title">
+             <string>Proxy settings</string>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_Network">
+       <attribute name="title">
+        <string>Network</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_26">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="tabWidget_2">
+          <widget class="QWidget" name="network_TabsWidget">
+           <attribute name="title">
+            <string>Tab 1</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab_3">
+           <attribute name="title">
+            <string>Tab 2</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tab_Utils">
        <attribute name="title">
         <string>Utils</string>
@@ -1585,7 +1771,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>898</width>
+     <width>895</width>
      <height>21</height>
     </rect>
    </property>
@@ -1627,6 +1813,11 @@ p, li { white-space: pre-wrap; }
    <class>AdvancedTextEdit</class>
    <extends>QTextEdit</extends>
    <header>advancedtextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AdvancedTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>advancedtablewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -20,6 +20,9 @@ protected:
 
 signals:
     void OnDraggedFile(QString filename);
+
+private:
+    void AdvancedTextEditInit();
 };
 
 #endif // ADVANCEDTEXTEDIT_H

@@ -1,11 +1,16 @@
-#include "advancedtextedit.h"
+#include "AdvancedTextEdit.h"
 
 AdvancedTextEdit::AdvancedTextEdit(QWidget *parent): QTextEdit(parent)
 {
-    this->setAcceptDrops(true);
+    this->AdvancedTextEditInit();
 }
 
 AdvancedTextEdit::AdvancedTextEdit(const QString &text, QWidget *parent): QTextEdit(text, parent)
+{
+    this->AdvancedTextEditInit();
+}
+
+void AdvancedTextEdit::AdvancedTextEditInit()
 {
     this->setAcceptDrops(true);
 }

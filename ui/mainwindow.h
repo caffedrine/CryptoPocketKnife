@@ -18,7 +18,8 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 
-#include "advancedtextedit.h"
+#include "AdvancedTableWidget.h"
+#include "AdvancedTextEdit.h"
 #include "utils.h"
 #include <eddsa.h>
 #include <aes.h>
