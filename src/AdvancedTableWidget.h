@@ -7,6 +7,9 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QHeaderView>
+#include <QDebug>
+#include <QClipboard>
+#include <QApplication>
 
 
 class AdvancedTableWidget: public QTableWidget
@@ -22,9 +25,11 @@ protected:
 
 signals:
     void OnDraggedFile(QString filename);
+    void OnTextPasted(QString pastedText);
 
 private:
         void AdvancedTableWidgetInit();
+        void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // ADVANCEDTABLEWIDGET_H

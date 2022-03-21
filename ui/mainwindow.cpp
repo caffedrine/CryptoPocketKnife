@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCsrFileDragged(QString)) );
 
     // WebScrapping table resize mode
-    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnTextPasted(QString) ), this, SLOT(tableWidget_WebScraper_OnTextPasted(QString)) );
 }
 
 MainWindow::~MainWindow()
@@ -1042,6 +1043,11 @@ void MainWindow::on_textEdit_EncodeDecode_HtmlDecoded_textChanged()
 
     this->ui->textEdit_EncodeDecode_HtmlEncoded->setText( tmp );
     this->BypassOnChangeEventFlag = false;
+}
+
+void MainWindow::tableWidget_WebScraper_OnTextPasted(QString text)
+{
+    qDebug() << "Text pasted: " << text;
 }
 
 /*   _    _ _   _ _

@@ -39,6 +39,8 @@ public:
 
 private slots:
     // Appl
+    void on_actionSupport_triggered();
+    void on_actionAbout_triggered();
     void on_actionExit_triggered();
 
     // Signatrure calculus
@@ -92,20 +94,21 @@ private slots:
     void on_textBrowser_SHA1_InputBytes_textChanged();
     void on_textBrowser_MD5_InputBytes_textChanged();
 
+    // Web
+    void tableWidget_WebScraper_OnTextPasted(QString text);
+
+    // Networking
+
     // Utils
     void on_pushButton_Utils_CurrentTimestamp_clicked();
     void on_pushButton_Utils_CurrentDateTime_clicked();
     void on_pushButton_TimestampToDatetime_clicked();
     void on_pushButton_dateTimeToTimestamp_clicked();
 
-    void on_actionSupport_triggered();
-
-    void on_actionAbout_triggered();
 
     private:
     Ui::MainWindow *ui;
     bool BypassOnChangeEventFlag = false;
-
     QByteArray LastParsedCSR, LastParsedCert;
 
     void Status_EndWithError(QString err_msg);

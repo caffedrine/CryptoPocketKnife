@@ -17,6 +17,7 @@ void AdvancedTableWidget::AdvancedTableWidgetInit()
     this->verticalHeader()->setVisible(false);
     this->setSortingEnabled(true);
     this->setSelectionBehavior(SelectionBehavior::SelectRows);
+    this->installEventFilter(this);
 
     QString styleSheet = "::section "
                          "{"
@@ -40,5 +41,51 @@ void AdvancedTableWidget::dropEvent(QDropEvent *e)
     {
         QString fileName = url.toLocalFile();
         emit OnDraggedFile(fileName);
+    }
+}
+
+void AdvancedTableWidget::keyPressEvent(QKeyEvent *event)
+{
+    QModelIndexList selectedRows = this->selectionModel()->selectedRows();
+
+    // Delete selected row
+    if(event->key() == Qt::Key_Delete)
+    {
+        if( !selectedRows.isEmpty() )
+        {
+            model()->removeRows(selectedRows.at(0).row(), selectedRows.size());
+        }
+    }
+
+    // Copy selected row
+    else if(event->matches(QKeySequence::Copy))
+    {
+        if(!selectedIndexes().isEmpty())
+        {
+            QString text;
+            QItemSelectionRange range = selectionModel()->selection().first();
+            for (auto i = range.top(); i <= range.bottom(); ++i)
+            {
+                QStringList rowContents;
+                for (auto j = range.left(); j <= range.right(); ++j)
+                    rowContents << model()->index(i,j).data().toString();
+                text += rowContents.join("\t");
+                text += "\n";
+            }
+            QApplication::clipboard()->setText(text);
+        }
+    }
+
+    // Paste from clipboard
+    else if(event->matches(QKeySequence::Paste))
+    {
+        QString text = QApplication::clipboard()->text();
+        emit this->OnTextPasted(text);
+    }
+
+    // Send to default handler
+    else
+    {
+        QTableView::keyPressEvent(event);
     }
 }
