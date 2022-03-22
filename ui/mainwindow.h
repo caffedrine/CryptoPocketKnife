@@ -19,6 +19,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QtGlobal>
+#include <QMap>
 
 #define dbgln qDebug().noquote().nospace()
 
@@ -100,12 +101,16 @@ private slots:
     void on_textBrowser_MD5_InputBytes_textChanged();
 
     // Web
+    QString WebScraper_getFullUrlFromTable(int row);
     void tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRows);
     void tableWidget_WebScraper_OnTextPasted(QString text);
+    void tableWidget_WebScraper_OnRowsInserted(const QModelIndex &parent, int first, int last);
+    void tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &parent, int first, int last);
+    void on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos);
     void on_pushButton_WebScraping_Clear_clicked();
     void on_pushButton_WebScraper_StopDownload_clicked();
     void on_pushButton_WebScraper_StartDownload_clicked();
-    void webScraper_OnRequestError(QString requestId, QString requestUrl, QString errorDescription);
+    void webScraper_OnRequestError(QString requestId, QString requestUrl, HttpResponse response);
     void webScraper_OnRequestStarted(QString requestId, QString requestUrl);
     void webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
 
@@ -117,10 +122,13 @@ private slots:
     void on_pushButton_TimestampToDatetime_clicked();
     void on_pushButton_dateTimeToTimestamp_clicked();
 
+
     private:
     Ui::MainWindow *ui;
     bool BypassOnChangeEventFlag = false;
     QByteArray LastParsedCSR, LastParsedCert;
+    QMap<QString, QString> WebScraperResponseHeaders;
+    QMap<QString, QString> WebScraperResponseData;
 
     void Status_EndWithError(QString err_msg);
     void Status_EndWithSuccess(QString err_msg);

@@ -7,6 +7,7 @@
 #include <QNetworkReply>
 #include <QtGlobal>
 #include <QSslSocket>
+#include <QHostInfo>
 
 #include "Singleton.h"
 #include "AdvancedTableWidget.h"
@@ -38,7 +39,7 @@ class WebScraper: public QObject, public Singleton<WebScraper>
 
     signals:
         void OnRequestStarted(QString requestId, QString requestUrl);
-        void OnRequestError(QString requestId, QString requestUrl, QString errorDescription);
+        void OnRequestError(QString requestId, QString requestUrl, HttpResponse response);
         void OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
 
     private:

@@ -36,13 +36,27 @@ HttpResponse WebScraper::HttpGet(QString url_str, QString AdditionalHeaders)
             response.Headers += QString(head) + ": " + reply->rawHeader(head) + "\n";
         }
         response.Body = QString(reply->readAll());
-        response.HostIp = "";
     }
     else
     {
         response.NetworkErrorDetected = true;
         response.errorDescription = reply->errorString();
     }
+
+    response.HostIp = "";
+    foreach(QHostAddress address, QHostInfo::fromName(url.host()).addresses())
+    {
+        response.HostIp += address.toString() + ", ";
+    }
+
+    if( response.HostIp.endsWith(", ") )
+    {
+        response.HostIp.chop(2);
+    }
+
+    qDebug() << "IP resolution: " << response.HostIp << " - " << url.host();
+
+
     return response;
 }
 
@@ -53,7 +67,7 @@ void WebScraper::Task(QString uniqueRequestId, QString requestUrl)
 
    if( response.NetworkErrorDetected )
    {
-       emit OnRequestError(uniqueRequestId, requestUrl, response.errorDescription);
+       emit OnRequestError(uniqueRequestId, requestUrl, response);
    }
    else
    {

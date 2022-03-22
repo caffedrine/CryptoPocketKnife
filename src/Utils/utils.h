@@ -22,6 +22,6 @@ QString Utils_BytesToDECString(const QByteArray *in_arr);
 
 QString ParseCertOrCsrFromFileToHexStr(QString fileName);
 
-QList<QString> Utils_ExtractAllUrls(QString inputText);
+QStringList Utils_ExtractAllUrls(QString inputText);
 
 #endif // UTILS_H

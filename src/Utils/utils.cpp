@@ -150,9 +150,9 @@ QString ParseCertOrCsrFromFileToHexStr(QString fileName)
     }
 }
 
-QList<QString> Utils_ExtractAllUrls(QString inputText)
-{
-    QList<QString> output;
+QStringList Utils_ExtractAllUrls(QString inputText)
+{   
+    QStringList output;
 
     QRegularExpression re(
                 "(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])"
@@ -176,10 +176,22 @@ QList<QString> Utils_ExtractAllUrls(QString inputText)
             QRegularExpressionMatch match = matches.next();
             if (match.hasMatch())
             {
-                 output.append(match.captured());
+                QString currUrl = match.captured(0);
+
+                // Remove case when domains like 'www.' are valid
+                if(!currUrl.endsWith("www."))
+                {
+                    if( QUrl(currUrl, QUrl::ParsingMode::StrictMode).isValid() )
+                    {
+                        output.append(currUrl);
+                    }
+                }
             }
         }
     }
+
+    // Remove duplicates
+    output.removeDuplicates();
 
     return output;
 }
