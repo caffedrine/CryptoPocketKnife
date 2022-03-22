@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCsrFileDragged(QString)) );
 
     // WebScrapping table resize mode
-    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 //    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnRowsCopy(QModelIndexList) ), this, SLOT(tableWidget_WebScraper_OnRowsCopy(QModelIndexList)) );
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnTextPasted(QString) ), this, SLOT(tableWidget_WebScraper_OnTextPasted(QString)) );
@@ -1062,18 +1061,18 @@ void MainWindow::tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRowsI
     for (int i = 0; i < selectedRowsIndexesList.size(); i++)
     {
         QStringList rowContents;
-        for (int j = 1; j < ui->tableWidget_WebScraper->columnCount(); j++)
+        for (int j = 2; j < ui->tableWidget_WebScraper->columnCount()-2; j++)
         {
             rowContents << ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(),j).data().toString();
         }
 
         QString protocol = ui->tableWidget_WebScraper->model()->index(selectedRowsIndexesList[i].row(), 0).data().toString();
+        QString subdomain = ui->tableWidget_WebScraper->model()->index(i, 1).data().toString();
 
-        text += (!protocol.isEmpty() ? protocol + "://" : "") + rowContents.join("");
+        text += (!protocol.isEmpty() ? protocol + "://" : "") + (!subdomain.isEmpty() ? subdomain + "." : "") + rowContents.join("");
         text += "\n";
     }
     QApplication::clipboard()->setText(text);
-
 }
 
 void MainWindow::tableWidget_WebScraper_OnTextPasted(QString text)
@@ -1102,6 +1101,86 @@ void MainWindow::tableWidget_WebScraper_OnTextPasted(QString text)
         else
         {
             qDebug() << "Invalid URL detected: " << url_str;
+        }
+    }
+}
+
+void MainWindow::on_pushButton_WebScraping_Clear_clicked()
+{
+    this->ui->tableWidget_WebScraper->model()->removeRows(0,  this->ui->tableWidget_WebScraper->rowCount());
+}
+
+void MainWindow::on_pushButton_WebScraper_StopDownload_clicked()
+{
+
+}
+
+void MainWindow::webScraper_OnRequestStarted(QString requestId, QString requestUrl)
+{
+    dbgln << "[HTTP GET START] " << requestId << ". " << requestUrl;
+    QTableWidgetItem* item = new QTableWidgetItem(tr("Working..."));
+    QIcon icon(":/img/warning.png");
+    item->setIcon(icon);
+    this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 7, item);
+}
+
+void MainWindow::webScraper_OnRequestError(QString requestId, QString requestUrl, QString errorDescription)
+{
+    dbgln << "[HTTP GET FAILED] [" << errorDescription << "] " << requestId << ". " << requestUrl;
+    QTableWidgetItem* item = new QTableWidgetItem(QString("FAIL: " + errorDescription));
+    QIcon icon(":/img/fail.png");
+    item->setIcon(icon);
+    this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 7, item);
+}
+
+void MainWindow::webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response)
+{
+    dbgln << "[HTTP GET SUCCEED] " << requestId << ". " << requestUrl << ": " << response.Code;
+    QTableWidgetItem* item = new QTableWidgetItem(QString("SUCCESS"));
+    QIcon icon(":/img/success.png");
+    item->setIcon(icon);
+    this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 7, item);
+}
+
+void MainWindow::on_pushButton_WebScraper_StartDownload_clicked()
+{
+    // Connect response receiving slots
+    static bool slotsConnected = false;
+    if( !slotsConnected )
+    {
+        connect(&WebScraper::instance(), SIGNAL( OnRequestStarted(QString, QString) ), this, SLOT(webScraper_OnRequestStarted(QString, QString)) );
+        connect(&WebScraper::instance(), SIGNAL( OnRequestError(QString, QString, QString) ), this, SLOT(webScraper_OnRequestError(QString, QString, QString)) );
+        connect(&WebScraper::instance(), SIGNAL( OnRequestFinished(QString, QString, HttpResponse) ), this, SLOT(webScraper_OnRequestFinished(QString, QString, HttpResponse)) );
+        slotsConnected = true;
+    }
+
+    int rows = this->ui->tableWidget_WebScraper->model()->rowCount();
+    int cols = this->ui->tableWidget_WebScraper->model()->columnCount();
+
+    // Set all statuses to PENDING
+    for (int i = 0; i < rows; i++)
+    {
+        QTableWidgetItem* item = new QTableWidgetItem(QString("Pending..."));
+        QIcon icon(":/img/pending.png");
+        item->setIcon(icon);
+        this->ui->tableWidget_WebScraper->setItem(i, 7, item);
+    }
+
+    for (int i = 0; i < rows; i++)
+    {
+        QStringList rowContents;
+        for (int j = 2; j < cols - 2; j++)
+        {
+            rowContents << ui->tableWidget_WebScraper->model()->index(i,j).data().toString();
+        }
+        QString protocol = ui->tableWidget_WebScraper->model()->index(i, 0).data().toString();
+        QString subdomain = ui->tableWidget_WebScraper->model()->index(i, 1).data().toString();
+
+        QString url = (!protocol.isEmpty() ? protocol + "://" : "") + (!subdomain.isEmpty() ? subdomain + "." : "") + rowContents.join("");
+
+        if(!WebScraper::instance().EnqueueGetRequest(QString::number(i), url))
+        {
+            qDebug() << "Failed to queue GET request: " << url;
         }
     }
 }
@@ -1142,19 +1221,4 @@ void MainWindow::on_pushButton_TimestampToDatetime_clicked()
 void MainWindow::on_pushButton_dateTimeToTimestamp_clicked()
 {
     this->ui->lineEdit_Utils_LinuxTimestamp->setText( QString::number( QDateTime::fromString(this->ui->lineEdit_Utils_DateTime->text(), "yyyy-MM-dd hh:mm:ss").toSecsSinceEpoch()));
-}
-
-void MainWindow::on_pushButton_WebScraping_Clear_clicked()
-{
-    this->ui->tableWidget_WebScraper->model()->removeRows(0,  this->ui->tableWidget_WebScraper->rowCount());
-}
-
-void MainWindow::on_pushButton_WebScraper_StopDownload_clicked()
-{
-
-}
-
-void MainWindow::on_pushButton_WebScraper_StartDownload_clicked()
-{
-//    WebScraper::instance().Start(this->ui->tableWidget_WebScraper);
 }

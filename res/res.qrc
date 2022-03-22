@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>img/icon.png</file>
         <file>img/icon.ico</file>
+        <file>img/fail.png</file>
+        <file>img/pending.png</file>
+        <file>img/success.png</file>
+        <file>img/warning.png</file>
     </qresource>
 </RCC>

@@ -17,6 +17,10 @@
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QMessageBox>
+#include <QDebug>
+#include <QtGlobal>
+
+#define dbgln qDebug().noquote().nospace()
 
 #include "AdvancedTableWidget.h"
 #include "AdvancedTextEdit.h"
@@ -101,6 +105,9 @@ private slots:
     void on_pushButton_WebScraping_Clear_clicked();
     void on_pushButton_WebScraper_StopDownload_clicked();
     void on_pushButton_WebScraper_StartDownload_clicked();
+    void webScraper_OnRequestError(QString requestId, QString requestUrl, QString errorDescription);
+    void webScraper_OnRequestStarted(QString requestId, QString requestUrl);
+    void webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
 
     // Networking
 

@@ -18,6 +18,7 @@ void AdvancedTableWidget::AdvancedTableWidgetInit()
     this->setSortingEnabled(true);
     this->setSelectionBehavior(SelectionBehavior::SelectRows);
     this->installEventFilter(this);
+    this->horizontalHeader()->setStretchLastSection(true);
 
     QString styleSheet = "::section "
                          "{"
