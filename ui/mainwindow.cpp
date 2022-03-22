@@ -1149,6 +1149,9 @@ void MainWindow::webScraper_OnRequestFinished(QString requestId, QString request
     }
 
     this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 7, item);
+
+    QTableWidgetItem* item2 = new QTableWidgetItem(response.HostIp);
+    this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 6, item2);
 }
 
 void MainWindow::on_pushButton_WebScraper_StartDownload_clicked()
