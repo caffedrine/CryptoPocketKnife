@@ -25,14 +25,23 @@ HttpResponse WebScraper::HttpGet(QString url_str, QString AdditionalHeaders)
     QObject::connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
     eventLoop.exec();
 
-    if( reply->error() )
+    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+    if( statusCode.isValid() )
     {
-        response.NetworkErrorDetected = true;
-        response.errorDescription = reply->errorString();
+        response.Code = statusCode.toInt();
+        response.CodeDesc = reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString();
+        response.Headers = "";
+        foreach(QByteArray head, reply->rawHeaderList())
+        {
+            response.Headers += QString(head) + ": " + reply->rawHeader(head) + "\n";
+        }
+        response.Body = QString(reply->readAll());
+        response.HostIp = "";
     }
     else
     {
-        response.Headers = QString(reply->readAll());
+        response.NetworkErrorDetected = true;
+        response.errorDescription = reply->errorString();
     }
     return response;
 }

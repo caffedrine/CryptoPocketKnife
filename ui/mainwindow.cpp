@@ -1119,7 +1119,7 @@ void MainWindow::webScraper_OnRequestStarted(QString requestId, QString requestU
 {
     dbgln << "[HTTP GET START] " << requestId << ". " << requestUrl;
     QTableWidgetItem* item = new QTableWidgetItem(tr("Working..."));
-    QIcon icon(":/img/warning.png");
+    QIcon icon(":/img/working.png");
     item->setIcon(icon);
     this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 7, item);
 }
@@ -1136,9 +1136,18 @@ void MainWindow::webScraper_OnRequestError(QString requestId, QString requestUrl
 void MainWindow::webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response)
 {
     dbgln << "[HTTP GET SUCCEED] " << requestId << ". " << requestUrl << ": " << response.Code;
-    QTableWidgetItem* item = new QTableWidgetItem(QString("SUCCESS"));
-    QIcon icon(":/img/success.png");
-    item->setIcon(icon);
+    QTableWidgetItem* item = new QTableWidgetItem(QString::number(response.Code) + " - " + response.CodeDesc);
+    if( response.Code == 200 )
+    {
+        QIcon icon(":/img/success.png");
+        item->setIcon(icon);
+    }
+    else
+    {
+        QIcon icon(":/img/warning.png");
+        item->setIcon(icon);
+    }
+
     this->ui->tableWidget_WebScraper->setItem(requestId.toInt(), 7, item);
 }
 
@@ -1157,13 +1166,14 @@ void MainWindow::on_pushButton_WebScraper_StartDownload_clicked()
     int rows = this->ui->tableWidget_WebScraper->model()->rowCount();
     int cols = this->ui->tableWidget_WebScraper->model()->columnCount();
 
-    // Set all statuses to PENDING
+    // Set all statuses to PENDING and remove IPs
     for (int i = 0; i < rows; i++)
     {
         QTableWidgetItem* item = new QTableWidgetItem(QString("Pending..."));
         QIcon icon(":/img/pending.png");
         item->setIcon(icon);
         this->ui->tableWidget_WebScraper->setItem(i, 7, item);
+        this->ui->tableWidget_WebScraper->setItem(i, 6, new QTableWidgetItem(QString("")));
     }
 
     for (int i = 0; i < rows; i++)

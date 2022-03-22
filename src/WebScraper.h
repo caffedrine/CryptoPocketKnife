@@ -20,9 +20,11 @@ class HttpResponse
         bool NetworkErrorDetected = false;
         QString errorDescription = "";
 
-        quint16 Code;
+        qint16 Code;
+        QString CodeDesc;
         QString Headers;
         QString Body;
+        QString HostIp;
 };
 
 class WebScraper: public QObject, public Singleton<WebScraper>
