@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -1507,17 +1507,6 @@ p, li { white-space: pre-wrap; }
               </column>
               <column>
                <property name="text">
-                <string>Subdomain</string>
-               </property>
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
                 <string>Domain</string>
                </property>
                <property name="font">
@@ -1529,29 +1518,7 @@ p, li { white-space: pre-wrap; }
               </column>
               <column>
                <property name="text">
-                <string>Path</string>
-               </property>
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>HTTP GET</string>
-               </property>
-               <property name="font">
-                <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Fragment</string>
+                <string>URL</string>
                </property>
                <property name="font">
                 <font>
