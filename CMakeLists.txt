@@ -73,6 +73,10 @@ IF(CMAKE_BUILD_TYPE MATCHES Release)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.exe" "${CMAKE_BINARY_DIR}/../Deployed/${PROJECT_NAME}.exe" COMMENT "Copying to output directory")
 
     if (WIN32)
+        # Copy additional windows libs
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/libs/Windows/libeay32.dll" "${CMAKE_BINARY_DIR}/../Deployed/libeay32.dll" COMMENT "Copying required DLLs to output directory")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/libs/Windows/ssleay32.dll" "${CMAKE_BINARY_DIR}/../Deployed/ssleay32.dll")
+
         # Copy required DLLs to deploy folder
         get_target_property(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
         get_filename_component(QT5_WINDEPLOYQT_EXECUTABLE ${QT5_QMAKE_EXECUTABLE} PATH)

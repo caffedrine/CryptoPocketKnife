@@ -113,6 +113,7 @@ private slots:
     void webScraper_OnRequestError(QString requestId, QString requestUrl, HttpResponse response);
     void webScraper_OnRequestStarted(QString requestId, QString requestUrl);
     void webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
+    void on_pushButton_WebScraping_StretchCols_clicked();
 
     // Networking
 
@@ -121,6 +122,7 @@ private slots:
     void on_pushButton_Utils_CurrentDateTime_clicked();
     void on_pushButton_TimestampToDatetime_clicked();
     void on_pushButton_dateTimeToTimestamp_clicked();
+
 
 
     private:
