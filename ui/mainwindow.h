@@ -20,9 +20,11 @@
 #include <QDebug>
 #include <QtGlobal>
 #include <QMap>
+#include <QPlainTextEdit>
 
 #define dbgln qDebug().noquote().nospace()
 
+#include "LambdaEventFilter.h"
 #include "AdvancedTableWidget.h"
 #include "AdvancedTextEdit.h"
 #include "WebScraper.h"

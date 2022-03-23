@@ -1212,8 +1212,9 @@ void MainWindow::on_tableWidget_WebScraper_customContextMenuRequested(const QPoi
     QString rowUrl = this->WebScraper_getFullUrlFromTable(row);
 
     QMenu menu("contextMenu", this);
-    QAction Item_ShowHeaders("Show header", this);
-    QAction Item_CopyResponse("Copy response", this);
+    QAction Item_ShowHeaders("Show headers", this);
+    QAction Item_CopyResponse("Show response", this);
+    QAction Item_Retest("Retest", this);
 
     if( !this->WebScraperResponseHeaders.contains(rowUrl) )
     {
@@ -1227,6 +1228,8 @@ void MainWindow::on_tableWidget_WebScraper_customContextMenuRequested(const QPoi
 
     menu.addAction(&Item_ShowHeaders);
     menu.addAction(&Item_CopyResponse);
+    menu.addSeparator();
+    menu.addAction(&Item_Retest);
 
 
     connect(&Item_ShowHeaders, &QAction::triggered, this, [&rowUrl, this]() {
@@ -1238,7 +1241,19 @@ void MainWindow::on_tableWidget_WebScraper_customContextMenuRequested(const QPoi
     });
 
     connect(&Item_CopyResponse, &QAction::triggered, this, [&rowUrl, this]() {
-        QApplication::clipboard()->setText("GET " + rowUrl + "\n\n" + this->WebScraperResponseHeaders[rowUrl] + "\n\n" + this->WebScraperResponseData[rowUrl]);
+        QString text = "GET " + rowUrl + "\n\n" + this->WebScraperResponseHeaders[rowUrl] + "\n\n" + this->WebScraperResponseData[rowUrl];
+
+        QPlainTextEdit *editor = new QPlainTextEdit(text);
+        editor->setWindowTitle("GET " + rowUrl);
+        editor->show();
+
+    });
+
+    connect(&Item_Retest, &QAction::triggered, this, [row, &rowUrl]() {
+        if(!WebScraper::instance().EnqueueGetRequest(QString::number(row), rowUrl))
+        {
+            qDebug() << "Failed to queue GET request: " << rowUrl;
+        }
     });
 
     menu.exec(ui->tableWidget_WebScraper->viewport()->mapToGlobal(pos));
