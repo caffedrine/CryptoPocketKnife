@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // WebScrapping table resize mode
     this->ui->tableWidget_WebScraper->setContextMenuPolicy(Qt::CustomContextMenu);
-    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    //this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnRowsCopy(QModelIndexList) ), this, SLOT(tableWidget_WebScraper_OnRowsCopy(QModelIndexList)) );
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnTextPasted(QString) ), this, SLOT(tableWidget_WebScraper_OnTextPasted(QString)) );
@@ -1247,6 +1247,9 @@ void MainWindow::on_tableWidget_WebScraper_customContextMenuRequested(const QPoi
 void MainWindow::on_pushButton_WebScraping_StretchCols_clicked()
 {
     this->ui->tableWidget_WebScraper->resizeColumnsToContents();
+    this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+
+    //this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 }
 
 /*
