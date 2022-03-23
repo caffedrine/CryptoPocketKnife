@@ -29,6 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnTextPasted(QString) ), this, SLOT(tableWidget_WebScraper_OnTextPasted(QString)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsInserted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsAboutToBeRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &, int, int)) );
+
+    connect(&WebScraper::instance(), SIGNAL( OnRequestStarted(QString, QString) ), this, SLOT(webScraper_OnRequestStarted(QString, QString)) );
+    connect(&WebScraper::instance(), SIGNAL( OnRequestError(QString, QString, HttpResponse) ), this, SLOT(webScraper_OnRequestError(QString, QString, HttpResponse)) );
+    connect(&WebScraper::instance(), SIGNAL( OnRequestFinished(QString, QString, HttpResponse) ), this, SLOT(webScraper_OnRequestFinished(QString, QString, HttpResponse)) );
 }
 
 MainWindow::~MainWindow()
@@ -1176,16 +1180,6 @@ void MainWindow::webScraper_OnRequestFinished(QString requestId, QString request
 
 void MainWindow::on_pushButton_WebScraper_StartDownload_clicked()
 {
-    // Connect response receiving slots
-    static bool slotsConnected = false;
-    if( !slotsConnected )
-    {
-        connect(&WebScraper::instance(), SIGNAL( OnRequestStarted(QString, QString) ), this, SLOT(webScraper_OnRequestStarted(QString, QString)) );
-        connect(&WebScraper::instance(), SIGNAL( OnRequestError(QString, QString, HttpResponse) ), this, SLOT(webScraper_OnRequestError(QString, QString, HttpResponse)) );
-        connect(&WebScraper::instance(), SIGNAL( OnRequestFinished(QString, QString, HttpResponse) ), this, SLOT(webScraper_OnRequestFinished(QString, QString, HttpResponse)) );
-        slotsConnected = true;
-    }
-
     int rows = this->ui->tableWidget_WebScraper->model()->rowCount();
 
     // Set all statuses to PENDING and remove IPs
