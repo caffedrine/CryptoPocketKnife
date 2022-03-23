@@ -33,7 +33,7 @@ class WebScraper: public QObject, public Singleton<WebScraper>
         Q_OBJECT
     public:
         bool EnqueueGetRequest(QString uniqueRequestId, QString requestUrl);
-        static HttpResponse HttpGet(QString url, QString AdditionalHeaders = "");
+        static HttpResponse HttpGet(QString url, QMap<QString, QString> *AdditionalHeaders = nullptr);
 
     private slots:
 

@@ -14,12 +14,14 @@ bool WebScraper::EnqueueGetRequest(QString uniqueEequestId, QString requestUrl)
     return true;
 }
 
-HttpResponse WebScraper::HttpGet(QString url_str, QString AdditionalHeaders)
+HttpResponse WebScraper::HttpGet(QString url_str, QMap<QString, QString> *AdditionalHeaders)
 {
     HttpResponse response;
     QNetworkAccessManager manager;
-    QUrl url (url_str);
+
+    QUrl url(url_str);
     QNetworkRequest request(url);
+
     QNetworkReply *reply = manager.get(request);
     QEventLoop eventLoop;
     QObject::connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
@@ -53,9 +55,6 @@ HttpResponse WebScraper::HttpGet(QString url_str, QString AdditionalHeaders)
     {
         response.HostIp.chop(2);
     }
-
-    qDebug() << "IP resolution: " << response.HostIp << " - " << url.host();
-
 
     return response;
 }
