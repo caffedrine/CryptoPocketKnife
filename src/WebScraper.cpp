@@ -42,14 +42,15 @@ HttpResponse WebScraper::HttpGet(QString url_str, QMap<QString, QString> *Additi
         response.HostIp.chop(2);
     }
 
-    if( reply->error() && reply->error() < 10)
+    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+
+    if( reply->error() && !statusCode.isValid() )
     {
         response.NetworkErrorDetected = true;
-        response.errorDescription = "ERR: " + QString::number(reply->error()) + ": " + reply->errorString();
+        response.errorDescription = "ERR " + QString::number(reply->error()) + ": " + reply->errorString();
         return response;
     }
 
-    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
     response.Code = statusCode.toInt();
     response.CodeDesc = ((!statusCode.isValid())?("Invalid HTTP code"):(reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString()));
     if( response.CodeDesc.isEmpty() )
