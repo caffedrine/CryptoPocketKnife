@@ -108,6 +108,7 @@ private slots:
     void tableWidget_WebScraper_OnTextPasted(QString text);
     void tableWidget_WebScraper_OnRowsInserted(const QModelIndex &parent, int first, int last);
     void tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &parent, int first, int last);
+    void tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int first, int last);
     void on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos);
     void on_pushButton_WebScraping_Clear_clicked();
     void on_pushButton_WebScraper_StopDownload_clicked();

@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnTextPasted(QString) ), this, SLOT(tableWidget_WebScraper_OnTextPasted(QString)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsInserted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsAboutToBeRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &, int, int)) );
+    QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &, int, int)) );
 
     connect(&WebScraper::instance(), SIGNAL( OnRequestStarted(QString, QString) ), this, SLOT(webScraper_OnRequestStarted(QString, QString)) );
     connect(&WebScraper::instance(), SIGNAL( OnRequestError(QString, QString, HttpResponse) ), this, SLOT(webScraper_OnRequestError(QString, QString, HttpResponse)) );
@@ -1065,22 +1066,19 @@ void MainWindow::on_textEdit_EncodeDecode_HtmlDecoded_textChanged()
 
 QString MainWindow::WebScraper_getFullUrlFromTable(int row)
 {
-    int cols = this->ui->tableWidget_WebScraper->model()->columnCount();
-
     QString protocol = ui->tableWidget_WebScraper->model()->index(row, 0).data().toString();
     QString domain = ui->tableWidget_WebScraper->model()->index(row, 1).data().toString();
     QString url = ui->tableWidget_WebScraper->model()->index(row, 2).data().toString();
 
     return (!protocol.isEmpty() ? protocol + "://" : "") + domain + (!url.isEmpty() ? url : "");
-
 }
 
 void MainWindow::tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRowsIndexesList)
 {
     QString text;
-    for (int i = 0; i < selectedRowsIndexesList.size(); i++)
+    for (int i = 0; i < selectedRowsIndexesList.count(); i++)
     {
-        text += this->WebScraper_getFullUrlFromTable(i);
+        text += this->WebScraper_getFullUrlFromTable(selectedRowsIndexesList.at(i).row());
         text += "\n";
     }
     QApplication::clipboard()->setText(text);
@@ -1119,6 +1117,9 @@ void MainWindow::tableWidget_WebScraper_OnRowsInserted(const QModelIndex &parent
         this->WebScraperResponseHeaders[this->WebScraper_getFullUrlFromTable(i)] = "";
         this->WebScraperResponseData[this->WebScraper_getFullUrlFromTable(i)] = "";
     }
+
+    // Update rows count
+    this->ui->label_WebScraper_RecordsCount->setText("Records count: " + QString::number(this->ui->tableWidget_WebScraper->rowCount()));
 }
 
 void MainWindow::tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &parent, int first, int last)
@@ -1128,6 +1129,12 @@ void MainWindow::tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex
         this->WebScraperResponseHeaders.remove(this->WebScraper_getFullUrlFromTable(i));
         this->WebScraperResponseData.remove(this->WebScraper_getFullUrlFromTable(i));
     }
+}
+
+void MainWindow::tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int first, int last)
+{
+    // Update rows count
+    this->ui->label_WebScraper_RecordsCount->setText("Records count: " + QString::number(this->ui->tableWidget_WebScraper->rowCount()));
 }
 
 void MainWindow::on_pushButton_WebScraping_Clear_clicked()
