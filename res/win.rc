@@ -2,8 +2,8 @@ IDI_ICON1               ICON    DISCARDABLE     "img/icon.ico"
 
 
 1 VERSIONINFO
-    FILEVERSION    0,0,0,0
-    PRODUCTVERSION 0,0,0,0
+    FILEVERSION    1,0,0,0
+    PRODUCTVERSION 1,0,0,0
 {
     BLOCK "StringFileInfo"
     {
@@ -15,6 +15,7 @@ IDI_ICON1               ICON    DISCARDABLE     "img/icon.ico"
             VALUE "OriginalFilename",   "CryptoPocketKnife.exe\0"
             VALUE "ProductName",        "Crypto Pocket Knife\0"
             VALUE "ProductVersion",     "v1.0.0"
+			VALUE "Website",			"www.cryptopocketknife.com"
         }
     }
     BLOCK "VarFileInfo"
