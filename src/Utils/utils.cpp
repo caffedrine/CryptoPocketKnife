@@ -82,7 +82,7 @@ QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr)
     for( int i = 0; i < in_arr->length(); i++ )
     {
         QChar c = QChar(in_arr->at(i));
-        if( (c>= 0x20 && c <= 0x7f) || ( c == 0x0A ) )
+        if( (c.unicode() >= 0x20 && c.unicode() <= 0x7f) || ( c.unicode() == 0x0A ) )
             result += c;
         else
             result += ".";
@@ -96,7 +96,7 @@ QString Utils_BytesToAlphanumericString(const QByteArray *in_arr)
     for( int i = 0; i < in_arr->length(); i++ )
     {
         QChar c = QChar(in_arr->at(i));
-        if( c.isDigit() || (c >= 0x41 && c <= 0x5A ) || (c >= 0x61 && c <= 0x7A ))
+        if( c.isDigit() || (c.unicode() >= 0x41 && c.unicode() <= 0x5A ) || (c.unicode() >= 0x61 && c.unicode() <= 0x7A ))
             result += c;
         else
             result += ".";
