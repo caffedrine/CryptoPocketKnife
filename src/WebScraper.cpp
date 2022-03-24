@@ -21,40 +21,46 @@ HttpResponse WebScraper::HttpGet(QString url_str, QMap<QString, QString> *Additi
 
     QUrl url(url_str);
     QNetworkRequest request(url);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, true);
 
     QNetworkReply *reply = manager.get(request);
+    reply->ignoreSslErrors();
+
+    // Wait for the response
     QEventLoop eventLoop;
     QObject::connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
     eventLoop.exec();
 
-    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
-    if( statusCode.isValid() )
-    {
-        response.Code = statusCode.toInt();
-        response.CodeDesc = reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString();
-        response.Headers = "";
-        foreach(QByteArray head, reply->rawHeaderList())
-        {
-            response.Headers += QString(head) + ": " + reply->rawHeader(head) + "\n";
-        }
-        response.Body = QString(reply->readAll());
-    }
-    else
-    {
-        response.NetworkErrorDetected = true;
-        response.errorDescription = reply->errorString();
-    }
-
+    // Fetch host IP
     response.HostIp = "";
     foreach(QHostAddress address, QHostInfo::fromName(url.host()).addresses())
     {
         response.HostIp += address.toString() + ", ";
     }
-
     if( response.HostIp.endsWith(", ") )
     {
         response.HostIp.chop(2);
     }
+
+    if( reply->error() && reply->error() < 10)
+    {
+        response.NetworkErrorDetected = true;
+        response.errorDescription = "ERR: " + QString::number(reply->error()) + ": " + reply->errorString();
+        return response;
+    }
+
+    QVariant statusCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute );
+    response.Code = statusCode.toInt();
+    response.CodeDesc = ((!statusCode.isValid())?("Invalid HTTP code"):(reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString()));
+    if( response.CodeDesc.isEmpty() )
+        response.CodeDesc = HttpStatus::reasonPhrase(response.Code);
+
+    response.Headers = "";
+    foreach(QByteArray head, reply->rawHeaderList())
+    {
+        response.Headers += QString(head) + ": " + reply->rawHeader(head) + "\n";
+    }
+    response.Body = QString(reply->readAll());
 
     return response;
 }

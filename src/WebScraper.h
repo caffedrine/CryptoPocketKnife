@@ -10,6 +10,7 @@
 #include <QHostInfo>
 
 #include "Singleton.h"
+#include "HttpStatusCodes.h"
 #include "AdvancedTableWidget.h"
 
 class HttpResponse
@@ -23,6 +24,7 @@ class HttpResponse
 
         qint16 Code;
         QString CodeDesc;
+        bool Redirected = false;
         QString Headers;
         QString Body;
         QString HostIp;
