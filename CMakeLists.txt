@@ -10,6 +10,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_definitions(-DQT_ASSUME_STDERR_HAS_CONSOLE=1)
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Console Network REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core REQUIRED)
 

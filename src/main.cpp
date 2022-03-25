@@ -1,5 +1,6 @@
 #include "ui/mainwindow.h"
 #include <QApplication>
+#include <iostream>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -18,7 +19,9 @@ int main(int argc, char *argv[])
     #endif
 
     qputenv("QT_MESSAGE_PATTERN", QByteArray("[%{time yyyy-MM-dd h:mm:ss.zzz}] %{file}:%{line} - %{message}"));
-
+    
+    qDebug() << "App started...";
+    
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
