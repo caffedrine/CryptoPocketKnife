@@ -89,12 +89,18 @@ void MainWindow::on_ed25519_pushButton_GenerateKeysPair_clicked()
     uint8_t private_key[ED25519_KEY_LEN];
     ssize_t len;
 
+
     // Generate a random private key if one is not already set
-    if(! (Utils_RawHexStrToArr( this->ui->ed25529_textEdit_privateKey->text(), private_key, &len, (ssize_t)sizeof(private_key)) || (len != 32) ))
+    if( (!Utils_RawHexStrToArr( this->ui->ed25529_textEdit_privateKey->text(), private_key, &len, (ssize_t)sizeof(private_key)) || (len != 32) ))
     {
-        for( uint32_t i = 0; i < sizeof(private_key); i++ )
-            private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
+        for(uint8_t & i : private_key)
+        {
+            i = (uint8_t) QRandomGenerator::global()->bounded(256);
+        }
     }
+
+    qDebug() << len;
+
     // Generate keys pair
     ed25519_genpub(public_key, private_key);
 
@@ -782,7 +788,7 @@ void MainWindow::OnCsrFileDragged(QString fileName)
                                            __/ |
                                           |___/
 */
-void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, QString exception)
+void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, const QString& exception)
 {
     // Disable triggering "OnTextChange" event for the boxes that are being updated since this is a programatically triggered event.
     this->BypassOnChangeEventFlag = true;
@@ -842,8 +848,11 @@ void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->encoding_lineEdit_KECCAK512->setText(QCryptographicHash::hash(bytes, QCryptographicHash::Keccak_512).toHex());
 
         // Calculate quick checksums
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
         this->ui->encoding_lineEdit_CRC16->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumIso3309), 16));
         this->ui->encoding_lineEdit_CRC32->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumItuV41), 16));
+#pragma GCC diagnostic pop
 
         // Set cursor to initial positions for cursor. Show results from the beginning
         this->ui->encoding_lineEdit_MD5->setCursorPosition(0);
@@ -1304,4 +1313,10 @@ void MainWindow::on_pushButton_TimestampToDatetime_clicked()
 void MainWindow::on_pushButton_dateTimeToTimestamp_clicked()
 {
     this->ui->lineEdit_Utils_LinuxTimestamp->setText( QString::number( QDateTime::fromString(this->ui->lineEdit_Utils_DateTime->text(), "yyyy-MM-dd hh:mm:ss").toSecsSinceEpoch()));
+}
+
+void MainWindow::on_pushButton_Signature_ED25519_Clear_clicked()
+{
+    this->ui->ed25529_textEdit_privateKey->clear();
+    this->ui->ed25529_textEdit_publicKey->clear();
 }

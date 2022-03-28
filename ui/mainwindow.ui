@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>895</width>
-    <height>644</height>
+    <height>660</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -96,14 +96,7 @@
             <string>ED25519</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_3">
-            <item row="2" column="0">
-             <widget class="QLabel" name="ed25519_label_PublicKey">
-              <property name="text">
-               <string>Public key</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0" colspan="4">
+            <item row="9" column="0" colspan="5">
              <widget class="QLineEdit" name="ed25529_textEdit_Signature">
               <property name="enabled">
                <bool>true</bool>
@@ -115,7 +108,16 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="2">
+            <item row="4" column="4">
+             <widget class="QComboBox" name="comboBox">
+              <item>
+               <property name="text">
+                <string>32 bytes</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="4" column="3">
              <widget class="QLabel" name="label">
               <property name="text">
                <string>Private key size</string>
@@ -125,7 +127,28 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="0" colspan="4">
+            <item row="10" column="0">
+             <widget class="QPushButton" name="ed25519_pushButton_CalculateSignature">
+              <property name="text">
+               <string>Calculate signature</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0" colspan="3">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Message (text to be signed or verified)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="2">
+             <widget class="QPushButton" name="ed25519_pushButton_VerifySignature">
+              <property name="text">
+               <string>Verify signature</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0" colspan="5">
              <widget class="QTextEdit" name="ed25529_textEdit_Message">
               <property name="font">
                <font>
@@ -134,40 +157,15 @@
               </property>
              </widget>
             </item>
-            <item row="10" column="1">
-             <widget class="QPushButton" name="ed25519_pushButton_VerifySignature">
+            <item row="4" column="2">
+             <widget class="QLabel" name="label_20">
               <property name="text">
-               <string>Verify signature</string>
+               <string>* If private key already set, it will calculate public key for that.</string>
               </property>
              </widget>
             </item>
-            <item row="4" column="3">
-             <widget class="QComboBox" name="comboBox">
-              <item>
-               <property name="text">
-                <string>32 bytes</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="6" column="0" colspan="2">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Message (text to be signed or verified)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="4">
+            <item row="1" column="0" colspan="5">
              <widget class="QLineEdit" name="ed25529_textEdit_privateKey">
-              <property name="font">
-               <font>
-                <family>Consolas</family>
-               </font>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0" colspan="4">
-             <widget class="QLineEdit" name="ed25529_textEdit_publicKey">
               <property name="font">
                <font>
                 <family>Consolas</family>
@@ -182,20 +180,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="ed25519_label_PrivateKey">
-              <property name="text">
-               <string notr="true">Private key</string>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="0">
-             <widget class="QPushButton" name="ed25519_pushButton_CalculateSignature">
-              <property name="text">
-               <string>Calculate signature</string>
-              </property>
-             </widget>
-            </item>
             <item row="8" column="0">
              <widget class="QLabel" name="label_4">
               <property name="text">
@@ -203,10 +187,33 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="1">
-             <widget class="QLabel" name="label_20">
+            <item row="2" column="0">
+             <widget class="QLabel" name="ed25519_label_PublicKey">
               <property name="text">
-               <string>* If private key already set, it will calculate public key for that.</string>
+               <string>Public key</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="ed25519_label_PrivateKey">
+              <property name="text">
+               <string notr="true">Private key</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="5">
+             <widget class="QLineEdit" name="ed25529_textEdit_publicKey">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QPushButton" name="pushButton_Signature_ED25519_Clear">
+              <property name="text">
+               <string>Clear</string>
               </property>
              </widget>
             </item>
@@ -525,7 +532,7 @@
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>208</height>
+                <height>100</height>
                </size>
               </property>
              </spacer>
@@ -1821,5 +1828,25 @@ p, li { white-space: pre-wrap; }
  <resources>
   <include location="../res/res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_Signature_ED25519_Clear</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_pushButton_Signature_ED25519_Clear_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>206</x>
+     <y>190</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>301</x>
+     <y>-15</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_pushButton_Signature_ED25519_Clear_clicked()</slot>
+ </slots>
 </ui>

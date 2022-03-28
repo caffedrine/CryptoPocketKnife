@@ -1,4 +1,6 @@
 #include "utils.h"
+
+#include <utility>
 #include "sha512.h"
 
 QString Utils_Uint8ToHexQStr(uint8_t in)
@@ -18,7 +20,7 @@ QString Utils_Uint8ArrToHexQStr(uint8_t *arr, ssize_t len)
     return result;
 }
 
-QString Utils_QByteArrayToHexQStr(QByteArray bytes_arr)
+QString Utils_QByteArrayToHexQStr(const QByteArray& bytes_arr)
 {
     QString result = "";
 
@@ -36,25 +38,9 @@ QString Utils_QByteArrayToHexQStr(QByteArray bytes_arr)
 
 bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len, ssize_t max_len)
 {
-    in_hexstr = in_hexstr.simplified().replace(",", "").replace("0x", "").replace("0X", "").replace(":", "");
-
-    QByteArray input_bytes = QByteArray::fromHex(in_hexstr.toLatin1());
-
-    for( int i = 0; i < max_len; i++ )
-    {
-        if( i >= input_bytes.length() )
-            break;
-
-        out_arr[i] = input_bytes[i];
-    }
-
-    if( input_bytes.length() > max_len )
-    {
-        *out_len = max_len;
-        return false;
-    }
-
-    *out_len = input_bytes.length();
+    QByteArray bytes = Utils_RawHexStrToQByteArr(std::move(in_hexstr));
+    *out_len = ( bytes.count() <= max_len ) ? bytes.count() : max_len;
+    memcpy(out_arr, bytes.constData(), *out_len);
     return true;
 }
 
@@ -66,7 +52,7 @@ QByteArray Utils_RawHexStrToQByteArr(QString in_hexstr)
 
 bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[SHA512_HASH_LENGTH])
 {
-    struct sha512 hash;
+    struct sha512 hash = {0};
 
     /* hash secret-key */
     sha512_init(&hash);

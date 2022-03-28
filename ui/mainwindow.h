@@ -42,8 +42,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
 private slots:
     // Appl
@@ -57,6 +57,7 @@ private slots:
     void on_ed25529_textEdit_publicKey_textChanged(const QString &arg1);
     void on_ed25519_pushButton_CalculateSignature_clicked();
     void on_ed25519_pushButton_VerifySignature_clicked();
+    void on_pushButton_Signature_ED25519_Clear_clicked();
 
     // Key exchange
     void on_x25519_pushButton_GenerateEphemeralKeys_clicked();
@@ -83,7 +84,7 @@ private slots:
     void OnCsrFileDragged(QString filename);
 
     // Encoding/decoding
-    void EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, QString exception);
+    void EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, const QString& exception);
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
     void on_textEdit_EncodeDecode_General_HEX_textChanged();
     void on_textEdit_EncodeDecode_General_BIN_textChanged();
