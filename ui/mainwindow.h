@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QDebug>
+#define dbgln qDebug().noquote().nospace()
+
 #include <QMainWindow>
 #include <QRandomGenerator>
 #include <QDir>
@@ -16,18 +19,10 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDesktopServices>
+
 #include <QMessageBox>
-#include <QDebug>
-#include <QtGlobal>
-#include <QMap>
-#include <QPlainTextEdit>
 
-#define dbgln qDebug().noquote().nospace()
-
-#include "LambdaEventFilter.h"
-#include "AdvancedTableWidget.h"
 #include "AdvancedTextEdit.h"
-#include "WebScraper.h"
 #include "utils.h"
 #include <eddsa.h>
 #include <aes.h>
@@ -102,22 +97,6 @@ private slots:
     void on_textBrowser_SHA2_InputBytes_textChanged();
     void on_textBrowser_SHA1_InputBytes_textChanged();
     void on_textBrowser_MD5_InputBytes_textChanged();
-
-    // Web
-    QString WebScraper_getFullUrlFromTable(int row);
-    void tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRows);
-    void tableWidget_WebScraper_OnTextPasted(QString text);
-    void tableWidget_WebScraper_OnRowsInserted(const QModelIndex &parent, int first, int last);
-    void tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &parent, int first, int last);
-    void tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int first, int last);
-    void on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos);
-    void on_pushButton_WebScraping_Clear_clicked();
-    void on_pushButton_WebScraper_StopDownload_clicked();
-    void on_pushButton_WebScraper_StartDownload_clicked();
-    void webScraper_OnRequestError(QString requestId, QString requestUrl, HttpResponse response);
-    void webScraper_OnRequestStarted(QString requestId, QString requestUrl);
-    void webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
-    void on_pushButton_WebScraping_StretchCols_clicked();
 
     // Networking
 

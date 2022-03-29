@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -1534,147 +1534,28 @@ p, li { white-space: pre-wrap; }
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QTabWidget" name="tabWidget">
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="web_WebScraper">
-           <attribute name="title">
-            <string>Web scraper</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_27">
-            <item row="3" column="4">
-             <widget class="QPushButton" name="pushButton_WebScraping_Clear">
-              <property name="text">
-               <string>Clear</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QPushButton" name="pushButton_WebScraper_StopDownload">
-              <property name="text">
-               <string>Stop</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="2">
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="2" column="0" colspan="5">
-             <widget class="AdvancedTableWidget" name="tableWidget_WebScraper">
-              <attribute name="verticalHeaderVisible">
-               <bool>false</bool>
-              </attribute>
-              <column>
-               <property name="text">
-                <string>Protocol</string>
-               </property>
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Domain</string>
-               </property>
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>URL</string>
-               </property>
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>IP Address</string>
-               </property>
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>HTTP Response</string>
-               </property>
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-              </column>
-             </widget>
-            </item>
-            <item row="3" column="3">
-             <widget class="QPushButton" name="pushButton_WebScraping_StretchCols">
-              <property name="text">
-               <string>Stretch cols</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QPushButton" name="pushButton_WebScraper_StartDownload">
-              <property name="text">
-               <string>Download pages</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3" colspan="2">
-             <widget class="QLabel" name="label_49">
-              <property name="text">
-               <string>Hint: data is automatically parsed when pasted</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0" colspan="2">
-             <widget class="QLabel" name="label_WebScraper_RecordsCount">
-              <property name="text">
-               <string>Records count: 0</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="tab_Web_Settings">
-           <attribute name="title">
-            <string>Settings</string>
-           </attribute>
-           <widget class="QGroupBox" name="groupBox_4">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>861</width>
-              <height>80</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>Proxy settings</string>
-            </property>
-           </widget>
-          </widget>
+         <widget class="QWidget" name="widget" native="true">
+          <layout class="QGridLayout" name="gridLayout_27">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item row="0" column="0">
+            <widget class="Web" name="tabWidget">
+             <property name="currentIndex">
+              <number>-1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -1842,11 +1723,6 @@ p, li { white-space: pre-wrap; }
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>Test tab</string>
-       </attribute>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -1900,9 +1776,10 @@ p, li { white-space: pre-wrap; }
    <header>advancedtextedit.h</header>
   </customwidget>
   <customwidget>
-   <class>AdvancedTableWidget</class>
-   <extends>QTableWidget</extends>
-   <header>advancedtablewidget.h</header>
+   <class>Web</class>
+   <extends>QTabWidget</extends>
+   <header>Web.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
