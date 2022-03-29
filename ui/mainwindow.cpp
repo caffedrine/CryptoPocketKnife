@@ -99,8 +99,6 @@ void MainWindow::on_ed25519_pushButton_GenerateKeysPair_clicked()
         }
     }
 
-    qDebug() << len;
-
     // Generate keys pair
     ed25519_genpub(public_key, private_key);
 
