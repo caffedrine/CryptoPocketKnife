@@ -1,6 +1,9 @@
 #include "WebScraper.h"
 
-bool WebScraper::EnqueueGetRequest(QString uniqueEequestId, QString requestUrl)
+#include <QFuture>
+#include <QtConcurrent>
+
+bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl)
 {
     // Check if openssl is supported
     static bool sslWarningOnce = true;
@@ -10,11 +13,13 @@ bool WebScraper::EnqueueGetRequest(QString uniqueEequestId, QString requestUrl)
         qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
     }
 
-    this->Task(uniqueEequestId, requestUrl);
+    // Add record to queue to be execute by the threads pool
+
+    this->Task(uniqueRequestId, requestUrl);
     return true;
 }
 
-HttpResponse WebScraper::HttpGet(QString url_str, QMap<QString, QString> *AdditionalHeaders)
+HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> *AdditionalHeaders)
 {
     HttpResponse response;
     QNetworkAccessManager manager;
@@ -51,7 +56,7 @@ HttpResponse WebScraper::HttpGet(QString url_str, QMap<QString, QString> *Additi
         return response;
     }
 
-    response.Code = statusCode.toInt();
+    response.Code = (qint16)statusCode.toInt();
     response.CodeDesc = ((!statusCode.isValid())?("Invalid HTTP code"):(reply->attribute( QNetworkRequest::HttpReasonPhraseAttribute ).toString()));
     if( response.CodeDesc.isEmpty() )
         response.CodeDesc = HttpStatus::reasonPhrase(response.Code);

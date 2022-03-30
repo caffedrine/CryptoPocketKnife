@@ -136,14 +136,12 @@ QString ParseCertOrCsrFromFileToHexStr(QString fileName)
     }
 }
 
-QStringList Utils_ExtractAllUrls(QString inputText)
+QStringList Utils_ExtractAllUrls(const QString& inputText)
 {   
     QStringList output;
 
-    QRegularExpression re(
-                "(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])"
-
-                );
+    // https://www.geeksforgeeks.org/check-if-an-url-is-valid-or-not-using-regular-expression/
+    QRegularExpression re("((http|https)://)[a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)");
 
     re.setPatternOptions(QRegularExpression::MultilineOption | QRegularExpression::DotMatchesEverythingOption | QRegularExpression::CaseInsensitiveOption);
 
