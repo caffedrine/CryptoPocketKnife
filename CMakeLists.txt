@@ -29,7 +29,7 @@ file(GLOB_RECURSE AES_SRC "thirdparty/tiny-AES-c/aes.c")
 include_directories("thirdparty/hashes")
 file(GLOB_RECURSE HASHES_SRC "thirdparty/hashes/*.c")
 
-###################################### Include recursicely all the sources ##################################
+###################################### Include recursively all the sources ##################################
 file(GLOB_RECURSE Proj_SOURCES "src/*.c" "src/*.cpp")
 file(GLOB_RECURSE Proj_HEADERS "src/*.h" "src/*.hpp" "ui/*.h")
 file(GLOB_RECURSE Proj_UIS     "ui/*.ui" "ui/*.cpp")

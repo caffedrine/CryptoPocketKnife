@@ -120,7 +120,7 @@ void Web::webScraper_OnRequestError(const QString &requestId, const QString &req
 {
     //dbgln << "[HTTP GET FAILED] [" << errorDescription << "] " << requestId << ". " << requestUrl;
 
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText(response.errorDescription);
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText(response.AppErrorDetected?response.AppErrorDesc:response.NetworkErrorDescription);
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setIcon(QIcon(":/img/fail.png"));
     // Set host IP
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setText(response.HostIp);
@@ -159,14 +159,17 @@ void Web::on_pushButton_WebScraper_StartDownload_clicked()
         this->ui->tableWidget_WebScraper->item(i, 3)->setText("");
     }
 
-    for (int i = 0; i < rows; i++)
+    // Add record to queue to be executed by the threads in pool
+    auto lam = [this, rows]()
     {
-        QString url = this->WebScraper_getFullUrlFromTable(i);
-        if(!WebScraper::instance().EnqueueGetRequest(QString::number(i), url))
+        for (int i = 0; i < rows; i++)
         {
-            qDebug() << "Failed to queue GET request: " << url;
+            QString url = this->WebScraper_getFullUrlFromTable(i);
+            WebScraper::instance().EnqueueGetRequest(QString::number(i), url);
         }
-    }
+    };
+
+    lam();
 }
 
 void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos)
@@ -215,10 +218,7 @@ void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos
     });
 
     connect(&Item_Retest, &QAction::triggered, this, [row, &rowUrl]() {
-        if(!WebScraper::instance().EnqueueGetRequest(QString::number(row), rowUrl))
-        {
-            qDebug() << "Failed to queue GET request: " << rowUrl;
-        }
+        WebScraper::instance().EnqueueGetRequest(QString::number(row), rowUrl);
     });
 
     menu.exec(ui->tableWidget_WebScraper->viewport()->mapToGlobal(pos));

@@ -8,18 +8,22 @@
 #include <QtGlobal>
 #include <QSslSocket>
 #include <QHostInfo>
-#include <QRunnable>
-#include <QThread>
+#include <QThreadPool>
+#include <utility>
 
 #include "Singleton.h"
 #include "HttpStatusCodes.h"
 #include "AdvancedTableWidget.h"
 
+/* */
 class HttpResponse
 {
 public:
+    bool AppErrorDetected = false;
+    QString AppErrorDesc = "";
+
     bool NetworkErrorDetected = false;
-    QString errorDescription = "";
+    QString NetworkErrorDescription = "";
 
     qint16 Code;
     QString CodeDesc;
@@ -29,33 +33,47 @@ public:
     QString HostIp;
 };
 
-class WebScraper: public QObject, public Singleton<WebScraper>
+/* */
+class WebScraper : public QObject, public Singleton<WebScraper>
 {
-        Q_OBJECT
-    public:
-        bool EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl);
-        static HttpResponse HttpGet(const QString &url, QMap<QString, QString> *AdditionalHeaders = nullptr);
+Q_OBJECT
+public:
+    static const int MAX_THREADS = 5;
 
-    private slots:
+    bool EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl);
+    static HttpResponse HttpGet(const QString &url, QMap<QString, QString> *AdditionalHeaders = nullptr);
 
-    signals:
-        void OnRequestStarted(const QString &requestId, const QString &requestUrl);
-        void OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
-        void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
+private slots:
 
-    private:
-        void Task(QString uniqueRequestId, QString requestUrl);
+signals:
+    void OnRequestStarted(const QString &requestId, const QString &requestUrl);
+    void OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
+    void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
 
+private:
+    QThreadPool *threadsPool;
+
+    void OnContructorCalled() override;
+    void Task(const QString& uniqueRequestId, const QString& requestUrl);
 };
 
+/* */
 class WebScraperJob : public QRunnable
 {
 public:
+    WebScraperJob(QString uniqueRequestId, QString requestUrl): uniqueRequestId(std::move(uniqueRequestId)), requestUrl(std::move(requestUrl))
+    {
+        //this->setAutoDelete(false);
+    };
 
-protected:
     void run() override
     {
+        qDebug() << "Shit done from adifferent thread!";
     }
+
+private:
+    QString uniqueRequestId;
+    QString requestUrl;
 };
 
 #endif // WEBSCRAPER_H

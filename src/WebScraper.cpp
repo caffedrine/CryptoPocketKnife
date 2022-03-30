@@ -3,6 +3,11 @@
 #include <QFuture>
 #include <QtConcurrent>
 
+void WebScraper::OnContructorCalled()
+{
+    QThreadPool::globalInstance()->setMaxThreadCount(WebScraper::MAX_THREADS);
+}
+
 bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl)
 {
     // Check if openssl is supported
@@ -13,9 +18,21 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
     }
 
-    // Add record to queue to be execute by the threads pool
+    // Add record to queue to be executed by the threads in pool
+    auto lam = [this, uniqueRequestId, requestUrl]()
+    {
+        this->Task(uniqueRequestId, requestUrl);
+    };
 
-    this->Task(uniqueRequestId, requestUrl);
+    if(!QThreadPool::globalInstance()->tryStart(lam))
+    {
+        HttpResponse response;
+        response.AppErrorDetected = true;
+        response.AppErrorDesc = "No threads available";
+
+        emit this->OnRequestError(uniqueRequestId, requestUrl, response);
+        return false;
+    }
     return true;
 }
 
@@ -52,7 +69,7 @@ HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> 
     if( reply->error() && !statusCode.isValid() )
     {
         response.NetworkErrorDetected = true;
-        response.errorDescription = "ERR " + QString::number(reply->error()) + ": " + reply->errorString();
+        response.NetworkErrorDescription = "ERR " + QString::number(reply->error()) + ": " + reply->errorString();
         return response;
     }
 
@@ -71,17 +88,17 @@ HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> 
     return response;
 }
 
-void WebScraper::Task(QString uniqueRequestId, QString requestUrl)
+void WebScraper::Task(const QString& uniqueRequestId, const QString& requestUrl)
 {
-   emit OnRequestStarted(uniqueRequestId, requestUrl);
+   emit this->OnRequestStarted(uniqueRequestId, requestUrl);
    HttpResponse response = WebScraper::HttpGet(requestUrl);
 
-   if( response.NetworkErrorDetected )
+   if( response.NetworkErrorDetected || response.AppErrorDetected )
    {
-       emit OnRequestError(uniqueRequestId, requestUrl, response);
+       emit this->OnRequestError(uniqueRequestId, requestUrl, response);
    }
    else
    {
-       emit OnRequestFinished(uniqueRequestId, requestUrl, response);
+       emit this->OnRequestFinished(uniqueRequestId, requestUrl, response);
    }
 }
