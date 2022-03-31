@@ -51,7 +51,7 @@ signals:
     void OnRequestStarted(const QString &requestId, const QString &requestUrl);
     void OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
     void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
-
+    void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
     QThreadPool *threadsPool = nullptr;
 

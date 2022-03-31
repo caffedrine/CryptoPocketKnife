@@ -19,6 +19,7 @@ Web::Web(QWidget *parent) :
     connect(&WebScraper::instance(), SIGNAL( OnRequestStarted(const QString &, const QString &) ), this, SLOT(webScraper_OnRequestStarted(const QString &, const QString &)) );
     connect(&WebScraper::instance(), SIGNAL( OnRequestError(const QString &, const QString &, const HttpResponse &) ), this, SLOT(webScraper_OnRequestError(const QString &, const QString &, const HttpResponse &)) );
     connect(&WebScraper::instance(), SIGNAL( OnRequestFinished(const QString &, const QString &, const HttpResponse &) ), this, SLOT(webScraper_OnRequestFinished(const QString &, const QString &, const HttpResponse &)) );
+    connect(&WebScraper::instance(), SIGNAL( AvailableWorkersChanged(int, int) ), this, SLOT(webScraper_OnAvailableWorkersChanged(int, int)) );
 }
 
 Web::~Web()
@@ -177,12 +178,11 @@ void Web::on_pushButton_WebScraper_StartDownload_clicked()
         int i = 0;
         while( i < rows )
         {
-            QThread::msleep(1);
-            if( this->CancelRequests )
+            QThread::msleep(5);
+            if (this->CancelRequests)
                 break;
-            if( WebScraper::instance().AvailableWorkers() <= 0 )
+            if (WebScraper::instance().AvailableWorkers() <= 0)
                 continue;
-
             WebScraper::instance().EnqueueGetRequest(QString::number(i), this->WebScraper_getFullUrlFromTable(i));
             i++;
         }
@@ -250,4 +250,9 @@ void Web::on_pushButton_WebScraping_StretchCols_clicked()
     this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 
     //this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+}
+
+void Web::webScraper_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
+{
+    this->ui->label_ActiveWorkers->setText("Active workers: " + QString::number(activeWorkers));
 }

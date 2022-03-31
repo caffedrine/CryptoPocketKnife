@@ -5,8 +5,9 @@
 
 void WebScraper::OnContructorCalled()
 {
-//    this->threadsPool.setMaxThreadCount(WebScraper::MAX_THREADS);
-//    qDebug() << this->threadsPool.maxThreadCount();
+    // This does not get called? :(
+    this->threadsPool = new QThreadPool(this);
+    this->threadsPool->setMaxThreadCount(WebScraper::MAX_THREADS);
 
 qDebug() << "Contructor called!";
 }
@@ -21,7 +22,7 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
     }
 
-    // Check if threadspool was created
+    // Check if threads pool was created
     if( !this->threadsPool )
     {
         this->threadsPool = new QThreadPool(this);
@@ -31,7 +32,9 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, uniqueRequestId, requestUrl]()
     {
+        emit(this->AvailableWorkersChanged(this->AvailableWorkers(), this->ActiveWorkers())); // substract current worker which will be disposed
         this->Task(uniqueRequestId, requestUrl);
+        emit(this->AvailableWorkersChanged(this->AvailableWorkers(), this->ActiveWorkers()-1)); // substract current worker which will be disposed
     };
 
     if(!this->threadsPool->tryStart(lam))
@@ -52,6 +55,14 @@ int WebScraper::AvailableWorkers()
         return WebScraper::MAX_THREADS;
 
     return (this->threadsPool->maxThreadCount() - this->threadsPool->activeThreadCount());
+}
+
+int WebScraper::ActiveWorkers()
+{
+    if( !this->threadsPool )
+        return 0;
+
+    return this->threadsPool->activeThreadCount();
 }
 
 HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> *AdditionalHeaders)
@@ -119,12 +130,4 @@ void WebScraper::Task(const QString& uniqueRequestId, const QString& requestUrl)
    {
        emit this->OnRequestFinished(uniqueRequestId, requestUrl, response);
    }
-}
-
-int WebScraper::ActiveWorkers()
-{
-    if( !this->threadsPool )
-        return 0;
-
-    return this->threadsPool->activeThreadCount();
 }
