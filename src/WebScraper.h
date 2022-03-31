@@ -38,8 +38,10 @@ class WebScraper : public QObject, public Singleton<WebScraper>
 {
 Q_OBJECT
 public:
-    static const int MAX_THREADS = 5;
+    static const int MAX_THREADS = 20;
 
+    int AvailableWorkers();
+    int ActiveWorkers();
     bool EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl);
     static HttpResponse HttpGet(const QString &url, QMap<QString, QString> *AdditionalHeaders = nullptr);
 
@@ -51,29 +53,9 @@ signals:
     void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
 
 private:
-    QThreadPool *threadsPool;
+    QThreadPool *threadsPool = nullptr;
 
     void OnContructorCalled() override;
     void Task(const QString& uniqueRequestId, const QString& requestUrl);
 };
-
-/* */
-class WebScraperJob : public QRunnable
-{
-public:
-    WebScraperJob(QString uniqueRequestId, QString requestUrl): uniqueRequestId(std::move(uniqueRequestId)), requestUrl(std::move(requestUrl))
-    {
-        //this->setAutoDelete(false);
-    };
-
-    void run() override
-    {
-        qDebug() << "Shit done from adifferent thread!";
-    }
-
-private:
-    QString uniqueRequestId;
-    QString requestUrl;
-};
-
 #endif // WEBSCRAPER_H

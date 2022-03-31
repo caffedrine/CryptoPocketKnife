@@ -101,12 +101,17 @@ void Web::tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int fi
 
 void Web::on_pushButton_WebScraping_Clear_clicked()
 {
+    this->CancelRequests = true;
+
+    if( WebScraper::instance().ActiveWorkers()  > 0 )
+    {
+        qDebug() << "Cannot clear while active threads: " << WebScraper::instance().ActiveWorkers();
+        return;
+    }
+
     this->ui->tableWidget_WebScraper->model()->removeRows(0,  this->ui->tableWidget_WebScraper->rowCount());
-}
-
-void Web::on_pushButton_WebScraper_StopDownload_clicked()
-{
-
+    this->WebScraperResponseHeaders.clear();
+    this->WebScraperResponseData.clear();
 }
 
 void Web::webScraper_OnRequestStarted(const QString &requestId, const QString &requestUrl)
@@ -147,6 +152,11 @@ void Web::webScraper_OnRequestFinished(const QString &requestId, const QString &
 
 }
 
+void Web::on_pushButton_WebScraper_StopDownload_clicked()
+{
+    this->CancelRequests = true;
+}
+
 void Web::on_pushButton_WebScraper_StartDownload_clicked()
 {
     int rows = this->ui->tableWidget_WebScraper->model()->rowCount();
@@ -159,17 +169,27 @@ void Web::on_pushButton_WebScraper_StartDownload_clicked()
         this->ui->tableWidget_WebScraper->item(i, 3)->setText("");
     }
 
+    this->CancelRequests = false;
+
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, rows]()
     {
-        for (int i = 0; i < rows; i++)
+        int i = 0;
+        while( i < rows )
         {
-            QString url = this->WebScraper_getFullUrlFromTable(i);
-            WebScraper::instance().EnqueueGetRequest(QString::number(i), url);
+            QThread::msleep(1);
+            if( this->CancelRequests )
+                break;
+            if( WebScraper::instance().AvailableWorkers() <= 0 )
+                continue;
+
+            WebScraper::instance().EnqueueGetRequest(QString::number(i), this->WebScraper_getFullUrlFromTable(i));
+            i++;
         }
     };
 
-    lam();
+    // Start queing from a separate thread and feed as workers are available
+    QFuture<void> future = QtConcurrent::run( lam);
 }
 
 void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos)

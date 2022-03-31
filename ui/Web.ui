@@ -181,4 +181,7 @@
  </customwidgets>
  <resources/>
  <connections/>
+ <slots>
+  <slot>on_pushButton_WebScraper_StopDownload_clicked()</slot>
+ </slots>
 </ui>

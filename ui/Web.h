@@ -15,6 +15,9 @@
 #include <QMessageBox>
 #include <QMessageBox>
 #include <QPlainTextEdit>
+#include <QThread>
+#include <QFuture>
+#include <QtConcurrent>
 
 #include "WebScraper.h"
 #include "Utils/utils.h"
@@ -55,6 +58,8 @@ private slots:
 
 private:
     Ui::Web *ui;
+
+    bool CancelRequests = false;
     QMap<QString, QString> WebScraperResponseHeaders;
     QMap<QString, QString> WebScraperResponseData;
 };

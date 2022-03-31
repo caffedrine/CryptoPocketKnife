@@ -5,7 +5,10 @@
 
 void WebScraper::OnContructorCalled()
 {
-    QThreadPool::globalInstance()->setMaxThreadCount(WebScraper::MAX_THREADS);
+//    this->threadsPool.setMaxThreadCount(WebScraper::MAX_THREADS);
+//    qDebug() << this->threadsPool.maxThreadCount();
+
+qDebug() << "Contructor called!";
 }
 
 bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl)
@@ -18,13 +21,20 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
     }
 
+    // Check if threadspool was created
+    if( !this->threadsPool )
+    {
+        this->threadsPool = new QThreadPool(this);
+        this->threadsPool->setMaxThreadCount(WebScraper::MAX_THREADS);
+    }
+
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, uniqueRequestId, requestUrl]()
     {
         this->Task(uniqueRequestId, requestUrl);
     };
 
-    if(!QThreadPool::globalInstance()->tryStart(lam))
+    if(!this->threadsPool->tryStart(lam))
     {
         HttpResponse response;
         response.AppErrorDetected = true;
@@ -34,6 +44,14 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         return false;
     }
     return true;
+}
+
+int WebScraper::AvailableWorkers()
+{
+    if( !this->threadsPool )
+        return WebScraper::MAX_THREADS;
+
+    return (this->threadsPool->maxThreadCount() - this->threadsPool->activeThreadCount());
 }
 
 HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> *AdditionalHeaders)
@@ -101,4 +119,12 @@ void WebScraper::Task(const QString& uniqueRequestId, const QString& requestUrl)
    {
        emit this->OnRequestFinished(uniqueRequestId, requestUrl, response);
    }
+}
+
+int WebScraper::ActiveWorkers()
+{
+    if( !this->threadsPool )
+        return 0;
+
+    return this->threadsPool->activeThreadCount();
 }
