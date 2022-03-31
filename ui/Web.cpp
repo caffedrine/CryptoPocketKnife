@@ -1,8 +1,7 @@
 #include "Web.h"
 #include "ui_Web.h"
 
-Web::Web(QWidget *parent) :
-        QWidget(parent), ui(new Ui::Web)
+Web::Web(QWidget *parent): QWidget(parent), ui(new Ui::Web)
 {
     ui->setupUi(this);
 
@@ -36,7 +35,7 @@ QString Web::WebScraper_getFullUrlFromTable(int row)
     return (!protocol.isEmpty() ? protocol + "://" : "") + domain + (!url.isEmpty() ? url : "");
 }
 
-void Web::tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRowsIndexesList)
+void Web::tableWidget_WebScraper_OnRowsCopy(const QModelIndexList& selectedRowsIndexesList)
 {
     QString text;
     for (int i = 0; i < selectedRowsIndexesList.count(); i++)
@@ -47,7 +46,7 @@ void Web::tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRowsIndexesL
     QApplication::clipboard()->setText(text);
 }
 
-void Web::tableWidget_WebScraper_OnTextPasted(QString text)
+void Web::tableWidget_WebScraper_OnTextPasted(const QString& text)
 {
     auto urls = Utils_ExtractAllUrls(text);
 

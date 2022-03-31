@@ -38,12 +38,12 @@ Q_OBJECT
 public:
     explicit Web(QWidget *parent = nullptr);
     ~Web() override;
-    void setCurrentIndex(int index) { return; };
+    void setCurrentIndex(int index) {};
 
 private slots:
     QString WebScraper_getFullUrlFromTable(int row);
-    void tableWidget_WebScraper_OnRowsCopy(QModelIndexList selectedRows);
-    void tableWidget_WebScraper_OnTextPasted(QString text);
+    void tableWidget_WebScraper_OnRowsCopy(const QModelIndexList& selectedRows);
+    void tableWidget_WebScraper_OnTextPasted(const QString& text);
     void tableWidget_WebScraper_OnRowsInserted(const QModelIndex &parent, int first, int last);
     void tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &parent, int first, int last);
     void tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int first, int last);
