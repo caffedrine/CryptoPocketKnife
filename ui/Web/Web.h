@@ -20,9 +20,9 @@
 #include <QtConcurrent>
 
 #include "WebScraper.h"
-#include "Utils/utils.h"
-#include "Utils/LambdaEventFilter.h"
-#include "Extensions/AdvancedTableWidget.h"
+#include "utils.h"
+#include "LambdaEventFilter.h"
+#include "AdvancedTableWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

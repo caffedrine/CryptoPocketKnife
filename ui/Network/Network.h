@@ -1,7 +1,6 @@
 /*  
  *  File      : Network.h
  *  Created on: 2022-04-01
- *      Author: uib74520
  */
 
 #ifndef CRYPTOPOCKETKNIFE_NETWORK_H

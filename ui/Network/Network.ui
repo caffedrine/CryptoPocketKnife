@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>753</width>
+    <width>939</width>
     <height>523</height>
    </rect>
   </property>
@@ -39,7 +39,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Scan profile</string>
+          <string>Ports scan profile</string>
          </property>
         </widget>
        </item>
@@ -67,6 +67,16 @@
          </column>
          <column>
           <property name="text">
+           <string>Timestamp</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
            <string>Availability</string>
           </property>
           <property name="font">
@@ -78,6 +88,46 @@
          <column>
           <property name="text">
            <string>Ports open</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Device type</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Vendor name</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Device name</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>nMap Scripts Outputs</string>
           </property>
           <property name="font">
            <font>
