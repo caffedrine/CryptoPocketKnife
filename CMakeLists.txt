@@ -7,12 +7,12 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_definitions(-DQT_ASSUME_STDERR_HAS_CONSOLE=1)
 
-find_package(QT NAMES Qt6)
+find_package(QT NAMES Qt6 Qt5)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent REQUIRED)
 
 # Include EdDSA lib and it's configuration
@@ -52,9 +52,9 @@ set(ALL_SOURCES ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES
 IF (WIN32)
     # Icon How-To: https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/res/win.rc")
-    qt_add_executable(${PROJECT_NAME} WIN32 ${ALL_SOURCES} ${APP_ICON_RESOURCE_WINDOWS})
+    add_executable(${PROJECT_NAME} WIN32 ${ALL_SOURCES} ${APP_ICON_RESOURCE_WINDOWS})
 ELSE()
-    qt_add_executable(${PROJECT_NAME} ${ALL_SOURCES})
+    add_executable(${PROJECT_NAME} ${ALL_SOURCES})
 ENDIF()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
