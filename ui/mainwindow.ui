@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -421,7 +421,7 @@
                   <string>77 07 6D 0A 73 18 A5 7D 3C 16 C1 72 51 B2 66 45 DF 4C 2F 87 EB C0 99 2A B1 77 FB A5 1D B9 2C 2A</string>
                  </property>
                  <property name="cursorPosition">
-                  <number>0</number>
+                  <number>95</number>
                  </property>
                  <property name="clearButtonEnabled">
                   <bool>true</bool>
@@ -1549,7 +1549,7 @@ p, li { white-space: pre-wrap; }
             <number>0</number>
            </property>
            <item row="0" column="0">
-            <widget class="Web" name="tabWidget">
+            <widget class="Web" name="tabWidget_Web">
              <property name="currentIndex">
               <number>-1</number>
              </property>
@@ -1578,17 +1578,10 @@ p, li { white-space: pre-wrap; }
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QTabWidget" name="tabWidget_2">
-          <widget class="QWidget" name="network_TabsWidget">
-           <attribute name="title">
-            <string>Tab 1</string>
-           </attribute>
-          </widget>
-          <widget class="QWidget" name="tab_3">
-           <attribute name="title">
-            <string>Tab 2</string>
-           </attribute>
-          </widget>
+         <widget class="Network" name="tabWidget_Network">
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
          </widget>
         </item>
        </layout>
@@ -1779,6 +1772,12 @@ p, li { white-space: pre-wrap; }
    <class>Web</class>
    <extends>QTabWidget</extends>
    <header>Web.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Network</class>
+   <extends>QTabWidget</extends>
+   <header>Network.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
