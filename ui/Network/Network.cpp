@@ -12,3 +12,9 @@ Network::~Network()
     delete ui;
 }
 
+void Network::onButtonClicked_ManageScanProfiles()
+{
+    PortsScanProfiles scanProfilesUi(nullptr);
+    scanProfilesUi.exec();
+}
+

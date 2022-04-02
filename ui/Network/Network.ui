@@ -202,5 +202,25 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Network</receiver>
+   <slot>onButtonClicked_ManageScanProfiles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>835</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>764</x>
+     <y>-17</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>onButtonClicked_ManageScanProfiles()</slot>
+ </slots>
 </ui>

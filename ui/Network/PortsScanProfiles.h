@@ -7,6 +7,7 @@
 #define CRYPTOPOCKETKNIFE_PORTSSCANPROFILES_H
 
 #include <QWidget>
+#include <QDialog>
 
 
 QT_BEGIN_NAMESPACE
@@ -16,7 +17,7 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
-class PortsScanProfiles : public QWidget
+class PortsScanProfiles: public QDialog
 {
 Q_OBJECT
 

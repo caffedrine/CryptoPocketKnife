@@ -8,6 +8,7 @@
 
 #include <QWidget>
 
+#include "PortsScanProfiles.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -24,6 +25,8 @@ public:
     explicit Network(QWidget *parent = nullptr);
     ~Network() override;
     void setCurrentIndex(int idx) {};
+public slots:
+    void onButtonClicked_ManageScanProfiles();
 
 private:
     Ui::Network *ui;
