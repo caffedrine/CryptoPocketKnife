@@ -6,10 +6,11 @@
 
 #include "PortsScanBuiltInProfiles.h"
 
-class PortsScanProfilesManager: public QObject, public Singleton<PortsScanProfilesManager>
+class PortsScanProfilesManager: protected QObject, public Singleton<PortsScanProfilesManager>
 {
 public:
-
+    QList<PortsScanProfileType> GetAll();
+    PortsScanProfileType GetByName(QString profile_name);
 
 protected:
 

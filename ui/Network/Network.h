@@ -9,6 +9,7 @@
 #include <QWidget>
 
 #include "PortsScanProfiles.h"
+#include "PortsScanProfilesManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

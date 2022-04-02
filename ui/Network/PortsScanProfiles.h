@@ -8,7 +8,9 @@
 
 #include <QWidget>
 #include <QDialog>
+#include <QListWidgetItem>
 
+#include "PortsScanProfilesManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -23,8 +25,10 @@ Q_OBJECT
 
 public:
     explicit PortsScanProfiles(QWidget *parent = nullptr);
-
     ~PortsScanProfiles() override;
+
+public slots:
+    void onSelectedItemChanged_AvailableProfiles();
 
 private:
     Ui::PortsScanProfiles *ui;

@@ -16,13 +16,13 @@ public:
 class PortsScanTargetType
 {
 public:
-    QString DeviceType;
-    QString DeviceName;
+    QString TargetType;
+    QString TargetName;
     QString VendorName;
     QList<quint16> TcpPorts;
     QList<quint16> UdpPorts;
     QStringList ShodanDorks;
-    QList<QMap<quint16, QString>> NmapScripts;
+    QString nMapArguments;
     QString Description;
 
     bool ParseTargetFromString(QString input)
@@ -35,8 +35,8 @@ public:
         }
 
         // Parse category, device and vendor info
-        this->DeviceType = elements[0];
-        this->DeviceName = elements[1];
+        this->TargetType = elements[0];
+        this->TargetName = elements[1];
         this->VendorName = elements[2];
 
         // Parse TCP ports
@@ -48,11 +48,13 @@ public:
         // Parse shodan dorks
         this->ShodanDorks = this->ParseShodanDorks(elements[5]);
 
-        // Parse nmap scripts to be used during scan
-        this->NmapScripts = this->ParseNmapScripts(elements[6]);
+        // nMap arguments to be used during scan
+        this->nMapArguments = elements[6];
 
         // Parse description
         this->Description = elements[7];
+
+        return true;
     }
 
     QString Serialize()
@@ -62,12 +64,22 @@ public:
 
     QString ToString()
     {
-        return "Device type: " + this->DeviceType
-        + ", Device name: " + this->DeviceName
+        return "Target type: " + this->TargetType
+        + ", Target name: " + this->TargetName
         + ", Vendor name: " + this->VendorName
 
         + ", Description: " + this->Description
         ;
+    }
+
+    QString GetTcpPortsString()
+    {
+        return GetPortsString(true);
+    }
+
+    QString GetUdpPortsString()
+    {
+        return GetPortsString(false);
     }
 
 private:
@@ -129,12 +141,22 @@ private:
         return output;
     }
 
-    QList<QMap<quint16, QString>> ParseNmapScripts(QString input)
+    QString GetPortsString(bool tcp)
     {
-        QList<QMap<quint16, QString>> output;
+        QString output = "";
+        QList<quint16> *ports = (tcp ? &this->TcpPorts : &this->UdpPorts);
+        for( const quint16 &port: *ports )
+        {
+            output += QString::number(port) + ",";
+        }
+        if( ports->count() > 0 )
+        {
+            output.chop(1);
+        }
 
         return output;
     }
+
 };
 
 #endif // _PORTSCANTARGETTYPE_H_
