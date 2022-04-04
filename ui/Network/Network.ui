@@ -91,7 +91,17 @@
          </column>
          <column>
           <property name="text">
-           <string>Ports open</string>
+           <string>TCP Ports Open</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UDP Ports Open</string>
           </property>
           <property name="font">
            <font>

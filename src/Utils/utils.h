@@ -25,4 +25,10 @@ QString ParseCertOrCsrFromFileToHexStr(QString fileName);
 QStringList Utils_ExtractAllUrls(const QString& inputText);
 QStringList Utils_ExtractAllHosts(const QString &input);
 
+template <class T>
+static QString join(const QList<T> &list,
+                    const QString &separator,
+                    const std::function< QString (const typename QList<T>::value_type &) > toStringFunction);
+
+
 #endif // UTILS_H

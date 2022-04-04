@@ -13,13 +13,12 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     }
 
     this->ui->tableWidget_PortsScanner->setContextMenuPolicy(Qt::CustomContextMenu);
-
+//    QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(PortsScanner_tableWidget_customContextMenuRequested(QPoint)));
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL( OnRowsCopy(QModelIndexList) ), this, SLOT(PortsScanner_tableWidget_OnRowsCopy(QModelIndexList)) );
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL( OnTextPasted(QString) ), this, SLOT(PortsScanner_tableWidget_OnTextPasted(QString)) );
     QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsInserted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsAboutToBeRemoved(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsAboutToBeDeleted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsRemoved(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsDeleted(const QModelIndex &, int, int)) );
-
 }
 
 Network::~Network()
@@ -191,14 +190,14 @@ void Network::PortsScanner_tableWidget_OnTextPasted(const QString &text)
 
     foreach(const QString &host, hosts)
         {
-            //qDebug() << "Vaild URL: " << url.scheme() << url.host() << url.path() << url.query() << url.fragment();
             const int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
-            this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
-            this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
 
-            // Cleaer the other cols
-            for(   int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount() - 1); i++)
-                this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
+            this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
+//            this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
+
+//            // Clear the other cols
+//            for( int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
+//                this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
         }
 }
 

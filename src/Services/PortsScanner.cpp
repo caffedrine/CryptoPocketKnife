@@ -35,27 +35,55 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
 
 void PortsScanner::Task(const QString &host, const QString &scanProfileName)
 {
+
+    // Read scan profile
+    PortsScanProfileType scanProfile = PortsScanProfilesManager::instance().GetByName(scanProfileName);
+
+    // Build nMap scan request
+    PostsScanRequestNMAP scanRequest = this->BuildNmapScanRequest(scanProfile);
+
+    // Build nMap command string
+    QString scanRequestCommandString = BuildNmapScanCommand(scanRequest);
+
+    qDebug() << scanRequestCommandString;
+    qDebug() << scanRequestCommandString;
+
+    return;
+
+    // Emit a notification when scan started
     emit this->OnRequestStarted(host);
 
-    // Build scan request based on selected profile
-    QString cmd = "nmap ";
-    // Add ports to be scanned
+    // Run nMap
+    PortsScanResult output = this->RunNmapScan(scanRequestCommandString);
 
-    PortsScanResult result;//implement here
-
-    if(result.NetworkErrorDetected || result.AppErrorDetected )
+    if( !output.OpenTcpPorts.empty() || !output.OpenUdpPorts.empty())
     {
-        emit this->OnRequestError(host, result);
+        output.DeviceType = scanProfile.DeviceCategoryIfProfileMatch;
+    }
+
+    if(output.NetworkErrorDetected || output.AppErrorDetected )
+    {
+        emit this->OnRequestError(host, output);
     }
     else
     {
-        emit this->OnRequestFinished(host, result);
+        emit this->OnRequestFinished(host, output);
     }
 }
 
-void PortsScanner::StartNmapScan(const PostsScanRequestNMAP &request)
+PostsScanRequestNMAP PortsScanner::BuildNmapScanRequest(const PortsScanProfileType &profile)
 {
+    return PostsScanRequestNMAP();
+}
 
+QString PortsScanner::BuildNmapScanCommand(const PostsScanRequestNMAP &request)
+{
+    return QString();
+}
+
+PortsScanResult PortsScanner::RunNmapScan(QString nMapCommand)
+{
+    return PortsScanResult();
 }
 
 

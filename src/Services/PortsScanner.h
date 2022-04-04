@@ -60,7 +60,11 @@ signals:
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
     void Task(const QString& host, const QString &scanProfileName);
-    void StartNmapScan(const PostsScanRequestNMAP &request);
+    PostsScanRequestNMAP BuildNmapScanRequest(const PortsScanProfileType &profile);
+    QString BuildNmapScanCommand(const PostsScanRequestNMAP &request);
+    PortsScanResult RunNmapScan(QString nMapCommand);
+
+
 };
 
 #endif // _PORTSSCANNER_H_

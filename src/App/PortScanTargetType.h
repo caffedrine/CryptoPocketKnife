@@ -67,6 +67,8 @@ public:
         return "Target type: " + this->TargetType
         + ", Target name: " + this->TargetName
         + ", Vendor name: " + this->VendorName
+        + ", TCP: " + this->GetPortsString(true),
+        + ", UDP: " + this->GetPortsString(false),
 
         + ", Description: " + this->Description
         ;

@@ -184,6 +184,7 @@ QStringList Utils_ExtractAllHosts(const QString &input)
 {
     QStringList output;
 
+    output.append(input.split("\n"));
 
     return output;
 }

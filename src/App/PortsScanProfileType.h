@@ -20,6 +20,7 @@ public:
     ~PortsScanProfileType()= default;
 
     QString ProfileName;
+    QString DeviceCategoryIfProfileMatch = "ICS";
     bool BuiltInProfile;
 
     QList<PortsScanTargetType> Targets;
