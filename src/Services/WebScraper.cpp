@@ -3,9 +3,9 @@
 #include <QFuture>
 #include <QtConcurrent>
 
-void WebScraper::OnContructorCalled()
+WebScraper::WebScraper()
 {
-    this->ThreadsPoolPtr()->setMaxThreadCount(WebScraper::MAX_THREADS);
+    this->ThreadsPoolPtr()->setMaxThreadCount(MAX_THREADS);
 }
 
 bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl)

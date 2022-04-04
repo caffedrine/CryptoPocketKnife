@@ -14,15 +14,13 @@ Web::Web(QWidget *parent): QWidget(parent), ui(new Ui::Web)
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsInserted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsAboutToBeRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &, int, int)) );
-
-    connect(&WebScraper::instance(), SIGNAL( OnRequestStarted(const QString &, const QString &) ), this, SLOT(webScraper_OnRequestStarted(const QString &, const QString &)) );
-    connect(&WebScraper::instance(), SIGNAL( OnRequestError(const QString &, const QString &, const HttpResponse &) ), this, SLOT(webScraper_OnRequestError(const QString &, const QString &, const HttpResponse &)) );
-    connect(&WebScraper::instance(), SIGNAL( OnRequestFinished(const QString &, const QString &, const HttpResponse &) ), this, SLOT(webScraper_OnRequestFinished(const QString &, const QString &, const HttpResponse &)) );
-    connect(&WebScraper::instance(), SIGNAL( AvailableWorkersChanged(int, int) ), this, SLOT(webScraper_OnAvailableWorkersChanged(int, int)) );
 }
 
 Web::~Web()
 {
+    if( this->WebScrapperEngine )
+        delete this->WebScrapperEngine;
+
     delete ui;
 }
 
@@ -99,21 +97,6 @@ void Web::tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int fi
     this->ui->label_WebScraper_RecordsCount->setText("Records count: " + QString::number(this->ui->tableWidget_WebScraper->rowCount()));
 }
 
-void Web::on_pushButton_WebScraping_Clear_clicked()
-{
-    this->CancelRequests = true;
-
-    if(WebScraper::instance().ThreadsPoolPtr()->ActiveThreads() > 0 )
-    {
-        qDebug() << "Cannot clear while active threads: " << WebScraper::instance().ThreadsPoolPtr()->ActiveThreads();
-        return;
-    }
-
-    this->ui->tableWidget_WebScraper->model()->removeRows(0,  this->ui->tableWidget_WebScraper->rowCount());
-    this->WebScraperResponseHeaders.clear();
-    this->WebScraperResponseData.clear();
-}
-
 void Web::webScraper_OnRequestStarted(const QString &requestId, const QString &requestUrl)
 {
     //dbgln << "[HTTP GET START] " << requestId << ". " << requestUrl;
@@ -159,6 +142,8 @@ void Web::on_pushButton_WebScraper_StopDownload_clicked()
 
 void Web::on_pushButton_WebScraper_StartDownload_clicked()
 {
+    this->webScrapper_InitEngine();
+
     int rows = this->ui->tableWidget_WebScraper->model()->rowCount();
 
     // Set all statuses to PENDING and remove IPs
@@ -180,15 +165,35 @@ void Web::on_pushButton_WebScraper_StartDownload_clicked()
             QThread::msleep(5);
             if (this->CancelRequests)
                 break;
-            if (WebScraper::instance().ThreadsPoolPtr()->AvailableThreads() <= 0)
+            if (this->WebScrapperEngine->ThreadsPoolPtr()->AvailableThreads() <= 0)
                 continue;
-            WebScraper::instance().EnqueueGetRequest(QString::number(i), this->WebScraper_getFullUrlFromTable(i));
+            this->WebScrapperEngine->EnqueueGetRequest(QString::number(i), this->WebScraper_getFullUrlFromTable(i));
             i++;
         }
     };
 
     // Start queing from a separate thread and feed as workers are available
     QFuture<void> future = QtConcurrent::run( lam);
+}
+
+void Web::on_pushButton_WebScraping_Clear_clicked()
+{
+    this->CancelRequests = true;
+
+    if( !this->WebScrapperEngine )
+    {
+        return;
+    }
+
+    if(this->WebScrapperEngine->ThreadsPoolPtr()->ActiveThreads() > 0 )
+    {
+        qDebug() << "Cannot clear while active threads: " << this->WebScrapperEngine->ThreadsPoolPtr()->ActiveThreads();
+        return;
+    }
+
+    this->ui->tableWidget_WebScraper->model()->removeRows(0,  this->ui->tableWidget_WebScraper->rowCount());
+    this->WebScraperResponseHeaders.clear();
+    this->WebScraperResponseData.clear();
 }
 
 void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos)
@@ -236,8 +241,9 @@ void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos
 
     });
 
-    connect(&Item_Retest, &QAction::triggered, this, [row, &rowUrl]() {
-        WebScraper::instance().EnqueueGetRequest(QString::number(row), rowUrl);
+    connect(&Item_Retest, &QAction::triggered, this, [this, row, &rowUrl]() {
+        this->webScrapper_InitEngine();
+        this->WebScrapperEngine->EnqueueGetRequest(QString::number(row), rowUrl);
     });
 
     menu.exec(ui->tableWidget_WebScraper->viewport()->mapToGlobal(pos));
@@ -255,3 +261,16 @@ void Web::webScraper_OnAvailableWorkersChanged(int availableWorkers, int activeW
 {
     this->ui->label_ActiveWorkers->setText("Active workers: " + QString::number(activeWorkers));
 }
+
+void Web::webScrapper_InitEngine()
+{
+    if( !this->WebScrapperEngine )
+    {
+        this->WebScrapperEngine = new WebScraper();
+        connect(this->WebScrapperEngine, SIGNAL(OnRequestStarted(const QString &, const QString &)), this, SLOT(webScraper_OnRequestStarted(const QString &, const QString &)));
+        connect(this->WebScrapperEngine, SIGNAL(OnRequestError(const QString &, const QString &, const HttpResponse &)), this, SLOT(webScraper_OnRequestError(const QString &, const QString &, const HttpResponse &)));
+        connect(this->WebScrapperEngine, SIGNAL(OnRequestFinished(const QString &, const QString &, const HttpResponse &)), this, SLOT(webScraper_OnRequestFinished(const QString &, const QString &, const HttpResponse &)));
+        connect(this->WebScrapperEngine, SIGNAL(AvailableWorkersChanged(int, int)), this, SLOT(webScraper_OnAvailableWorkersChanged(int, int)));
+    }
+}
+

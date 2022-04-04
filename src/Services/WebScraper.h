@@ -35,11 +35,14 @@ public:
 };
 
 /* */
-class WebScraper: public QObject, public ThreadsPool, public Singleton<WebScraper>
+class WebScraper: public QObject, public ThreadsPool
 {
 Q_OBJECT
 public:
-    static const int MAX_THREADS = 2;
+    static const int MAX_THREADS = 25;
+
+    WebScraper();
+    ~WebScraper() = default;
 
     bool EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl);
     static HttpResponse HttpGet(const QString &url, QMap<QString, QString> *AdditionalHeaders = nullptr);
@@ -50,7 +53,6 @@ signals:
     void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
-    void OnContructorCalled() override;
     void Task(const QString& uniqueRequestId, const QString& requestUrl);
 };
 #endif // WEBSCRAPER_H

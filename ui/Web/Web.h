@@ -8,16 +8,12 @@
 #define CRYPTOPOCKETKNIFE_WEB_H
 
 #include <QWidget>
-#include <QtGlobal>
-#include <QMap>
 #include <QAction>
 #include <QMenu>
 #include <QMessageBox>
-#include <QMessageBox>
 #include <QPlainTextEdit>
-#include <QThread>
-#include <QFuture>
 #include <QtConcurrent>
+#include <QFuture>
 
 #include "WebScraper.h"
 #include "utils.h"
@@ -60,9 +56,12 @@ private slots:
 private:
     Ui::Web *ui;
 
+    WebScraper *WebScrapperEngine = nullptr;
     bool CancelRequests = false;
     QMap<QString, QString> WebScraperResponseHeaders;
     QMap<QString, QString> WebScraperResponseData;
+
+    void webScrapper_InitEngine();
 };
 
 

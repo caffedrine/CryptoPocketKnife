@@ -2,7 +2,7 @@
 
 PortsScanner::PortsScanner()
 {
-
+    this->ThreadsPoolPtr()->setMaxThreadCount(MAX_THREADS);
 }
 
 bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileName)
@@ -14,7 +14,6 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
         this->Task(host, scanProfileName);
         emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads()-1)); // substract current worker which will be disposed
     };
-
 
     if(!this->ThreadsPoolPtr()->tryStart(lam))
     {

@@ -31,7 +31,7 @@ class PortsScanner: public QObject, public ThreadsPool
 {
 Q_OBJECT
 public:
-    const int MAX_THREADS = 30;
+    const int MAX_THREADS = 25;
 
     PortsScanner();
     ~PortsScanner() = default;
