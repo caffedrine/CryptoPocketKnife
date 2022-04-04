@@ -39,9 +39,7 @@ class WebScraper: public QObject, public ThreadsPool
 {
 Q_OBJECT
 public:
-    static const int MAX_THREADS = 25;
-
-    WebScraper();
+    WebScraper(int max_threads_count);
     ~WebScraper() = default;
 
     bool EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl);

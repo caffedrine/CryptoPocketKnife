@@ -31,7 +31,7 @@ void PortsScanProfiles::onSelectedItemChanged_AvailableProfiles()
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, 1, new QTableWidgetItem(target.TargetName));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, 2, new QTableWidgetItem(target.VendorName));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, 3, new QTableWidgetItem(target.GetTcpPortsString()));
-        this->ui->tableWidget_ProfileTargets->setItem(currentRow, 4, new QTableWidgetItem(target.GetTcpPortsString()));
+        this->ui->tableWidget_ProfileTargets->setItem(currentRow, 4, new QTableWidgetItem(target.GetUdpPortsString()));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, 5, new QTableWidgetItem(target.ShodanDorks.join(',')));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, 6, new QTableWidgetItem(target.nMapArguments));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, 7, new QTableWidgetItem(target.Description));

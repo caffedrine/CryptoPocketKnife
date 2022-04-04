@@ -22,7 +22,7 @@ public:
 private:
     PortsScanProfileType GetProfile_PlainNmap()
     {
-        QString targets = "ANY;ANY;ANY;;;;-sC -sV -o;Scan default nMap ports";
+        QString targets = "ANY;ANY;ANY;;;;-sC -sV -O;Scan default nMap ports";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;

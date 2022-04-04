@@ -3,24 +3,24 @@
 #include <QFuture>
 #include <QtConcurrent>
 
-WebScraper::WebScraper()
+WebScraper::WebScraper(int max_threads_count)
 {
-    this->ThreadsPoolPtr()->setMaxThreadCount(MAX_THREADS);
+    if( !QSslSocket::supportsSsl() )
+    {
+        qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
+    }
+
+    if( max_threads_count <= 1 || max_threads_count >= 500 )
+    {
+        qDebug() << "Max threads count out of range for web scrapper";
+        return;
+    }
+
+    this->ThreadsPoolPtr()->setMaxThreadCount(max_threads_count);
 }
 
 bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl)
 {
-    // Check if openssl is supported
-    static bool sslWarningOnce = true;
-    if( !QSslSocket::supportsSsl() && sslWarningOnce )
-    {
-        sslWarningOnce = false;
-        qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
-    }
-
-    // Set maximum number of workers
-    this->ThreadsPoolPtr()->setMaxThreadCount(WebScraper::MAX_THREADS);
-
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, uniqueRequestId, requestUrl]()
     {

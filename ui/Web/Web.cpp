@@ -54,7 +54,7 @@ void Web::tableWidget_WebScraper_OnTextPasted(const QString& text)
         url.setQuery(url.query(QUrl::FullyDecoded), QUrl::DecodedMode);
         if (url.isValid())
         {
-            //qDebug() << "Vaild URL: " << url.scheme() << url.host() << url.path() << url.query() << url.fragment();
+            //qDebug() << "Valid URL: " << url.scheme() << url.host() << url.path() << url.query() << url.fragment();
             const int currentRow = this->ui->tableWidget_WebScraper->rowCount();
             this->ui->tableWidget_WebScraper->setRowCount(currentRow + 1);
             this->ui->tableWidget_WebScraper->setItem(currentRow, 0, new QTableWidgetItem(url.scheme()));
@@ -266,7 +266,7 @@ void Web::webScrapper_InitEngine()
 {
     if( !this->WebScrapperEngine )
     {
-        this->WebScrapperEngine = new WebScraper();
+        this->WebScrapperEngine = new WebScraper(25);
         connect(this->WebScrapperEngine, SIGNAL(OnRequestStarted(const QString &, const QString &)), this, SLOT(webScraper_OnRequestStarted(const QString &, const QString &)));
         connect(this->WebScrapperEngine, SIGNAL(OnRequestError(const QString &, const QString &, const HttpResponse &)), this, SLOT(webScraper_OnRequestError(const QString &, const QString &, const HttpResponse &)));
         connect(this->WebScrapperEngine, SIGNAL(OnRequestFinished(const QString &, const QString &, const HttpResponse &)), this, SLOT(webScraper_OnRequestFinished(const QString &, const QString &, const HttpResponse &)));

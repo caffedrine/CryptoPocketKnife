@@ -1,8 +1,14 @@
 #include "PortsScanner.h"
 
-PortsScanner::PortsScanner()
+PortsScanner::PortsScanner(int max_threads_count)
 {
-    this->ThreadsPoolPtr()->setMaxThreadCount(MAX_THREADS);
+    if( max_threads_count <= 1 || max_threads_count >= 500 )
+    {
+        qDebug() << "Max threads count out of range for port scanner";
+        return;
+    }
+
+    this->ThreadsPoolPtr()->setMaxThreadCount(max_threads_count);
 }
 
 bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileName)
@@ -17,7 +23,7 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
 
     if(!this->ThreadsPoolPtr()->tryStart(lam))
     {
-        ScanResult response;
+        PortsScanResult response;
         response.AppErrorDetected = true;
         response.AppErrorDesc = "No threads available";
 
@@ -30,7 +36,12 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
 void PortsScanner::Task(const QString &host, const QString &scanProfileName)
 {
     emit this->OnRequestStarted(host);
-    ScanResult result;//implement here
+
+    // Build scan request based on selected profile
+    QString cmd = "nmap ";
+    // Add ports to be scanned
+
+    PortsScanResult result;//implement here
 
     if(result.NetworkErrorDetected || result.AppErrorDetected )
     {
@@ -41,3 +52,10 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
         emit this->OnRequestFinished(host, result);
     }
 }
+
+void PortsScanner::StartNmapScan(const PostsScanRequestNMAP &request)
+{
+
+}
+
+

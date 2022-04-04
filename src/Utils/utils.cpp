@@ -179,3 +179,11 @@ QStringList Utils_ExtractAllUrls(const QString& inputText)
 
     return output;
 }
+
+QStringList Utils_ExtractAllHosts(const QString &input)
+{
+    QStringList output;
+
+
+    return output;
+}
