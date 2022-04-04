@@ -103,9 +103,9 @@ void Web::on_pushButton_WebScraping_Clear_clicked()
 {
     this->CancelRequests = true;
 
-    if( WebScraper::instance().ActiveWorkers()  > 0 )
+    if(WebScraper::instance().ThreadsPoolPtr()->ActiveThreads() > 0 )
     {
-        qDebug() << "Cannot clear while active threads: " << WebScraper::instance().ActiveWorkers();
+        qDebug() << "Cannot clear while active threads: " << WebScraper::instance().ThreadsPoolPtr()->ActiveThreads();
         return;
     }
 
@@ -180,7 +180,7 @@ void Web::on_pushButton_WebScraper_StartDownload_clicked()
             QThread::msleep(5);
             if (this->CancelRequests)
                 break;
-            if (WebScraper::instance().AvailableWorkers() <= 0)
+            if (WebScraper::instance().ThreadsPoolPtr()->AvailableThreads() <= 0)
                 continue;
             WebScraper::instance().EnqueueGetRequest(QString::number(i), this->WebScraper_getFullUrlFromTable(i));
             i++;

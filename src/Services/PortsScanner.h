@@ -5,6 +5,7 @@
 #include <QThreadPool>
 #include <QString>
 
+#include "ThreadsPool.h"
 #include "PortsScanProfilesManager.h"
 
 /* */
@@ -26,17 +27,15 @@ public:
 };
 
 /* */
-class PortsScanner: public QObject
+class PortsScanner: public QObject, public ThreadsPool
 {
 Q_OBJECT
 public:
     const int MAX_THREADS = 30;
 
     PortsScanner();
-    ~PortsScanner();
+    ~PortsScanner() = default;
 
-    int AvailableWorkers();
-    int ActiveWorkers();
     bool EnqueueScan(const QString &host, const QString &scanProfileName);
 signals:
     void OnRequestStarted(const QString &host);
@@ -44,7 +43,6 @@ signals:
     void OnRequestFinished(const QString &host, ScanResult result);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
-    QThreadPool *threadsPool = nullptr;
     void Task(const QString& host, const QString &scanProfileName);
 };
 

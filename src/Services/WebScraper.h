@@ -14,6 +14,7 @@
 #include "Singleton.h"
 #include "HttpStatusCodes.h"
 #include "AdvancedTableWidget.h"
+#include "ThreadsPool.h"
 
 /* */
 class HttpResponse
@@ -34,24 +35,21 @@ public:
 };
 
 /* */
-class WebScraper : public QObject, public Singleton<WebScraper>
+class WebScraper: public QObject, public ThreadsPool, public Singleton<WebScraper>
 {
 Q_OBJECT
 public:
-    static const int MAX_THREADS = 20;
+    static const int MAX_THREADS = 2;
 
-    int AvailableWorkers();
-    int ActiveWorkers();
     bool EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl);
     static HttpResponse HttpGet(const QString &url, QMap<QString, QString> *AdditionalHeaders = nullptr);
+
 signals:
     void OnRequestStarted(const QString &requestId, const QString &requestUrl);
     void OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
     void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
-    QThreadPool *threadsPool = nullptr;
-
     void OnContructorCalled() override;
     void Task(const QString& uniqueRequestId, const QString& requestUrl);
 };

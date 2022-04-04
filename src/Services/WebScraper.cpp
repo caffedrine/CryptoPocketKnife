@@ -5,11 +5,7 @@
 
 void WebScraper::OnContructorCalled()
 {
-    // This does not get called? :(
-    this->threadsPool = new QThreadPool(this);
-    this->threadsPool->setMaxThreadCount(WebScraper::MAX_THREADS);
-
-qDebug() << "Contructor called!";
+    this->ThreadsPoolPtr()->setMaxThreadCount(WebScraper::MAX_THREADS);
 }
 
 bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString &requestUrl)
@@ -22,22 +18,18 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         qDebug() << QString("[ERROR] Couldn't load SSL (" + QSslSocket::sslLibraryBuildVersionString() + QSslSocket::sslLibraryVersionString() + ") for this action");
     }
 
-    // Check if threads pool was created
-    if( !this->threadsPool )
-    {
-        this->threadsPool = new QThreadPool(this);
-        this->threadsPool->setMaxThreadCount(WebScraper::MAX_THREADS);
-    }
+    // Set maximum number of workers
+    this->ThreadsPoolPtr()->setMaxThreadCount(WebScraper::MAX_THREADS);
 
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, uniqueRequestId, requestUrl]()
     {
-        emit(this->AvailableWorkersChanged(this->AvailableWorkers(), this->ActiveWorkers())); // substract current worker which will be disposed
+        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads())); // substract current worker which will be disposed
         this->Task(uniqueRequestId, requestUrl);
-        emit(this->AvailableWorkersChanged(this->AvailableWorkers(), this->ActiveWorkers()-1)); // substract current worker which will be disposed
+        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads() - 1)); // substract current worker which will be disposed
     };
 
-    if(!this->threadsPool->tryStart(lam))
+    if(!this->ThreadsPoolPtr()->tryStart(lam))
     {
         HttpResponse response;
         response.AppErrorDetected = true;
@@ -47,22 +39,6 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         return false;
     }
     return true;
-}
-
-int WebScraper::AvailableWorkers()
-{
-    if( !this->threadsPool )
-        return WebScraper::MAX_THREADS;
-
-    return (this->threadsPool->maxThreadCount() - this->threadsPool->activeThreadCount());
-}
-
-int WebScraper::ActiveWorkers()
-{
-    if( !this->threadsPool )
-        return 0;
-
-    return this->threadsPool->activeThreadCount();
 }
 
 HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> *AdditionalHeaders)

@@ -2,29 +2,7 @@
 
 PortsScanner::PortsScanner()
 {
-    this->threadsPool = new QThreadPool(this);
-    this->threadsPool->setMaxThreadCount(PortsScanner::MAX_THREADS);
-}
 
-PortsScanner::~PortsScanner()
-{
-    delete this->threadsPool;
-}
-
-int PortsScanner::AvailableWorkers()
-{
-    if( !this->threadsPool )
-        return PortsScanner::MAX_THREADS;
-
-    return (this->threadsPool->maxThreadCount() - this->threadsPool->activeThreadCount());
-}
-
-int PortsScanner::ActiveWorkers()
-{
-    if( !this->threadsPool )
-        return 0;
-
-    return this->threadsPool->activeThreadCount();
 }
 
 bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileName)
@@ -32,13 +10,13 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, host, scanProfileName]()
     {
-        emit(this->AvailableWorkersChanged(this->AvailableWorkers(), this->ActiveWorkers())); // substract current worker which will be disposed
+        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads())); // substract current worker which will be disposed
         this->Task(host, scanProfileName);
-        emit(this->AvailableWorkersChanged(this->AvailableWorkers(), this->ActiveWorkers()-1)); // substract current worker which will be disposed
+        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads()-1)); // substract current worker which will be disposed
     };
 
 
-    if(!this->threadsPool->tryStart(lam))
+    if(!this->ThreadsPoolPtr()->tryStart(lam))
     {
         ScanResult response;
         response.AppErrorDetected = true;
