@@ -53,6 +53,7 @@ public:
     ~PortsScanner() = default;
 
     bool EnqueueScan(const QString &host, const QString &scanProfileName);
+
 signals:
     void OnRequestStarted(const QString &host);
     void OnRequestError(const QString &host, PortsScanResult result);

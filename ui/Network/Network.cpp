@@ -112,9 +112,9 @@ void Network::PortsScanner_InitEngine()
     if( !this->PortsScannerEngine )
     {
         this->PortsScannerEngine = new PortsScanner(25);
-        connect(this->PortsScannerEngine, SIGNAL(OnRequestStarted(const QString &, const QString &)), this, SLOT(PortsScanner_OnRequestStarted(const QString &)));
-        connect(this->PortsScannerEngine, SIGNAL(OnRequestError(const QString &, const QString &, const HttpResponse &)), this, SLOT(PortsScanner_OnRequestError(const QString &, const PortsScanResult &)));
-        connect(this->PortsScannerEngine, SIGNAL(OnRequestFinished(const QString &, const QString &, const HttpResponse &)), this, SLOT(PortsScanner_OnRequestFinished(const QString &, const PortsScanResult &)));
+        connect(this->PortsScannerEngine, SIGNAL(OnRequestStarted(const QString &)), this, SLOT(PortsScanner_OnRequestStarted(const QString &)));
+        connect(this->PortsScannerEngine, SIGNAL(OnRequestError(const QString &, const PortsScanResult &)), this, SLOT(PortsScanner_OnRequestError(const QString &, const PortsScanResult &)));
+        connect(this->PortsScannerEngine, SIGNAL(OnRequestFinished(const QString &, const PortsScanResult &)), this, SLOT(PortsScanner_OnRequestFinished(const QString &, const PortsScanResult &)));
         connect(this->PortsScannerEngine, SIGNAL(AvailableWorkersChanged(int, int)), this, SLOT(PortsScanner_OnAvailableWorkersChanged(int, int)));
     }
 }
