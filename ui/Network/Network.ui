@@ -307,6 +307,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tableWidget_PortsScanner</sender>
+   <signal>customContextMenuRequested(QPoint)</signal>
+   <receiver>Network</receiver>
+   <slot>PortsScanner_tableWidget_customContextMenuRequested(QPoint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>366</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>424</x>
+     <y>-3</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>PortsScanner_ManageScanProfiles_pushButtonCLicked()</slot>
@@ -314,5 +330,6 @@
   <slot>PortsScanner_StopScan_pushButtonClocked()</slot>
   <slot>PortsScanner_StretchTable_pushButtonClocked()</slot>
   <slot>PortsScanner_ClearTable_pushButtonClocked()</slot>
+  <slot>PortsScanner_tableWidget_customContextMenuRequested(QPoint)</slot>
  </slots>
 </ui>

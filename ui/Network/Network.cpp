@@ -13,7 +13,6 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     }
 
     this->ui->tableWidget_PortsScanner->setContextMenuPolicy(Qt::CustomContextMenu);
-//    QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(PortsScanner_tableWidget_customContextMenuRequested(QPoint)));
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL( OnRowsCopy(QModelIndexList) ), this, SLOT(PortsScanner_tableWidget_OnRowsCopy(QModelIndexList)) );
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL( OnTextPasted(QString) ), this, SLOT(PortsScanner_tableWidget_OnTextPasted(QString)) );
     QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsInserted(const QModelIndex &, int, int)) );
@@ -222,39 +221,42 @@ void Network::PortsScanner_tableWidget_OnRowsCopy(const QModelIndexList &selecte
 void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &pos)
 {
     int row = ui->tableWidget_PortsScanner->indexAt(pos).row();
-    QString host = this->ui->tableWidget_PortsScanner->item(row, 0)->text();
 
     QMenu menu("contextMenu", this);
-    QAction ShowResult("Show result", this);
+    QAction Item_ShowResult("Show result", this);
     QAction Item_Retest("Retest", this);
 
-    if( !this->PortsScanResults.contains(host) )
+    if( row <= 0 )
     {
-        ShowResult.setEnabled(false);
+        Item_ShowResult.setEnabled(false);
+        Item_Retest.setEnabled(false);
+    }
+    else
+    {
+        QString host = this->ui->tableWidget_PortsScanner->item(row, 0)->text();
+        connect(&Item_ShowResult, &QAction::triggered, this, [host, this]()
+        {
+            QString text = "Scan results for " + host + "\n\n" + this->PortsScanResults[host];
+
+            QPlainTextEdit *editor = new QPlainTextEdit(text);
+            editor->setWindowTitle("Scan results for " + host);
+            editor->setBaseSize(QSize(600, 120));
+            editor->show();
+        });
+
+        connect(&Item_Retest, &QAction::triggered, this, [this, row, host]()
+        {
+            this->PortsScanner_InitEngine();
+            this->PortsScanResults[host] = "";
+            for (int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++)
+                this->ui->tableWidget_PortsScanner->item(row, i)->setText("");
+            this->PortsScannerEngine->EnqueueScan(host, this->ui->comboBox_ScanProfiles->currentText());
+        });
     }
 
-
-    menu.addAction(&ShowResult);
+    menu.addAction(&Item_ShowResult);
     menu.addSeparator();
     menu.addAction(&Item_Retest);
-
-    connect(&ShowResult, &QAction::triggered, this, [&host, this]() {
-        QString text = "Scan results for " + host + "\n\n" + this->PortsScanResults[host];
-
-        QPlainTextEdit *editor = new QPlainTextEdit(text);
-        editor->setWindowTitle("Scan results for " + host);
-        editor->setBaseSize(QSize(600, 120));
-        editor->show();
-    });
-
-    connect(&Item_Retest, &QAction::triggered, this, [this, row, &host]() {
-        this->PortsScanner_InitEngine();
-        this->PortsScanResults[host] = "";
-        for( int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++ )
-            this->ui->tableWidget_PortsScanner->item(row, i)->setText("");
-        this->PortsScannerEngine->EnqueueScan(host, this->ui->comboBox_ScanProfiles->currentText());
-    });
-
     menu.exec(ui->tableWidget_PortsScanner->viewport()->mapToGlobal(pos));
 }
 

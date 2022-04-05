@@ -199,53 +199,54 @@ void Web::on_pushButton_WebScraping_Clear_clicked()
 void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos)
 {
     int row = ui->tableWidget_WebScraper->indexAt(pos).row();
-    QString rowUrl = this->WebScraper_getFullUrlFromTable(row);
 
     QMenu menu("contextMenu", this);
     QAction Item_ShowHeaders("Show headers", this);
     QAction Item_CopyResponse("Show response", this);
     QAction Item_Retest("Retest", this);
 
-    if( !this->WebScraperResponseHeaders.contains(rowUrl) )
+    if( row < 0 )
     {
         Item_ShowHeaders.setEnabled(false);
-    }
-
-    if( !this->WebScraperResponseData.contains(rowUrl) )
-    {
         Item_CopyResponse.setEnabled(false);
+        Item_Retest.setEnabled(false);
+    }
+    else
+    {
+        QString rowUrl = this->WebScraper_getFullUrlFromTable(row);
+
+        connect(&Item_ShowHeaders, &QAction::triggered, this, [rowUrl, this]()
+        {
+            QMessageBox msgBox;
+            msgBox.setText("GET " + rowUrl + "\n");
+            msgBox.setInformativeText(this->WebScraperResponseHeaders[rowUrl]);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.setBaseSize(QSize(600, 120));
+            msgBox.exec();
+        });
+
+        connect(&Item_CopyResponse, &QAction::triggered, this, [rowUrl, this]()
+        {
+            QString text = "GET " + rowUrl + "\n\n" + this->WebScraperResponseHeaders[rowUrl] + "\n\n" + this->WebScraperResponseData[rowUrl];
+
+            QPlainTextEdit *editor = new QPlainTextEdit(text);
+            editor->setWindowTitle("GET " + rowUrl);
+            editor->setBaseSize(QSize(600, 120));
+            editor->show();
+
+        });
+
+        connect(&Item_Retest, &QAction::triggered, this, [this, row, rowUrl]()
+        {
+            this->webScrapper_InitEngine();
+            this->WebScrapperEngine->EnqueueGetRequest(QString::number(row), rowUrl);
+        });
     }
 
     menu.addAction(&Item_ShowHeaders);
     menu.addAction(&Item_CopyResponse);
     menu.addSeparator();
     menu.addAction(&Item_Retest);
-
-
-    connect(&Item_ShowHeaders, &QAction::triggered, this, [&rowUrl, this]() {
-        QMessageBox msgBox;
-        msgBox.setText("GET " + rowUrl + "\n");
-        msgBox.setInformativeText(this->WebScraperResponseHeaders[rowUrl]);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setBaseSize(QSize(600, 120));
-        msgBox.exec();
-    });
-
-    connect(&Item_CopyResponse, &QAction::triggered, this, [&rowUrl, this]() {
-        QString text = "GET " + rowUrl + "\n\n" + this->WebScraperResponseHeaders[rowUrl] + "\n\n" + this->WebScraperResponseData[rowUrl];
-
-        QPlainTextEdit *editor = new QPlainTextEdit(text);
-        editor->setWindowTitle("GET " + rowUrl);
-        editor->setBaseSize(QSize(600, 120));
-        editor->show();
-
-    });
-
-    connect(&Item_Retest, &QAction::triggered, this, [this, row, &rowUrl]() {
-        this->webScrapper_InitEngine();
-        this->WebScrapperEngine->EnqueueGetRequest(QString::number(row), rowUrl);
-    });
-
     menu.exec(ui->tableWidget_WebScraper->viewport()->mapToGlobal(pos));
 }
 
