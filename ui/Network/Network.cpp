@@ -142,6 +142,8 @@ void Network::PortsScanner_OnRequestFinished(const QString &host, PortsScanResul
 
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setText("Succeed");
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setIcon(QIcon(":/img/success.png"));
+
+    this->PortsScanResults[host] = result.TargetsOutputs.join("\n-----\n");
 }
 
 void Network::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
@@ -229,7 +231,7 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
     QAction Item_ShowResult("Show result", this);
     QAction Item_Retest("Retest", this);
 
-    if( row <= 0 )
+    if( row < 0 )
     {
         Item_ShowResult.setEnabled(false);
         Item_Retest.setEnabled(false);

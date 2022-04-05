@@ -43,7 +43,7 @@ public:
         this->TcpPorts = this->ParsePorts(elements[3]);
 
         // Parse UDP ports
-        this->TcpPorts = this->ParsePorts(elements[4]);
+        this->UdpPorts = this->ParsePorts(elements[4]);
 
         // Parse shodan dorks
         this->ShodanDorks = this->ParseShodanDorks(elements[5]);
@@ -67,8 +67,8 @@ public:
         return "Target type: " + this->TargetType
         + ", Target name: " + this->TargetName
         + ", Vendor name: " + this->VendorName
-        + ", TCP: " + this->GetPortsString(true),
-        + ", UDP: " + this->GetPortsString(false),
+        + ", TCP: " + this->GetPortsString(true)
+        + ", UDP: " + this->GetPortsString(false)
 
         + ", Description: " + this->Description
         ;
@@ -76,12 +76,12 @@ public:
 
     QString GetTcpPortsString()
     {
-        return GetPortsString(true);
+        return this->GetPortsString(true);
     }
 
     QString GetUdpPortsString()
     {
-        return GetPortsString(false);
+        return this->GetPortsString(false);
     }
 
 private:

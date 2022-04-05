@@ -141,7 +141,7 @@
          </column>
          <column>
           <property name="text">
-           <string>nMap Scripts Outputs</string>
+           <string>OS</string>
           </property>
           <property name="font">
            <font>

@@ -36,29 +36,22 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
 void PortsScanner::Task(const QString &host, const QString &scanProfileName)
 {
 
+    // Create output var
+    PortsScanResult output;
+
     // Read scan profile
     PortsScanProfileType scanProfile = PortsScanProfilesManager::instance().GetByName(scanProfileName);
-
-    // Build nMap scan request
-    PostsScanRequestNMAP scanRequest = this->BuildNmapScanRequest(scanProfile);
-
-    // Build nMap command string
-    QString scanRequestCommandString = BuildNmapScanCommand(scanRequest);
-
-    qDebug() << scanRequestCommandString;
-    qDebug() << scanRequestCommandString;
-
-    return;
 
     // Emit a notification when scan started
     emit this->OnRequestStarted(host);
 
-    // Run nMap
-    PortsScanResult output = this->RunNmapScan(scanRequestCommandString);
-
-    if( !output.OpenTcpPorts.empty() || !output.OpenUdpPorts.empty())
+    // Currently, is launched one nmap scan for each target within profile
+    for(int i = 0; i < scanProfile.Targets.count(); i++)
     {
-        output.DeviceType = scanProfile.DeviceCategoryIfProfileMatch;
+        // Build nMap command string
+        QString scanRequestCommandString = BuildNmapScanCommand(host, scanProfile.Targets[i]);
+        // Launch nmap scan
+        output.TargetsOutputs.append(this->RunNmapScan(scanRequestCommandString));
     }
 
     if(output.NetworkErrorDetected || output.AppErrorDetected )
@@ -71,19 +64,39 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
     }
 }
 
-PostsScanRequestNMAP PortsScanner::BuildNmapScanRequest(const PortsScanProfileType &profile)
+
+QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetType &target)
 {
-    return PostsScanRequestNMAP();
+    QString output = "nmap ";
+    if(target.TcpPorts.count() > 0)
+    {
+        output += "-pT:" + target.GetTcpPortsString() + " ";
+    }
+    if(target.UdpPorts.count() > 0)
+    {
+        output += target.TcpPorts.count()>0?",":"";
+        output += "U:" + target.GetUdpPortsString() + " ";
+    }
+
+    if( !target.nMapArguments.isEmpty() )
+    {
+        output += target.nMapArguments + " ";
+    }
+
+    output += host + " " + "-oX -";
+
+    return output;
 }
 
-QString PortsScanner::BuildNmapScanCommand(const PostsScanRequestNMAP &request)
+QString PortsScanner::RunNmapScan(QString nMapCommand)
 {
-    return QString();
-}
-
-PortsScanResult PortsScanner::RunNmapScan(QString nMapCommand)
-{
-    return PortsScanResult();
+    // Use openssl to parse certificate
+    QProcess process;
+    process.startCommand(nMapCommand);
+    process.waitForFinished(999999999);
+    QByteArray processOutput = process.readAllStandardOutput();
+    processOutput += process.readAllStandardError();
+    return processOutput;
 }
 
 

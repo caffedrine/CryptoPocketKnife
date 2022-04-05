@@ -13,6 +13,8 @@ public:
         profiles.append(this->GetProfile_PlainNmap());
         profiles.append(this->GetProfile_PlainNmapFast());
         profiles.append(this->GetProfile_PlainNmapFastAllPorts());
+        profiles.append(this->GetProfile_WebServers());
+        profiles.append(this->GetProfile_WebServersFingerprint());
         profiles.append(this->GetProfile_IcsEssentials());
         profiles.append(this->GetProfile_IcsProtocols());
 
@@ -49,6 +51,28 @@ private:
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
         profile.ProfileName = "Plain nMap fast (all ports)";
+        profile.Targets = this->ParseTargetsFromString(targets);
+        return profile;
+    }
+
+    PortsScanProfileType GetProfile_WebServers()
+    {
+        QString targets = "WEB SERVER;;;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;;;Scan for webservers";
+
+        PortsScanProfileType profile;
+        profile.BuiltInProfile = true;
+        profile.ProfileName = "Web Servers Detection";
+        profile.Targets = this->ParseTargetsFromString(targets);
+        return profile;
+    }
+
+    PortsScanProfileType GetProfile_WebServersFingerprint()
+    {
+        QString targets = "WEB SERVER;;;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;;--script=http-*;Scan and fingerprint webservers";
+
+        PortsScanProfileType profile;
+        profile.BuiltInProfile = true;
+        profile.ProfileName = "Web Servers Fingerprint";
         profile.Targets = this->ParseTargetsFromString(targets);
         return profile;
     }

@@ -5,19 +5,18 @@
 #include <QThreadPool>
 #include <QString>
 #include <QDebug>
+#include <QProcess>
 
 #include "utils.h"
 #include "ThreadsPool.h"
 #include "PortsScanProfilesManager.h"
 
 /* */
-class PostsScanRequestNMAP
+class PostsScanResultTarget
 {
 public:
-    QString host;
-    QList<quint16> TcpPorts;
-    QList<quint16> UdpPorts;
-    QMap<QString, QMap<QString, QList<quint16>>> nMapScripts;
+    int TargetIndexWithinProfile;
+    QString nMapOutput;
 };
 
 /* */
@@ -30,18 +29,14 @@ public:
     bool NetworkErrorDetected = false;
     QString NetworkErrorDescription = "";
 
-    QString nMapCommand;
+
     QString ScanProfile;
+
+    QString hostName;
+    QString HostIp;
     QString Timestamp;
     QString Availability;
-    QMap<quint16, QString> OpenTcpPorts;
-    QMap<quint16, QString> OpenUdpPorts;
-    QList<quint16> ScannedTcpPorts;
-    QList<quint16> ScannedUdpPorts;
-    QString DeviceType;
-    QString VendorName;
-    QString DeviceName;
-    QString HostIp;
+    QStringList TargetsOutputs;
 };
 
 /* */
@@ -61,9 +56,8 @@ signals:
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
     void Task(const QString& host, const QString &scanProfileName);
-    PostsScanRequestNMAP BuildNmapScanRequest(const PortsScanProfileType &profile);
-    QString BuildNmapScanCommand(const PostsScanRequestNMAP &request);
-    PortsScanResult RunNmapScan(QString nMapCommand);
+    QString BuildNmapScanCommand(const QString &host, PortsScanTargetType &target);
+    QString RunNmapScan(QString nMapCommand);
 
 
 };

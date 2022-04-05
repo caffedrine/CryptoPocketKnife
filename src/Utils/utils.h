@@ -26,9 +26,19 @@ QStringList Utils_ExtractAllUrls(const QString& inputText);
 QStringList Utils_ExtractAllHosts(const QString &input);
 
 template <class T>
+static QString joinIntegersList(const QList<T> &list, const QString &separator)
+{
+    QString out;
+    for(int i = 0; i<list.size(); i++)
+        out+= (i ? separator : "") + QString::number(list[i]);
+    return out;
+}
+
+template <class T>
 static QString join(const QList<T> &list,
                     const QString &separator,
                     const std::function< QString (const typename QList<T>::value_type &) > toStringFunction);
+
 
 
 #endif // UTILS_H
