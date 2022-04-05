@@ -15,9 +15,17 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     this->ui->tableWidget_PortsScanner->setContextMenuPolicy(Qt::CustomContextMenu);
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL( OnRowsCopy(QModelIndexList) ), this, SLOT(PortsScanner_tableWidget_OnRowsCopy(QModelIndexList)) );
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL( OnTextPasted(QString) ), this, SLOT(PortsScanner_tableWidget_OnTextPasted(QString)) );
-    QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsInserted(const QModelIndex &, int, int)) );
-    QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsAboutToBeRemoved(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsAboutToBeDeleted(const QModelIndex &, int, int)) );
-    QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsRemoved(const QModelIndex &, int, int) ), this, SLOT(PortsScanner_tableWidget_OnRowsDeleted(const QModelIndex &, int, int)) );
+    QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsInserted(QModelIndex,int,int) ), this, SLOT(PortsScanner_tableWidget_OnRowsInserted(QModelIndex,int,int)) );
+    QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsAboutToBeRemoved(QModelIndex,int,int) ), this, SLOT(PortsScanner_tableWidget_OnRowsAboutToBeDeleted(QModelIndex,int,int)) );
+    QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsRemoved(QModelIndex,int,int) ), this, SLOT(PortsScanner_tableWidget_OnRowsDeleted(QModelIndex,int,int)) );
+    QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(PortsScanner_tableWidget_customContextMenuRequested(QPoint)));
+
+    QObject::connect(this->ui->pushButton_ManageProfiles, SIGNAL(clicked()), this, SLOT(PortsScanner_ManageScanProfiles_pushButtonCLicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Start, SIGNAL(clicked()), this, SLOT(PortsScanner_StartScan_pushButtonClocked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Stop, SIGNAL(clicked()), this, SLOT(PortsScanner_StopScan_pushButtonClocked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_StretchCols, SIGNAL(clicked()), this, SLOT(PortsScanner_StretchTable_pushButtonClocked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Clear, SIGNAL(clicked()), this, SLOT(PortsScanner_ClearTable_pushButtonClocked()));
+
 }
 
 Network::~Network()
@@ -91,12 +99,7 @@ void Network::PortsScanner_ClearTable_pushButtonClocked()
 {
     this->CancelRequests = true;
 
-    if( !this->PortsScannerEngine )
-    {
-        return;
-    }
-
-    if(this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads() > 0 )
+    if(this->PortsScannerEngine && this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads() > 0 )
     {
         qDebug() << "Cannot clear while active threads: " << this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads();
         return;
@@ -111,10 +114,10 @@ void Network::PortsScanner_InitEngine()
     if( !this->PortsScannerEngine )
     {
         this->PortsScannerEngine = new PortsScanner(25);
-        connect(this->PortsScannerEngine, SIGNAL(OnRequestStarted(const QString &)), this, SLOT(PortsScanner_OnRequestStarted(const QString &)));
-        connect(this->PortsScannerEngine, SIGNAL(OnRequestError(const QString &, const PortsScanResult &)), this, SLOT(PortsScanner_OnRequestError(const QString &, const PortsScanResult &)));
-        connect(this->PortsScannerEngine, SIGNAL(OnRequestFinished(const QString &, const PortsScanResult &)), this, SLOT(PortsScanner_OnRequestFinished(const QString &, const PortsScanResult &)));
-        connect(this->PortsScannerEngine, SIGNAL(AvailableWorkersChanged(int, int)), this, SLOT(PortsScanner_OnAvailableWorkersChanged(int, int)));
+        connect(this->PortsScannerEngine, SIGNAL(OnRequestStarted(QString)), this, SLOT(PortsScanner_OnRequestStarted(QString)));
+        connect(this->PortsScannerEngine, SIGNAL(OnRequestError(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestError(QString,PortsScanResult)));
+        connect(this->PortsScannerEngine, SIGNAL(OnRequestFinished(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestFinished(QString,PortsScanResult)));
+        connect(this->PortsScannerEngine, SIGNAL(AvailableWorkersChanged(int,int)), this, SLOT(PortsScanner_OnAvailableWorkersChanged(int,int)));
     }
 }
 
@@ -176,7 +179,7 @@ void Network::PortsScanner_tableWidget_OnRowsInserted(const QModelIndex &parent,
 {
     for( int i = first; i <= last; i++ )
     {
-        this->PortsScanResults[this->ui->tableWidget_PortsScanner->item(i, 0)->text()] = "";
+        this->PortsScanResults[this->ui->tableWidget_PortsScanner->model()->index(i, 0).data().toString()] = "";
     }
 
     // Update rows count
@@ -189,14 +192,14 @@ void Network::PortsScanner_tableWidget_OnTextPasted(const QString &text)
 
     foreach(const QString &host, hosts)
         {
-            const int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
+            int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
 
             this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
-//            this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
+            this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
 
-//            // Clear the other cols
-//            for( int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
-//                this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
+            // Clear the other cols
+            for( int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
+                this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
         }
 }
 
