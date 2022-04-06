@@ -303,7 +303,10 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
 
 void Network::PortsScanner_ParseScanResults(int tableHostIndex, const QString &host, PortsScanResult result, bool ScanInProgress)
 {
+    QStringList TcpPorts, UdpPorts;
+
     this->PortsScanResults[host] = "";
+
     for( int i = 0; i < result.TargetsOutputs.count(); i++ )
     {
         QDomDocument nmapXmlOutput;
@@ -316,6 +319,20 @@ void Network::PortsScanner_ParseScanResults(int tableHostIndex, const QString &h
 
         // Append raw results to raw results
         this->PortsScanResults[host] += nmapXmlOutput.toString(4) + "\n\n-----\n\n";
+
+        // Get all open ports detected within xml
+        QDomNodeList ports = nmapXmlOutput.documentElement().elementsByTagName("port");
+        for( int j = 0; j < ports.count(); j++ )
+        {
+            QString port = ports.item(j).toElement().attribute("portid");
+            QString protocol = ports.item(j).toElement().attribute("protocol");
+            //QString service = ports.item(j).toElement().elementsByTagName("service").item(0).toElement().attribute("name");
+
+            if(   protocol.toLower() == "tcp")
+                TcpPorts.append(port);
+            else
+                UdpPorts.append(port);
+        }
     }
 
     // Remove extra lines added at the end
@@ -329,6 +346,11 @@ void Network::PortsScanner_ParseScanResults(int tableHostIndex, const QString &h
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(QDateTime::fromSecsSinceEpoch(result.StartScanTimestamp).toString("yyyy-MM-dd hh:mm:ss"));
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(!ScanInProgress?QTime(0,0,0,0).addSecs(result.ScanDurationSeconds).toString("hh:mm:ss"):"");
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(result.Availability);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(TcpPorts.join(","));
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(UdpPorts.join(","));
+
+
+
 }
 
 
