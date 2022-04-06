@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_definitions(-DQT_ASSUME_STDERR_HAS_CONSOLE=1)
 
 find_package(QT NAMES Qt6 Qt5)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent Xml REQUIRED)
 
 # Include EdDSA lib and it's configuration
 option(USE_STACKCLEAN "clean all secret variables from stack" ON)
@@ -62,6 +62,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         ${AES_SRC}
         ${EDDSA_SRC}
         eddsa
+        Qt${QT_VERSION_MAJOR}::Xml
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network
         Qt${QT_VERSION_MAJOR}::Core

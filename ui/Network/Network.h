@@ -13,6 +13,9 @@
 #include <QPlainTextEdit>
 #include <QtConcurrent>
 #include <QFuture>
+#include <QDomElement>
+#include <QDomDocument>
+#include <QDomText>
 
 #include "PortsScanner.h"
 #include "PortsScanProfiles.h"
@@ -43,14 +46,18 @@ public slots:
     void PortsScanner_tableWidget_customContextMenuRequested(const QPoint &pos);
     int PortsScanner_GetRowIndexByHost(const QString &host);
     void PortsScanner_ManageScanProfiles_pushButtonCLicked();
-    void PortsScanner_StartScan_pushButtonClocked();
-    void PortsScanner_StopScan_pushButtonClocked();
-    void PortsScanner_StretchTable_pushButtonClocked();
-    void PortsScanner_ClearTable_pushButtonClocked();
+    void PortsScanner_StartScan_pushButtonClicked();
+    void PortsScanner_StopScan_pushButtonClicked();
+    void PortsScanner_StretchTable_pushButtonClicked();
+    void PortsScanner_ClearTable_pushButtonClicked();
+    void PortsScanner_ExportTable_pushButtonClicked();
     void PortsScanner_OnRequestStarted(const QString &host);
     void PortsScanner_OnRequestError(const QString &host, PortsScanResult result);
+    void PortsScanner_OnProcessProgress(const QString &host, PortsScanResult result);
     void PortsScanner_OnRequestFinished(const QString &host, PortsScanResult result);
     void PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers);
+    void PortsScanner_ParseScanResults(int tableHostIndex, const QString &host, PortsScanResult result, bool ScanInProgress);
+
 private:
     Ui::Network *ui;
 

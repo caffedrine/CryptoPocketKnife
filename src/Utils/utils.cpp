@@ -188,3 +188,23 @@ QStringList Utils_ExtractAllHosts(const QString &input)
 
     return output;
 }
+
+bool Utils_IsValidIPv4(const QString &input)
+{
+    QHostAddress address(input);
+    if (QAbstractSocket::IPv4Protocol == address.protocol())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Utils_IsValidIPv6(const QString &input)
+{
+    QHostAddress address(input);
+    if (QAbstractSocket::IPv6Protocol == address.protocol())
+    {
+        return true;
+    }
+    return false;
+}

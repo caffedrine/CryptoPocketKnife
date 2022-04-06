@@ -6,7 +6,12 @@
 #include <QString>
 #include <QDebug>
 #include <QProcess>
+#include <QDateTime>
+#include <QDomElement>
+#include <QDomDocument>
+#include <QDomText>
 
+#include "Logger.h"
 #include "utils.h"
 #include "ThreadsPool.h"
 #include "PortsScanProfilesManager.h"
@@ -30,12 +35,14 @@ public:
     QString NetworkErrorDescription = "";
 
 
-    QString ScanProfile;
+    QString ScanProfile = "";
 
-    QString hostName;
-    QString HostIp;
-    QString Timestamp;
-    QString Availability;
+    QString HostRdns = "";
+    QString HostIp = "";
+    quint64 StartScanTimestamp = 0;
+    quint64 ScanDurationSeconds = 0;
+    QString Availability = "";
+
     QStringList TargetsOutputs;
 };
 
@@ -50,14 +57,17 @@ public:
     bool EnqueueScan(const QString &host, const QString &scanProfileName);
 
 signals:
+    //void OnRequestPreStart(const QString &host_address, const QString &rdns );
     void OnRequestStarted(const QString &host);
     void OnRequestError(const QString &host, PortsScanResult result);
+    void OnProcessProgress(const QString &host, PortsScanResult result);
     void OnRequestFinished(const QString &host, PortsScanResult result);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
     void Task(const QString& host, const QString &scanProfileName);
     QString BuildNmapScanCommand(const QString &host, PortsScanTargetType &target);
     QString RunNmapScan(QString nMapCommand);
+    QStringList RunNmapPingAndRDNSScan(const QString &host);
 
 
 };

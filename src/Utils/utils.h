@@ -7,6 +7,7 @@
 #include <QRegularExpression>
 #include <QDebug>
 #include <QUrl>
+#include <QHostAddress>
 
 QString Utils_Uint8ToHexQStr(uint8_t in);
 QString Utils_Uint8ArrToHexQStr(uint8_t *arr, ssize_t len);
@@ -25,14 +26,9 @@ QString ParseCertOrCsrFromFileToHexStr(QString fileName);
 QStringList Utils_ExtractAllUrls(const QString& inputText);
 QStringList Utils_ExtractAllHosts(const QString &input);
 
-template <class T>
-static QString joinIntegersList(const QList<T> &list, const QString &separator)
-{
-    QString out;
-    for(int i = 0; i<list.size(); i++)
-        out+= (i ? separator : "") + QString::number(list[i]);
-    return out;
-}
+bool Utils_IsValidIPv4(const QString &input);
+bool Utils_IsValidIPv6(const QString &input);
+
 
 template <class T>
 static QString join(const QList<T> &list,

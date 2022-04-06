@@ -1,3 +1,6 @@
+#include <QDebug>
+#define logger qDebug().noquote().nospace()
+
 #include "ui/mainwindow.h"
 #include <QApplication>
 #include <iostream>
@@ -17,11 +20,9 @@ int main(int argc, char *argv[])
             freopen("CONOUT$", "w", stderr);
         }
     #endif
-
     qputenv("QT_MESSAGE_PATTERN", QByteArray("[%{time yyyy-MM-dd h:mm:ss.zzz}] %{file}:%{line} - %{message}"));
-    
+
     qDebug() << "App started...";
-    
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

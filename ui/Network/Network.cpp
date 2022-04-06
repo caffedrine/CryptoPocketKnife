@@ -22,10 +22,11 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL(OnDoubleClickWithoutSelection()), this, SLOT(PortsScanner_tableWidget_OnDoubleClickWithoutSelection()));
 
     QObject::connect(this->ui->pushButton_ManageProfiles, SIGNAL(clicked()), this, SLOT(PortsScanner_ManageScanProfiles_pushButtonCLicked()));
-    QObject::connect(this->ui->pushButton_PortsScanner_Start, SIGNAL(clicked()), this, SLOT(PortsScanner_StartScan_pushButtonClocked()));
-    QObject::connect(this->ui->pushButton_PortsScanner_Stop, SIGNAL(clicked()), this, SLOT(PortsScanner_StopScan_pushButtonClocked()));
-    QObject::connect(this->ui->pushButton_PortsScanner_StretchCols, SIGNAL(clicked()), this, SLOT(PortsScanner_StretchTable_pushButtonClocked()));
-    QObject::connect(this->ui->pushButton_PortsScanner_Clear, SIGNAL(clicked()), this, SLOT(PortsScanner_ClearTable_pushButtonClocked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Start, SIGNAL(clicked()), this, SLOT(PortsScanner_StartScan_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Stop, SIGNAL(clicked()), this, SLOT(PortsScanner_StopScan_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_StretchCols, SIGNAL(clicked()), this, SLOT(PortsScanner_StretchTable_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Clear, SIGNAL(clicked()), this, SLOT(PortsScanner_ClearTable_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_Export, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTable_pushButtonClicked()));
 
 }
 
@@ -40,7 +41,7 @@ void Network::PortsScanner_ManageScanProfiles_pushButtonCLicked()
     scanProfilesUi.exec();
 }
 
-void Network::PortsScanner_StartScan_pushButtonClocked()
+void Network::PortsScanner_StartScan_pushButtonClicked()
 {
     this->PortsScanner_InitEngine();
 
@@ -84,19 +85,19 @@ void Network::PortsScanner_StartScan_pushButtonClocked()
     QFuture<void> future = QtConcurrent::run( lam);
 }
 
-void Network::PortsScanner_StopScan_pushButtonClocked()
+void Network::PortsScanner_StopScan_pushButtonClicked()
 {
     this->CancelRequests = true;
 }
 
-void Network::PortsScanner_StretchTable_pushButtonClocked()
+void Network::PortsScanner_StretchTable_pushButtonClicked()
 {
     this->ui->tableWidget_PortsScanner->resizeColumnsToContents();
     this->ui->tableWidget_PortsScanner->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 
 }
 
-void Network::PortsScanner_ClearTable_pushButtonClocked()
+void Network::PortsScanner_ClearTable_pushButtonClicked()
 {
     this->CancelRequests = true;
 
@@ -110,6 +111,11 @@ void Network::PortsScanner_ClearTable_pushButtonClocked()
     this->PortsScanResults.clear();
 }
 
+void Network::PortsScanner_ExportTable_pushButtonClicked()
+{
+    dbgln << "Export to be done...";
+}
+
 void Network::PortsScanner_InitEngine()
 {
     if( !this->PortsScannerEngine )
@@ -118,6 +124,7 @@ void Network::PortsScanner_InitEngine()
         connect(this->PortsScannerEngine, SIGNAL(OnRequestStarted(QString)), this, SLOT(PortsScanner_OnRequestStarted(QString)));
         connect(this->PortsScannerEngine, SIGNAL(OnRequestError(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestError(QString,PortsScanResult)));
         connect(this->PortsScannerEngine, SIGNAL(OnRequestFinished(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestFinished(QString,PortsScanResult)));
+        connect(this->PortsScannerEngine, SIGNAL(OnProcessProgress(QString,PortsScanResult)), this, SLOT(PortsScanner_OnProcessProgress(QString,PortsScanResult)));
         connect(this->PortsScannerEngine, SIGNAL(AvailableWorkersChanged(int,int)), this, SLOT(PortsScanner_OnAvailableWorkersChanged(int,int)));
     }
 }
@@ -137,6 +144,12 @@ void Network::PortsScanner_OnRequestError(const QString &host, PortsScanResult r
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setIcon(QIcon(":/img/fail.png"));
 }
 
+void Network::PortsScanner_OnProcessProgress(const QString &host, PortsScanResult result)
+{
+    int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
+    this->PortsScanner_ParseScanResults(hostIndex, host, result, true);
+}
+
 void Network::PortsScanner_OnRequestFinished(const QString &host, PortsScanResult result)
 {
     int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
@@ -144,7 +157,7 @@ void Network::PortsScanner_OnRequestFinished(const QString &host, PortsScanResul
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setText("Succeed");
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setIcon(QIcon(":/img/success.png"));
 
-    this->PortsScanResults[host] = result.TargetsOutputs.join("\n-----\n");
+    this->PortsScanner_ParseScanResults(hostIndex, host, result, false);
 }
 
 void Network::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
@@ -152,14 +165,13 @@ void Network::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int a
     this->ui->label_PortsScanner_ActiveWorkers->setText("Active workers: " + QString::number(activeWorkers));
 }
 
-int Network::PortsScanner_GetRowIndexByHost(const QString &host)
+int  Network::PortsScanner_GetRowIndexByHost(const QString &host)
 {
     int rows = this->ui->tableWidget_PortsScanner->model()->rowCount();
 
-    // Set all statuses to PENDING and remove IPs
     for (int i = 0; i < rows; i++)
     {
-        if( this->ui->tableWidget_PortsScanner->item(i, 0)->text() == host )
+        if (this->ui->tableWidget_PortsScanner->item(i, 0)->text() == host)
             return i;
     }
     return -1;
@@ -265,7 +277,7 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
         QString host = this->ui->tableWidget_PortsScanner->item(row, 0)->text();
         connect(&Item_ShowResult, &QAction::triggered, this, [host, this]()
         {
-            QString text = "Scan results for " + host + "\n\n" + this->PortsScanResults[host];
+            QString text = this->PortsScanResults[host];
 
             QPlainTextEdit *editor = new QPlainTextEdit(text);
             editor->setWindowTitle("Scan results for " + host);
@@ -287,6 +299,36 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
     menu.addSeparator();
     menu.addAction(&Item_Retest);
     menu.exec(ui->tableWidget_PortsScanner->viewport()->mapToGlobal(pos));
+}
+
+void Network::PortsScanner_ParseScanResults(int tableHostIndex, const QString &host, PortsScanResult result, bool ScanInProgress)
+{
+    this->PortsScanResults[host] = "";
+    for( int i = 0; i < result.TargetsOutputs.count(); i++ )
+    {
+        QDomDocument nmapXmlOutput;
+        QString parsingError;
+        if( !nmapXmlOutput.setContent(result.TargetsOutputs[i], &parsingError))
+        {
+            qDebug() << "Invalid nmap XML result detected: " << parsingError;
+            continue;
+        }
+
+        // Append raw results to raw results
+        this->PortsScanResults[host] += nmapXmlOutput.toString(4) + "\n\n-----\n\n";
+    }
+
+    // Remove extra lines added at the end
+    if( this->PortsScanResults[host].length() > 0 )
+        this->PortsScanResults[host].chop(9);
+
+    // Start filling data into table
+    int i = 1;
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(result.HostIp);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(result.HostRdns);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(QDateTime::fromSecsSinceEpoch(result.StartScanTimestamp).toString("yyyy-MM-dd hh:mm:ss"));
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(!ScanInProgress?QTime(0,0,0,0).addSecs(result.ScanDurationSeconds).toString("hh:mm:ss"):"");
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(result.Availability);
 }
 
 

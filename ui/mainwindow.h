@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QDebug>
-#define dbgln qDebug().noquote().nospace()
-
 #include <QMainWindow>
 #include <QRandomGenerator>
 #include <QDir>
