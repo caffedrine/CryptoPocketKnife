@@ -38,6 +38,7 @@ public:
 
 private slots:
     QString WebScraper_getFullUrlFromTable(int row);
+    void tableWidget_WebScraper_OnDoubleClickWithoutSelection();
     void tableWidget_WebScraper_OnRowsCopy(const QModelIndexList& selectedRows);
     void tableWidget_WebScraper_OnTextPasted(const QString& text);
     void tableWidget_WebScraper_OnRowsInserted(const QModelIndex &parent, int first, int last);

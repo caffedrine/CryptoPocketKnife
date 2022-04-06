@@ -105,3 +105,17 @@ void AdvancedTableWidget::keyPressEvent(QKeyEvent *event)
         QTableView::keyPressEvent(event);
     }
 }
+
+void AdvancedTableWidget::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    QModelIndexList selectedRows = this->selectionModel()->selectedRows();
+
+    if( selectedRows.count() <= 0 )
+    {
+        this->OnDoubleClickWithoutSelection();
+        return;
+    }
+
+    // Forward event to regular handler
+    QTableView::mouseDoubleClickEvent(event);
+}

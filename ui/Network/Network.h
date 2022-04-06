@@ -34,6 +34,7 @@ public:
     ~Network() override;
     void setCurrentIndex(int idx) {};
 public slots:
+    void PortsScanner_tableWidget_OnDoubleClickWithoutSelection();
     void PortsScanner_tableWidget_OnRowsCopy(const QModelIndexList& selectedRows);
     void PortsScanner_tableWidget_OnTextPasted(const QString& text);
     void PortsScanner_tableWidget_OnRowsInserted(const QModelIndex &parent, int first, int last);

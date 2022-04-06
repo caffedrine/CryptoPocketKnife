@@ -14,6 +14,7 @@ Web::Web(QWidget *parent): QWidget(parent), ui(new Ui::Web)
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsInserted(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsInserted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsAboutToBeRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsAboutToBeDeleted(const QModelIndex &, int, int)) );
     QObject::connect(this->ui->tableWidget_WebScraper->model(), SIGNAL( rowsRemoved(const QModelIndex &, int, int) ), this, SLOT(tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &, int, int)) );
+    QObject::connect(this->ui->tableWidget_WebScraper, SIGNAL( OnDoubleClickWithoutSelection() ), this, SLOT(tableWidget_WebScraper_OnDoubleClickWithoutSelection()) );
 }
 
 Web::~Web()
@@ -31,6 +32,29 @@ QString Web::WebScraper_getFullUrlFromTable(int row)
     QString url = ui->tableWidget_WebScraper->model()->index(row, 2).data().toString();
 
     return (!protocol.isEmpty() ? protocol + "://" : "") + domain + (!url.isEmpty() ? url : "");
+}
+
+void Web::tableWidget_WebScraper_OnDoubleClickWithoutSelection()
+{
+    // Add a new row if last one is not already empty or if table is empty
+    if((this->ui->tableWidget_WebScraper->rowCount() == 0) || (!this->ui->tableWidget_WebScraper->item(this->ui->tableWidget_WebScraper->model()->rowCount() - 1,  0)->text().isEmpty() ))
+    {
+        int currentRow = this->ui->tableWidget_WebScraper->rowCount();
+
+        this->ui->tableWidget_WebScraper->setRowCount(currentRow + 1);
+        this->ui->tableWidget_WebScraper->setItem(currentRow, 0, new QTableWidgetItem(""));
+
+        // Clear the other cols
+        for( int i = 1; i < (this->ui->tableWidget_WebScraper->columnCount()); i++)
+            this->ui->tableWidget_WebScraper->setItem(currentRow, i, new QTableWidgetItem(""));
+
+
+        this->ui->tableWidget_WebScraper->setCurrentCell(currentRow,0);
+        this->ui->tableWidget_WebScraper->setFocus();
+
+        ui->tableWidget_WebScraper->edit(ui->tableWidget_WebScraper->currentIndex());
+
+    }
 }
 
 void Web::tableWidget_WebScraper_OnRowsCopy(const QModelIndexList& selectedRowsIndexesList)

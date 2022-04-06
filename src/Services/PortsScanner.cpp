@@ -50,8 +50,10 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
     {
         // Build nMap command string
         QString scanRequestCommandString = BuildNmapScanCommand(host, scanProfile.Targets[i]);
+        qDebug() << "Exec " << scanRequestCommandString;
         // Launch nmap scan
-        output.TargetsOutputs.append(this->RunNmapScan(scanRequestCommandString));
+        QString nmapOutputXml = this->RunNmapScan(scanRequestCommandString);
+        output.TargetsOutputs.append(nmapOutputXml);
     }
 
     if(output.NetworkErrorDetected || output.AppErrorDetected )
@@ -70,12 +72,14 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
     QString output = "nmap ";
     if(target.TcpPorts.count() > 0)
     {
+        output += "-sT ";
         output += "-pT:" + target.GetTcpPortsString() + " ";
     }
     if(target.UdpPorts.count() > 0)
     {
         output += target.TcpPorts.count()>0?",":"";
-        output += "U:" + target.GetUdpPortsString() + " ";
+        output += target.GetUdpPortsString() + " ";
+        output += "-sU ";
     }
 
     if( !target.nMapArguments.isEmpty() )

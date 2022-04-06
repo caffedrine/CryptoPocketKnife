@@ -27,10 +27,12 @@ signals:
     void OnDraggedFile(QString filename);
     void OnTextPasted(QString pastedText);
     void OnRowsCopy(QModelIndexList selectedRows);
+    void OnDoubleClickWithoutSelection();
 
 private:
         void AdvancedTableWidgetInit();
         void keyPressEvent(QKeyEvent *event);
+        void mouseDoubleClickEvent(QMouseEvent *event);
 };
 
 #endif // ADVANCEDTABLEWIDGET_H

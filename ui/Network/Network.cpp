@@ -19,6 +19,7 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsAboutToBeRemoved(QModelIndex,int,int) ), this, SLOT(PortsScanner_tableWidget_OnRowsAboutToBeDeleted(QModelIndex,int,int)) );
     QObject::connect(this->ui->tableWidget_PortsScanner->model(), SIGNAL( rowsRemoved(QModelIndex,int,int) ), this, SLOT(PortsScanner_tableWidget_OnRowsDeleted(QModelIndex,int,int)) );
     QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(PortsScanner_tableWidget_customContextMenuRequested(QPoint)));
+    QObject::connect(this->ui->tableWidget_PortsScanner, SIGNAL(OnDoubleClickWithoutSelection()), this, SLOT(PortsScanner_tableWidget_OnDoubleClickWithoutSelection()));
 
     QObject::connect(this->ui->pushButton_ManageProfiles, SIGNAL(clicked()), this, SLOT(PortsScanner_ManageScanProfiles_pushButtonCLicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_Start, SIGNAL(clicked()), this, SLOT(PortsScanner_StartScan_pushButtonClocked()));
@@ -164,6 +165,29 @@ int Network::PortsScanner_GetRowIndexByHost(const QString &host)
     return -1;
 }
 
+void Network::PortsScanner_tableWidget_OnDoubleClickWithoutSelection()
+{
+    // Add a new row if last one is not already empty or if table is empty
+    if((this->ui->tableWidget_PortsScanner->rowCount() == 0) || (!this->ui->tableWidget_PortsScanner->item(this->ui->tableWidget_PortsScanner->model()->rowCount() - 1,  0)->text().isEmpty() ))
+    {
+        int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
+
+        this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
+        this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(""));
+
+        // Clear the other cols
+        for( int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
+            this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
+
+
+        this->ui->tableWidget_PortsScanner->setCurrentCell(currentRow,0);
+        this->ui->tableWidget_PortsScanner->setFocus();
+
+        ui->tableWidget_PortsScanner->edit(ui->tableWidget_PortsScanner->currentIndex());
+
+    }
+}
+
 void Network::PortsScanner_tableWidget_OnRowsAboutToBeDeleted(const QModelIndex &parent, int first, int last)
 {
     for( int i = first; i <= last; i++ )
@@ -264,6 +288,8 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
     menu.addAction(&Item_Retest);
     menu.exec(ui->tableWidget_PortsScanner->viewport()->mapToGlobal(pos));
 }
+
+
 
 
 
