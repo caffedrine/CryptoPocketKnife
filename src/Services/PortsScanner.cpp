@@ -37,38 +37,70 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
 {
     // Create output var
     PortsScanResult output;
-
-    // Read scan profile
-    PortsScanProfileType scanProfile = PortsScanProfilesManager::instance().GetByName(scanProfileName);
-
-    // Emit a notification when scan started
-    emit this->OnRequestStarted(host);
-
-    // Store current timestamp
+    output.ScanProfile = scanProfileName;
     output.StartScanTimestamp = QDateTime::currentSecsSinceEpoch();
 
-    // Check if host is up
-    QStringList initialScan = this->RunNmapPingAndRDNSScan(host);
-    output.HostIp = initialScan[0];
-    output.HostRdns = initialScan[1];
-    output.Availability = initialScan[2].toUpper();
+    // Emit a notification when scan started
+    emit this->OnRequestStarted(host, output);
 
-    // Notify UI about the progress done
-    emit this->OnProcessProgress(host, output);
-
-    // Currently, is launched one nmap scan for each target within profile
-    for(int i = 0; i < scanProfile.Targets.count(); i++)
+    // Check if host is up and if XML returned by nmap does not indicate any error
+    if( this->RunNmapPingAndRDNSScan(host, &output) )
     {
-        // Build nMap command string
-        QString scanRequestCommandString = BuildNmapScanCommand(host, scanProfile.Targets[i]);
-        //qDebug() << "Exec " << scanRequestCommandString;
-        // Launch nmap scan
-        QString nmapOutputXml = this->RunNmapScan(scanRequestCommandString);
-        output.TargetsOutputs.append(nmapOutputXml);
-
         // Notify UI about the progress done
         emit this->OnProcessProgress(host, output);
+
+        // Read scan profile
+        PortsScanProfileType scanProfile = PortsScanProfilesManager::instance().GetByName(scanProfileName);
+
+        // Currently, is launched one nmap scan for each target within profile
+        for (PortsScanTargetType &target: scanProfile.Targets)
+        {
+            // Build nMap command string
+            QString scanRequestCommandString = BuildNmapScanCommand(host, target);
+            //qDebug() << "Exec " << scanRequestCommandString;
+            // Launch nmap scan
+            QString nmapOutputXml = this->RunNmapScan(scanRequestCommandString);
+
+            // Check if nmap output is valid
+            QString parsingError;
+            QDomDocument xml;
+            if( !xml.setContent(nmapOutputXml, &parsingError))
+            {
+                QString msg = "Invalid nMap XML: " + parsingError;
+                qDebug() << msg;
+                output.AppErrorDetected = true;
+                output.AppErrorDesc = msg;
+                output.TargetsOutputs.append(nmapOutputXml);
+                break;
+            }
+
+            output.TargetsOutputs.append(xml.toString(4));
+
+            // Update portslist scanned
+            QDomNodeList ports = xml.documentElement().elementsByTagName("port");
+            for( int j = 0; j < ports.count(); j++ )
+            {
+                QString port = ports.item(j).toElement().attribute("portid");
+                QString protocol = ports.item(j).toElement().attribute("protocol");
+                //QString service = ports.item(j).toElement().elementsByTagName("service").item(0).toElement().attribute("name");
+
+                if( protocol.toLower() == "tcp")
+                    output.OpenTcpPorts.append(port);
+                else
+                    output.OpenUdpPorts.append(port);
+            }
+
+            // Notify UI about the progress done
+            emit this->OnProcessProgress(host, output);
+        }
     }
+
+    // Remove ports duplicates
+    output.OpenTcpPorts.removeDuplicates();
+    output.OpenUdpPorts.removeDuplicates();
+    // Sort list
+    Utils_NumericListSort(&output.OpenTcpPorts);
+    Utils_NumericListSort(&output.OpenUdpPorts);
 
     // Calculate how many seconds all scan took
     output.ScanDurationSeconds = QDateTime::currentSecsSinceEpoch() - output.StartScanTimestamp;
@@ -132,24 +164,26 @@ QString PortsScanner::RunNmapScan(QString nMapCommand)
     return processOutput;
 }
 
-QStringList PortsScanner::RunNmapPingAndRDNSScan(const QString &host)
+bool PortsScanner::RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output)
 {
-    QStringList output(3);
-
     QString scanXmlnMap = this->RunNmapScan("nmap -sn " + host + " -oX -");
     QString parsingError;
     QDomDocument nmapXmlOutput;
     if( !nmapXmlOutput.setContent(scanXmlnMap, &parsingError))
     {
-        qDebug() << "Invalid nmap XML result detected: " << parsingError;
-        return output;
+        QString msg = "nMap XML error: " + parsingError;
+        qDebug() << msg;
+        output->AppErrorDetected = true;
+        output->AppErrorDesc = msg;
+        output->TargetsOutputs.append(nmapXmlOutput.toString(4));
+        return false;
     }
 
-    output[0] = nmapXmlOutput.documentElement().elementsByTagName("address").item(0).toElement().attribute("addr");
-    output[1] = nmapXmlOutput.documentElement().elementsByTagName("hostname").item(0).toElement().attribute("name");
-    output[2] = nmapXmlOutput.documentElement().elementsByTagName("status").item(0).toElement().attribute("state");
+    output->HostIp = nmapXmlOutput.documentElement().elementsByTagName("address").item(0).toElement().attribute("addr");
+    output->HostRdns = nmapXmlOutput.documentElement().elementsByTagName("hostname").item(0).toElement().attribute("name");
+    output->Availability = nmapXmlOutput.documentElement().elementsByTagName("status").item(0).toElement().attribute("state").toUpper();
 
-    return output;
+    return true;
 }
 
 

@@ -51,19 +51,19 @@ public slots:
     void PortsScanner_StretchTable_pushButtonClicked();
     void PortsScanner_ClearTable_pushButtonClicked();
     void PortsScanner_ExportTable_pushButtonClicked();
-    void PortsScanner_OnRequestStarted(const QString &host);
-    void PortsScanner_OnRequestError(const QString &host, PortsScanResult result);
-    void PortsScanner_OnProcessProgress(const QString &host, PortsScanResult result);
-    void PortsScanner_OnRequestFinished(const QString &host, PortsScanResult result);
+    void PortsScanner_OnRequestStarted(const QString &host, const PortsScanResult &result);
+    void PortsScanner_OnRequestError(const QString &host, const PortsScanResult &result);
+    void PortsScanner_OnProcessProgress(const QString &host, const PortsScanResult &result);
+    void PortsScanner_OnRequestFinished(const QString &host, const PortsScanResult &result);
     void PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers);
-    void PortsScanner_ParseScanResults(int tableHostIndex, const QString &host, PortsScanResult result, bool ScanInProgress);
+    void PortsScanner_ShowScanResults(int tableHostIndex, const QString &host, bool ScanInProgress);
 
 private:
     Ui::Network *ui;
 
     PortsScanner *PortsScannerEngine = nullptr;
     bool CancelRequests = false;
-    QMap<QString, QString> PortsScanResults;
+    QMap<QString, PortsScanResult> PortsScanResults; // QMap[host] = { Map[profile]=QList[targets] }
 
     void PortsScanner_InitEngine();
 };

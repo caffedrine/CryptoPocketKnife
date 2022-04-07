@@ -208,3 +208,10 @@ bool Utils_IsValidIPv6(const QString &input)
     }
     return false;
 }
+
+void Utils_NumericListSort(QStringList *list)
+{
+    QMap<int, QString> m;
+    for (auto s: *list) m[s.toInt()] = s;
+    *list = QStringList(m.values());
+}

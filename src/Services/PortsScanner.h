@@ -42,6 +42,9 @@ public:
     quint64 StartScanTimestamp = 0;
     quint64 ScanDurationSeconds = 0;
     QString Availability = "";
+    QStringList OpenTcpPorts;
+    QStringList OpenUdpPorts;
+    QStringList DeviceType;
 
     QStringList TargetsOutputs;
 };
@@ -58,16 +61,16 @@ public:
 
 signals:
     //void OnRequestPreStart(const QString &host_address, const QString &rdns );
-    void OnRequestStarted(const QString &host);
-    void OnRequestError(const QString &host, PortsScanResult result);
-    void OnProcessProgress(const QString &host, PortsScanResult result);
-    void OnRequestFinished(const QString &host, PortsScanResult result);
+    void OnRequestStarted(const QString &host, const PortsScanResult &result);
+    void OnRequestError(const QString &host, const PortsScanResult &result);
+    void OnProcessProgress(const QString &host, const PortsScanResult &result);
+    void OnRequestFinished(const QString &host, const PortsScanResult &result);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
     void Task(const QString& host, const QString &scanProfileName);
     QString BuildNmapScanCommand(const QString &host, PortsScanTargetType &target);
     QString RunNmapScan(QString nMapCommand);
-    QStringList RunNmapPingAndRDNSScan(const QString &host);
+    bool RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output);
 
 
 };

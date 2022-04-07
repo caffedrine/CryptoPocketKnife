@@ -29,6 +29,8 @@ QStringList Utils_ExtractAllHosts(const QString &input);
 bool Utils_IsValidIPv4(const QString &input);
 bool Utils_IsValidIPv6(const QString &input);
 
+void Utils_NumericListSort(QStringList *list);
+
 
 template <class T>
 static QString join(const QList<T> &list,

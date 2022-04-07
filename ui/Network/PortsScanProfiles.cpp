@@ -38,3 +38,9 @@ void PortsScanProfiles::onSelectedItemChanged_AvailableProfiles()
     }
 }
 
+void PortsScanProfiles::setCurrentIndex(int index)
+{
+    this->ui->listWidget_AvailableProfiles->setCurrentRow(index);
+    onSelectedItemChanged_AvailableProfiles();
+}
+

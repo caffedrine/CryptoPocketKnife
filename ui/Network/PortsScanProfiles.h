@@ -26,6 +26,7 @@ Q_OBJECT
 public:
     explicit PortsScanProfiles(QWidget *parent = nullptr);
     ~PortsScanProfiles() override;
+    void setCurrentIndex(int index);
 
 public slots:
     void onSelectedItemChanged_AvailableProfiles();
