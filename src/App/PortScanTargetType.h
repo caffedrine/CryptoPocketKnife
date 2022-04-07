@@ -18,7 +18,6 @@ class PortsScanTargetType
 public:
     QString TargetType;
     QString TargetName;
-    QString VendorName;
     QList<quint16> TcpPorts;
     QList<quint16> UdpPorts;
     QStringList ShodanDorks;
@@ -29,7 +28,7 @@ public:
     {
         // 8 separators needs to be present
         QStringList elements = input.split(";");
-        if( elements.count() != 8 )
+        if( elements.count() != 7 )
         {
             return false;
         }
@@ -37,22 +36,21 @@ public:
         // Parse category, device and vendor info
         this->TargetType = elements[0];
         this->TargetName = elements[1];
-        this->VendorName = elements[2];
 
         // Parse TCP ports
-        this->TcpPorts = this->ParsePorts(elements[3]);
+        this->TcpPorts = this->ParsePorts(elements[2]);
 
         // Parse UDP ports
-        this->UdpPorts = this->ParsePorts(elements[4]);
+        this->UdpPorts = this->ParsePorts(elements[3]);
 
         // Parse shodan dorks
-        this->ShodanDorks = this->ParseShodanDorks(elements[5]);
+        this->ShodanDorks = this->ParseShodanDorks(elements[4]);
 
         // nMap arguments to be used during scan
-        this->nMapArguments = elements[6];
+        this->nMapArguments = elements[5];
 
         // Parse description
-        this->Description = elements[7];
+        this->Description = elements[6];
 
         return true;
     }
@@ -66,7 +64,6 @@ public:
     {
         return "Target type: " + this->TargetType
         + ", Target name: " + this->TargetName
-        + ", Vendor name: " + this->VendorName
         + ", TCP: " + this->GetPortsString(true)
         + ", UDP: " + this->GetPortsString(false)
 

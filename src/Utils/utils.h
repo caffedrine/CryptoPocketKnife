@@ -30,13 +30,11 @@ bool Utils_IsValidIPv4(const QString &input);
 bool Utils_IsValidIPv6(const QString &input);
 
 void Utils_NumericListSort(QStringList *list);
-
+bool Utils_FileExists(QString fileName);
 
 template <class T>
 static QString join(const QList<T> &list,
                     const QString &separator,
                     const std::function< QString (const typename QList<T>::value_type &) > toStringFunction);
-
-
 
 #endif // UTILS_H

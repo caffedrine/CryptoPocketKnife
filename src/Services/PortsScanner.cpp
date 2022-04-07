@@ -57,7 +57,7 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
         {
             // Build nMap command string
             QString scanRequestCommandString = BuildNmapScanCommand(host, target);
-            //qDebug() << "Exec " << scanRequestCommandString;
+
             // Launch nmap scan
             QString nmapOutputXml = this->RunNmapScan(scanRequestCommandString);
 
@@ -82,12 +82,16 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
             {
                 QString port = ports.item(j).toElement().attribute("portid");
                 QString protocol = ports.item(j).toElement().attribute("protocol");
-                //QString service = ports.item(j).toElement().elementsByTagName("service").item(0).toElement().attribute("name");
+                QString portState = ports.item(j).toElement().elementsByTagName("state").item(0).toElement().attribute("state");
 
-                if( protocol.toLower() == "tcp")
-                    output.OpenTcpPorts.append(port);
-                else
-                    output.OpenUdpPorts.append(port);
+                // Only show open ports
+                if( portState.toLower() == "open" )
+                {
+                    if (protocol.toLower() == "tcp")
+                        output.OpenTcpPorts.append(port);
+                    else
+                        output.OpenUdpPorts.append(port);
+                }
             }
 
             // Notify UI about the progress done
@@ -145,7 +149,66 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 
     if( !target.nMapArguments.isEmpty() )
     {
-        output += target.nMapArguments + " ";
+        // IF scripts are provided, look first in the custom location and only then try to load default scripts
+        // To give the user posibility to load the scripts it wants to
+        if( target.nMapArguments.contains("--script") )
+        {
+            QString scriptsStrOrig = target.nMapArguments.split("--script")[1].split(" ")[0];
+            QString scriptsStr = scriptsStrOrig.trimmed();
+            if (scriptsStr.startsWith("="))
+            {
+                scriptsStr = scriptsStr.remove(0, 1).trimmed();
+            }
+
+            // Now we have the list with scripts provided with proper extension.
+            QStringList outputScriptsList;
+            QStringList scriptsList = scriptsStr.split(",");
+            for(QString &script: scriptsList)
+            {
+                if( !script.endsWith(".nse") )
+                    script += ".nse";
+
+                // If script already exists, full path was provided. Leave it as it is
+                if(Utils_FileExists(script) )
+                {
+                    outputScriptsList.append(script);
+                    continue;
+                }
+
+                // Check user directory for nMap scripts
+                bool found = false;
+                for(QString user_Loc: UserSettings::instance().GetUserDataLocationsAbs())
+                {
+                    if(Utils_FileExists(user_Loc + "/nmap_scripts/" + script) )
+                    {
+                        outputScriptsList.append(user_Loc + "/nmap_scripts/" + script);
+                        found  = true;
+                        break;
+                    }
+                }
+                if( found )
+                    continue;
+
+                // Check if script is located in default directory
+                if(Utils_FileExists(QCoreApplication::applicationDirPath() + "/data/nmap_scripts/" + script) )
+                {
+                    outputScriptsList.append(QCoreApplication::applicationDirPath() + "/data/nmap_scripts/" + script);
+                    continue;
+                }
+
+                // Script not found, just provide it to nMap as an argument as it is
+                outputScriptsList.append(script);
+            }
+
+            // Set scripts back
+            QString scriptsArg = "=" + outputScriptsList.join(",");
+            QString newNmapCommandArgs = target.nMapArguments.replace(scriptsStrOrig, scriptsArg);
+            output += newNmapCommandArgs + " ";
+        }
+        else
+        {
+            output += target.nMapArguments + " ";
+        }
     }
 
     output += host + " " + "-oX -";
@@ -155,12 +218,22 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 
 QString PortsScanner::RunNmapScan(QString nMapCommand)
 {
+    qDebug() << "Execute " << nMapCommand;
+
     // Use openssl to parse certificate
     QProcess process;
     process.startCommand(nMapCommand);
     process.waitForFinished(999999999);
-    QByteArray processOutput = process.readAllStandardOutput();
+    QString processOutput = process.readAllStandardOutput();
     processOutput += process.readAllStandardError();
+
+    // If output contain "wpcap.dll", then remove first line. This is not really a fatal error and prevents other things to be done
+    if( processOutput.contains("wpcap.dll") )
+    {
+        QString line = processOutput.split('\n')[0];
+        processOutput = QString(processOutput).replace(line + "\n", "");
+    }
+
     return processOutput;
 }
 

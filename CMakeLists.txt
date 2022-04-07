@@ -71,3 +71,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # Deployment execution
 include(deploy.cmake)
 
+# Copy additional resources to output
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/data" "${CMAKE_BINARY_DIR}/data" COMMENT "Copy additional data")
+
+

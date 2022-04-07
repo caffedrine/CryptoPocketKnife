@@ -10,7 +10,10 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QDomText>
+#include <QCoreApplication>
+#include <QTextDocument>
 
+#include "UserSettings.h"
 #include "Logger.h"
 #include "utils.h"
 #include "ThreadsPool.h"
@@ -34,7 +37,6 @@ public:
     bool NetworkErrorDetected = false;
     QString NetworkErrorDescription = "";
 
-
     QString ScanProfile = "";
 
     QString HostRdns = "";
@@ -45,6 +47,7 @@ public:
     QStringList OpenTcpPorts;
     QStringList OpenUdpPorts;
     QStringList DeviceType;
+    QStringList DeviceName;
 
     QStringList TargetsOutputs;
 };

@@ -164,16 +164,6 @@
          </column>
          <column>
           <property name="text">
-           <string>Vendor name</string>
-          </property>
-          <property name="font">
-           <font>
-            <bold>true</bold>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
            <string>Device name</string>
           </property>
           <property name="font">

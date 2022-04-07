@@ -106,16 +106,6 @@
      </column>
      <column>
       <property name="text">
-       <string>Vendor</string>
-      </property>
-      <property name="font">
-       <font>
-        <bold>true</bold>
-       </font>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>TCP Ports</string>
       </property>
       <property name="font">

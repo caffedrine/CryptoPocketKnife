@@ -215,3 +215,10 @@ void Utils_NumericListSort(QStringList *list)
     for (auto s: *list) m[s.toInt()] = s;
     *list = QStringList(m.values());
 }
+
+bool Utils_FileExists(QString fileName)
+{
+    QString f(fileName);
+    QFile file(fileName);
+    return file.exists();
+}
