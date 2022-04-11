@@ -6,6 +6,8 @@
 #include <QMap>
 #include <QStringList>
 
+#include "utils.h"
+
 class DeviceTypes
 {
 public:
@@ -23,34 +25,45 @@ public:
     QStringList ShodanDorks;
     QString nMapArguments;
     QString Description;
+    QString GitSrc;
 
     bool ParseTargetFromString(QString input)
     {
+        if( input.isEmpty() )
+            return false;
+
         // 8 separators needs to be present
-        QStringList elements = input.split(";");
-        if( elements.count() != 7 )
+        QStringList elements = Utils_ParseCSV(input);
+
+        if( elements.count() < 8 )
         {
+            qDebug() << "Error while decoding target from string. Too few elements: " << elements;
             return false;
         }
 
+        int counter = 0;
+
         // Parse category, device and vendor info
-        this->TargetType = elements[0];
-        this->TargetName = elements[1];
+        this->TargetType = elements[counter++];
+        this->TargetName = elements[counter++];
 
         // Parse TCP ports
-        this->TcpPorts = this->ParsePorts(elements[2]);
+        this->TcpPorts = this->ParsePorts(elements[counter++]);
 
         // Parse UDP ports
-        this->UdpPorts = this->ParsePorts(elements[3]);
+        this->UdpPorts = this->ParsePorts(elements[counter++]);
 
         // Parse shodan dorks
-        this->ShodanDorks = this->ParseShodanDorks(elements[4]);
+        this->ShodanDorks = this->ParseShodanDorks(elements[counter++]);
 
         // nMap arguments to be used during scan
-        this->nMapArguments = elements[5];
+        this->nMapArguments = elements[counter++];
 
         // Parse description
-        this->Description = elements[6];
+        this->Description = elements[counter++];
+
+        // Git source
+        this->GitSrc = elements[counter++];
 
         return true;
     }

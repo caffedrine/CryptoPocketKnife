@@ -24,7 +24,7 @@ public:
 private:
     PortsScanProfileType GetProfile_PlainNmap()
     {
-        QString targets = "ANY;ANY;;;;-sC -sV -O;Scan default nMap ports";
+        QString targets = "ANY,ANY,,,,-sC -sV -O,Scan default nMap ports,";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
@@ -35,7 +35,7 @@ private:
 
     PortsScanProfileType GetProfile_PlainNmapFast()
     {
-        QString targets = "ANY;ANY;;;;;Scan default nMap ports faster";
+        QString targets = "ANY,ANY,,,,,Scan default nMap ports faster,";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
@@ -46,7 +46,7 @@ private:
 
     PortsScanProfileType GetProfile_PlainNmapFastAllPorts()
     {
-        QString targets = "ANY;ANY;;;;-p-;Scan default nMap ports faster";
+        QString targets = "ANY,ANY,,,,-p-,Scan default nMap ports faster,";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
@@ -57,7 +57,7 @@ private:
 
     PortsScanProfileType GetProfile_WebServers()
     {
-        QString targets = "WEB SERVER;;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;;;Scan for webservers";
+        QString targets = "WEB SERVER,,\"66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821\",\"66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821\",,-sC -sV,Scan for webservers,";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
@@ -68,7 +68,7 @@ private:
 
     PortsScanProfileType GetProfile_WebServersFingerprint()
     {
-        QString targets = "WEB SERVER;;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821;;--script=http-*;Scan and fingerprint webservers";
+        QString targets = "WEB SERVER,,\"66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821\",\"66,80,81,443,445,457,1080,1100,1241,1352,1433,1434,1521,1944,2301,3000,3128,3306,4000,4001,4002,4100,5000,5432,5800,5801,5802,6346,6347,7001,7002,8080,8443,8888,30821\",,\"--script=http-*\",Scan and fingerprint webservers,";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
@@ -80,30 +80,8 @@ private:
     PortsScanProfileType GetProfile_IcsEssentials()
     {
         // https://ctf-wiki.mahaloz.re/ics/discover/
-        QString targets =
-                "ICS;Modbus TCP;502;;port:502;-sT -Pn --script=modbus-discover,modicon-info;Modbus TCP\n"
-                "ICS;Crimson v3;789;;port:789 product:\"Red Lion Controls\";-sT -Pn --script=cr3-fingerprint.nse;Red Lion Crimson V3 Protocol\n"
-                "ICS;Siemens S7;102;;port:102;-Pn -sT --script=s7-info.nse,s71200-enumerate-old.nse;Siemens S7 Family\n"
-                "ICS;IEC 60870-5-104;789;;port:789;-Pn -n -d --script=iec-identify.nse --script-args='iec-identify.timeout=500';IPCOMM Protocols\n"
+        static QString targets = QString(QByteArray::fromBase64("SUNTLE1vZGJ1cyBUQ1AsNTAyLCxwb3J0OjUwMiwiLVBuIC1zVCAtLXNjcmlwdD1tb2RidXMtZGlzY292ZXIsbW9kaWNvbi1pbmZvIixNb2RidXMgVENQLApJQ1MsQ3JpbXNvbiB2Myw3ODksLHBvcnQ6Nzg5IHByb2R1Y3Q6XCJSZWQgTGlvbiBDb250cm9sc1wiLC1QbiAtc1QgLS1zY3JpcHQ9Y3IzLWZpbmdlcnByaW50Lm5zZSxSZWQgTGlvbiBDcmltc29uIFYzIFByb3RvY29sLApJQ1MsSUVDIDYwODcwLTUtMTA0LDc4OSwscG9ydDo3ODksIi1QbiAtbiAtZCAtLXNjcmlwdD1pZWMtaWRlbnRpZnkubnNlIC0tc2NyaXB0LWFyZ3M9J2llYy1pZGVudGlmeS50aW1lb3V0PTUwMCciLElQQ09NTSBQcm90b2NvbHMsCklDUyxTaWVtZW5zIFM3LDEwMiwscG9ydDoxMDIsIi1QbiAtc1QgLS1zY3JpcHQ9czctaW5mby5uc2UsczcxMjAwLWVudW1lcmF0ZS1vbGQubnNlIixTaWVtZW5zIFM3IEZhbWlseSwKSUNTLEJBQ25ldC9JUCwsNDc4MDgscG9ydDo0NzgwOCwiLVBuIC1zVSAtLXNjcmlwdD1CQUNuZXQtZGlzY292ZXItZW51bWVyYXRlLm5zZSIsIkJBQ25ldC9JUCBwcm90b2NvbCIsCklDUyxETlAzLDIwMDAwLDIwMDAwLHBvcnQ6MjAwMDAsIi1zVCAtLXNjcmlwdD1kbnAzLWVudW1lcmF0ZS5uc2UsZG5wMy1pbmZvLm5zZSIsRE5QMyBvbiBUQ1AvVURQIDIwMDAwLApJQ1MsRXRoZXJDQVQsLDM0OTgwLHBvcnQ6MzQ5ODAsLVBuIC1zQyAtc1YsRXRoZXJDQVQgUHJvdG9jb2wsCklDUyxFdGhlcm5ldC9JUCw0NDgxOCwyMjIyLHBvcnQ6NDQ4MTgsLVBuIC1zQyAtc1YgLS1zY3JpcHQ9ZW5pcC1lbnVtZXJhdGUsRXRoZXJuZXQvSVAsCklDUyxGTC1uZXQsLCI1NTAwMCw1NTAwMSw1NTAwMiw1NTAwMyIsInBvcnQ6NTUwMDAsNTUwMDEsNTUwMDIsNTUwMDMiLC1QbiAtc0MgLXNWLEZMLW5ldCwKSUNTLEZvdW5kYXRpb24gRmllbGRidXMgSFNFLCIxMDg5LDEwOTAsMTA5MSIsIjEwODksMTA5MCwxMDkxIiwicG9ydDoxMDg5LDEwOTAsMTA5MSIsLVBuIC1zQyAtc1YsRm91bmRhdGlvbiBGaWVsZGJ1cyBIU0UsCklDUyxPUEMgVUEgRGlzY292ZXJ5IFNlcnZlciw0ODQwLCxwb3J0OjQ4NDAsLVBuIC1zQyAtc1YsT1BDIFVBIERpc2NvdmVyeSBTZXJ2ZXIgLSA0ODQwLApJQ1MsUFJPRklORVQsIjM0OTYyLDM0OTYzLDM0OTY0IiwiMzQ5NjIsMzQ5NjMsMzQ5NjQiLCJwb3J0OjM0OTYyLDM0OTYzLDM0OTY0IiwtUG4gLXNDIC1zVixQUk9GSU5FVCwKSUNTLEZJTlMsOTYwMCw5NjAwLHBvcnQ6OTYwMCwiLVBuIC1zQyAtc1YgLS1zY3JpcHQgb3Jtb250Y3AtaW5mby5uc2Usb3Jtb251ZHAtaW5mby5uc2UiLEZJTlMgKEZhY3RvcnkgSW50ZXJmYWNlIE5ldHdvcmsgU2VydmljZSksCklDUyxIQVJULUlQLDUwOTQsNTA5NCxwb3J0OjUwOTQsLVBuIC1zQyAtc1YgLS1zY3JpcHQ9aGFydGlwLm5zZSxIQVJULUlQIChIaWdod2F5IEFkZHJlc3NhYmxlIFJlbW90ZSBUcmFuc2R1Y2VyIG92ZXIgSVApLApJQ1MsTUVMU0VDLVEsNTAwNyw1MDA2LCJwb3J0OjUwMDYsNTAwNyIsIi1QbiAtc0MgLXNWIC1zVCAtc1UgLS1zY3JpcHQ9bWVsc2VjcS1kaXNjb3Zlci5uc2UsbWVsc2VjcS1kaXNjb3Zlci5uc2UiLE1FTFNFQy1RIChNaXRzdWJpc2hpIGVsZWN0cmljKSwKSUNTLFRyaWRpdW0gRm94LCI0OTExLDE5MTEiLCwicG9ydDoxOTExLDQ5MTEiLCItUG4gLXNDIC1zViAtLXNjcmlwdD1mb3gtaW5mby5uc2UiLFRyaWRpdW0gRm94IFByb3RvY29sIGJ5IE5pYWdhcmEgQVgsCklDUyxQQ1dPUlgsMTk2MiwscG9ydDoxOTYyLC1QbiAtc0MgLXNWIC0tc2NyaXB0PXBjd29yeC1pbmZvLFBDV29yeCBieSBQaG9lbml4IENvbnRhY3QsCklDUyxQcm9Db25PcywyMDU0NywsInBvcnQ6MjA1NDcgUExDIiwtUG4gLXNDIC1zViAtLXNjcmlwdD1wcm9jb25vcy1pbmZvLm5zZSxQcm9Db25PcywKSUNTLENvZGVzeXMsIjEyMDAsMjQ1NSIsLCJwb3J0OjI0NTUgb3BlcmF0aW5nIHN5c3RlbSIsIi1QbiAtc0MgLXNWIC0tc2NyaXB0PWNvZGVzeXMtdjItZGlzY292ZXIubnNlIixDb2Rlc3lzLApJQ1MsR0UtU1JUUCwiMTgyNDUsMTgyNDYiLCwicG9ydDoxODI0NSwxODI0NiBwcm9kdWN0OiJnZW5lcmFsIGVsZWN0cmljIiIsIi1QbiAtc0MgLXNWIixTZXJ2aWNlIFJlcXVlc3QgVHJhbnNwb3J0IFByb3RvY29sIChHRS1TUlRQKSw="));
 
-
-//                "Protocol;BACnet/IP;;47808;port:47808;-Pn -sC -sV;BACnet/IP - 47808\n"
-//                "Protocol;DNP3;20000;20000;port:20000;-Pn -sC -sV;DNP3 - 20000\n"
-//                "Protocol;EtherCAT;;34980;port:34980;-Pn -sC -sV;EtherCAT - 34980\n"
-//                "Protocol;Ethernet/IP;44818;2222;port:44818;-Pn -sC -sV;Ethernet/IP\n"
-//                "Protocol;FL-net;;55000,55001,55002,55003;port:55000,55001,55002,55003;-Pn -sC -sV;FL-net\n"
-//                "Protocol;Foundation Fieldbus HSE;1089,1090,1091;1089,1090,1091;port:1089,1090,1091;-Pn -sC -sV;Foundation Fieldbus HSE\n"
-//                "Protocol;Modbus TCP;502;;port:502;-Pn -sC -sV;Modbus TCP\n"
-//                "Protocol;OPC UA Discovery Server;4840;;port:4840;-Pn -sC -sV;OPC UA Discovery Server - 4840\n"
-//                "Protocol;PROFINET;34962,34963,34964;34962,34963,34964;port:34962,34963,34964;-Pn -sC -sV;PROFINET\n"
-//                "Protocol;ROC PLus;4000;;port:4000;-Pn -sC -sV;ROC PLus - 4000\n"
-//                "Protocol;FINS;9600;9600;port:9600;-Pn -sC -sV;FINS (Factory Interface Network Service)\n"
-//                "Protocol;HART-IP;5094;5094;port:5094;-Pn -sC -sV;HART-IP (Highway Addressable Remote Transducer over IP)\n"
-//                "Protocol;Unknown;5006;5007;port:5006,5007;-Pn -sC -sV;MELSEC-Q (Mitsubishi electric)\n"
-//                "Protocol;Tridium Fox;4911,1911;;port:1911,4911;-Pn -sC -sV;Tridium Fox Protocol by Niagara AX\n"
-//                "Protocol;PCWORX;1962;;port:1962;-Pn -sC -sV;PCWorx by Phoenix Contact\n"
-
-        ;
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
         profile.ProfileName = "ICS Essentials";
@@ -113,14 +91,12 @@ private:
 
     PortsScanProfileType GetProfile_IcsProtocols()
     {
-        QString targets = "Protocol;BACnet/IP;;;47808;port:47808;nmap_script;BACnet/IP - 47808\n"
-                          "Protocol;DNP3;;20000;20000;port:20000;nmap_script;DNP3 - 20000\n"
-                          "Protocol;EtherCAT;;;34980;port:34980;nmap_script;EtherCAT - 34980\n"
-                          "Protocol;Ethernet/IP;;44818;2222;port:44818;nmap_script;Ethernet/IP\n";
+        QString targets = "";
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;
         profile.ProfileName = "ICS Protocols";
-        profile.Targets = this->ParseTargetsFromString(targets);
+        profile.Targets = this->GetProfile_IcsEssentials().Targets;
+        profile.Targets.append(this->ParseTargetsFromString(targets));
         return profile;
     }
 

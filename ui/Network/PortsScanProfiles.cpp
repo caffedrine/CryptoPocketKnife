@@ -36,6 +36,7 @@ void PortsScanProfiles::onSelectedItemChanged_AvailableProfiles()
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, i++, new QTableWidgetItem(target.ShodanDorks.join(',')));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, i++, new QTableWidgetItem(target.nMapArguments));
         this->ui->tableWidget_ProfileTargets->setItem(currentRow, i++, new QTableWidgetItem(target.Description));
+        this->ui->tableWidget_ProfileTargets->setItem(currentRow, i++, new QTableWidgetItem(target.GitSrc));
     }
 }
 

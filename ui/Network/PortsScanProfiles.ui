@@ -154,6 +154,16 @@
        </font>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Git src</string>
+      </property>
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+     </column>
     </widget>
    </item>
   </layout>

@@ -222,3 +222,86 @@ bool Utils_FileExists(QString fileName)
     QFile file(fileName);
     return file.exists();
 }
+
+QStringList Utils_ParseCSV(const QString &string)
+{
+    enum State {Normal, Quote} state = Normal;
+    QStringList fields;
+    QString value = "";
+
+    for (int i = 0; i < string.size(); i++)
+    {
+        const QChar current = string.at(i);
+
+        // Normal state
+        if (state == Normal)
+        {
+            // Comma
+            if (current == ',')
+            {
+                // Save field
+                fields.append(value.trimmed());
+                value.clear();
+            }
+
+                // Double-quote
+            else if (current == '"')
+            {
+                state = Quote;
+                value += current;
+            }
+
+                // Other character
+            else
+                value += current;
+        }
+
+            // In-quote state
+        else if (state == Quote)
+        {
+            // Another double-quote
+            if (current == '"')
+            {
+                if (i < string.size())
+                {
+                    // A double double-quote?
+                    if (i+1 < string.size() && string.at(i+1) == '"')
+                    {
+                        value += '"';
+
+                        // Skip a second quote character in a row
+                        i++;
+                    }
+                    else
+                    {
+                        state = Normal;
+                        value += '"';
+                    }
+                }
+            }
+
+                // Other character
+            else
+                value += current;
+        }
+    }
+
+    if (!value.isEmpty())
+        fields.append(value.trimmed());
+
+    // Quotes are left in until here; so when fields are trimmed, only whitespace outside of
+    // quotes is removed.  The outermost quotes are removed here.
+    for (int i=0; i<fields.size(); ++i)
+        if (fields[i].length()>=1 && fields[i].left(1)=='"')
+        {
+            fields[i]=fields[i].mid(1);
+            if (fields[i].length()>=1 && fields[i].right(1)=='"')
+                fields[i]=fields[i].left(fields[i].length()-1);
+        }
+
+    // Treat case when string ends with comma. Just add an additional field
+    if( string.endsWith(',') )
+        fields.append("");
+
+    return fields;
+}
