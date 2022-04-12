@@ -7,9 +7,9 @@
 #define CRYPTOPOCKETKNIFE_PORTSSCANPROFILES_H
 
 #include <QWidget>
-#include <QDialog>
 #include <QListWidgetItem>
 
+#include "QDialogExtended.h"
 #include "PortsScanProfilesManager.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,13 +19,13 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
-class PortsScanProfiles: public QDialog
+class PortsScanProfiles: public QDialogExtended
 {
 Q_OBJECT
 
 public:
     explicit PortsScanProfiles(QWidget *parent = nullptr);
-    ~PortsScanProfiles() override;
+    ~PortsScanProfiles();
     void setCurrentIndex(int index);
 
 public slots:

@@ -1,7 +1,7 @@
 #include "PortsScanProfiles.h"
 #include "ui_PortsScanProfiles.h"
 
-PortsScanProfiles::PortsScanProfiles(QWidget *parent): QDialog(parent), ui(new Ui::PortsScanProfiles)
+PortsScanProfiles::PortsScanProfiles(QWidget *parent): QDialogExtended(parent), ui(new Ui::PortsScanProfiles)
 {
     ui->setupUi(this);
 
