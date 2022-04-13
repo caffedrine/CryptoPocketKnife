@@ -31,7 +31,9 @@ bool Utils_IsValidIPv6(const QString &input);
 
 void Utils_NumericListSort(QStringList *list);
 bool Utils_FileExists(QString fileName);
-QStringList Utils_ParseCSV(const QString &string);
+QStringList Utils_ParseCsvLine(const QString &string);
+QString Util_EncodeForCSV(const QString &string);
+
 
 template <class T>
 static QString join(const QList<T> &list,

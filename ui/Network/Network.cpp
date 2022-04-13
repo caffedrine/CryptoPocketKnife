@@ -25,7 +25,8 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     QObject::connect(this->ui->pushButton_PortsScanner_Stop, SIGNAL(clicked()), this, SLOT(PortsScanner_StopScan_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_StretchCols, SIGNAL(clicked()), this, SLOT(PortsScanner_StretchTable_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_Clear, SIGNAL(clicked()), this, SLOT(PortsScanner_ClearTable_pushButtonClicked()));
-    QObject::connect(this->ui->pushButton_PortsScanner_Export, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTable_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_ExportCSV, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTableCSV_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_ExportHTML, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTableHTML_pushButtonClicked()));
 
 }
 
@@ -109,11 +110,6 @@ void Network::PortsScanner_ClearTable_pushButtonClicked()
 
     this->ui->tableWidget_PortsScanner->model()->removeRows(0,  this->ui->tableWidget_PortsScanner->rowCount());
     this->PortsScanResults.clear();
-}
-
-void Network::PortsScanner_ExportTable_pushButtonClicked()
-{
-    dbgln << "Export to be done...";
 }
 
 void Network::PortsScanner_InitEngine()
@@ -326,6 +322,50 @@ void Network::PortsScanner_ShowScanResults(int tableHostIndex, const QString &ho
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].Availability);
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].OpenTcpPorts.join(","));
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].OpenUdpPorts.join(","));
+}
+
+void Network::PortsScanner_ExportTableHTML_pushButtonClicked()
+{
+    qDebug() << "Export HTML...";
+}
+
+void Network::PortsScanner_ExportTableCSV_pushButtonClicked()
+{
+    // Select location to save
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save results to file"),
+                                                    "scan_results_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss") + ".csv",
+                                                    tr("Text format (*.txt);;Comma-separated Values (*.csv)"));
+
+    if( fileName.isEmpty() )
+        return;
+
+    // Open file for writing
+    QSaveFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+
+    // Write header to file
+    for( int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++ )
+    {
+        file.write(this->ui->tableWidget_PortsScanner->horizontalHeaderItem(i)->text().toUtf8() + ",");
+    }
+    file.write(this->ui->tableWidget_PortsScanner->horizontalHeaderItem(this->ui->tableWidget_PortsScanner->columnCount() - 1)->text().toUtf8() + "\n");
+
+    // Write rows to file
+    int rows = this->ui->tableWidget_PortsScanner->rowCount();
+    for( int i = 0; i < rows; i++)
+    {
+        QString line = "";
+        for( int j = 0; j < this->ui->tableWidget_PortsScanner->columnCount() - 1; j++)
+        {
+            line += Util_EncodeForCSV( this->ui->tableWidget_PortsScanner->item(i, j)->text()) + ",";
+        }
+        line += Util_EncodeForCSV( this->ui->tableWidget_PortsScanner->item(i, this->ui->tableWidget_PortsScanner->columnCount() - 1)->text() );
+        line += "\n";
+        file.write(line.toUtf8());
+    }
+
+    // Commit changes to file
+    file.commit();
 }
 
 

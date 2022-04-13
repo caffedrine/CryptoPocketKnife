@@ -36,17 +36,10 @@
        <string>Ports scanner</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
+       <item row="3" column="2">
+        <widget class="QPushButton" name="pushButton_PortsScanner_Stop">
          <property name="text">
-          <string>Ports scan profile</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="5">
-        <widget class="QPushButton" name="pushButton_PortsScanner_StretchCols">
-         <property name="text">
-          <string>Stretch cols</string>
+          <string>Stop</string>
          </property>
         </widget>
        </item>
@@ -63,6 +56,27 @@
          </property>
         </spacer>
        </item>
+       <item row="3" column="7">
+        <widget class="QPushButton" name="pushButton_PortsScanner_Clear">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_PortsScanner_Start">
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6" colspan="2">
+        <widget class="QPushButton" name="pushButton_ManageProfiles">
+         <property name="text">
+          <string>Manage</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_PortsScanner_ActiveWorkers">
          <property name="text">
@@ -70,7 +84,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="7">
+       <item row="3" column="4">
+        <widget class="QPushButton" name="pushButton_PortsScanner_ExportCSV">
+         <property name="text">
+          <string>Export CSV</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="8">
         <widget class="AdvancedTableWidget" name="tableWidget_PortsScanner">
          <column>
           <property name="text">
@@ -194,50 +215,36 @@
          </column>
         </widget>
        </item>
-       <item row="0" column="5" colspan="2">
-        <widget class="QPushButton" name="pushButton_ManageProfiles">
-         <property name="text">
-          <string>Manage</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="6">
+       <item row="2" column="7">
         <widget class="QLabel" name="label_PortScanner_RecordsCount">
          <property name="text">
           <string>Records count: 0</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="2">
-        <widget class="QPushButton" name="pushButton_PortsScanner_Stop">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Stop</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="3">
-        <widget class="QComboBox" name="comboBox_ScanProfiles"/>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="pushButton_PortsScanner_Start">
-         <property name="text">
-          <string>Start</string>
+          <string>Ports scan profile</string>
          </property>
         </widget>
        </item>
        <item row="3" column="6">
-        <widget class="QPushButton" name="pushButton_PortsScanner_Clear">
+        <widget class="QPushButton" name="pushButton_PortsScanner_StretchCols">
          <property name="text">
-          <string>Clear</string>
+          <string>Stretch cols</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="4">
-        <widget class="QPushButton" name="pushButton_PortsScanner_Export">
+       <item row="3" column="5">
+        <widget class="QPushButton" name="pushButton_PortsScanner_ExportHTML">
          <property name="text">
-          <string>Export</string>
+          <string>Export HTML</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="2" colspan="4">
+        <widget class="QComboBox" name="comboBox_ScanProfiles"/>
        </item>
       </layout>
      </widget>

@@ -33,7 +33,7 @@ public:
             return false;
 
         // 8 separators needs to be present
-        QStringList elements = Utils_ParseCSV(input);
+        QStringList elements = Utils_ParseCsvLine(input);
 
         if( elements.count() < 8 )
         {

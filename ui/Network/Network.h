@@ -16,6 +16,7 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QDomText>
+#include <QFileDialog>
 
 #include "PortsScanner.h"
 #include "PortsScanProfiles.h"
@@ -50,7 +51,8 @@ public slots:
     void PortsScanner_StopScan_pushButtonClicked();
     void PortsScanner_StretchTable_pushButtonClicked();
     void PortsScanner_ClearTable_pushButtonClicked();
-    void PortsScanner_ExportTable_pushButtonClicked();
+    void PortsScanner_ExportTableCSV_pushButtonClicked();
+    void PortsScanner_ExportTableHTML_pushButtonClicked();
     void PortsScanner_OnRequestStarted(const QString &host, const PortsScanResult &result);
     void PortsScanner_OnRequestError(const QString &host, const PortsScanResult &result);
     void PortsScanner_OnProcessProgress(const QString &host, const PortsScanResult &result);

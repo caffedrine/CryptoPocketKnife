@@ -223,7 +223,7 @@ bool Utils_FileExists(QString fileName)
     return file.exists();
 }
 
-QStringList Utils_ParseCSV(const QString &string)
+QStringList Utils_ParseCsvLine(const QString &string)
 {
     enum State {Normal, Quote} state = Normal;
     QStringList fields;
@@ -304,4 +304,18 @@ QStringList Utils_ParseCSV(const QString &string)
         fields.append("");
 
     return fields;
+}
+
+QString Util_EncodeForCSV(const QString &string)
+{
+    QString out = string;
+    // Quotes shall be eascaped using double quotes
+    if( out.contains("\"") )
+        out = out.replace("\"", "\"\"");
+
+    // If string contain commas, then content will be in double quotes
+    if( out.contains(",") || out.contains("\n") )
+        out = "\"" + out + "\"";
+
+    return out;
 }
