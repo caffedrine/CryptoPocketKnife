@@ -45,7 +45,8 @@ public:
     QString PingOutput = "";
     quint64 StartScanTimestamp = 0;
     quint64 ScanDurationSeconds = 0;
-    QString Availability = "";
+    QString PingState = "";
+    float PingLatencySeconds;
     QStringList OpenTcpPorts;
     QStringList OpenUdpPorts;
     QStringList DeviceType;

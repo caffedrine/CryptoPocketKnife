@@ -245,7 +245,8 @@ bool PortsScanner::RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *
 
     output->HostIp = xmlParser.GetNmapParam_TargetAddress();
     output->HostRdns = xmlParser.GetNmapParam_TargetRDNS();
-    output->Availability = xmlParser.GetNmapParam_TargetState();
+    output->PingState = xmlParser.GetNmapParam_TargetState();
+    output->PingLatencySeconds = xmlParser.GetNmapParam_LatencySeconds();
     output->PingOutput = xmlParser.GetInputXML();
 
     if( output->HostIp.isEmpty() && Utils_IsValidIPv4(host))

@@ -190,7 +190,7 @@ void Network::PortsScanner_ShowScanResults(int tableHostIndex, const QString &ho
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].HostRdns);
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(QDateTime::fromSecsSinceEpoch(this->PortsScanResults[host].StartScanTimestamp).toString("yyyy-MM-dd hh:mm:ss"));
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(!ScanInProgress?QTime(0,0,0,0).addSecs(this->PortsScanResults[host].ScanDurationSeconds).toString("hh:mm:ss"):"");
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].Availability);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].PingState + (this->PortsScanResults[host].PingState == "UP" ? " (" + Utils_FloatWithDigitsPrecision(this->PortsScanResults[host].PingLatencySeconds, 2) + "s)" : ""));
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(tcpPorts.join(","));
     this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(udpPorts.join(","));
 }

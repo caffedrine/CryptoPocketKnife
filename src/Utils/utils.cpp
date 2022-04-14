@@ -319,3 +319,8 @@ QString Util_EncodeForCSV(const QString &string)
 
     return out;
 }
+
+QString Utils_FloatWithDigitsPrecision(float number, int precision)
+{
+    return QString::number(number , 'f', precision);
+}

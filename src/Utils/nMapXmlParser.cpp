@@ -83,3 +83,9 @@ bool nMapXmlParser::GetNmapParam_ScanSucceed()
 {
     return this->xml.documentElement().elementsByTagName("finished").item(0).toElement().attribute("exit").toLower() == "success";
 }
+
+float nMapXmlParser::GetNmapParam_LatencySeconds()
+{
+    float microseconds = this->xml.documentElement().elementsByTagName("times").item(0).toElement().attribute("srtt").toFloat();
+    return  microseconds / 1000 / 1000;
+}

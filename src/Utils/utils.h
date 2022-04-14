@@ -33,7 +33,7 @@ void Utils_NumericListSort(QStringList *list);
 bool Utils_FileExists(QString fileName);
 QStringList Utils_ParseCsvLine(const QString &string);
 QString Util_EncodeForCSV(const QString &string);
-
+QString Utils_FloatWithDigitsPrecision(float number, int precision = 2);
 
 template <class T>
 static QString join(const QList<T> &list,

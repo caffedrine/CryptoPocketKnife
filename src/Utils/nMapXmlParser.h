@@ -29,6 +29,7 @@ public:
     QString GetNmapParam_TargetRDNS();
     QString GetNmapParam_TargetState();
     QList<nMapPortState> GetNmapParam_OpenPorts();
+    float GetNmapParam_LatencySeconds();
 
 protected:
 
