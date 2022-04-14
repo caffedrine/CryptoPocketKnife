@@ -335,37 +335,10 @@ void Network::PortsScanner_ExportTableCSV_pushButtonClicked()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save results to file"),
                                                     "scan_results_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm-ss") + ".csv",
                                                     tr("Text format (*.txt);;Comma-separated Values (*.csv)"));
-
     if( fileName.isEmpty() )
         return;
 
-    // Open file for writing
-    QSaveFile file(fileName);
-    file.open(QIODevice::WriteOnly);
-
-    // Write header to file
-    for( int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++ )
-    {
-        file.write(this->ui->tableWidget_PortsScanner->horizontalHeaderItem(i)->text().toUtf8() + ",");
-    }
-    file.write(this->ui->tableWidget_PortsScanner->horizontalHeaderItem(this->ui->tableWidget_PortsScanner->columnCount() - 1)->text().toUtf8() + "\n");
-
-    // Write rows to file
-    int rows = this->ui->tableWidget_PortsScanner->rowCount();
-    for( int i = 0; i < rows; i++)
-    {
-        QString line = "";
-        for( int j = 0; j < this->ui->tableWidget_PortsScanner->columnCount() - 1; j++)
-        {
-            line += Util_EncodeForCSV( this->ui->tableWidget_PortsScanner->item(i, j)->text()) + ",";
-        }
-        line += Util_EncodeForCSV( this->ui->tableWidget_PortsScanner->item(i, this->ui->tableWidget_PortsScanner->columnCount() - 1)->text() );
-        line += "\n";
-        file.write(line.toUtf8());
-    }
-
-    // Commit changes to file
-    file.commit();
+    this->ui->tableWidget_PortsScanner->ExportAsCSV(fileName);
 }
 
 

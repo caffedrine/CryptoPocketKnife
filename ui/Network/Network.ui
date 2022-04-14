@@ -145,7 +145,7 @@
          </column>
          <column>
           <property name="text">
-           <string>Availability</string>
+           <string>Host state</string>
           </property>
           <property name="font">
            <font>

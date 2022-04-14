@@ -10,7 +10,9 @@
 #include <QDebug>
 #include <QClipboard>
 #include <QApplication>
+#include <QSaveFile>
 
+#include "utils.h"
 
 class AdvancedTableWidget: public QTableWidget
 {
@@ -18,6 +20,8 @@ class AdvancedTableWidget: public QTableWidget
 public:
     explicit AdvancedTableWidget(QWidget *parent = nullptr);
     explicit AdvancedTableWidget(int rows, int columns, QWidget *parent = nullptr);
+
+    void ExportAsCSV(QString outputFile, QList<int> columnsToBeExported = QList<int>());
 
 protected:
     void dragEnterEvent(QDragEnterEvent *e);

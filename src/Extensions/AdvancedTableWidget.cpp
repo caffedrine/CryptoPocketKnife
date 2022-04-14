@@ -119,3 +119,65 @@ void AdvancedTableWidget::mouseDoubleClickEvent(QMouseEvent *event)
     // Forward event to regular handler
     QTableView::mouseDoubleClickEvent(event);
 }
+
+void AdvancedTableWidget::ExportAsCSV(QString outputFile, QList<int> columnsToBeExported)
+{
+    if( outputFile.isEmpty() )
+    {
+        qDebug() << "Invalid file name provided while trying to export table to CSV file.";
+        return;
+    }
+
+    // Check if table have any columns
+    if( columnCount() <= 0 )
+    {
+        qDebug() << "No columns to be exported within the table";
+        return;
+    }
+
+    // Validate columns range given
+    for( const int i: columnsToBeExported )
+    {
+        if( i >=  this->columnCount())
+        {
+            qDebug() << "Wrong number of columns provided";
+            return;
+        }
+    }
+
+    // If no columns are provided, export the entire table, which mean all cols shall be set
+    if( columnsToBeExported.count() == 0 )
+    {
+        for( int i = 0; i < this->columnCount(); i++ )
+        {
+            columnsToBeExported.append(i);
+        }
+    }
+
+    // Open file for writing
+    QSaveFile file(outputFile);
+    file.open(QIODevice::WriteOnly);
+
+    // Write header to file
+    for( int i = 0; i < columnsToBeExported.count() - 1; i++ )
+    {
+        file.write(this->horizontalHeaderItem(columnsToBeExported.at(i))->text().toUtf8() + ",");
+    }
+    file.write(this->horizontalHeaderItem(columnsToBeExported.at(columnsToBeExported.last()))->text().toUtf8() + "\n");
+
+    // Write rows to file
+    for( int i = 0; i < this->rowCount(); i++)
+    {
+        QString line = "";
+        for( int j = 0; j < columnsToBeExported.count() - 1; j++)
+        {
+            line += Util_EncodeForCSV( this->item(i, columnsToBeExported.at(j))->text()) + ",";
+        }
+        line += Util_EncodeForCSV( this->item(i, columnsToBeExported.at(columnsToBeExported.last()))->text() );
+        line += "\n";
+        file.write(line.toUtf8());
+    }
+
+    // Commit changes to file
+    file.commit();
+}
