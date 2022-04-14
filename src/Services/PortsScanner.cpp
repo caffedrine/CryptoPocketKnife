@@ -240,22 +240,31 @@ QString PortsScanner::RunNmapScan(QString nMapCommand)
 bool PortsScanner::RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output)
 {
     QString scanXmlnMap = this->RunNmapScan("nmap -sn " + host + " -oX -");
-    QString parsingError;
-    QDomDocument nmapXmlOutput;
-    if( !nmapXmlOutput.setContent(scanXmlnMap, &parsingError))
+
+    nMapXmlParser xmlParser;
+    if( !this->TryParseNmapXML(scanXmlnMap, &xmlParser, output))
     {
-        QString msg = "nMap XML error: " + parsingError;
-        qDebug() << msg;
-        output->AppErrorDetected = true;
-        output->AppErrorDesc = msg;
-        output->TargetsOutputs.append(nmapXmlOutput.toString(4));
         return false;
     }
 
-    output->HostIp = nmapXmlOutput.documentElement().elementsByTagName("address").item(0).toElement().attribute("addr");
-    output->HostRdns = nmapXmlOutput.documentElement().elementsByTagName("hostname").item(0).toElement().attribute("name");
-    output->Availability = nmapXmlOutput.documentElement().elementsByTagName("status").item(0).toElement().attribute("state").toUpper();
+    output->HostIp = xmlParser.GetNmapParam_TargetAddress();
+    output->HostRdns = xmlParser.GetNmapParam_TargetRDNS();
+    output->Availability = xmlParser.GetNmapParam_TargetState();
 
+    return true;
+}
+
+bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output)
+{
+    if( !outputNmapXmlParser->ParseXML(xmlContent))
+    {
+        QString msg = "nMap XML error: " + outputNmapXmlParser->GetParsingErrorDesc();
+        qDebug() << msg;
+        output->AppErrorDetected = true;
+        output->AppErrorDesc = msg;
+        output->TargetsOutputs.append(outputNmapXmlParser->GetInputXML());
+        return false;
+    }
     return true;
 }
 

@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "ThreadsPool.h"
 #include "PortsScanProfilesManager.h"
+#include "nMapXmlParser.h"
 
 /* */
 class PostsScanResultTarget
@@ -74,6 +75,7 @@ private:
     QString BuildNmapScanCommand(const QString &host, PortsScanTargetType &target);
     QString RunNmapScan(QString nMapCommand);
     bool RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output);
+    bool TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output);
 
 
 };
