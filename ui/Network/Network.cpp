@@ -28,6 +28,7 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     QObject::connect(this->ui->pushButton_PortsScanner_ExportCSV, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTableCSV_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_ExportHTML, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTableHTML_pushButtonClicked()));
 
+    ui->tableWidget_PortsScanner->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 Network::~Network()
@@ -139,6 +140,11 @@ void Network::PortsScanner_OnRequestError(const QString &host, const PortsScanRe
     this->PortsScanResults[host] = result;
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setText(result.AppErrorDetected?result.AppErrorDesc:result.NetworkErrorDescription);
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setIcon(QIcon(":/img/fail.png"));
+
+    this->ui->tableWidget_PortsScanner->item(hostIndex, 1)->setText(this->PortsScanResults[host].HostIp);
+    this->ui->tableWidget_PortsScanner->item(hostIndex, 2)->setText(this->PortsScanResults[host].HostRdns);
+    this->ui->tableWidget_PortsScanner->item(hostIndex, 3)->setText(QDateTime::fromSecsSinceEpoch(this->PortsScanResults[host].StartScanTimestamp).toString("yyyy-MM-dd hh:mm:ss"));
+    this->ui->tableWidget_PortsScanner->item(hostIndex, 4)->setText(QTime(0,0,0,0).addSecs(this->PortsScanResults[host].ScanDurationSeconds).toString("hh:mm:ss"));
 }
 
 void Network::PortsScanner_OnProcessProgress(const QString &host, const PortsScanResult &result)
@@ -165,6 +171,28 @@ void Network::PortsScanner_OnRequestFinished(const QString &host, const PortsSca
     }
 
     this->PortsScanner_ShowScanResults(hostIndex, host, false);
+}
+
+void Network::PortsScanner_ShowScanResults(int tableHostIndex, const QString &host, bool ScanInProgress)
+{
+    QList<QString> tcpPorts = this->PortsScanResults[host].OpenTcpPorts;
+    tcpPorts.removeDuplicates();
+    Utils_NumericListSort(&tcpPorts);
+
+
+    QList<QString> udpPorts = this->PortsScanResults[host].OpenUdpPorts;
+    udpPorts.removeDuplicates();
+    Utils_NumericListSort(&udpPorts);
+
+    // Start filling data into table
+    int i = 1;
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].HostIp);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].HostRdns);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(QDateTime::fromSecsSinceEpoch(this->PortsScanResults[host].StartScanTimestamp).toString("yyyy-MM-dd hh:mm:ss"));
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(!ScanInProgress?QTime(0,0,0,0).addSecs(this->PortsScanResults[host].ScanDurationSeconds).toString("hh:mm:ss"):"");
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].Availability);
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(tcpPorts.join(","));
+    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(udpPorts.join(","));
 }
 
 void Network::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
@@ -229,6 +257,7 @@ void Network::PortsScanner_tableWidget_OnRowsInserted(const QModelIndex &parent,
 void Network::PortsScanner_tableWidget_OnTextPasted(const QString &text)
 {
     QStringList hosts = Utils_ExtractAllHosts(text);
+    hosts.removeDuplicates();
 
     foreach(const QString &host, hosts)
         {
@@ -267,12 +296,14 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
 
     QMenu menu("contextMenu", this);
     QAction Item_ViewReport("View report", this);
-    QAction Item_ShowResult("Show raw result", this);
+    QAction Item_ShowPingResult("Show ping result", this);
+    QAction Item_ShowResult("Show raw scan results", this);
     QAction Item_Retest("Retest", this);
 
     if( row < 0 )
     {
         Item_ViewReport.setEnabled(false);
+        Item_ShowPingResult.setEnabled(false);
         Item_ShowResult.setEnabled(false);
         Item_Retest.setEnabled(false);
     }
@@ -284,6 +315,15 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
             qDebug() << "Trigger report viewer!";
         });
 
+        connect(&Item_ShowPingResult, &QAction::triggered, this, [host, this]()
+        {
+            QString text = this->PortsScanResults[host].PingOutput;
+
+            QPlainTextEdit *editor = new QPlainTextEdit(text);
+            editor->setWindowTitle("Ping scan result for " + host);
+            editor->setBaseSize(QSize(800, 400));
+            editor->show();
+        });
 
         connect(&Item_ShowResult, &QAction::triggered, this, [host, this]()
         {
@@ -305,23 +345,11 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
     }
 
     menu.addAction(&Item_ViewReport);
+    menu.addAction(&Item_ShowPingResult);
     menu.addAction(&Item_ShowResult);
     menu.addSeparator();
     menu.addAction(&Item_Retest);
     menu.exec(ui->tableWidget_PortsScanner->viewport()->mapToGlobal(pos));
-}
-
-void Network::PortsScanner_ShowScanResults(int tableHostIndex, const QString &host, bool ScanInProgress)
-{
-    // Start filling data into table
-    int i = 1;
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].HostIp);
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].HostRdns);
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(QDateTime::fromSecsSinceEpoch(this->PortsScanResults[host].StartScanTimestamp).toString("yyyy-MM-dd hh:mm:ss"));
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(!ScanInProgress?QTime(0,0,0,0).addSecs(this->PortsScanResults[host].ScanDurationSeconds).toString("hh:mm:ss"):"");
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].Availability);
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].OpenTcpPorts.join(","));
-    this->ui->tableWidget_PortsScanner->item(tableHostIndex, i++)->setText(this->PortsScanResults[host].OpenUdpPorts.join(","));
 }
 
 void Network::PortsScanner_ExportTableHTML_pushButtonClicked()

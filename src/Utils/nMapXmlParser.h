@@ -24,6 +24,7 @@ public:
     QString GetInputXML();
     QDomDocument const *GetInputDomDocument();
 
+    bool GetNmapParam_ScanSucceed();
     QString GetNmapParam_TargetAddress();
     QString GetNmapParam_TargetRDNS();
     QString GetNmapParam_TargetState();

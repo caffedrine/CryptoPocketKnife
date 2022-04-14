@@ -42,7 +42,8 @@ QString nMapXmlParser::GetNmapParam_TargetRDNS()
 
 QString nMapXmlParser::GetNmapParam_TargetState()
 {
-    return this->xml.documentElement().elementsByTagName("status").item(0).toElement().attribute("state").toUpper();
+    QString state = this->xml.documentElement().elementsByTagName("status").item(0).toElement().attribute("state").toUpper();
+    return (state.isEmpty() ? "DOWN" : state);
 }
 
 bool nMapXmlParser::ParseXML(const QString &nMap_XML)
@@ -76,4 +77,9 @@ QList<nMapPortState> nMapXmlParser::GetNmapParam_OpenPorts()
     }
 
     return output;
+}
+
+bool nMapXmlParser::GetNmapParam_ScanSucceed()
+{
+    return this->xml.documentElement().elementsByTagName("finished").item(0).toElement().attribute("exit").toLower() == "success";
 }

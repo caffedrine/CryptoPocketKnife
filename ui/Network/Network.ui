@@ -145,7 +145,7 @@
          </column>
          <column>
           <property name="text">
-           <string>Host state</string>
+           <string>Ping state</string>
           </property>
           <property name="font">
            <font>

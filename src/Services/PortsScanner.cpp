@@ -204,7 +204,7 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 
 QString PortsScanner::RunNmapScan(QString nMapCommand)
 {
-    qDebug() << "Execute " << nMapCommand;
+    //qDebug() << "Execute " << nMapCommand;
 
     // Use openssl to parse certificate
     QProcess process;
@@ -230,12 +230,28 @@ bool PortsScanner::RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *
     nMapXmlParser xmlParser;
     if( !this->TryParseNmapXML(scanXmlnMap, &xmlParser, output))
     {
+        output->PingOutput = scanXmlnMap;
+        if (Utils_IsValidIPv4(host))
+        {
+            output->HostIp = host;
+        }
+        else
+        {
+            output->HostRdns = host;
+        }
+
         return false;
     }
 
     output->HostIp = xmlParser.GetNmapParam_TargetAddress();
     output->HostRdns = xmlParser.GetNmapParam_TargetRDNS();
     output->Availability = xmlParser.GetNmapParam_TargetState();
+    output->PingOutput = xmlParser.GetInputXML();
+
+    if( output->HostIp.isEmpty() && Utils_IsValidIPv4(host))
+    {
+        output->HostIp = host;
+    }
 
     return true;
 }
@@ -248,9 +264,21 @@ bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmap
         qDebug() << msg;
         output->AppErrorDetected = true;
         output->AppErrorDesc = msg;
+        output->TargetsOutputs.append(xmlContent);
+        return false;
+    }
+
+    // nMap stopped with errors?
+    if( !outputNmapXmlParser->GetNmapParam_ScanSucceed() )
+    {
+        QString msg = "nMap exit with error code";
+        qDebug() << msg;
+        output->AppErrorDetected = true;
+        output->AppErrorDesc = msg;
         output->TargetsOutputs.append(outputNmapXmlParser->GetInputXML());
         return false;
     }
+
     return true;
 }
 
