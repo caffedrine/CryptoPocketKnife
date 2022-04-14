@@ -62,36 +62,22 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
             QString nmapOutputXml = this->RunNmapScan(scanRequestCommandString);
 
             // Check if nmap output is valid
-            QString parsingError;
-            QDomDocument xml;
-            if( !xml.setContent(nmapOutputXml, &parsingError))
+            nMapXmlParser xmlParser;
+            if( !this->TryParseNmapXML(nmapOutputXml, &xmlParser, &output))
             {
-                QString msg = "Invalid nMap XML: " + parsingError;
-                qDebug() << msg;
-                output.AppErrorDetected = true;
-                output.AppErrorDesc = msg;
-                output.TargetsOutputs.append(nmapOutputXml);
                 break;
             }
 
-            output.TargetsOutputs.append(xml.toString(4));
+            output.TargetsOutputs.append(xmlParser.GetInputXML());
 
             // Update portslist scanned
-            QDomNodeList ports = xml.documentElement().elementsByTagName("port");
-            for( int j = 0; j < ports.count(); j++ )
+            QList<nMapPortState> ports = xmlParser.GetNmapParam_OpenPorts();
+            for( const nMapPortState &port: ports )
             {
-                QString port = ports.item(j).toElement().attribute("portid");
-                QString protocol = ports.item(j).toElement().attribute("protocol");
-                QString portState = ports.item(j).toElement().elementsByTagName("state").item(0).toElement().attribute("state");
-
-                // Only show open ports
-                if( portState.toLower() == "open" )
-                {
-                    if (protocol.toLower() == "tcp")
-                        output.OpenTcpPorts.append(port);
-                    else
-                        output.OpenUdpPorts.append(port);
-                }
+                if (port.Protocol.toLower() == "tcp")
+                    output.OpenTcpPorts.append(QString::number(port.PortNumber));
+                else
+                    output.OpenUdpPorts.append(QString::number(port.PortNumber));
             }
 
             // Notify UI about the progress done

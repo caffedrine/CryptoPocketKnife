@@ -51,3 +51,29 @@ bool nMapXmlParser::ParseXML(const QString &nMap_XML)
     this->xml.setContent(nMap_XML, &this->ParsingErrorDesc);
     return this->IsValidXML();
 }
+
+QDomDocument const *nMapXmlParser::GetInputDomDocument()
+{
+    return &this->xml;
+}
+
+QList<nMapPortState> nMapXmlParser::GetNmapParam_OpenPorts()
+{
+    QList<nMapPortState> output;
+
+    // Update portslist scanned
+    QDomNodeList ports = this->xml.documentElement().elementsByTagName("port");
+    for( int j = 0; j < ports.count(); j++ )
+    {
+        nMapPortState port;
+        port.State = ports.item(j).toElement().elementsByTagName("state").item(0).toElement().attribute("state");
+        if( port.State.toLower() == "open" )
+        {
+            port.PortNumber = ports.item(j).toElement().attribute("portid").toInt();
+            port.Protocol = ports.item(j).toElement().attribute("protocol");
+            output.append(port);
+        }
+    }
+
+    return output;
+}

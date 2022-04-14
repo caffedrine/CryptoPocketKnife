@@ -2,6 +2,15 @@
 #define _NMAPXMLPARSER_H_
 
 #include <QDomDocument>
+#include <QList>
+
+class nMapPortState
+{
+public:
+    quint16 PortNumber;
+    QString Protocol;
+    QString State;
+};
 
 class nMapXmlParser
 {
@@ -13,11 +22,12 @@ public:
     bool IsValidXML();
     QString GetParsingErrorDesc();
     QString GetInputXML();
+    QDomDocument const *GetInputDomDocument();
 
     QString GetNmapParam_TargetAddress();
     QString GetNmapParam_TargetRDNS();
     QString GetNmapParam_TargetState();
-
+    QList<nMapPortState> GetNmapParam_OpenPorts();
 
 protected:
 
