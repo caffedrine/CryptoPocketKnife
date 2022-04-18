@@ -18,6 +18,7 @@
 #include <QDomText>
 #include <QFileDialog>
 
+#include "GeoIP.h"
 #include "PortsScanner.h"
 #include "PortsScanProfiles.h"
 #include "PortsScanProfilesManager.h"

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "GeoIP.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -20,6 +22,11 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCertFileDragged(QString)) );
     QObject::connect(this->ui->textEdit_certificates_ParseCsr_InputCsr, SIGNAL( OnDraggedFile(QString) ),
             this, SLOT(OnCsrFileDragged(QString)) );
+
+    qDebug() << "GeoIP (89.37.121.170): " << GeoIP::Instance()->IP2CountryName("89.37.121.170");
+    qDebug() << "GeoIP (89.37.121.170): " << GeoIP::Instance()->IP2CountryISO("89.37.121.170");
+    //GeoIP::DestroyInstance();
+
 }
 
 MainWindow::~MainWindow()

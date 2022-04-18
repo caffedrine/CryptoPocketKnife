@@ -152,6 +152,18 @@ void Network::PortsScanner_OnProcessProgress(const QString &host, const PortsSca
     int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
     this->PortsScanResults[host] = result;
     this->PortsScanner_ShowScanResults(hostIndex, host, true);
+
+    // Update country flag on IP
+    static bool countryFlagUpdated = false;
+    if( !result.HostIp.isEmpty() && !countryFlagUpdated)
+    {
+        countryFlagUpdated = true;
+        QString resPath = ":/img/flags/"+GeoIP::Instance()->IP2CountryISO(result.HostIp).toLower()+".svg";
+        if( QFile::exists(resPath) )
+        {
+            this->ui->tableWidget_PortsScanner->item(hostIndex, 1)->setIcon(QIcon(resPath));
+        }
+    }
 }
 
 void Network::PortsScanner_OnRequestFinished(const QString &host, const PortsScanResult &result)
