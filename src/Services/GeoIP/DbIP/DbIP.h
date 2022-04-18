@@ -1,0 +1,92 @@
+#ifndef _DBIP_H_
+#define _DBIP_H_
+
+#include <QtCore/QString>
+#include <QtCore/QDebug>
+#include <QtCore/QDateTime>
+#include <QtCore/QCoreApplication>
+#include <QtNetwork/QHostAddress>
+#include <QFile>
+
+struct DataFieldDescriptor;
+
+class DbIP
+{
+public:
+    static const int MAX_DB_SIZE = 64 * 1024 * 1024;
+
+    DbIP();
+    ~DbIP();
+
+    QString IP2Country(const QString &CountryDbPath, const QString &ip_address);
+
+protected:
+    struct DataFieldDescriptor;
+    class CountryLookup
+    {
+    Q_DECLARE_TR_FUNCTIONS(CountryLookup)
+
+    public:
+        static CountryLookup *load(const QString &filename, QString &error);
+        static CountryLookup *load(const QByteArray &data, QString &error);
+
+        ~CountryLookup();
+
+        QString type() const;
+        quint16 ipVersion() const;
+        QDateTime buildEpoch() const;
+        QString lookup(const QHostAddress &hostAddr) const;
+
+    private:
+        explicit CountryLookup(quint32 size);
+
+        bool parseMetadata(const QVariantHash &metadata, QString &error);
+        bool loadDB(QString &error) const;
+        QVariantHash readMetadata() const;
+
+        QVariant readDataField(quint32 &offset) const;
+        bool readDataFieldDescriptor(quint32 &offset, DataFieldDescriptor &out) const;
+        void fromBigEndian(uchar *buf, quint32 len) const;
+        QVariant readMapValue(quint32 &offset, quint32 count) const;
+        QVariant readArrayValue(quint32 &offset, quint32 count) const;
+
+        template<typename T>
+        QVariant readPlainValue(quint32 &offset, quint8 len) const
+        {
+            T value = 0;
+            const uchar *const data = m_data + offset;
+            const quint32 availSize = m_size - offset;
+
+            if ((len > 0) && (len <= sizeof(T) && (availSize >= len)))
+            {
+                // copy input data to last 'len' bytes of 'value'
+                uchar *dst = reinterpret_cast<uchar *>(&value) + (sizeof(T) - len);
+                memcpy(dst, data, len);
+                fromBigEndian(reinterpret_cast<uchar *>(&value), sizeof(T));
+                offset += len;
+            }
+
+            return QVariant::fromValue(value);
+        }
+
+        // Metadata
+        quint16 m_ipVersion;
+        quint16 m_recordSize;
+        quint32 m_nodeCount;
+        int m_nodeSize;
+        int m_indexSize;
+        int m_recordBytes;
+        QDateTime m_buildEpoch;
+        QString m_dbType;
+        // Search data
+        mutable QHash<quint32, QString> m_countries;
+        quint32 m_size;
+        uchar *m_data;
+    };
+
+private:
+    class CountryLookup *countryLookupDb;
+
+};
+
+#endif // _DBIP_H_
