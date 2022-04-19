@@ -33,6 +33,7 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
 
 Network::~Network()
 {
+    GeoIP::DestroyInstance();
     delete ui;
 }
 
@@ -211,6 +212,12 @@ void Network::PortsScanner_ShowScanResults(int tableHostIndex, const QString &ho
 void Network::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
 {
     this->ui->label_PortsScanner_ActiveWorkers->setText("Active workers: " + QString::number(activeWorkers));
+
+    // Destroy IP lookup database instance to reduce RAM usage
+    if( activeWorkers == 0 )
+    {
+        GeoIP::DestroyInstance();
+    }
 }
 
 int  Network::PortsScanner_GetRowIndexByHost(const QString &host)

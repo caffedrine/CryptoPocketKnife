@@ -13,11 +13,11 @@ public:
 
     static GeoIP *Instance();
     static void DestroyInstance();
-    static QString IsoCodeToCountryName(const QString &isoCode);
 
     QString IP2CountryISO(const QString &ip_address);
     QString IP2CountryName(const QString &ip_address);
     QString IP2Asn(const QString &ip_address);
+    QString IP2Org(const QString &ip_address);
 
 protected:
     GeoIP();

@@ -120,7 +120,7 @@ QDateTime MmdbReader::buildEpoch() const
     return m_buildEpoch;
 }
 
-QString MmdbReader::lookup(const QHostAddress &hostAddr) const
+QVariant MmdbReader::lookup(const QHostAddress &hostAddr) const
 {
     Q_IPV6ADDR addr = hostAddr.toIPv6Address();
 
@@ -147,20 +147,13 @@ QString MmdbReader::lookup(const QHostAddress &hostAddr) const
 
             if (id > m_nodeCount)
             {
-                QString country = m_countries.value(id);
-                if (country.isEmpty())
+                const quint32 offset = id - m_nodeCount - sizeof(DATA_SECTION_SEPARATOR);
+                quint32 tmp = offset + m_indexSize + sizeof(DATA_SECTION_SEPARATOR);
+                const QVariant val = readDataField(tmp);
+                if (val.userType() == QMetaType::QVariantHash)
                 {
-                    const quint32 offset = id - m_nodeCount - sizeof(DATA_SECTION_SEPARATOR);
-                    quint32 tmp = offset + m_indexSize + sizeof(DATA_SECTION_SEPARATOR);
-                    const QVariant val = readDataField(tmp);
-                    if (val.userType() == QMetaType::QVariantHash)
-                    {
-                        qDebug() << QJsonValue::fromVariant(val);
-                        country = val.toHash()["country"].toHash()["iso_code"].toString();
-                        m_countries[id] = country;
-                    }
+                    return val;
                 }
-                return country;
             }
 
             ptr = m_data + (id * m_nodeSize);

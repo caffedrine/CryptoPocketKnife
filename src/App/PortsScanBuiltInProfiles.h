@@ -10,8 +10,8 @@ public:
     QList<PortsScanProfileType> GetAllProfiles()
     {
         QList<PortsScanProfileType> profiles;
-        profiles.append(this->GetProfile_PlainNmap());
         profiles.append(this->GetProfile_PlainNmapFast());
+        profiles.append(this->GetProfile_PlainNmap());
         profiles.append(this->GetProfile_PlainNmapFastAllPorts());
         profiles.append(this->GetProfile_WebServers());
         profiles.append(this->GetProfile_WebServersFingerprint());
@@ -22,6 +22,17 @@ public:
     };
 
 private:
+    PortsScanProfileType GetProfile_PlainNmapFast()
+    {
+        QString targets = "ANY,ANY,,,,,Scan default nMap ports FAST,";
+
+        PortsScanProfileType profile;
+        profile.BuiltInProfile = true;
+        profile.ProfileName = "Plain nMap fast (default ports)";
+        profile.Targets = this->ParseTargetsFromString(targets);
+        return profile;
+    }
+
     PortsScanProfileType GetProfile_PlainNmap()
     {
         QString targets = "ANY,ANY,,,,-sC -sV -O,Scan default nMap ports,";
@@ -33,20 +44,9 @@ private:
         return profile;
     }
 
-    PortsScanProfileType GetProfile_PlainNmapFast()
-    {
-        QString targets = "ANY,ANY,,,,,Scan default nMap ports faster,";
-
-        PortsScanProfileType profile;
-        profile.BuiltInProfile = true;
-        profile.ProfileName = "Plain nMap fast (default ports)";
-        profile.Targets = this->ParseTargetsFromString(targets);
-        return profile;
-    }
-
     PortsScanProfileType GetProfile_PlainNmapFastAllPorts()
     {
-        QString targets = "ANY,ANY,,,,-p-,Scan default nMap ports faster,";
+        QString targets = "ANY,ANY,,,,-p-,Scan scan all ports FAST,";
 
         PortsScanProfileType profile;
         profile.BuiltInProfile = true;

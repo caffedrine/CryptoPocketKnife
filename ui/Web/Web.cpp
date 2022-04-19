@@ -19,9 +19,8 @@ Web::Web(QWidget *parent): QWidget(parent), ui(new Ui::Web)
 
 Web::~Web()
 {
-    if( this->WebScrapperEngine )
-        delete this->WebScrapperEngine;
-
+    GeoIP::DestroyInstance();
+    delete this->WebScrapperEngine;
     delete ui;
 }
 
@@ -161,7 +160,11 @@ void Web::webScraper_OnRequestFinished(const QString &requestId, const QString &
 
     this->WebScraperResponseHeaders[WebScraper_getFullUrlFromTable(requestId.toInt())] = response.Headers;
     this->WebScraperResponseData[WebScraper_getFullUrlFromTable(requestId.toInt())] = response.Body;
+}
 
+void Web::webScraper_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
+{
+    this->ui->label_ActiveWorkers->setText("Active workers: " + QString::number(activeWorkers));
 }
 
 void Web::on_pushButton_WebScraper_StopDownload_clicked()
@@ -286,11 +289,6 @@ void Web::on_pushButton_WebScraping_StretchCols_clicked()
     this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
 
     //this->ui->tableWidget_WebScraper->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-}
-
-void Web::webScraper_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers)
-{
-    this->ui->label_ActiveWorkers->setText("Active workers: " + QString::number(activeWorkers));
 }
 
 void Web::webScrapper_InitEngine()

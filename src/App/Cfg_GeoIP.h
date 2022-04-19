@@ -7,8 +7,8 @@
 class GeoIPProviders
 {
 public:
-    inline static const QString DbIP = "db-ip";
-    inline static const QString Maxmind = "maxmind";
+    inline static const QString DbIP = "DB-IP";
+    inline static const QString Maxmind = "MaxMind";
 };
 
 class Cfg_GeoIP

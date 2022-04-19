@@ -13,8 +13,10 @@ public:
     DbIP();
     ~DbIP();
 
-    QString IP2Country(const QString &CountryDbPath, const QString &ip_address);
+    QString IP2CountryISO(const QString &CountryDbPath, const QString &ip_address);
+    QString IP2CountryName(const QString &CountryDbPath, const QString &ip_address);
     QString IP2Asn(const QString &AsnDbPath, const QString &ip_address);
+    QString IP2Org(const QString &AsnDbPath, const QString &ip_address);
 
 protected:
 

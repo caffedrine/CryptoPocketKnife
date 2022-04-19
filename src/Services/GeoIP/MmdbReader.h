@@ -24,7 +24,7 @@ public:
     QString type() const;
     quint16 ipVersion() const;
     QDateTime buildEpoch() const;
-    QString lookup(const QHostAddress &hostAddr) const;
+    QVariant lookup(const QHostAddress &hostAddr) const;
 
 private:
     explicit MmdbReader(quint32 size);

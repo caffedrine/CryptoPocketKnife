@@ -22,10 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCertFileDragged(QString)) );
     QObject::connect(this->ui->textEdit_certificates_ParseCsr_InputCsr, SIGNAL( OnDraggedFile(QString) ),
             this, SLOT(OnCsrFileDragged(QString)) );
-
-    qDebug() << "GeoIP (89.37.121.170): " << GeoIP::Instance()->IP2CountryName("89.37.121.170") << ", " <<GeoIP::Instance()->IP2Asn("89.37.121.170");
-    GeoIP::DestroyInstance();
-
 }
 
 MainWindow::~MainWindow()
