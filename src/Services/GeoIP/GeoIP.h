@@ -27,8 +27,8 @@ private:
     static GeoIP *instance;
 
     // GeoIP Service providers instances
-    class DbIP *dbip;
-    class Maxmind *maxmind;
+    class DbIP *dbip = nullptr;
+    class Maxmind *maxmind = nullptr;
 };
 
 

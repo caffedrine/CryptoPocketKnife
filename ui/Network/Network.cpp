@@ -55,6 +55,7 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
         for(  int j = 1; j < this->ui->tableWidget_PortsScanner->columnCount() - 1; j++)
         {
             this->ui->tableWidget_PortsScanner->item(i, j)->setText("");
+            this->ui->tableWidget_PortsScanner->item(i, j)->setIcon(QIcon());
         }
     }
 
@@ -351,7 +352,10 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
         {
             this->PortsScanner_InitEngine();
             for (int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++)
+            {
                 this->ui->tableWidget_PortsScanner->item(row, i)->setText("");
+                this->ui->tableWidget_PortsScanner->item(row, i)->setIcon(QIcon());
+            }
             this->PortsScannerEngine->EnqueueScan(host, this->ui->comboBox_ScanProfiles->currentText());
         });
     }

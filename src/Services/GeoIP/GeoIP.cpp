@@ -7,45 +7,35 @@ GeoIP *GeoIP::instance = nullptr;
 
 GeoIP::GeoIP()
 {
-
 }
 
 GeoIP::~GeoIP()
 {
-    if (this->dbip)
-    {
-        delete this->dbip;
-        this->dbip = nullptr;
-    }
+    delete this->dbip;
+    this->dbip = nullptr;
 
-    if (this->maxmind)
-    {
-        delete this->maxmind;
-        this->maxmind = nullptr;
-    }
+    delete this->maxmind;
+    this->maxmind = nullptr;
 }
 
 GeoIP *GeoIP::Instance()
 {
-    if (!instance)
+    if (GeoIP::instance == nullptr)
     {
-        instance = new GeoIP();
+        GeoIP::instance = new GeoIP();
     }
-    return instance;
+    return GeoIP::instance;
 }
 
 void GeoIP::DestroyInstance()
 {
-    if (instance)
-    {
-        delete instance;
-        instance = nullptr;
-    }
+    delete GeoIP::instance;
+    GeoIP::instance = nullptr;
 }
 
 QString GeoIP::IP2CountryISO(const QString &ip_address)
 {
-    if (!this->dbip)
+    if (this->dbip == nullptr)
     {
         this->dbip = new DbIP();
     }
@@ -60,12 +50,12 @@ QString GeoIP::IP2CountryName(const QString &ip_address)
 
 QString GeoIP::IP2Asn(const QString &ip_address)
 {
-    if (!this->dbip)
+    if (this->dbip == nullptr)
     {
         this->dbip = new DbIP();
     }
 
-    return QString();
+    return this->dbip->IP2Asn(this->Cfg_DbIP.Get_IP2ASN_DbPath(), ip_address);
 }
 
 QString GeoIP::IsoCodeToCountryName(const QString &countryISOCode)

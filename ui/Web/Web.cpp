@@ -151,8 +151,13 @@ void Web::webScraper_OnRequestFinished(const QString &requestId, const QString &
     }
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText(QString::number(response.Code) + " - " + response.CodeDesc);
 
-    // Set host IP
+    // Set host IP and show country flag of the host
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setText(response.HostIp);
+    QString resPath = ":/img/flags/"+GeoIP::Instance()->IP2CountryISO(response.HostIp.split(',')[0]).toLower()+".svg";
+    if( QFile::exists(resPath) )
+    {
+        this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setIcon(QIcon(resPath));
+    }
 
     this->WebScraperResponseHeaders[WebScraper_getFullUrlFromTable(requestId.toInt())] = response.Headers;
     this->WebScraperResponseData[WebScraper_getFullUrlFromTable(requestId.toInt())] = response.Body;
@@ -176,6 +181,7 @@ void Web::on_pushButton_WebScraper_StartDownload_clicked()
         this->ui->tableWidget_WebScraper->item(i, 4)->setIcon(QIcon(":/img/pending.png"));
         this->ui->tableWidget_WebScraper->item(i, 4)->setText("Pending...");
         this->ui->tableWidget_WebScraper->item(i, 3)->setText("");
+        this->ui->tableWidget_WebScraper->item(i, 3)->setIcon(QIcon());
     }
 
     this->CancelRequests = false;

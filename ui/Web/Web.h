@@ -15,6 +15,7 @@
 #include <QtConcurrent>
 #include <QFuture>
 
+#include "GeoIP.h"
 #include "WebScraper.h"
 #include "utils.h"
 #include "LambdaEventFilter.h"
