@@ -24,7 +24,7 @@
    <item row="0" column="2" colspan="4">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Targets withn selected profile</string>
+      <string>Targets within selected profile</string>
      </property>
     </widget>
    </item>
