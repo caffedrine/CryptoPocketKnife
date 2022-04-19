@@ -1,5 +1,8 @@
 #include "PortsScanProfilesManager.h"
 
+namespace Services::PortsScanner
+{
+
 QList<PortsScanProfileType> PortsScanProfilesManager::GetAll()
 {
     QList<PortsScanProfileType> output;
@@ -20,4 +23,6 @@ PortsScanProfileType PortsScanProfilesManager::GetByName(QString profile_name)
     }
 
     return output;
+}
+
 }

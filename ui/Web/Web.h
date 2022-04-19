@@ -21,6 +21,8 @@
 #include "LambdaEventFilter.h"
 #include "AdvancedTableWidget.h"
 
+using namespace Services::GeoIP;
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {

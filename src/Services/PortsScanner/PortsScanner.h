@@ -13,12 +13,15 @@
 #include <QCoreApplication>
 #include <QTextDocument>
 
-#include "UserSettings.h"
-#include "Logger.h"
+#include "Cfg_PortsScanner.h"
+
 #include "utils.h"
 #include "ThreadsPool.h"
 #include "PortsScanProfilesManager.h"
 #include "nMapXmlParser.h"
+
+namespace Services::PortsScanner
+{
 
 /* */
 class PostsScanResultTarget
@@ -78,8 +81,8 @@ private:
     QString RunNmapScan(QString nMapCommand);
     bool RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output);
     bool TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output);
-
-
 };
+
+}
 
 #endif // _PORTSSCANNER_H_

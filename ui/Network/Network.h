@@ -1,8 +1,3 @@
-/*  
- *  File      : Network.h
- *  Created on: 2022-04-01
- */
-
 #ifndef CRYPTOPOCKETKNIFE_NETWORK_H
 #define CRYPTOPOCKETKNIFE_NETWORK_H
 
@@ -22,6 +17,8 @@
 #include "PortsScanner.h"
 #include "PortsScanProfiles.h"
 #include "PortsScanProfilesManager.h"
+
+using namespace Services::GeoIP;
 
 QT_BEGIN_NAMESPACE
 namespace Ui

@@ -6,7 +6,10 @@
 #include "DbIP/DbIP.h"
 #include "Maxmind/Maxmind.h"
 
-class GeoIP: protected Cfg_GeoIP
+namespace Services::GeoIP
+{
+
+class GeoIP
 {
 public:
     Q_DISABLE_COPY_MOVE(GeoIP)
@@ -31,5 +34,6 @@ private:
     class Maxmind *maxmind = nullptr;
 };
 
+}
 
 #endif // _GEOIP_H_

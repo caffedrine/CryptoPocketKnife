@@ -6,6 +6,9 @@
 
 #include "PortsScanBuiltInProfiles.h"
 
+namespace Services::PortsScanner
+{
+
 class PortsScanProfilesManager: protected QObject, public Singleton<PortsScanProfilesManager>
 {
 public:
@@ -17,5 +20,7 @@ protected:
 private:
 
 };
+
+}
 
 #endif // _PORTSSCANPROFILESMANAGER_H_

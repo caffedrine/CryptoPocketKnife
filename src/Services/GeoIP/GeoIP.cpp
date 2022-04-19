@@ -2,6 +2,9 @@
 
 #include <QLocale>
 
+namespace Services::GeoIP
+{
+
 // Class instance init
 GeoIP *GeoIP::instance = nullptr;
 
@@ -39,8 +42,7 @@ QString GeoIP::IP2CountryISO(const QString &ip_address)
     {
         this->dbip = new DbIP();
     }
-
-    return this->dbip->IP2CountryISO(this->Cfg_DbIP.Get_IP2COUNTRY_DbPath(), ip_address);
+    return this->dbip->IP2CountryISO(QCoreApplication::applicationDirPath() + Settings::DBIP::IP2COUNTRY_DB_PATH, ip_address);
 }
 
 QString GeoIP::IP2CountryName(const QString &ip_address)
@@ -50,7 +52,7 @@ QString GeoIP::IP2CountryName(const QString &ip_address)
         this->dbip = new DbIP();
     }
 
-    return this->dbip->IP2CountryName(this->Cfg_DbIP.Get_IP2COUNTRY_DbPath(), ip_address);
+    return this->dbip->IP2CountryName(QCoreApplication::applicationDirPath() + Settings::DBIP::IP2COUNTRY_DB_PATH, ip_address);
 }
 
 QString GeoIP::IP2Asn(const QString &ip_address)
@@ -60,7 +62,7 @@ QString GeoIP::IP2Asn(const QString &ip_address)
         this->dbip = new DbIP();
     }
 
-    return this->dbip->IP2Asn(this->Cfg_DbIP.Get_IP2ASN_DbPath(), ip_address);
+    return this->dbip->IP2Asn(QCoreApplication::applicationDirPath() + Settings::DBIP::IP2ASN_DB_PATH, ip_address);
 }
 
 QString GeoIP::IP2Org(const QString &ip_address)
@@ -70,5 +72,7 @@ QString GeoIP::IP2Org(const QString &ip_address)
         this->dbip = new DbIP();
     }
 
-    return this->dbip->IP2Org(this->Cfg_DbIP.Get_IP2ASN_DbPath(), ip_address);
+    return this->dbip->IP2Org(QCoreApplication::applicationDirPath() + Settings::DBIP::IP2ASN_DB_PATH, ip_address);
+}
+
 }

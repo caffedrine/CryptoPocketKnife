@@ -1,5 +1,8 @@
 #include "PortsScanner.h"
 
+namespace Services::PortsScanner
+{
+
 PortsScanner::PortsScanner(int max_threads_count)
 {
     if( max_threads_count <= 1 || max_threads_count >= 500 )
@@ -163,7 +166,7 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 
                 // Check user directory for nMap scripts
                 bool found = false;
-                for(QString user_Loc: UserSettings::instance().GetUserDataLocationsAbs())
+                for(QString user_Loc: USER_DATA_LOCATIONS_ABS)
                 {
                     if(Utils_FileExists(user_Loc + "/nmap_scripts/" + script) )
                     {
@@ -283,6 +286,7 @@ bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmap
     return true;
 }
 
+}
 
 
 

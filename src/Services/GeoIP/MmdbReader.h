@@ -9,6 +9,9 @@
 #include <QtCore/QFile>
 #include <QtCore/QJsonValue>
 
+namespace Services::GeoIP
+{
+
 struct DataFieldDescriptor;
 
 class MmdbReader
@@ -72,5 +75,7 @@ private:
     quint32 m_size;
     uchar *m_data;
 };
+
+}
 
 #endif // _MMDBREADER_H_

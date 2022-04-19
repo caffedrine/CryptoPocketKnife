@@ -3,14 +3,12 @@
 
 #include <QByteArray>
 
-namespace Crypto
+namespace Crypto::Hash
 {
-    namespace Hash
-    {
-        QByteArray SHA1(QByteArray input);
-        QByteArray SHA2_256(QByteArray input);
-        QByteArray MD5(QByteArray input);
-    }
+
+    QByteArray SHA1(QByteArray input);
+    QByteArray SHA2_256(QByteArray input);
+    QByteArray MD5(QByteArray input);
 }
 
 

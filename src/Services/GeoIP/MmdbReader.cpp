@@ -1,5 +1,8 @@
 #include "MmdbReader.h"
 
+namespace Services::GeoIP
+{
+
 namespace
 {
     const qint32 MAX_FILE_SIZE = 67108864; // 64MB
@@ -466,4 +469,6 @@ QVariant MmdbReader::readArrayValue(quint32 &offset, const quint32 count) const
     }
 
     return array;
+}
+
 }

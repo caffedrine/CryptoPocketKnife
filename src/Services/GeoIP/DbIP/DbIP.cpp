@@ -6,6 +6,9 @@
 #include <QHostAddress>
 #include <QVariant>
 
+namespace Services::GeoIP
+{
+
 DbIP::DbIP()
 {
 
@@ -28,7 +31,7 @@ QString DbIP::IP2CountryISO(const QString &CountryDbPath, const QString &ip_addr
         this->CountryDbReader = MmdbReader::load(CountryDbPath, error);
         if(this->CountryDbReader == nullptr)
         {
-            qDebug() << "Cannot load DB-IP ip2country database: "<< error;
+            qDebug() << "Cannot load DB-IP ip2country database ("<<CountryDbPath<<"): "<< error;
             return "";
         }
     }
@@ -45,7 +48,7 @@ QString DbIP::IP2CountryName(const QString &CountryDbPath, const QString &ip_add
         this->CountryDbReader = MmdbReader::load(CountryDbPath, error);
         if(this->CountryDbReader == nullptr)
         {
-            qDebug() << "Cannot load DB-IP ip2country database: "<< error;
+            qDebug() << "Cannot load DB-IP ip2country database ("<<CountryDbPath<<"): "<< error;
             return "";
         }
     }
@@ -86,4 +89,6 @@ QString DbIP::IP2Org(const QString &AsnDbPath, const QString &ip_address)
 
     QVariant lookupResultBlock = this->AsnDbReader->lookup(QHostAddress(ip_address));
     return lookupResultBlock.toHash()["autonomous_system_organization"].toString();
+}
+
 }

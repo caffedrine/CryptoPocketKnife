@@ -6,6 +6,9 @@
 
 #include "MmdbReader.h"
 
+namespace Services::GeoIP
+{
+
 class DbIP
 {
 public:
@@ -26,5 +29,7 @@ private:
     MmdbReader *AsnDbReader = nullptr;
 
 };
+
+}
 
 #endif // _DBIP_H_

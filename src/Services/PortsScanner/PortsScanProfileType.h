@@ -1,9 +1,3 @@
-/*  
- *  File      : PortsScanProfile.h
- *  Created on: 2022-04-02
- *      Author: uib74520
- */
-
 #ifndef _PORTSSCANPROFILE_H_
 #define _PORTSSCANPROFILE_H_
 
@@ -12,6 +6,9 @@
 #include <QMap>
 
 #include "PortScanTargetType.h"
+
+namespace Services::PortsScanner
+{
 
 class PortsScanProfileType
 {
@@ -30,5 +27,7 @@ protected:
 private:
 
 };
+
+}
 
 #endif // _PORTSSCANPROFILE_H_

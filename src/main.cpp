@@ -1,6 +1,4 @@
 #include <QDebug>
-#define logger qDebug().noquote().nospace()
-
 #include "ui/mainwindow.h"
 #include <QApplication>
 #include <iostream>
@@ -11,6 +9,8 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+
     // Show debug info when app is executed from console
     #ifdef _WIN32
         /// https://stackoverflow.com/questions/3360548/console-output-in-a-qt-gui-app
@@ -20,10 +20,10 @@ int main(int argc, char *argv[])
             freopen("CONOUT$", "w", stderr);
         }
     #endif
-    qputenv("QT_MESSAGE_PATTERN", QByteArray("[%{time yyyy-MM-dd h:mm:ss.zzz}] %{file}:%{line} - %{message}"));
 
+    qputenv("QT_MESSAGE_PATTERN", QByteArray("[%{time yyyy-MM-dd h:mm:ss.zzz}] %{file}:%{line} - %{message}"));
     qDebug() << "App started...";
-    QApplication a(argc, argv);
+
     MainWindow w;
     w.show();
     return a.exec();

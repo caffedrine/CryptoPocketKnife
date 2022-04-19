@@ -2,52 +2,27 @@
 #define _CFG_GEOIP_H_
 
 #include <QtCore/QString>
-#include <QtCore/QCoreApplication>
 
-class GeoIPProviders
+namespace Services::GeoIP::Settings
 {
-public:
-    inline static const QString DbIP = "DB-IP";
-    inline static const QString Maxmind = "MaxMind";
-};
-
-class Cfg_GeoIP
-{
+    class GeoIPProviders
+    {
     public:
-    QString CurrentProvider = GeoIPProviders::DbIP;
-
-    class Cfg_DbIP
-    {
-        public:
-        static QString Get_IP2ASN_DbPath()
-        {
-            return QCoreApplication::applicationDirPath() + "/data/GeoIP/DbIP/ip2asn.mmdb";
-        }
-
-
-        static QString Get_IP2COUNTRY_DbPath()
-        {
-            return QCoreApplication::applicationDirPath() + "/data/GeoIP/DbIP/ip2country.mmdb";
-        }
+        inline static const QString DbIP = "DB-IP";
+        inline static const QString Maxmind = "MaxMind";
     };
 
-    class Cfg_Maxmind
+    namespace DBIP
     {
-        public:
-        static QString Get_IP2ISP_DbPath()
-        {
-            return QCoreApplication::applicationDirPath() + "/data/GeoIP/Maxmind/ip2isp.dat";
-        }
+        const QString IP2ASN_DB_PATH = "/data/GeoIP/DbIP/ip2asn.mmdb";
+        const QString IP2COUNTRY_DB_PATH = "/data/GeoIP/DbIP/ip2country.mmdb";
+    }
 
-        static QString Get_IP2ORG_DbPath()
-        {
-            return QCoreApplication::applicationDirPath() + "/data/GeoIP/Maxmind/ip2org.dat";
-        }
-    };
-
-    static Cfg_DbIP Cfg_DbIP;
-    static Cfg_Maxmind Cfg_Maxmind;
-
-};
+    namespace MAXMIND
+    {
+        const QString IP2ISP_DB_PATH = "/data/GeoIP/Maxmind/ip2isp.mmdb";
+        const QString IP2ORG_DB_PATH = "/data/GeoIP/Maxmind/ip2org.mmdb";
+    }
+}
 
 #endif // _CFG_GEOIP_H_

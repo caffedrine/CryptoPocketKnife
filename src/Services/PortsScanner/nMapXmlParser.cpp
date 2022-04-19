@@ -1,5 +1,8 @@
 #include "nMapXmlParser.h"
 
+namespace Services::PortsScanner
+{
+
 nMapXmlParser::nMapXmlParser()
 {
     this->ParsingErrorDesc = "No input";
@@ -88,4 +91,6 @@ float nMapXmlParser::GetNmapParam_LatencySeconds()
 {
     float microseconds = this->xml.documentElement().elementsByTagName("times").item(0).toElement().attribute("srtt").toFloat();
     return  microseconds / 1000 / 1000;
+}
+
 }

@@ -12,6 +12,8 @@
 #include "QDialogExtended.h"
 #include "PortsScanProfilesManager.h"
 
+using namespace Services::PortsScanner;
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
