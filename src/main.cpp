@@ -1,15 +1,17 @@
-#include <QDebug>
 #include "ui/mainwindow.h"
 #include <QApplication>
 #include <iostream>
-
 #ifdef _WIN32
     #include <Windows.h>
 #endif
+#include "Logger.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    MainWindow w;
+
+    qputenv("QT_MESSAGE_PATTERN", QByteArray("[%{time yyyy-MM-dd h:mm:ss.zzz}] %{file}:%{line} - %{message}"));
 
     // Show debug info when app is executed from console
     #ifdef _WIN32
@@ -21,10 +23,9 @@ int main(int argc, char *argv[])
         }
     #endif
 
-    qputenv("QT_MESSAGE_PATTERN", QByteArray("[%{time yyyy-MM-dd h:mm:ss.zzz}] %{file}:%{line} - %{message}"));
-    qDebug() << "App started...";
+    setup_logger();
+    logger->info("App started...");
 
-    MainWindow w;
     w.show();
     return a.exec();
 }

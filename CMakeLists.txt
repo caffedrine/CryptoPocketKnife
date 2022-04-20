@@ -15,6 +15,10 @@ add_definitions(-DQT_ASSUME_STDERR_HAS_CONSOLE=1)
 find_package(QT NAMES Qt6 Qt5)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent Xml REQUIRED)
 
+# Include spdlog logger
+add_subdirectory(thirdparty/spdlog)
+#include_directories(thirdparty/spdlog/include)
+
 # Include EdDSA lib and it's configuration
 option(USE_STACKCLEAN "clean all secret variables from stack" ON)
 include_directories("thirdparty/libeddsa/lib")
@@ -58,6 +62,7 @@ ELSE()
 ENDIF()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+        spdlog::spdlog
         ${HASHES_SRC}
         ${AES_SRC}
         ${EDDSA_SRC}
