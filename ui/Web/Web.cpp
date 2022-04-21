@@ -264,7 +264,8 @@ void Web::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &pos
 
             QPlainTextEdit *editor = new QPlainTextEdit(text);
             editor->setWindowTitle("GET " + rowUrl);
-            editor->setBaseSize(QSize(600, 120));
+            editor->setReadOnly(true);
+            editor->setMinimumSize(QSize(800, 400));
             editor->show();
 
         });

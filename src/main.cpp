@@ -26,9 +26,6 @@ int main(int argc, char *argv[])
     setup_logger();
     logger->info("App started...");
 
-    qDebug() << "Trst";
-    qDebug() << "Test2";
-
     w.show();
     return a.exec();
 }

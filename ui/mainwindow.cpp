@@ -69,8 +69,9 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionLogs_triggered(bool checked)
 {
     loggerContentGui->setWindowTitle("Application logs");
-    loggerContentGui->setBaseSize(QSize(600, 120));
-    loggerContentGui->show();
+    loggerContentGui->setReadOnly(true);
+    loggerContentGui->setMinimumSize(QSize(800, 400));
+    loggerContentGui->showNormal();
 }
 
 

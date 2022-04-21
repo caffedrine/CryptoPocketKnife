@@ -351,7 +351,8 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
 
             QPlainTextEdit *editor = new QPlainTextEdit(text);
             editor->setWindowTitle("Scan results for " + host + ", profile " + this->PortsScanResults[host].ScanProfile);
-            editor->setBaseSize(QSize(600, 120));
+            editor->setReadOnly(true);
+            editor->setMinimumSize(QSize(800, 400));
             editor->show();
         });
 
