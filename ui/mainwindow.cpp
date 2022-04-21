@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCertFileDragged(QString)) );
     QObject::connect(this->ui->textEdit_certificates_ParseCsr_InputCsr, SIGNAL( OnDraggedFile(QString) ),
             this, SLOT(OnCsrFileDragged(QString)) );
+
+    // Top menu slots connecting
+    QObject::connect(this->ui->actionLogs, SIGNAL(triggered(bool)), this, SLOT(on_actionLogs_triggered(bool)), Qt::UniqueConnection);
+
 }
 
 MainWindow::~MainWindow()
@@ -61,6 +65,14 @@ void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::information(this, tr("About"), tr("Cryptographic tool to make life of a security engineer easier.\n\nPlease see https://cryptopocketknife.com for more info."), QMessageBox::Ok |  QMessageBox::Ok);
 }
+
+void MainWindow::on_actionLogs_triggered(bool checked)
+{
+    loggerContentGui->setWindowTitle("Application logs");
+    loggerContentGui->setBaseSize(QSize(600, 120));
+    loggerContentGui->show();
+}
+
 
 /*   _____        _               _             _
     |  __ \      | |             (_)           (_)

@@ -20,6 +20,7 @@
 
 #include <QMessageBox>
 
+#include "Logger.h"
 #include "AdvancedTextEdit.h"
 #include "utils.h"
 #include <eddsa.h>
@@ -43,6 +44,7 @@ private slots:
     void on_actionSupport_triggered();
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
+    void on_actionLogs_triggered(bool checked);
 
     // Signatrure calculus
     void on_ed25519_pushButton_GenerateKeysPair_clicked();
@@ -103,8 +105,6 @@ private slots:
     void on_pushButton_Utils_CurrentDateTime_clicked();
     void on_pushButton_TimestampToDatetime_clicked();
     void on_pushButton_dateTimeToTimestamp_clicked();
-
-
 
     private:
     Ui::MainWindow *ui;

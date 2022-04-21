@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>689</width>
-    <height>577</height>
+    <height>568</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -285,70 +285,10 @@
                <string>Key pairs gen and shared secret calc</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
-               <item row="3" column="2" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_otherPublicKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="x25519_label_PrivateKey">
                  <property name="text">
-                  <string>85 20 F0 09 89 30 A7 54 74 8B 7D DC B4 3E F7 5A 0D BF 3A 0D 26 38 1A F4 EB A4 A9 8E AA 9B 4E 6A</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_ownSharedSecret">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="x25519_label_PublicKey">
-                 <property name="text">
-                  <string>Own public key (32 bytes)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="2" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_otherSharedSecret">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QLabel" name="x25519_label_PublicKey_4">
-                 <property name="text">
-                  <string>Other public key (32 bytes)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="x25519_label_ownSharedSecret">
-                 <property name="text">
-                  <string>Own calculated shared secret</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QPushButton" name="x25519_pushButton_CalculateSharedSecret">
-                 <property name="text">
-                  <string>Calculate shared secret</string>
+                  <string notr="true">Own private key (32 bytes)</string>
                  </property>
                 </widget>
                </item>
@@ -367,17 +307,25 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="2">
-                <widget class="QLabel" name="x25519_label_PrivateKey_2">
+               <item row="2" column="0">
+                <widget class="QLabel" name="x25519_label_PublicKey">
                  <property name="text">
-                  <string notr="true">Other private key (32 bytes)</string>
+                  <string>Own public key (32 bytes)</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0">
-                <widget class="QPushButton" name="x25519_pushButton_GenerateEphemeralKeys">
+               <item row="3" column="2" colspan="2">
+                <widget class="QLineEdit" name="x25529_textEdit_otherPublicKey">
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                  </font>
+                 </property>
                  <property name="text">
-                  <string>Generate ephemeral keys pair</string>
+                  <string>85 20 F0 09 89 30 A7 54 74 8B 7D DC B4 3E F7 5A 0D BF 3A 0D 26 38 1A F4 EB A4 A9 8E AA 9B 4E 6A</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -388,15 +336,26 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_ownPrivateKey">
+               <item row="4" column="0">
+                <widget class="QLabel" name="x25519_label_ownSharedSecret">
+                 <property name="text">
+                  <string>Own calculated shared secret</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="x25519_label_PrivateKey_2">
+                 <property name="text">
+                  <string notr="true">Other private key (32 bytes)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0" colspan="2">
+                <widget class="QLineEdit" name="x25529_textEdit_ownSharedSecret">
                  <property name="font">
                   <font>
                    <family>Consolas</family>
                   </font>
-                 </property>
-                 <property name="text">
-                  <string>30 23 27 a9 07 bd 94 aa ff d5 7b b2 d9 97 1f a0 4c 7f df cd e5 3f 6f 9b 2b b7 2a 4f 22 95 b0 4c</string>
                  </property>
                  <property name="clearButtonEnabled">
                   <bool>true</bool>
@@ -428,10 +387,51 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="x25519_label_PrivateKey">
+               <item row="6" column="0">
+                <widget class="QPushButton" name="x25519_pushButton_GenerateEphemeralKeys">
                  <property name="text">
-                  <string notr="true">Own private key (32 bytes)</string>
+                  <string>Generate ephemeral keys pair</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="2" colspan="2">
+                <widget class="QLineEdit" name="x25529_textEdit_otherSharedSecret">
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                  </font>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QLabel" name="x25519_label_PublicKey_4">
+                 <property name="text">
+                  <string>Other public key (32 bytes)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QPushButton" name="x25519_pushButton_CalculateSharedSecret">
+                 <property name="text">
+                  <string>Calculate shared secret</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0" colspan="2">
+                <widget class="QLineEdit" name="x25529_textEdit_ownPrivateKey">
+                 <property name="font">
+                  <font>
+                   <family>Consolas</family>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>30 23 27 a9 07 bd 94 aa ff d5 7b b2 d9 97 1f a0 4c 7f df cd e5 3f 6f 9b 2b b7 2a 4f 22 95 b0 4c</string>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -1739,6 +1739,8 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionLogs"/>
+    <addaction name="separator"/>
     <addaction name="actionSupport"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -1759,6 +1761,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionLogs">
+   <property name="text">
+    <string>Logs</string>
    </property>
   </action>
  </widget>
