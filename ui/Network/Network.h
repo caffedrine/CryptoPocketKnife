@@ -47,6 +47,7 @@ public slots:
     void PortsScanner_ManageScanProfiles_pushButtonCLicked();
     void PortsScanner_StartScan_pushButtonClicked();
     void PortsScanner_StopScan_pushButtonClicked();
+    void PortsScanner_ScanSettings_pushButtonClicked();
     void PortsScanner_StretchTable_pushButtonClicked();
     void PortsScanner_ClearTable_pushButtonClicked();
     void PortsScanner_ExportTableCSV_pushButtonClicked();

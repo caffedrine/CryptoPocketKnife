@@ -23,6 +23,7 @@ Network::Network(QWidget *parent): QWidget(parent), ui(new Ui::Network)
     QObject::connect(this->ui->pushButton_ManageProfiles, SIGNAL(clicked()), this, SLOT(PortsScanner_ManageScanProfiles_pushButtonCLicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_Start, SIGNAL(clicked()), this, SLOT(PortsScanner_StartScan_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_Stop, SIGNAL(clicked()), this, SLOT(PortsScanner_StopScan_pushButtonClicked()));
+    QObject::connect(this->ui->pushButton_PortsScanner_ScanSettings, SIGNAL(clicked()), this, SLOT(PortsScanner_ScanSettings_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_StretchCols, SIGNAL(clicked()), this, SLOT(PortsScanner_StretchTable_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_Clear, SIGNAL(clicked()), this, SLOT(PortsScanner_ClearTable_pushButtonClicked()));
     QObject::connect(this->ui->pushButton_PortsScanner_ExportCSV, SIGNAL(clicked()), this, SLOT(PortsScanner_ExportTableCSV_pushButtonClicked()));
@@ -92,6 +93,11 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
 void Network::PortsScanner_StopScan_pushButtonClicked()
 {
     this->CancelRequests = true;
+}
+
+void Network::PortsScanner_ScanSettings_pushButtonClicked()
+{
+    qDebug() << "Scan settigns!";
 }
 
 void Network::PortsScanner_StretchTable_pushButtonClicked()

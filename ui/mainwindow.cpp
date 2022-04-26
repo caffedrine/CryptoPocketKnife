@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Top menu slots connecting
     QObject::connect(this->ui->actionLogs, SIGNAL(triggered(bool)), this, SLOT(on_actionLogs_triggered(bool)), Qt::UniqueConnection);
-
 }
 
 MainWindow::~MainWindow()
