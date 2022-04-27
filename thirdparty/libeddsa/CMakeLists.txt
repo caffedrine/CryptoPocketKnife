@@ -11,7 +11,7 @@ set(EDDSA_VERSION_MINOR 6)
 
 option(USE_STACKCLEAN "clean all secret variables from stack" ON)
 option(BUILD_STATIC "build static version of library" ON)
-option(BUILD_TESTING "build test" ON)
+option(BUILD_TESTING "build test" OFF)
 
 
 if (UNIX)

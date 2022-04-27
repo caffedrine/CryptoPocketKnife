@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(CryptoPocketKnife LANGUAGES CXX)
+project(CryptoPocketKnife LANGUAGES CXX C)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -10,27 +10,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_definitions(-DQT_ASSUME_STDERR_HAS_CONSOLE=1)
-
 find_package(QT NAMES Qt6 Qt5)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent Xml REQUIRED)
 
 # Include thirdparty libraries
 include(thirdparty/thirdparty_dependencies.cmake)
-
-# Include EdDSA lib and it's configuration
-option(USE_STACKCLEAN "clean all secret variables from stack" ON)
-include_directories("thirdparty/libeddsa/lib")
-add_subdirectory("thirdparty/libeddsa/lib")
-file(GLOB_RECURSE EDDSA_SRC "thirdparty/libeddsa/lib/*.c")
-
-# Add AES
-include_directories("thirdparty/tiny-AES-c")
-file(GLOB_RECURSE AES_SRC "thirdparty/tiny-AES-c/aes.c")
-
-# Add hashes
-include_directories("thirdparty/hashes")
-file(GLOB_RECURSE HASHES_SRC "thirdparty/hashes/*.c")
 
 ###################################### Include recursively all the sources ##################################
 file(GLOB_RECURSE Proj_SOURCES "src/*.c" "src/*.cpp")
@@ -50,7 +34,7 @@ link_directories(${Proj_INCLUDE_DIRS})
 ##############################################################################################
 
 # Sum up all sources into a single variable
-set(ALL_SOURCES ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES} ${THIRD_PARTY_SRC})
+set(ALL_SOURCES ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES} ${THIRD_PARTY_SRC})
 
 IF (WIN32)
     # Icon How-To: https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
@@ -62,10 +46,6 @@ ENDIF()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         ${THIRD_PARTY_LIBS}
-        ${HASHES_SRC}
-        ${AES_SRC}
-        ${EDDSA_SRC}
-        eddsa
         Qt${QT_VERSION_MAJOR}::Xml
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network

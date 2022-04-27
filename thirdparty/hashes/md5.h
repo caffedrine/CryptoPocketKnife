@@ -12,6 +12,10 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /****************************** MACROS ******************************/
 #define MD5_BLOCK_SIZE 16               // MD5 outputs a 16 byte digest
 
@@ -30,5 +34,9 @@ typedef struct {
 void md5_init(MD5_CTX *ctx);
 void md5_update(MD5_CTX *ctx, const BYTE data[], size_t len);
 void md5_final(MD5_CTX *ctx, BYTE hash[]);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif   // MD5_H
