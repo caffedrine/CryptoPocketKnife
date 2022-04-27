@@ -15,9 +15,8 @@ add_definitions(-DQT_ASSUME_STDERR_HAS_CONSOLE=1)
 find_package(QT NAMES Qt6 Qt5)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent Xml REQUIRED)
 
-# Include spdlog logger
-add_subdirectory(thirdparty/spdlog)
-#include_directories(thirdparty/spdlog/include)
+# Include thirdparty libraries
+include(thirdparty/thirdparty_dependencies.cmake)
 
 # Include EdDSA lib and it's configuration
 option(USE_STACKCLEAN "clean all secret variables from stack" ON)
@@ -51,7 +50,7 @@ link_directories(${Proj_INCLUDE_DIRS})
 ##############################################################################################
 
 # Sum up all sources into a single variable
-set(ALL_SOURCES ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES})
+set(ALL_SOURCES ${HASHES_SRC} ${AES_SRC} ${EDDSA_SRC} ${Proj_UIS} ${Proj_SOURCES} ${Proj_RES} ${THIRD_PARTY_SRC})
 
 IF (WIN32)
     # Icon How-To: https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
@@ -62,7 +61,7 @@ ELSE()
 ENDIF()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-        spdlog::spdlog
+        ${THIRD_PARTY_LIBS}
         ${HASHES_SRC}
         ${AES_SRC}
         ${EDDSA_SRC}

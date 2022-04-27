@@ -25,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Top menu slots connecting
     QObject::connect(this->ui->actionLogs, SIGNAL(triggered(bool)), this, SLOT(on_actionLogs_triggered(bool)), Qt::UniqueConnection);
+    
+    // Connect encoding/decoding boxes
+    QObject::connect(this->ui->textEdit_EncodeDecode_General_Number, SIGNAL(textChanged()), this, SLOT(on_actionLogs_triggered(bool)), Qt::UniqueConnection);
+    
+    
 }
 
 MainWindow::~MainWindow()
@@ -820,6 +825,11 @@ void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
     {
         this->ui->textEdit_EncodeDecode_General_AlphanumericStrings->setText(Utils_BytesToAlphanumericString(&bytes));
     }
+    
+    if( exception != "number" )
+    {
+        this->ui->textEdit_EncodeDecode_General_Number->setText("test" );
+    }
 
     if( exception != "raw" )
     {
@@ -976,6 +986,33 @@ void MainWindow::on_textEdit_EncodeDecode_General_DEC_textChanged()
     this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "dec");
 }
 
+void MainWindow::on_textEdit_EncodeDecode_General_Number_textChanged()
+{
+    // Skip updating the other boxes to prevent a infinite loop updates
+    if(BypassOnChangeEventFlag )
+        return;
+    
+    // Convert content to bytes array
+    QByteArray bytes;
+    
+    // Read only digits as string form UI
+    QString number = "";
+    for (const QChar c : this->ui->textEdit_EncodeDecode_General_Number->toPlainText())
+    {
+        if (c.isDigit())
+            number.append(c);
+    }
+    
+    //bytes.setNum();
+    
+    // Set only bytes hex, there all the other boxes will be converted
+    this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "number");
+    
+    
+    qDebug() << "update bignum";
+    
+}
+
 void MainWindow::on_pushButton_EncodeDecode_General_ClearAll_clicked()
 {
     // Set this flag to prevent boxes updating each other
@@ -1116,3 +1153,4 @@ void MainWindow::on_pushButton_Signature_ED25519_Clear_clicked()
     this->ui->ed25529_textEdit_privateKey->clear();
     this->ui->ed25529_textEdit_publicKey->clear();
 }
+
