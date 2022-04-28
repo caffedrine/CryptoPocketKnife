@@ -6,8 +6,6 @@
 #endif
 #include "Logger.h"
 
-#include <QMessageLogger>
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

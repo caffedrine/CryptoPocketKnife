@@ -8,9 +8,9 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spdlog)
 #include_directories(thirdparty/spdlog/include) # there is also to build sources instead of lib
 list(APPEND THIRD_PARTY_LIBS spdlog::spdlog)
 
-# Include BigNumber
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/BigNumber/src)
-list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/BigNumber/src/*.cpp)
+# Include BigIntegers
+list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/BigInt)
+list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/BigInt/*.cpp)
 
 # Add AES as a separete library since this is C code
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/tiny-AES-c)

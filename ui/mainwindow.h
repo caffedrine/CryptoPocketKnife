@@ -26,7 +26,7 @@
 #include <eddsa.h>
 #include <aes.h>
 #include <Hash.h>
-#include "bignumber.h"
+#include <BigInt.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

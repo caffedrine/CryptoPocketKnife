@@ -1002,15 +1002,15 @@ void MainWindow::on_textEdit_EncodeDecode_General_Number_textChanged()
         if (c.isDigit())
             number.append(c);
     }
-    
-    //bytes.setNum();
-    
+
+    if( number.isEmpty() )
+        return;
+
+    BigInt n(number.toStdString());
+    bytes = Utils_RawHexStrToQByteArr( QString::fromStdString(n.to_hex_str()) );
+
     // Set only bytes hex, there all the other boxes will be converted
     this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "number");
-    
-    
-    qDebug() << "update bignum";
-    
 }
 
 void MainWindow::on_pushButton_EncodeDecode_General_ClearAll_clicked()
