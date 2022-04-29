@@ -828,7 +828,8 @@ void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
     
     if( exception != "number" )
     {
-        this->ui->textEdit_EncodeDecode_General_Number->setText("test" );
+        BigInt n = BigInt().from_hex(bytes.toHex().toStdString());
+        this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string()));
     }
 
     if( exception != "raw" )

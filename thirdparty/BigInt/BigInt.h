@@ -7,6 +7,7 @@
 #include <math.h>
 #include <limits>
 #include <algorithm>
+#include <iostream>
 
 class BigInt
 {
@@ -61,6 +62,10 @@ public:
     {
         str = std::to_string(n);
     }
+    BigInt(unsigned long long n)
+    {
+        str = std::to_string(n);
+    }
     BigInt(int n)
     {
         str = std::to_string(n);
@@ -74,9 +79,29 @@ public:
         str = n.str;
     }
 
-    std::string from_hex(std::string hex_str)
+    BigInt from_hex(std::string hex_str)
     {
-        return "";
+        BigInt n;
+        for( long long int i = 0; i < hex_str.length(); i++ )
+        {
+            int int_letter = (hex_str[i] >= 'A') ? (hex_str[i] >= 'a') ? (hex_str[i] - 'a' + 10) : (hex_str[i] - 'A' + 10) : (hex_str[i] - '0');
+            n = n + BigInt( std::to_string(int_letter) ) *  BigInt(BigInt::pow("16", std::to_string(hex_str.length() - i - 1)));
+        }
+        this->str = n.to_string();
+        return *this;
+    }
+
+    std::string to_hex_str()
+    {
+        std::vector<unsigned char> bytes = this->to_bytes();
+
+        std::stringstream ss;
+        for( long long int i = 0;  i < bytes.size(); i++ )
+        {
+            ss << std::hex << (int)bytes[i];
+        }
+
+        return "0x" + ss.str();
     }
 
     std::string to_string()
@@ -104,19 +129,6 @@ public:
         // Reverse to keep last byte as MSB
         std::reverse(output.begin(), output.end());
         return output;
-    }
-
-    std::string to_hex_str()
-    {
-        std::vector<unsigned char> bytes = this->to_bytes();
-
-        std::stringstream ss;
-        for( int i = 0;  i < bytes.size(); i++ )
-        {
-            ss << std::hex << (int)bytes[i];
-        }
-
-        return "0x" + ss.str();
     }
 
     // operator overloading for output stream {<<}
