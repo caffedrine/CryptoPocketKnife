@@ -2,7 +2,8 @@
 #define CRYPTOPOCKETKNIFE_IPUTILS_H
 
 #include <QWidget>
-
+#include <NetworkUtils.h>
+#include <RegexUtils.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -21,12 +22,6 @@ public:
 
 private:
     Ui::IpUtils *ui;
-
-    bool IsValidIPv4(QString ip);
-    QStringList GetRegexMatches(QString regexPattern, QString str);
-    QStringList ExtractIPv4Addresses(QString str);
-    quint32 IPv4Dotted2Long(QString ip);
-    QString IPv4Dec2Dotted(quint32 ip);
 
 private slots:
     void on_pushButton_ExtractIP_clicked();

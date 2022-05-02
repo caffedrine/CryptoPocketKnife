@@ -33,7 +33,37 @@
        <number>5</number>
       </property>
       <item row="0" column="0">
-       <widget class="QPlainTextEdit" name="plainTextEdit_Input"/>
+       <widget class="QPlainTextEdit" name="plainTextEdit_Input">
+        <property name="plainText">
+         <string>1.2.3.4
+6.7.8.9:123
+4324354245
+tertwrtrt
+5435234.543.2534.52345
+999.999.999.999
+tretet55534
+43245554245
+999.12.12.12:124
+255.255.255.255
+1.0.0.1
+0.0.0.0
+1.1.1.1:999
+432435424
+255.255.255.256
+255.255.255.255.255
+..1.2.3.6....
+1..2.3.4..5
+op4.4.4.4ss
+5.5.5.5bb
+6.6.6.6:90
+7.7.7.7:65535
+7.7.7.7:64536
+7.7.7.7:74536
+8.8.8.8:0
+9.9.9.9:
+1.1.1.1:a</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

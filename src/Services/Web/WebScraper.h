@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QNetworkAccessManager>
-#include <QTimer>
 #include <QNetworkReply>
 #include <QtGlobal>
 #include <QSslSocket>
