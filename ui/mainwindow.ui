@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -1803,6 +1803,28 @@ p, li { white-space: pre-wrap; }
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="tab_IpAddressUtils">
+           <attribute name="title">
+            <string>IP Address</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_36">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="IpUtils" name="widget_IpUtils" native="true"/>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -1876,6 +1898,12 @@ p, li { white-space: pre-wrap; }
    <class>Network</class>
    <extends>QTabWidget</extends>
    <header>Network.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>IpUtils</class>
+   <extends>QWidget</extends>
+   <header>IpUtils.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

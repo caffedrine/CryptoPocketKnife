@@ -17,7 +17,6 @@
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDesktopServices>
-
 #include <QMessageBox>
 
 #include "Logger.h"
