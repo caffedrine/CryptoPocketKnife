@@ -4,6 +4,14 @@
 IpUtils::IpUtils(QWidget *parent): QWidget(parent), ui(new Ui::IpUtils)
 {
     ui->setupUi(this);
+
+    // Connect signals from UI
+    connect(this->ui->pushButton_Decimal2Dotted, SIGNAL(clicked()), this, SLOT(on_pushButton_Decimal2Dotted_clicked()));
+    connect(this->ui->pushButton_Dotted2Decimal, SIGNAL(clicked()), this, SLOT(on_pushButton_Dotted2Decimal_clicked()));
+    connect(this->ui->pushButton_ExtractIP, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIP_clicked()));
+    connect(this->ui->pushButton_ExtractIpPort, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIpPort_clicked()));
+    connect(this->ui->pushButton_ExtractIPv6, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIPv6_clicked()));
+    connect(this->ui->pushButton_ExtractIPv6Port, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIPv6Port_clicked()));
 }
 
 IpUtils::~IpUtils()
@@ -36,6 +44,32 @@ void IpUtils::on_pushButton_ExtractIpPort_clicked()
         ui->plainTextEdit_Output->appendPlainText( proxy );
     }
 }
+
+void IpUtils::on_pushButton_ExtractIPv6_clicked()
+{
+    this->ui->plainTextEdit_Output->clear();
+
+    /* Extract IPv4 addresses from given string */
+    QStringList ips = utils::network::ipv6::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
+
+    foreach (QString ip, ips)
+    {
+        this->ui->plainTextEdit_Output->appendPlainText(ip);
+    }
+}
+void IpUtils::on_pushButton_ExtractIPv6Port_clicked()
+{
+    this->ui->plainTextEdit_Output->clear();
+
+    /* Extract IPv4 addresses from given string */
+    QStringList proxies = utils::network::ipv6::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
+
+    foreach (QString proxy, proxies)
+    {
+        ui->plainTextEdit_Output->appendPlainText( proxy );
+    }
+}
+
 
 void IpUtils::on_pushButton_Decimal2Dotted_clicked()
 {
@@ -70,5 +104,4 @@ void IpUtils::on_pushButton_Output_Clear_clicked()
 {
     this->ui->plainTextEdit_Output->clear();
 }
-
 
