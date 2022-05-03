@@ -20,6 +20,10 @@
     
     #include <limits.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
     /* (u)int32_t */
     #ifndef uint32_t
         #if (ULONG_MAX == 0xffffffffUL)
@@ -69,4 +73,9 @@
         #define UINT64_C(v) v ##UI64
         #define INT64_C(v) v ##I64
     #endif
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
