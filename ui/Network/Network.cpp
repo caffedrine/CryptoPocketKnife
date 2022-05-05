@@ -49,7 +49,24 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
 {
     this->PortsScanner_InitEngine();
 
+    // Read table rows
     int rows = this->ui->tableWidget_PortsScanner->model()->rowCount();
+
+    // Table empty?
+    if( rows == 0 )
+    {
+        Utils_Alert("Cannot start scanner", "No targets provided");
+        return;
+    }
+
+    // Check if already running
+    if( this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads() > 0 )
+    {
+        Utils_Alert("Cannot start scanner", "Scanner already running");
+        return;
+    }
+
+    Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
 
     // Clear all columns except for host
     for (int i = 0; i < rows; i++)
@@ -92,7 +109,18 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
 
 void Network::PortsScanner_StopScan_pushButtonClicked()
 {
+    // Check if already running
+    if( (this->PortsScannerEngine == nullptr) || this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads() == 0 )
+    {
+        Utils_Alert("Cannot stop scanner", "Already stopped!");
+        return;
+    }
+
     this->CancelRequests = true;
+    this->PortsScannerEngine->RequestAllJobsStop();
+
+    Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Start);
+    Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Stop);
 }
 
 void Network::PortsScanner_ScanSettings_pushButtonClicked()
@@ -223,6 +251,12 @@ void Network::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int a
     if( activeWorkers == 0 )
     {
         GeoIP::DestroyInstance();
+    }
+
+    if( activeWorkers == 0 )
+    {
+        Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Start);
+        Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Stop);
     }
 }
 
@@ -365,12 +399,21 @@ void Network::PortsScanner_tableWidget_customContextMenuRequested(const QPoint &
         connect(&Item_Retest, &QAction::triggered, this, [this, row, host]()
         {
             this->PortsScanner_InitEngine();
+            Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
             for (int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++)
             {
                 this->ui->tableWidget_PortsScanner->item(row, i)->setText("");
                 this->ui->tableWidget_PortsScanner->item(row, i)->setIcon(QIcon());
             }
-            this->PortsScannerEngine->EnqueueScan(host, this->ui->comboBox_ScanProfiles->currentText());
+
+            if( this->PortsScannerEngine->IsScanRunning(host) )
+            {
+                Utils_Alert("Cannot start scan", "Selected host is already being scanned");
+            }
+            else
+            {
+                this->PortsScannerEngine->EnqueueScan(host, this->ui->comboBox_ScanProfiles->currentText());
+            }
         });
     }
 

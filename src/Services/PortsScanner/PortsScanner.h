@@ -12,6 +12,7 @@
 #include <QDomText>
 #include <QCoreApplication>
 #include <QTextDocument>
+#include <QMutex>
 
 #include "Cfg_PortsScanner.h"
 
@@ -67,6 +68,8 @@ public:
     ~PortsScanner() = default;
 
     bool EnqueueScan(const QString &host, const QString &scanProfileName);
+    void RequestAllJobsStop();
+    bool IsScanRunning(const QString &host);
 
 signals:
     //void OnRequestPreStart(const QString &host_address, const QString &rdns );
@@ -76,6 +79,10 @@ signals:
     void OnRequestFinished(const QString &host, const PortsScanResult &result);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
+    mutable QMutex mutex;
+    QAtomicInt CancelAllThreads = 0;
+    QStringList ActiveHostsScanned;
+
     void Task(const QString& host, const QString &scanProfileName);
     QString BuildNmapScanCommand(const QString &host, PortsScanTargetType &target);
     QString RunNmapScan(QString nMapCommand);

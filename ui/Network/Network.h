@@ -13,6 +13,7 @@
 #include <QDomText>
 #include <QFileDialog>
 
+#include "utils.h"
 #include "GeoIP.h"
 #include "PortsScanner.h"
 #include "PortsScanProfiles.h"
@@ -63,7 +64,7 @@ private:
     Ui::Network *ui;
 
     PortsScanner *PortsScannerEngine = nullptr;
-    bool CancelRequests = false;
+    QAtomicInt CancelRequests = false;
     QMap<QString, PortsScanResult> PortsScanResults; // QMap[host] = { Map[profile]=QList[targets] }
 
     void PortsScanner_InitEngine();

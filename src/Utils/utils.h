@@ -43,5 +43,6 @@ static QString join(const QList<T> &list,
 
 void Utils_PushButtonStartLoading(QPushButton *button);
 void Utils_PushButtonEndLoading(QPushButton *button);
+void Utils_Alert(const QString &title, const QString &message);
 
 #endif // UTILS_H

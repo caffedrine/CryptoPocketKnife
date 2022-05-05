@@ -16,6 +16,8 @@ PortsScanner::PortsScanner(int max_threads_count)
 
 bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileName)
 {
+    this->CancelAllThreads = 0;
+
     // Add record to queue to be executed by the threads in pool
     auto lam = [this, host, scanProfileName]()
     {
@@ -23,6 +25,17 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
         this->Task(host, scanProfileName);
         emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads()-1)); // substract current worker which will be disposed
     };
+
+    // Already running a scan for this host?
+    if( this->IsScanRunning(host) )
+    {
+        PortsScanResult response;
+        response.AppErrorDetected = true;
+        response.AppErrorDesc = "Host already being scanned";
+
+        emit this->OnRequestError(host, response);
+        return false;
+    }
 
     if(!this->ThreadsPoolPtr()->tryStart(lam))
     {
@@ -33,7 +46,25 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
         emit this->OnRequestError(host, response);
         return false;
     }
+
+    this->mutex.lock();
+    ActiveHostsScanned.append(host);
+    this->mutex.unlock();
     return true;
+}
+
+void PortsScanner::RequestAllJobsStop()
+{
+    this->CancelAllThreads = 1;
+}
+
+bool PortsScanner::IsScanRunning(const QString &host)
+{
+    QMutexLocker locker(&mutex);
+
+    if( this->ActiveHostsScanned.contains(host) )
+        return true;
+    return false;
 }
 
 void PortsScanner::Task(const QString &host, const QString &scanProfileName)
@@ -58,6 +89,13 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
         // Currently, is launched one nmap scan for each target within profile
         for (PortsScanTargetType &target: scanProfile.Targets)
         {
+            if(this->CancelAllThreads > 0)
+            {
+                output.AppErrorDetected = true;
+                output.AppErrorDesc = "Canceled by user";
+                break;
+            }
+
             // Build nMap command string
             QString scanRequestCommandString = BuildNmapScanCommand(host, target);
 
@@ -107,8 +145,11 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
     {
         emit this->OnRequestFinished(host, output);
     }
-}
 
+    this->mutex.lock();
+    this->ActiveHostsScanned.removeAll(host);
+    this->mutex.unlock();
+}
 
 QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetType &target)
 {

@@ -4,6 +4,7 @@
 #include "sha512.h"
 #include <QMovie>
 #include <QObject>
+#include <QMessageBox>
 
 QString Utils_Uint8ToHexQStr(uint8_t in)
 {
@@ -350,4 +351,13 @@ void Utils_PushButtonEndLoading(QPushButton *button)
     button->setEnabled(true);
 
     QObject::disconnect(movieLoadingIcon, &QMovie::frameChanged, button, nullptr);
+}
+
+void Utils_Alert(const QString &title, const QString &message)
+{
+    QMessageBox msg;
+    msg.setWindowTitle(title);
+    msg.setText(message);
+    msg.setIcon(QMessageBox::Warning);
+    msg.exec();
 }
