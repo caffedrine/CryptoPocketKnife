@@ -31,7 +31,7 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
     {
         PortsScanResult response;
         response.AppErrorDetected = true;
-        response.AppErrorDesc = "Host already being scanned";
+        response.AppErrorDesc = "";
 
         emit this->OnRequestError(host, response);
         return false;

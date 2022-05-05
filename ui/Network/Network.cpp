@@ -98,6 +98,8 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
                 break;
             if (this->PortsScannerEngine->ThreadsPoolPtr()->AvailableThreads() <= 0)
                 continue;
+            if(this->PortsScannerEngine->IsScanRunning(this->ui->tableWidget_PortsScanner->item(i, 0)->text()))
+                continue;
             this->PortsScannerEngine->EnqueueScan(this->ui->tableWidget_PortsScanner->item(i, 0)->text(), this->ui->comboBox_ScanProfiles->currentText());
             i++;
         }
