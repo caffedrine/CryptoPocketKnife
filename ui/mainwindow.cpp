@@ -24,10 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(OnCsrFileDragged(QString)) );
 
     // Top menu slots connecting
-    QObject::connect(this->ui->actionLogs, SIGNAL(triggered(bool)), this, SLOT(on_actionLogs_triggered(bool)), Qt::UniqueConnection);
+    QObject::connect(this->ui->actionLogs, SIGNAL(triggered()), this, SLOT(on_actionLogs_triggered()), Qt::UniqueConnection);
     
     // Connect encoding/decoding boxes
-    QObject::connect(this->ui->textEdit_EncodeDecode_General_Number, SIGNAL(textChanged()), this, SLOT(on_actionLogs_triggered(bool)), Qt::UniqueConnection);
+    QObject::connect(this->ui->textEdit_EncodeDecode_General_Number, SIGNAL(textChanged()), this, SLOT(on_textEdit_EncodeDecode_General_Number_textChanged()), Qt::UniqueConnection);
     
     
 }
@@ -70,7 +70,7 @@ void MainWindow::on_actionAbout_triggered()
     QMessageBox::information(this, tr("About"), tr("Cryptographic tool to make life of a security engineer easier.\n\nPlease see https://cryptopocketknife.com for more info."), QMessageBox::Ok |  QMessageBox::Ok);
 }
 
-void MainWindow::on_actionLogs_triggered(bool checked)
+void MainWindow::on_actionLogs_triggered()
 {
     loggerContentGui->setWindowTitle("Application logs");
     loggerContentGui->setReadOnly(true);
@@ -437,10 +437,23 @@ void MainWindow::on_textBrowser_SHA2_InputBytes_textChanged()
         return;
     }
 
-    // Calculate SHA2-256 hash
-    QByteArray hash = Crypto::Hash::SHA2_256(bytes);
-    this->ui->lineEdit_SHA2_256_OUTPUT->setText( Utils_QByteArrayToHexQStr(hash));
+    // Calculate SHA2 224 hash
+    this->ui->lineEdit_SHA2_224_OUTPUT->setText( Utils_QByteArrayToHexQStr(Crypto::Hash::SHA2_224(bytes)));
 
+    // Calculate SHA2 256 hash
+    this->ui->lineEdit_SHA2_256_OUTPUT->setText( Utils_QByteArrayToHexQStr(Crypto::Hash::SHA2_256(bytes)));
+
+    // Calculate SHA2 384 hash
+    this->ui->lineEdit_SHA2_384_Output->setText( Utils_QByteArrayToHexQStr(Crypto::Hash::SHA2_384(bytes)));
+
+    // Calculate SHA2 512 hash
+    this->ui->lineEdit_SHA2_512_OUTPUT->setText( Utils_QByteArrayToHexQStr(Crypto::Hash::SHA2_512(bytes)));
+
+    // Calculate SHA2 512/224 hash
+    this->ui->lineEdit_SHA2_512_224_Output->setText( Utils_QByteArrayToHexQStr(Crypto::Hash::SHA2_512_224(bytes)));
+
+    // Calculate SHA2 512/256 hash
+    this->ui->lineEdit_SHA2_512_256_Output->setText( Utils_QByteArrayToHexQStr(Crypto::Hash::SHA2_512_256(bytes)));
 }
 
 void MainWindow::on_textBrowser_SHA1_InputBytes_textChanged()

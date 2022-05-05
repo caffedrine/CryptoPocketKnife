@@ -2,6 +2,8 @@
 
 #include <utility>
 #include "sha512.h"
+#include <QMovie>
+#include <QObject>
 
 QString Utils_Uint8ToHexQStr(uint8_t in)
 {
@@ -323,4 +325,29 @@ QString Util_EncodeForCSV(const QString &string)
 QString Utils_FloatWithDigitsPrecision(float number, int precision)
 {
     return QString::number(number , 'f', precision);
+}
+
+static QMovie *movieLoadingIcon = nullptr;
+void Utils_PushButtonStartLoading(QPushButton *button)
+{
+    if( movieLoadingIcon == nullptr )
+    {
+        movieLoadingIcon = new QMovie();
+        movieLoadingIcon->setFileName(":/img/loading.gif");
+        movieLoadingIcon->start();
+    }
+
+    button->setEnabled(false);
+    QObject::connect(movieLoadingIcon, &QMovie::frameChanged, button, [button]
+    {
+        button->setIcon(movieLoadingIcon->currentPixmap());
+    });
+}
+
+void Utils_PushButtonEndLoading(QPushButton *button)
+{
+    button->setIcon(QIcon());
+    button->setEnabled(true);
+
+    QObject::disconnect(movieLoadingIcon, &QMovie::frameChanged, button, nullptr);
 }

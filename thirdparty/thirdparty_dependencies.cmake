@@ -19,7 +19,7 @@ list(APPEND THIRD_PARTY_LIBS tiny-AES-lib)
 
 ## Add hashes
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/hashes)
-file(GLOB_RECURSE lib_hashes_src ${CMAKE_CURRENT_LIST_DIR}/hashes/*.c)
+file(GLOB_RECURSE lib_hashes_src ${CMAKE_CURRENT_LIST_DIR}/hashes/*.c ${CMAKE_CURRENT_LIST_DIR}/hashes/*.cpp)
 add_library(hashes-lib ${lib_hashes_src})
 list(APPEND THIRD_PARTY_LIBS hashes-lib)
 

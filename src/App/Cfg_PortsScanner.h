@@ -5,7 +5,7 @@
 
 namespace Services::PortsScanner
 {
-    const QStringList USER_DATA_LOCATIONS_ABS = UserSettings::instance().GetUserDataLocationsAbs();
+    const QStringList USER_DATA_LOCATIONS_ABS = UserSettings::instance().GetUserDataLocationsRel();
 }
 
 #endif // _CFG_PORTSSCANNER_H_

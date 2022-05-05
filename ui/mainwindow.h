@@ -44,7 +44,7 @@ private slots:
     void on_actionSupport_triggered();
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
-    void on_actionLogs_triggered(bool checked);
+    void on_actionLogs_triggered();
 
     // Signatrure calculus
     void on_ed25519_pushButton_GenerateKeysPair_clicked();

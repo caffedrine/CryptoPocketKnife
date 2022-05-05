@@ -9,9 +9,9 @@
 class UserSettings: public Singleton<UserSettings>
 {
 public:
-    QStringList GetUserDataLocationsAbs()
+    QStringList GetUserDataLocationsRel()
     {
-        return QStringList( QCoreApplication::applicationDirPath() + "/user/data");
+        return QStringList( "/user/data");
     }
 };
 

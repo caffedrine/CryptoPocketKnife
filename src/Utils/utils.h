@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QHostAddress>
+#include <QPushButton>
 
 QString Utils_Uint8ToHexQStr(uint8_t in);
 QString Utils_Uint8ArrToHexQStr(uint8_t *arr, ssize_t len);
@@ -39,5 +40,8 @@ template <class T>
 static QString join(const QList<T> &list,
                     const QString &separator,
                     const std::function< QString (const typename QList<T>::value_type &) > toStringFunction);
+
+void Utils_PushButtonStartLoading(QPushButton *button);
+void Utils_PushButtonEndLoading(QPushButton *button);
 
 #endif // UTILS_H
