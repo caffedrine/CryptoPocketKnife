@@ -44,5 +44,7 @@ static QString join(const QList<T> &list,
 void Utils_PushButtonStartLoading(QPushButton *button);
 void Utils_PushButtonEndLoading(QPushButton *button);
 void Utils_Alert(const QString &title, const QString &message);
+void Utils_MsgBox(const QString &title, const QString &message);
+void Utils_RichTextBoxPopup(const QString &title, const QString &content);
 
 #endif // UTILS_H

@@ -3,5 +3,6 @@
 
 #include <QCoreApplication>
 
+inline QString GetUserSettingsPath
 
 #endif // _CFG_GLOBAL_H_

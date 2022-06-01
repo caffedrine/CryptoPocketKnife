@@ -5,6 +5,7 @@
 #include <QMovie>
 #include <QObject>
 #include <QMessageBox>
+#include <QPlainTextEdit>
 
 QString Utils_Uint8ToHexQStr(uint8_t in)
 {
@@ -360,4 +361,21 @@ void Utils_Alert(const QString &title, const QString &message)
     msg.setText(message);
     msg.setIcon(QMessageBox::Warning);
     msg.exec();
+}
+void Utils_MsgBox(const QString &title, const QString &message)
+{
+    QMessageBox msg;
+    msg.setWindowTitle(title);
+    msg.setText(message);
+    msg.setIcon(QMessageBox::Information);
+    msg.exec();
+}
+
+void Utils_RichTextBoxPopup(const QString &title, const QString &content)
+{
+    QPlainTextEdit *editor = new QPlainTextEdit(content);
+    editor->setWindowTitle(title);
+    editor->setAttribute(Qt::WA_DeleteOnClose);
+    editor->setBaseSize(QSize(800, 400));
+    editor->show();
 }

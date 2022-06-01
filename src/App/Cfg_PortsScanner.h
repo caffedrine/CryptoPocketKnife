@@ -3,9 +3,12 @@
 
 #include "UserSettings.h"
 
-namespace Services::PortsScanner
+namespace Services::PortsScanner::Settings
 {
-    const QStringList USER_DATA_LOCATIONS_ABS = UserSettings::instance().GetUserDataLocationsRel();
+    static QStringList GetUserDataPaths()
+    {
+        return  QStringList( UserSettings->Get_UserDataPathAbs());
+    }
 }
 
 #endif // _CFG_PORTSSCANNER_H_

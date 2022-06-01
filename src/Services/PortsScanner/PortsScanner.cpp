@@ -207,7 +207,7 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 
                 // Check user directory for nMap scripts
                 bool found = false;
-                for(QString user_Loc: USER_DATA_LOCATIONS_ABS)
+                for(QString user_Loc: Settings::GetUserDataPaths())
                 {
                     if(Utils_FileExists(user_Loc + "/nmap_scripts/" + script) )
                     {

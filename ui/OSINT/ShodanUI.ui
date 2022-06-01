@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShodanUI</class>
+ <widget class="QWidget" name="ShodanUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>759</width>
+    <height>571</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Shodan harvester</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tab_Search">
+      <attribute name="title">
+       <string>Search</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Manual query</string>
+      </attribute>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>521</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Manual query</string>
+       </property>
+       <widget class="QPushButton" name="pushButton_ManualQuery_GetResults">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>180</y>
+          <width>241</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Get results</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_ManualQuery_Query">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>150</y>
+          <width>411</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>query</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="plainTextEdit_ManualQuery_Results">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>501</width>
+          <height>121</height>
+         </rect>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>results</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_ManualQuery_Count">
+        <property name="geometry">
+         <rect>
+          <x>270</x>
+          <y>180</y>
+          <width>241</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Count</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_ManualQuery_Count">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>150</y>
+          <width>81</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>count</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_Settings">
+      <attribute name="title">
+       <string>Settings</string>
+      </attribute>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>290</width>
+         <height>88</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>API Settings</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Shodan API key</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="3">
+         <widget class="QLineEdit" name="lineEdit_shodanSettings_ApiKey"/>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QPushButton" name="pushButton_shodanSettings_SaveKey">
+          <property name="text">
+           <string>Save key</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="pushButton_shodanSettings_TestApiKey">
+          <property name="text">
+           <string>Test API key</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QPushButton" name="pushButton_shodanSettings_GetSearchFilters">
+          <property name="text">
+           <string>Get search filters</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
