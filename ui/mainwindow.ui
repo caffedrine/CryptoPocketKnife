@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">

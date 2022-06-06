@@ -47,4 +47,6 @@ void Utils_Alert(const QString &title, const QString &message);
 void Utils_MsgBox(const QString &title, const QString &message);
 void Utils_RichTextBoxPopup(const QString &title, const QString &content);
 
+void SleepMs(quint64 ms);
+
 #endif // UTILS_H

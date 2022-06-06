@@ -70,6 +70,11 @@ namespace utils::network
             QHostAddress address(ip);
             return address.toString();
         }
+
+        void SortIpAddressesAsc(QStringList &input_list)
+        {
+
+        }
     }
 
     namespace ipv6

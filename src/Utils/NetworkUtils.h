@@ -13,6 +13,7 @@ namespace utils::network
         QStringList ExtractIpPortProxies(QString input);
         quint32 Dotted2Long(QString ip);
         QString Dec2Dotted(quint32 ip);
+        void SortIpAddressesAsc(QStringList &input_list);
     }
 
     namespace ipv6

@@ -31,6 +31,7 @@ private slots:
     void on_pushButton_Decimal2Dotted_clicked();
     void on_pushButton_Dotted2Decimal_clicked();
     void on_pushButton_Output_Clear_clicked();
+    void on_pushButton_OrderList_clicked();
 };
 
 

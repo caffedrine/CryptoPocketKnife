@@ -155,7 +155,7 @@ void Network::PortsScanner_InitEngine()
 {
     if( !this->PortsScannerEngine )
     {
-        this->PortsScannerEngine = new PortsScanner(25);
+        this->PortsScannerEngine = new PortsScanner(50);
         connect(this->PortsScannerEngine, SIGNAL(OnRequestStarted(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestStarted(QString,PortsScanResult)));
         connect(this->PortsScannerEngine, SIGNAL(OnRequestError(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestError(QString,PortsScanResult)));
         connect(this->PortsScannerEngine, SIGNAL(OnRequestFinished(QString,PortsScanResult)), this, SLOT(PortsScanner_OnRequestFinished(QString,PortsScanResult)));

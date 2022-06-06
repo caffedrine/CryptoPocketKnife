@@ -12,6 +12,7 @@ IpUtils::IpUtils(QWidget *parent): QWidget(parent), ui(new Ui::IpUtils)
     connect(this->ui->pushButton_ExtractIpPort, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIpPort_clicked()));
     connect(this->ui->pushButton_ExtractIPv6, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIPv6_clicked()));
     connect(this->ui->pushButton_ExtractIPv6Port, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIPv6Port_clicked()));
+    connect(this->ui->pushButton_OrderList, SIGNAL(clicked()), this, SLOT(on_pushButton_OrderList_clicked()));
 }
 
 IpUtils::~IpUtils()
@@ -103,5 +104,10 @@ void IpUtils::on_pushButton_Dotted2Decimal_clicked()
 void IpUtils::on_pushButton_Output_Clear_clicked()
 {
     this->ui->plainTextEdit_Output->clear();
+}
+
+void IpUtils::on_pushButton_OrderList_clicked()
+{
+
 }
 

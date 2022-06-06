@@ -6,6 +6,8 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QPlainTextEdit>
+#include <QThread>
+#include <QTime>
 
 QString Utils_Uint8ToHexQStr(uint8_t in)
 {
@@ -378,4 +380,14 @@ void Utils_RichTextBoxPopup(const QString &title, const QString &content)
     editor->setAttribute(Qt::WA_DeleteOnClose);
     editor->setBaseSize(QSize(800, 400));
     editor->show();
+}
+
+void SleepMs(quint64 ms)
+{
+    QTime dieTime = QTime::currentTime().addMSecs( ms );
+    while( QTime::currentTime() < dieTime )
+    {
+        QCoreApplication::processEvents( QEventLoop::AllEvents, 100 );
+        QObject().thread()->usleep(1000*ms);
+    }
 }

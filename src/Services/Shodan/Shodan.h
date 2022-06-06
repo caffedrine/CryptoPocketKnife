@@ -26,7 +26,7 @@ public:
         if( response.object().contains("error"))
             return "shodan error:" + response.object().value("error").toString();
 
-        return "Credits available: " + response.object().value("credits").toString();
+        return "Credits available: " + QString::number(response.object().value("credits").toInteger(-1));
     }
     QString GetSearchFilters()
     {
@@ -57,12 +57,43 @@ public:
         if( response.object().isEmpty() )
             return "-1";
 
-        if( response.object().contains("error"))
-            return "-1";
+        if( response.object().contains("error") )
+            return "-2";
 
-        QJsonObject object = response.object();
+        if( !response.object().contains("total") )
+            return "-3";
 
-        return object.value("total").toString();
+        return QString::number( response.object().value("total").toInteger(-4) );
+    }
+    QMap<QString, QJsonDocument> GetResultsByByQuery(QString query, int page = 1)
+    {
+        QJsonDocument response = this->CallApi(QNetworkAccessManager::GetOperation, "/shodan/host/search?key=" + this->ApiKey + "&page=" + QString::number(page) + "&query=" + query);
+
+        if( response.object().isEmpty() )
+        {
+            return QMap<QString, QJsonDocument>({{"error", QJsonDocument::fromJson("{\"error\": \"empty obj\"}")}});
+        }
+
+        if( response.object().contains("error") )
+        {
+            return {{"error", QJsonDocument::fromJson("{\"error\": \"" + response.object().value("error").toString().toUtf8() + "\"}")}};
+        }
+
+        if( !response.object().contains("matches") )
+        {
+            return QMap<QString, QJsonDocument>({{"error", QJsonDocument::fromJson("{\"error\": \"no matches found in the response\"}")}});
+        }
+
+        QMap<QString, QJsonDocument> output;
+        QJsonArray matches = response.object().value("matches").toArray();
+        qDebug().nospace().noquote() << "Found " << matches.count()  << " matches for dork '" << query << "'";
+
+        for( QJsonValueRef match: matches )
+        {
+            output[match.toObject().value("ip_str").toString()] = QJsonDocument(match.toObject());
+        }
+
+        return output;
     }
 
 protected:
