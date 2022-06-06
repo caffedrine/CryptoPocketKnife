@@ -839,11 +839,11 @@ void MainWindow::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->textEdit_EncodeDecode_General_AlphanumericStrings->setText(Utils_BytesToAlphanumericString(&bytes));
     }
     
-    if( exception != "number" )
-    {
-        BigInt n = BigInt().from_hex(bytes.toHex().toStdString());
-        this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string()));
-    }
+//    if( exception != "number" )
+//    {
+//        BigInt n = BigInt().from_hex(bytes.toHex().toStdString());
+//        this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string()));
+//    }
 
     if( exception != "raw" )
     {

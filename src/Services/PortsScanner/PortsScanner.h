@@ -64,6 +64,8 @@ class PortsScanner: public QObject, public ThreadsPool
 {
 Q_OBJECT
 public:
+    bool DisableUdpScan = true;
+
     PortsScanner(int max_threads_count);
     ~PortsScanner() = default;
 
@@ -87,7 +89,7 @@ private:
     QString BuildNmapScanCommand(const QString &host, PortsScanTargetType &target);
     QString RunNmapScan(QString nMapCommand);
     bool RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output);
-    bool TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output);
+    bool TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output, QString scanCommand);
 };
 
 }

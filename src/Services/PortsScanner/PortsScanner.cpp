@@ -96,6 +96,13 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
                 break;
             }
 
+            // If request only have UDP ports and UDP is disables, just skip this
+            if( this->DisableUdpScan )
+            {
+                if( target.TcpPorts.count() == 0 && target.UdpPorts.count() > 0 )
+                    continue;
+            }
+
             // Build nMap command string
             QString scanRequestCommandString = BuildNmapScanCommand(host, target);
 
@@ -104,7 +111,7 @@ void PortsScanner::Task(const QString &host, const QString &scanProfileName)
 
             // Check if nmap output is valid
             nMapXmlParser xmlParser;
-            if( !this->TryParseNmapXML(nmapOutputXml, &xmlParser, &output))
+            if( !this->TryParseNmapXML(nmapOutputXml, &xmlParser, &output, scanRequestCommandString))
             {
                 break;
             }
@@ -157,25 +164,46 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 
     // Add TCP/UDP scan flags
     output += (target.TcpPorts.count() > 0)?"-sT ":"";
-    output += (target.UdpPorts.count() > 0)?"-sU ":"";
+
+    if( !this->DisableUdpScan )
+        output += (target.UdpPorts.count() > 0)?"-sU ":"";
 
     // Add flag to specify the ports
-    output += ((target.TcpPorts.count() > 0) || (target.UdpPorts.count() > 0))?"-p":"";
+    if( !this->DisableUdpScan )
+    {
+        output += ((target.TcpPorts.count() > 0) || (target.UdpPorts.count() > 0))?"-p":"";
+    }
+    else
+    {
+        output += (target.TcpPorts.count() > 0)?"-p":"";
+    }
 
     // Add tcp ports
     if(target.TcpPorts.count() > 0)
     {
         output += "T:" + target.GetTcpPortsString();
     }
-    if(target.UdpPorts.count() > 0)
+
+    if( !this->DisableUdpScan )
     {
-        output += target.TcpPorts.count()>0?",":"";
-        output += "U:";
-        output += target.GetUdpPortsString();
+        if(target.UdpPorts.count() > 0)
+        {
+            output += target.TcpPorts.count() > 0 ? "," : "";
+            output += "U:";
+            output += target.GetUdpPortsString();
+        }
     }
 
     // Append whitespace after ports, if any were specified
-    output += ((target.TcpPorts.count() > 0) || (target.UdpPorts.count() > 0))?" ":"";
+    if( !this->DisableUdpScan )
+    {
+        output += ((target.TcpPorts.count() > 0) || (target.UdpPorts.count() > 0))?" ":"";
+    }
+    else
+    {
+        output += (target.TcpPorts.count() > 0)?" ":"";
+    }
+
 
     if( !target.nMapArguments.isEmpty() )
     {
@@ -269,10 +297,11 @@ QString PortsScanner::RunNmapScan(QString nMapCommand)
 
 bool PortsScanner::RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *output)
 {
-    QString scanXmlnMap = this->RunNmapScan("nmap -sn " + host + " -oX -");
+    QString scanCommand = "nmap -sn " + host + " -oX -";
+    QString scanXmlnMap = this->RunNmapScan(scanCommand);
 
     nMapXmlParser xmlParser;
-    if( !this->TryParseNmapXML(scanXmlnMap, &xmlParser, output))
+    if( !this->TryParseNmapXML(scanXmlnMap, &xmlParser, output, scanCommand))
     {
         output->PingOutput = scanXmlnMap;
         if (Utils_IsValidIPv4(host))
@@ -301,11 +330,11 @@ bool PortsScanner::RunNmapPingAndRDNSScan(const QString &host, PortsScanResult *
     return true;
 }
 
-bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output)
+bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output, QString scanCommand)
 {
     if( !outputNmapXmlParser->ParseXML(xmlContent))
     {
-        QString msg = "nMap XML error: " + outputNmapXmlParser->GetParsingErrorDesc();
+        QString msg = "nMap XML error: " + outputNmapXmlParser->GetParsingErrorDesc() + ". Command " + scanCommand;
         qDebug() << msg;
         output->AppErrorDetected = true;
         output->AppErrorDesc = msg;
@@ -317,7 +346,7 @@ bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmap
     if( !outputNmapXmlParser->GetNmapParam_ScanSucceed() )
     {
         QString msg = "nMap exit with error code";
-        qDebug() << msg;
+        qDebug() << msg + ". Command " + scanCommand;
         output->AppErrorDetected = true;
         output->AppErrorDesc = msg;
         output->TargetsOutputs.append(outputNmapXmlParser->GetInputXML());
