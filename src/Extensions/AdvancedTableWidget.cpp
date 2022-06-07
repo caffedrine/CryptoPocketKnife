@@ -37,7 +37,7 @@ void AdvancedTableWidget::dragEnterEvent(QDragEnterEvent *e)
 
 void AdvancedTableWidget::dropEvent(QDropEvent *e)
 {
-    foreach (const QUrl &url, e->mimeData()->urls())
+    for (const QUrl &url: e->mimeData()->urls())
     {
         QString fileName = url.toLocalFile();
         emit OnDraggedFile(fileName);

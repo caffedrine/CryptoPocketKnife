@@ -60,7 +60,7 @@ HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> 
 
     // Fetch host IP
     response.HostIp = "";
-    foreach(QHostAddress address, QHostInfo::fromName(url.host()).addresses())
+    for(QHostAddress address: QHostInfo::fromName(url.host()).addresses())
     {
         response.HostIp += address.toString() + ", ";
     }
@@ -84,7 +84,7 @@ HttpResponse WebScraper::HttpGet(const QString &url_str, QMap<QString, QString> 
         response.CodeDesc = HttpStatus::reasonPhrase(response.Code);
 
     response.Headers = "";
-    foreach(QByteArray head, reply->rawHeaderList())
+    for(QByteArray head: reply->rawHeaderList())
     {
         response.Headers += QString(head) + ": " + reply->rawHeader(head) + "\n";
     }

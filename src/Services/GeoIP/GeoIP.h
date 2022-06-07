@@ -1,6 +1,8 @@
 #ifndef _GEOIP_H_
 #define _GEOIP_H_
 
+#include <QMutex>
+
 #include "Cfg_GeoIP.h"
 
 #include "DbIP/DbIP.h"
@@ -27,6 +29,7 @@ protected:
     ~GeoIP();
 
 private:
+    QMutex mMutex;
     static GeoIP *instance;
 
     // GeoIP Service providers instances

@@ -158,7 +158,7 @@ QStringList Utils_ExtractAllUrls(const QString& inputText)
     }
 
     auto lines = inputText.split("\n");
-    foreach( const QString &line, lines )
+    for( const QString &line: lines )
     {
         auto matches = re.globalMatch(line);
         while (matches.hasNext())
@@ -191,6 +191,8 @@ QStringList Utils_ExtractAllHosts(const QString &input)
     QStringList output;
 
     output.append(input.split("\n"));
+
+    output.removeAll(QString(""));
 
     return output;
 }

@@ -67,6 +67,7 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
     }
 
     Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
+    this->ui->pushButton_PortsScanner_Start->setText("Start 0/" + QString::number(rows));
 
     // Clear all columns except for host
     for (int i = 0; i < rows; i++)
@@ -102,10 +103,11 @@ void Network::PortsScanner_StartScan_pushButtonClicked()
                 continue;
             this->PortsScannerEngine->EnqueueScan(this->ui->tableWidget_PortsScanner->item(i, 0)->text(), this->ui->comboBox_ScanProfiles->currentText());
             i++;
+
         }
     };
 
-    // Start queing from a separate thread and feed as workers are available
+    // Start queuing from a separate thread and feed as workers are available
     QFuture<void> future = QtConcurrent::run( lam);
 }
 
@@ -221,6 +223,8 @@ void Network::PortsScanner_OnRequestFinished(const QString &host, const PortsSca
     }
 
     this->PortsScanner_ShowScanResults(hostIndex, host, false);
+
+    //this->ui->pushButton_PortsScanner_Start->setText("Start " + QString::number(this->PortsScanResults.count()) + "/" + QString::number(rows));
 }
 
 void Network::PortsScanner_ShowScanResults(int tableHostIndex, const QString &host, bool ScanInProgress)
@@ -321,17 +325,20 @@ void Network::PortsScanner_tableWidget_OnTextPasted(const QString &text)
     QStringList hosts = Utils_ExtractAllHosts(text);
     hosts.removeDuplicates();
 
-    foreach(const QString &host, hosts)
-        {
-            int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
+    for(const QString &host: hosts)
+    {
+        if(host.isEmpty())
+            continue;
 
-            this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
-            this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
+        int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
 
-            // Clear the other cols
-            for( int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
-                this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
-        }
+        this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
+        this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
+
+        // Clear the other cols
+        for(int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
+            this->ui->tableWidget_PortsScanner->setItem(currentRow, i, new QTableWidgetItem(""));
+    }
 }
 
 void Network::PortsScanner_tableWidget_OnRowsCopy(const QModelIndexList &selectedRows)

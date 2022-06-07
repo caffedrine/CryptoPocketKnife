@@ -27,7 +27,7 @@ void IpUtils::on_pushButton_ExtractIP_clicked()
     /* Extract IPv4 addresses from given string */
     QStringList ips = utils::network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
 
-    foreach (QString ip, ips)
+    for (QString ip: ips)
     {
         this->ui->plainTextEdit_Output->appendPlainText(ip);
     }
@@ -40,7 +40,7 @@ void IpUtils::on_pushButton_ExtractIpPort_clicked()
     /* Extract IPv4 addresses from given string */
     QStringList proxies = utils::network::ipv4::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
 
-    foreach (QString proxy, proxies)
+    for (QString proxy: proxies)
     {
         ui->plainTextEdit_Output->appendPlainText( proxy );
     }
@@ -53,7 +53,7 @@ void IpUtils::on_pushButton_ExtractIPv6_clicked()
     /* Extract IPv4 addresses from given string */
     QStringList ips = utils::network::ipv6::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
 
-    foreach (QString ip, ips)
+    for (QString ip: ips)
     {
         this->ui->plainTextEdit_Output->appendPlainText(ip);
     }
@@ -65,7 +65,7 @@ void IpUtils::on_pushButton_ExtractIPv6Port_clicked()
     /* Extract IPv4 addresses from given string */
     QStringList proxies = utils::network::ipv6::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
 
-    foreach (QString proxy, proxies)
+    for (QString proxy: proxies)
     {
         ui->plainTextEdit_Output->appendPlainText( proxy );
     }
@@ -82,7 +82,7 @@ void IpUtils::on_pushButton_Decimal2Dotted_clicked()
     /* Extract IPv4 addresses from given string */
     QStringList ips = utils::regex::GetAllMatches(pattern, this->ui->plainTextEdit_Input->toPlainText());
 
-    foreach (QString ip, ips)
+    for (QString ip: ips)
     {
         ui->plainTextEdit_Output->appendPlainText(utils::network::ipv4::Dec2Dotted( ip.toULongLong() ));
     }
@@ -95,7 +95,7 @@ void IpUtils::on_pushButton_Dotted2Decimal_clicked()
     /* Extract IPv4 addresses from given string */
     QStringList ips = utils::network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
 
-    foreach (QString ip, ips)
+    for (QString ip: ips)
     {
         ui->plainTextEdit_Output->appendPlainText(QString::number(utils::network::ipv4::Dotted2Long(ip)));
     }

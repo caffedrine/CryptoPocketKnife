@@ -71,7 +71,7 @@ void Web::tableWidget_WebScraper_OnTextPasted(const QString& text)
 {
     auto urls = Utils_ExtractAllUrls(text);
 
-    foreach(const QString &url_str, urls)
+    for(const QString &url_str: urls)
     {
         QUrl url(url_str);
         url.setQuery(url.query(QUrl::FullyDecoded), QUrl::DecodedMode);
