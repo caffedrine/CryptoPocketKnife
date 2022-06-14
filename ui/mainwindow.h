@@ -64,20 +64,6 @@ private slots:
     void on_ciphers_AES_pushButton_Encrypt_clicked();
     void on_ciphers_AES_pushButton_Decrypt_clicked();
 
-    // Certificates
-    void on_textEdit_certificates_Parse_InputCertificate_textChanged();
-    void on_pushButton_certificates_Parse_ParseCertificate_clicked();
-    void on_pushButton_certificates_Parse_ParseCSR_clicked();
-    void on_textEdit_certificates_ParseCsr_InputCsr_textChanged();
-    void on_pushButton_certificates_Parse_LoadCertificate_clicked();
-    void on_pushButton_certificates_Parse_LoadCSR_clicked();
-    void on_pushButton_certificates_Parse_CopyCertHEX_clicked();
-    void on_pushButton_certificates_Parse_CopyCSRHEX_clicked();
-    void on_pushButton_certificates_Parse_ExportCSR_clicked();
-    void on_pushButton_certificates_Parse_ExportCRT_clicked();
-    void OnCertFileDragged(QString filename);
-    void OnCsrFileDragged(QString filename);
-
     // Encoding/decoding
     void EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, const QString& exception);
     void on_textEdit_EncodeDecode_General_Ascii_textChanged();
@@ -110,15 +96,12 @@ private slots:
     private:
     Ui::MainWindow *ui;
     bool BypassOnChangeEventFlag = false;
-    QByteArray LastParsedCSR, LastParsedCert;
     QMap<QString, QString> WebScraperResponseHeaders;
     QMap<QString, QString> WebScraperResponseData;
 
     void Status_EndWithError(QString err_msg);
     void Status_EndWithSuccess(QString err_msg);
     void Status_Clear();
-    void ParseCert();
-    void ParseCSR();
-    QString ParseCertCsrInputStringToB64(QString);
+
 };
 #endif // MAINWINDOW_H
