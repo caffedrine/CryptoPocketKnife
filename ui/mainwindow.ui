@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -822,7 +822,7 @@ hr { height: 1px; border-width: 0; }
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="Certificates" name="tabWidget_OSINT_2">
+         <widget class="UiCertificates" name="tabWidget_OSINT_2">
           <property name="currentIndex">
            <number>-1</number>
           </property>
@@ -845,7 +845,7 @@ hr { height: 1px; border-width: 0; }
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="Encoding" name="encoding_TabName_General">
+         <widget class="UiEncoding" name="encoding_TabName_General">
           <property name="currentIndex">
            <number>-1</number>
           </property>
@@ -886,7 +886,7 @@ hr { height: 1px; border-width: 0; }
             <number>0</number>
            </property>
            <item row="0" column="0">
-            <widget class="Web" name="tabWidget_Web">
+            <widget class="UiWeb" name="tabWidget_Web">
              <property name="currentIndex">
               <number>-1</number>
              </property>
@@ -915,7 +915,7 @@ hr { height: 1px; border-width: 0; }
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="Network" name="tabWidget_Network">
+         <widget class="UiNetwork" name="tabWidget_Network">
           <property name="currentIndex">
            <number>-1</number>
           </property>
@@ -941,7 +941,7 @@ hr { height: 1px; border-width: 0; }
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="OSINT" name="tabWidget_OSINT">
+         <widget class="UiOSINT" name="tabWidget_OSINT">
           <property name="currentIndex">
            <number>-1</number>
           </property>
@@ -969,7 +969,7 @@ hr { height: 1px; border-width: 0; }
         <item row="0" column="0">
          <widget class="QTabWidget" name="utils_TabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_Utils_DateTimeConversion">
            <attribute name="title">
@@ -1093,7 +1093,7 @@ hr { height: 1px; border-width: 0; }
              <number>0</number>
             </property>
             <item row="0" column="0">
-             <widget class="IpUtils" name="widget_IpUtils" native="true"/>
+             <widget class="UiIpUtils" name="widget_IpUtils" native="true"/>
             </item>
            </layout>
           </widget>
@@ -1156,45 +1156,45 @@ hr { height: 1px; border-width: 0; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Web</class>
-   <extends>QTabWidget</extends>
-   <header>Web.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Network</class>
-   <extends>QTabWidget</extends>
-   <header>Network.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>IpUtils</class>
-   <extends>QWidget</extends>
-   <header>IpUtils.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>OSINT</class>
-   <extends>QTabWidget</extends>
-   <header>OSINT.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Certificates</class>
-   <extends>QTabWidget</extends>
-   <header>Certificates.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Encoding</class>
-   <extends>QTabWidget</extends>
-   <header>Encoding.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>UiHashes</class>
    <extends>QTabWidget</extends>
    <header>UiHashes.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiCertificates</class>
+   <extends>QTabWidget</extends>
+   <header>UiCertificates.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiEncoding</class>
+   <extends>QTabWidget</extends>
+   <header>UiEncoding.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiNetwork</class>
+   <extends>QTabWidget</extends>
+   <header>UiNetwork.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiOSINT</class>
+   <extends>QTabWidget</extends>
+   <header>UiOSINT.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiIpUtils</class>
+   <extends>QWidget</extends>
+   <header>UiIpUtils.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiWeb</class>
+   <extends>QTabWidget</extends>
+   <header>UiWeb.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

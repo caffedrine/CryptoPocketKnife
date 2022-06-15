@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UiNetwork</class>
+ <widget class="QWidget" name="Network">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>939</width>
+    <height>523</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Network</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Ports scanner</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="8">
+        <widget class="QLabel" name="label_PortScanner_RecordsCount">
+         <property name="text">
+          <string>Records count: 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_PortsScanner_ActiveWorkers">
+         <property name="text">
+          <string>Active workers: 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="6">
+        <widget class="QPushButton" name="pushButton_PortsScanner_ExportHTML">
+         <property name="text">
+          <string>Export HTML</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>402</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButton_PortsScanner_Start">
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2" colspan="5">
+        <widget class="QComboBox" name="comboBox_ScanProfiles"/>
+       </item>
+       <item row="1" column="0" colspan="9">
+        <widget class="AdvancedTableWidget" name="tableWidget_PortsScanner">
+         <column>
+          <property name="text">
+           <string> Target host</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Host address</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Host name</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Start scan</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Scan duration</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Ping state</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>TCP Ports Open</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UDP Ports Open</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Device type</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Device name</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>OS</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Status</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="0" column="7" colspan="2">
+        <widget class="QPushButton" name="pushButton_ManageProfiles">
+         <property name="text">
+          <string>Manage</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QPushButton" name="pushButton_PortsScanner_Stop">
+         <property name="text">
+          <string>Stop</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="8">
+        <widget class="QPushButton" name="pushButton_PortsScanner_Clear">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Ports scan profile</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="7">
+        <widget class="QPushButton" name="pushButton_PortsScanner_StretchCols">
+         <property name="text">
+          <string>Stretch cols</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="5">
+        <widget class="QPushButton" name="pushButton_PortsScanner_ExportCSV">
+         <property name="text">
+          <string>Export CSV</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="3">
+        <widget class="QPushButton" name="pushButton_PortsScanner_ScanSettings">
+         <property name="text">
+          <string>Scan settings</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AdvancedTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>AdvancedTableWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>PortsScanner_ManageScanProfiles_pushButtonCLicked()</slot>
+  <slot>PortsScanner_StartScan_pushButtonClocked()</slot>
+  <slot>PortsScanner_StopScan_pushButtonClocked()</slot>
+  <slot>PortsScanner_StretchTable_pushButtonClocked()</slot>
+  <slot>PortsScanner_ClearTable_pushButtonClocked()</slot>
+  <slot>PortsScanner_tableWidget_customContextMenuRequested(QPoint)</slot>
+ </slots>
+</ui>
