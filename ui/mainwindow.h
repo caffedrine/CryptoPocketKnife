@@ -3,16 +3,12 @@
 
 #include <QDebug>
 #include <QMainWindow>
-#include <QRandomGenerator>
-#include <QDir>
-#include <QTextStream>
 #include <QDateTime>
-#include <QDesktopServices>
 #include <QMessageBox>
+#include <QDesktopServices>
 
 #include "Logger.h"
 #include "utils.h"
-#include <eddsa.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,14 +28,6 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
     void on_actionLogs_triggered();
-
-    // Signatrure calculus
-    void on_ed25519_pushButton_GenerateKeysPair_clicked();
-    void on_ed25529_textEdit_privateKey_textChanged(const QString &arg1);
-    void on_ed25529_textEdit_publicKey_textChanged(const QString &arg1);
-    void on_ed25519_pushButton_CalculateSignature_clicked();
-    void on_ed25519_pushButton_VerifySignature_clicked();
-    void on_pushButton_Signature_ED25519_Clear_clicked();
 
     // Utils
     void on_pushButton_Utils_CurrentTimestamp_clicked();
