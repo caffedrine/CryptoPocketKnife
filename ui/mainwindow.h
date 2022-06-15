@@ -5,27 +5,15 @@
 #include <QMainWindow>
 #include <QRandomGenerator>
 #include <QDir>
-#include <QProcess>
-#include <QFileDialog>
-#include <QSaveFile>
 #include <QTextStream>
-#include <QDebug>
-#include <QClipboard>
-#include <QMimeData>
-#include <QDropEvent>
-#include <QDragEnterEvent>
-#include <QCryptographicHash>
 #include <QDateTime>
 #include <QDesktopServices>
 #include <QMessageBox>
 
 #include "Logger.h"
-#include "AdvancedTextEdit.h"
 #include "utils.h"
 #include <eddsa.h>
 #include <aes.h>
-#include <Hash.h>
-#include <BigInt.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -64,29 +52,6 @@ private slots:
     void on_ciphers_AES_pushButton_Encrypt_clicked();
     void on_ciphers_AES_pushButton_Decrypt_clicked();
 
-    // Encoding/decoding
-    void EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, const QString& exception);
-    void on_textEdit_EncodeDecode_General_Ascii_textChanged();
-    void on_textEdit_EncodeDecode_General_HEX_textChanged();
-    void on_textEdit_EncodeDecode_General_BIN_textChanged();
-    void on_textEdit_EncodeDecode_General_DEC_textChanged();
-    void on_textEdit_EncodeDecode_General_Number_textChanged();
-    void on_pushButton_EncodeDecode_General_ClearAll_clicked();
-    void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
-    void on_textEdit_EncodeDecode_General_Base64_textChanged();
-    void on_textEdit_EncodeDecode_General_AlphanumericStrings_textChanged();
-    void on_textEdit_EncodeDecode_UrlEncoded_textChanged();
-    void on_textEdit_EncodeDecode_UrlDecoded_textChanged();
-    void on_textEdit_EncodeDecode_HtmlEncoded_textChanged();
-    void on_textEdit_EncodeDecode_HtmlDecoded_textChanged();
-
-    // Hashing
-    void on_textBrowser_SHA2_InputBytes_textChanged();
-    void on_textBrowser_SHA1_InputBytes_textChanged();
-    void on_textBrowser_MD5_InputBytes_textChanged();
-
-    // Networking
-
     // Utils
     void on_pushButton_Utils_CurrentTimestamp_clicked();
     void on_pushButton_Utils_CurrentDateTime_clicked();
@@ -95,7 +60,6 @@ private slots:
 
     private:
     Ui::MainWindow *ui;
-    bool BypassOnChangeEventFlag = false;
     QMap<QString, QString> WebScraperResponseHeaders;
     QMap<QString, QString> WebScraperResponseData;
 
