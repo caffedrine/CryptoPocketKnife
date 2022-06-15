@@ -13,7 +13,6 @@
 #include "Logger.h"
 #include "utils.h"
 #include <eddsa.h>
-#include <aes.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,16 +40,6 @@ private slots:
     void on_ed25519_pushButton_CalculateSignature_clicked();
     void on_ed25519_pushButton_VerifySignature_clicked();
     void on_pushButton_Signature_ED25519_Clear_clicked();
-
-    // Key exchange
-    void on_x25519_pushButton_GenerateEphemeralKeys_clicked();
-    void on_x25519_pushButton_CalculateSharedSecret_clicked();
-    void on_x25519_pushButton_Clear_clicked();
-    void on_x25519_pushButton_CalcSymKeys_clicked();
-
-    // Ciphers
-    void on_ciphers_AES_pushButton_Encrypt_clicked();
-    void on_ciphers_AES_pushButton_Decrypt_clicked();
 
     // Utils
     void on_pushButton_Utils_CurrentTimestamp_clicked();

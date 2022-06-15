@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <attribute name="title">
@@ -258,348 +258,10 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QTabWidget" name="keyExchange_tabWidget_X25519">
+         <widget class="UiKeyExchange" name="keyExchange_tabWidget_X25519">
           <property name="currentIndex">
-           <number>0</number>
+           <number>-1</number>
           </property>
-          <widget class="QWidget" name="tabName_KeyExchange_X25519">
-           <attribute name="title">
-            <string>X25519</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_7">
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupBox_KeysGenAndSharedCalc">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>242</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Key pairs gen and shared secret calc</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_4">
-               <item row="0" column="0">
-                <widget class="QLabel" name="x25519_label_PrivateKey">
-                 <property name="text">
-                  <string notr="true">Own private key (32 bytes)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_ownPublicKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>c8 a0 c8 23 86 7f 9c 1f 19 14 c6 ee aa 40 20 32 c3 16 ad af 0e 24 74 64 98 ba 64 a3 c0 6c 15 6c</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="x25519_label_PublicKey">
-                 <property name="text">
-                  <string>Own public key (32 bytes)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="2" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_otherPublicKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>85 20 F0 09 89 30 A7 54 74 8B 7D DC B4 3E F7 5A 0D BF 3A 0D 26 38 1A F4 EB A4 A9 8E AA 9B 4E 6A</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="3">
-                <widget class="QPushButton" name="x25519_pushButton_Clear">
-                 <property name="text">
-                  <string>Clear </string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="x25519_label_ownSharedSecret">
-                 <property name="text">
-                  <string>Own calculated shared secret</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="2">
-                <widget class="QLabel" name="x25519_label_PrivateKey_2">
-                 <property name="text">
-                  <string notr="true">Other private key (32 bytes)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_ownSharedSecret">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="2">
-                <widget class="QLabel" name="x25519_label_PublicKey_3">
-                 <property name="text">
-                  <string>Other calculated shared secret</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="2" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_otherPrivateKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>77 07 6D 0A 73 18 A5 7D 3C 16 C1 72 51 B2 66 45 DF 4C 2F 87 EB C0 99 2A B1 77 FB A5 1D B9 2C 2A</string>
-                 </property>
-                 <property name="cursorPosition">
-                  <number>95</number>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QPushButton" name="x25519_pushButton_GenerateEphemeralKeys">
-                 <property name="text">
-                  <string>Generate ephemeral keys pair</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="2" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_otherSharedSecret">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QLabel" name="x25519_label_PublicKey_4">
-                 <property name="text">
-                  <string>Other public key (32 bytes)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QPushButton" name="x25519_pushButton_CalculateSharedSecret">
-                 <property name="text">
-                  <string>Calculate shared secret</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_ownPrivateKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>30 23 27 a9 07 bd 94 aa ff d5 7b b2 d9 97 1f a0 4c 7f df cd e5 3f 6f 9b 2b b7 2a 4f 22 95 b0 4c</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0" colspan="4">
-                <widget class="QLabel" name="label_2">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Left (Own private key + other public key), Right (other private key + own public key).
- ** Private key can be preset and only public key will be calculated.</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QGroupBox" name="groupBox_SymKeyCalc">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>201</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="title">
-               <string>Symmetric keys calculator ( hash(nonce+shared_secret) )</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_6">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>Nonce</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLineEdit" name="x25529_textEdit_nonce">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA AA</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_6">
-                 <property name="text">
-                  <string>Own AES Key</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>Other AES Key</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLineEdit" name="x25529_textEdit_ownAesKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="x25529_textEdit_otherAesKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_8">
-                 <property name="text">
-                  <string>Own AES IV</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QLabel" name="label_9">
-                 <property name="text">
-                  <string>Other AES IV</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLineEdit" name="x25529_textEdit_ownAesIv">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QLineEdit" name="x25529_textEdit_otherAesIv">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                   <bold>false</bold>
-                  </font>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QPushButton" name="x25519_pushButton_CalcSymKeys">
-                 <property name="text">
-                  <string>Calculate sym keys</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
          </widget>
         </item>
        </layout>
@@ -622,158 +284,10 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QTabWidget" name="keyExchange_tabWidget_X25519_2">
+         <widget class="UiCiphers" name="keyExchange_tabWidget_X25519_2">
           <property name="currentIndex">
-           <number>0</number>
+           <number>-1</number>
           </property>
-          <widget class="QWidget" name="tabName_KeyExchange_X25519_2">
-           <attribute name="title">
-            <string>AES</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_9">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QGroupBox" name="groupBox_2">
-              <property name="title">
-               <string>AES encrypt/decrypt</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_8">
-               <item row="8" column="1">
-                <widget class="QPushButton" name="ciphers_AES_pushButton_Decrypt">
-                 <property name="text">
-                  <string>Decrypt</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>AES key</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0" colspan="4">
-                <widget class="QTextEdit" name="ciphers_AES_textEdit_AesOutput">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="0">
-                <widget class="QPushButton" name="ciphers_AES_pushButton_Encrypt">
-                 <property name="text">
-                  <string>Encrypt</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="3">
-                <widget class="QComboBox" name="ciphers_AES_comboBox">
-                 <item>
-                  <property name="text">
-                   <string>AES-128</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="4">
-                <widget class="QLineEdit" name="ciphers_AES_textEdit_AesKey">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>2E D5 C0 15 30 78 92 7C B1 FD 43 CF C6 E6 71 CB</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="4">
-                <widget class="QLineEdit" name="ciphers_AES_textEdit_AesIV">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>09 18 63 1B 0D 0E 0F C6 14 DE 1D F3 33 2B C8 51</string>
-                 </property>
-                 <property name="clearButtonEnabled">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0" colspan="4">
-                <widget class="QTextEdit" name="ciphers_AES_textEdit_AesInput">
-                 <property name="font">
-                  <font>
-                   <family>Consolas</family>
-                  </font>
-                 </property>
-                 <property name="html">
-                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;50 C7 02 53 6D 80 9F FF 25 30 3A 6E BF 90 98 8D 86 E7 F0 BF 47 F3 D5 FE 26 53 74 AB B6 C6 08 58 56 CF 01 E0 3B FE FC 14 8C 46 AE 0E 60 14 15 2E 6E B1 02 CE 0E E5 74 50 91 9E 25 8F AA D7 C4 2A 4D D7 9E 9F 5D 10 A1 73 81 86 30 10 92 27 ED 7B&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>AES IV (for CTR)</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_16">
-                 <property name="text">
-                  <string>Output</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_15">
-                 <property name="text">
-                  <string>Input</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="8" column="2">
-                <spacer name="horizontalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
          </widget>
         </item>
        </layout>
@@ -969,7 +483,7 @@ hr { height: 1px; border-width: 0; }
         <item row="0" column="0">
          <widget class="QTabWidget" name="utils_TabWidget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_Utils_DateTimeConversion">
            <attribute name="title">
@@ -1195,6 +709,18 @@ hr { height: 1px; border-width: 0; }
    <class>UiWeb</class>
    <extends>QTabWidget</extends>
    <header>UiWeb.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiCiphers</class>
+   <extends>QTabWidget</extends>
+   <header>UiCiphers.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiKeyExchange</class>
+   <extends>QTabWidget</extends>
+   <header>UiKeyExchange.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

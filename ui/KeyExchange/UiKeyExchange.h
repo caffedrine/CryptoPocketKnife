@@ -18,9 +18,21 @@ Q_OBJECT
 public:
     explicit UiKeyExchange(QWidget *parent = nullptr);
     ~UiKeyExchange() override;
+    void setCurrentIndex(int idx) {};
 
 private:
     Ui::UiKeyExchange *ui;
+
+    void Status_EndWithError(QString err_msg);
+    void Status_EndWithSuccess(QString err_msg);
+    void Status_Clear();
+
+private slots:
+    void on_x25519_pushButton_GenerateEphemeralKeys_clicked();
+    void on_x25519_pushButton_CalculateSharedSecret_clicked();
+    void on_x25519_pushButton_Clear_clicked();
+    void on_x25519_pushButton_CalcSymKeys_clicked();
+
 };
 
 

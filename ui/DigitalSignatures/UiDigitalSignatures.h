@@ -18,6 +18,7 @@ Q_OBJECT
 public:
     explicit UiDigitalSignatures(QWidget *parent = nullptr);
     ~UiDigitalSignatures() override;
+    void setCurrentIndex(int idx) {};
 
 private:
     Ui::UiDigitalSignatures *ui;
