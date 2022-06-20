@@ -64,11 +64,19 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->textEdit_EncodeDecode_General_AlphanumericStrings->setText(Utils_BytesToAlphanumericString(&bytes));
     }
 
-//    if( exception != "number" )
-//    {
-//        BigInt n = BigInt().from_hex(bytes.toHex().toStdString());
-//        this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string()));
-//    }
+    if( exception != "number" )
+    {
+        // Currently handling of very very big numbers does not work :(
+        if( bytes.count() <= 128 )
+        {
+            BigInt n = BigInt().from_hex(bytes.toHex().toStdString());
+            this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string()));
+        }
+        else
+        {
+            this->ui->textEdit_EncodeDecode_General_Number->setText("Can't handle that big numbers :(");
+        }
+    }
 
     if( exception != "raw" )
     {
