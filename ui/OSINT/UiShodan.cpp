@@ -1,6 +1,8 @@
 #include "UiShodan.h"
 #include "ui_UiShodan.h"
 
+#include <QApplication>
+#include <QClipboard>
 #include <QMessageBox>
 #include "Shodan.h"
 #include "utils.h"
@@ -92,12 +94,11 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
         {
             QString line = r.second.object().value("ip_str").toString();
             line += "," + r.second.object().value("timestamp").toString();
-            line += "," + r.second.object().value("product").toString();
+            line += "," + r.second.object().value("product").toString().toUtf8().replace('\0', "");
             line += "," + r.second.object().value("location").toObject().value("country_code").toString();
             line += "," + r.second.object().value("isp").toString();
             line += "," + r.second.object().value("hostnames").toArray()[0].toString();
             line += "," + r.second.object().value("asn").toString();
-
             this->ui->plainTextEdit_ManualQuery_Results->appendPlainText(line);
         }
 
@@ -123,4 +124,12 @@ void UiShodan::pushButton_ManualQuery_Count_clicked()
     this->ui->lineEdit_ManualQuery_Count->setText(total);
 
     Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_Count );
+}
+
+void UiShodan::on_pushButton_ManualQuery_CopyOutputData_clicked()
+{
+    QString text = this->ui->plainTextEdit_ManualQuery_Results->toPlainText();
+    text = text.right( text.length() - text.indexOf('\n') - 1 );
+
+    QApplication::clipboard()->setText(text);
 }

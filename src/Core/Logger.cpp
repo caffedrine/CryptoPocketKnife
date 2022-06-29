@@ -1,5 +1,6 @@
 #include "Logger.h"
 #include <QCoreApplication>
+#include <QFileInfo>
 
 #include <iostream>
 #include <mutex>
@@ -50,7 +51,8 @@ namespace spdlog
 void QtCustomOutputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
 #ifdef QT_DEBUG
-    QString ctx_str = "[" + QString(context.file) + ":" + QString::number(context.line) + "] ";
+    QFileInfo f(QFile(context.file));
+    QString ctx_str = "[" + QString(f.fileName()) + ":" + QString::number(context.line) + "] ";
 #else
     QString ctx_str = "";
 #endif

@@ -25,6 +25,7 @@ protected slots:
     void pushButton_shodanSettings_GetSearchFilters_clicked();
     void pushButton_ManualQuery_GetResults_clicked();
     void pushButton_ManualQuery_Count_clicked();
+    void on_pushButton_ManualQuery_CopyOutputData_clicked();
 
 private:
     Ui::UiShodan *ui;
