@@ -33,7 +33,7 @@
      </property>
      <widget class="QWidget" name="web_WebScraper">
       <attribute name="title">
-       <string>UiWeb scraper</string>
+       <string>Web scraper</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_27">
        <item row="0" column="3" colspan="2">
@@ -122,6 +122,16 @@
          <column>
           <property name="text">
            <string>IP Address</string>
+          </property>
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Organization</string>
           </property>
           <property name="font">
            <font>

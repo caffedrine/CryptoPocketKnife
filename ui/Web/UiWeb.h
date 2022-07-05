@@ -15,6 +15,7 @@
 #include <QtConcurrent>
 #include <QFuture>
 
+#include "TldCountry.h"
 #include "GeoIP.h"
 #include "WebScraper.h"
 #include "utils.h"

@@ -71,6 +71,11 @@ void UiWeb::tableWidget_WebScraper_OnTextPasted(const QString& text)
 {
     auto urls = Utils_ExtractAllUrls(text);
 
+    if( !urls.size() )
+    {
+        qDebug().noquote().nospace() << "Pasted " << text.length() << " but no URLs found. Have you included http(s) at the beginning?";
+    }
+
     for(const QString &url_str: urls)
     {
         QUrl url(url_str);
@@ -82,9 +87,20 @@ void UiWeb::tableWidget_WebScraper_OnTextPasted(const QString& text)
             this->ui->tableWidget_WebScraper->setRowCount(currentRow + 1);
             this->ui->tableWidget_WebScraper->setItem(currentRow, 0, new QTableWidgetItem(url.scheme()));
             this->ui->tableWidget_WebScraper->setItem(currentRow, 1, new QTableWidgetItem(url.host()));
+            // Set tld icon if any
+            if( url.host().contains(".") )
+            {
+                QString tld =  url.host().split(".").last();
+                QString resPath = ":/img/flags/" + tld + ".svg";
+                if( QFile::exists(resPath) )
+                {
+                    this->ui->tableWidget_WebScraper->item(currentRow, 1)->setIcon(QIcon(resPath));
+                }
+            }
             this->ui->tableWidget_WebScraper->setItem(currentRow, 2, new QTableWidgetItem(url_str.split(url.host())[1]));
             this->ui->tableWidget_WebScraper->setItem(currentRow, 3, new QTableWidgetItem(""));
             this->ui->tableWidget_WebScraper->setItem(currentRow, 4, new QTableWidgetItem(""));
+            this->ui->tableWidget_WebScraper->setItem(currentRow, 5, new QTableWidgetItem(""));
         }
         else
         {
@@ -123,18 +139,20 @@ void UiWeb::tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &parent, int 
 void UiWeb::webScraper_OnRequestStarted(const QString &requestId, const QString &requestUrl)
 {
     //dbgln << "[HTTP GET START] " << requestId << ". " << requestUrl;
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setIcon(QIcon(":/img/working.png"));
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText("Working...");
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setIcon(QIcon(":/img/working.png"));
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setText("Working...");
 }
 
 void UiWeb::webScraper_OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response)
 {
     //dbgln << "[HTTP GET FAILED] [" << errorDescription << "] " << requestId << ". " << requestUrl;
 
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText(response.AppErrorDetected?response.AppErrorDesc:response.NetworkErrorDescription);
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setIcon(QIcon(":/img/fail.png"));
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setText(response.AppErrorDetected?response.AppErrorDesc:response.NetworkErrorDescription);
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setIcon(QIcon(":/img/fail.png"));
     // Set host IP
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setText(response.HostIp);
+    // Set IP organization
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
 }
 
 void UiWeb::webScraper_OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response)
@@ -142,13 +160,16 @@ void UiWeb::webScraper_OnRequestFinished(const QString &requestId, const QString
     //dbgln << "[HTTP GET SUCCEED] " << requestId << ". " << requestUrl << ": " << response.Code;
     if( response.Code == 200 )
     {
-        this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setIcon(QIcon(":/img/success.png"));
+        this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setIcon(QIcon(":/img/success.png"));
     }
     else
     {
-        this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setIcon(QIcon(":/img/warning.png"));
+        this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setIcon(QIcon(":/img/warning.png"));
     }
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText(QString::number(response.Code) + " - " + response.CodeDesc);
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setText(QString::number(response.Code) + " - " + response.CodeDesc);
+
+    // Set IP organization
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
 
     // Set host IP and show country flag of the host
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setText(response.HostIp);
@@ -157,6 +178,7 @@ void UiWeb::webScraper_OnRequestFinished(const QString &requestId, const QString
     {
         this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setIcon(QIcon(resPath));
     }
+
 
     this->WebScraperResponseHeaders[WebScraper_getFullUrlFromTable(requestId.toInt())] = response.Headers;
     this->WebScraperResponseData[WebScraper_getFullUrlFromTable(requestId.toInt())] = response.Body;
@@ -181,10 +203,13 @@ void UiWeb::on_pushButton_WebScraper_StartDownload_clicked()
     // Set all statuses to PENDING and remove IPs
     for (int i = 0; i < rows; i++)
     {
-        this->ui->tableWidget_WebScraper->item(i, 4)->setIcon(QIcon(":/img/pending.png"));
-        this->ui->tableWidget_WebScraper->item(i, 4)->setText("Pending...");
+        this->ui->tableWidget_WebScraper->item(i, 5)->setIcon(QIcon(":/img/pending.png"));
+        this->ui->tableWidget_WebScraper->item(i, 5)->setText("Pending...");
         this->ui->tableWidget_WebScraper->item(i, 3)->setText("");
         this->ui->tableWidget_WebScraper->item(i, 3)->setIcon(QIcon());
+        this->ui->tableWidget_WebScraper->item(i, 4)->setText("");
+        this->ui->tableWidget_WebScraper->item(i, 4)->setIcon(QIcon());
+
     }
 
     this->CancelRequests = false;
