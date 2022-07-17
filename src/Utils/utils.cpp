@@ -9,6 +9,9 @@
 #include <QThread>
 #include <QTime>
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 QString Utils_Uint8ToHexQStr(uint8_t in)
 {
     return QString("%1").arg(in, 2, 16, QLatin1Char( '0' )).toUpper();
@@ -71,9 +74,9 @@ bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[SHA512_HASH_
 QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr)
 {
     QString result = "";
-    for( int i = 0; i < in_arr->length(); i++ )
+    for(char i : *in_arr)
     {
-        QChar c = QChar(in_arr->at(i));
+        auto c = QChar(i);
         if( (c.unicode() >= 0x20 && c.unicode() <= 0x7f) || ( c.unicode() == 0x0A ) )
             result += c;
         else
@@ -85,9 +88,9 @@ QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr)
 QString Utils_BytesToAlphanumericString(const QByteArray *in_arr)
 {
     QString result = "";
-    for( int i = 0; i < in_arr->length(); i++ )
+    for(char i : *in_arr)
     {
-        QChar c = QChar(in_arr->at(i));
+        auto c = QChar(i);
         if( c.isDigit() || (c.unicode() >= 0x41 && c.unicode() <= 0x5A ) || (c.unicode() >= 0x61 && c.unicode() <= 0x7A ))
             result += c;
         else
@@ -99,9 +102,9 @@ QString Utils_BytesToAlphanumericString(const QByteArray *in_arr)
 QString Utils_BytesToBinaryString(const QByteArray *in_arr)
 {
     QString result = "";
-    for( int i = 0; i < in_arr->length(); i++ )
+    for(char i : *in_arr)
     {
-        result += QString("%1").arg((uint8_t)in_arr->at(i), 8, 2, QChar('0')) + " ";
+        result += QString("%1").arg((uint8_t)i, 8, 2, QChar('0')) + " ";
     }
     return result.trimmed();
 }
@@ -109,14 +112,14 @@ QString Utils_BytesToBinaryString(const QByteArray *in_arr)
 QString Utils_BytesToDECString(const QByteArray *in_arr)
 {
     QString result = "";
-    for( int i = 0; i < in_arr->length(); i++ )
+    for(char i : *in_arr)
     {
-        result += QString::number((uint8_t)in_arr->at(i)) + " ";
+        result += QString::number((uint8_t)i) + " ";
     }
     return result.trimmed();
 }
 
-QString ParseCertOrCsrFromFileToHexStr(QString fileName)
+QString ParseCertOrCsrFromFileToHexStr(const QString& fileName)
 {
     // Open file and create reading stream
     QFile f(fileName);
@@ -220,13 +223,12 @@ bool Utils_IsValidIPv6(const QString &input)
 void Utils_NumericListSort(QStringList *list)
 {
     QMap<int, QString> m;
-    for (auto s: *list) m[s.toInt()] = s;
+    for (const auto& s: *list) m[s.toInt()] = s;
     *list = QStringList(m.values());
 }
 
-bool Utils_FileExists(QString fileName)
+bool Utils_FileExists(const QString& fileName)
 {
-    QString f(fileName);
     QFile file(fileName);
     return file.exists();
 }
@@ -299,12 +301,12 @@ QStringList Utils_ParseCsvLine(const QString &string)
 
     // Quotes are left in until here; so when fields are trimmed, only whitespace outside of
     // quotes is removed.  The outermost quotes are removed here.
-    for (int i=0; i<fields.size(); ++i)
-        if (fields[i].length()>=1 && fields[i].left(1)=='"')
+    for (auto & field : fields)
+        if (field.length()>=1 && field.left(1)=='"')
         {
-            fields[i]=fields[i].mid(1);
-            if (fields[i].length()>=1 && fields[i].right(1)=='"')
-                fields[i]=fields[i].left(fields[i].length()-1);
+            field=field.mid(1);
+            if (field.length()>=1 && field.right(1)=='"')
+                field=field.left(field.length()-1);
         }
 
     // Treat case when string ends with comma. Just add an additional field
@@ -377,12 +379,63 @@ void Utils_MsgBox(const QString &title, const QString &message)
 
 void Utils_RichTextBoxPopup(const QString &title, const QString &content)
 {
-    QPlainTextEdit *editor = new QPlainTextEdit(content);
+    auto *editor = new QPlainTextEdit(content);
     editor->setWindowTitle(title);
     editor->setAttribute(Qt::WA_DeleteOnClose);
     editor->setBaseSize(QSize(800, 400));
     editor->show();
 }
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "misc-no-recursion"
+void Utils_PrintNestedQMap(const QVariantMap &map, int level)
+{
+    QString tabs = "";
+    for( int i = 0; i < level; i++ )
+        tabs += "\t";
+
+    QMapIterator<QString, QVariant> it(map);
+    while( it.hasNext() )
+    {
+        it.next();
+
+        QString output = tabs + (level>0?"-->":"") + it.key();
+        if( !it.value().toMap().isEmpty() )
+        {
+            qDebug().nospace().noquote() << output;
+            Utils_PrintNestedQMap(QVariantMap(it.value().toMap()), level+1);
+        }
+        else
+        {
+            qDebug().nospace().noquote() << output << ": " << it.value();
+        }
+    }
+}
+
+void Utils_PrintNestedQMap_AsQStrings(const QVariantMap &map, int level)
+{
+    QString tabs = "";
+    for( int i = 0; i < level; i++ )
+        tabs += "\t";
+
+    QMapIterator<QString, QVariant> it(map);
+    while( it.hasNext() )
+    {
+        it.next();
+
+        QString output = tabs + (level>0?"-->":"") + it.key();
+        if( !it.value().toMap().isEmpty() )
+        {
+            qDebug().nospace().noquote() << output;
+            Utils_PrintNestedQMap_AsQStrings(QVariantMap(it.value().toMap()), level+1);
+        }
+        else
+        {
+            qDebug().nospace().noquote() << output << ": " << it.value().toString();
+        }
+    }
+}
+#pragma clang diagnostic pop
 
 void SleepMs(quint64 ms)
 {
@@ -393,3 +446,5 @@ void SleepMs(quint64 ms)
         QObject().thread()->usleep(1000*ms);
     }
 }
+
+#pragma clang diagnostic pop

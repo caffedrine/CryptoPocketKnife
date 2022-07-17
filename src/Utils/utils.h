@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -22,7 +25,7 @@ QString Utils_BytesToAlphanumericString(const QByteArray *in_arr);
 QString Utils_BytesToBinaryString(const QByteArray *in_arr);
 QString Utils_BytesToDECString(const QByteArray *in_arr);
 
-QString ParseCertOrCsrFromFileToHexStr(QString fileName);
+QString ParseCertOrCsrFromFileToHexStr(const QString& fileName);
 
 QStringList Utils_ExtractAllUrls(const QString& inputText);
 QStringList Utils_ExtractAllHosts(const QString &input);
@@ -31,7 +34,7 @@ bool Utils_IsValidIPv4(const QString &input);
 bool Utils_IsValidIPv6(const QString &input);
 
 void Utils_NumericListSort(QStringList *list);
-bool Utils_FileExists(QString fileName);
+bool Utils_FileExists(const QString& fileName);
 QStringList Utils_ParseCsvLine(const QString &string);
 QString Util_EncodeForCSV(const QString &string);
 QString Utils_FloatWithDigitsPrecision(float number, int precision = 2);
@@ -47,6 +50,12 @@ void Utils_Alert(const QString &title, const QString &message);
 void Utils_MsgBox(const QString &title, const QString &message);
 void Utils_RichTextBoxPopup(const QString &title, const QString &content);
 
+// Data structures utils
+void Utils_PrintNestedQMap(const QVariantMap &map, int level = 0);
+void Utils_PrintNestedQMap_AsQStrings(const QVariantMap &map, int level = 0);
+
 void SleepMs(quint64 ms);
 
 #endif // UTILS_H
+
+#pragma clang diagnostic pop
