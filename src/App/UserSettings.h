@@ -1,7 +1,7 @@
 #ifndef _USERSETTINGS_H_
 #define _USERSETTINGS_H_
 
-#include <QSettings.h>
+#include <QSettings>
 #include <QString>
 
 #define UserSettings User_Settings::inst()

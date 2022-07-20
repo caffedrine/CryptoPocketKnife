@@ -1,7 +1,7 @@
 #ifndef _APPSETTINGS_H_
 #define _APPSETTINGS_H_
 
-#include <QSettings.h>
+#include <QSettings>
 #include <QString>
 
 #define ApplSettings AppSettings->instance()
