@@ -3,12 +3,12 @@
 
 #include "UserSettings.h"
 
-namespace Services::PortsScanner::Settings
+namespace Services { namespace PortsScanner { namespace Settings
 {
     static QStringList GetUserDataPaths()
     {
         return  QStringList( UserSettings->Get_UserDataPathAbs());
     }
-}
+}}} // Namespaces
 
 #endif // _CFG_PORTSSCANNER_H_

@@ -1,6 +1,6 @@
 #include "TldCountry.h"
 
-namespace Services::TldCountry
+namespace Services { namespace TldCountry
 {
 
     static QMap<QString, QString> CountriesList =
@@ -296,4 +296,4 @@ namespace Services::TldCountry
             return "";
         return CountriesList.value(country_tld);
     }
-} // namespace
+}}  // Namespaces

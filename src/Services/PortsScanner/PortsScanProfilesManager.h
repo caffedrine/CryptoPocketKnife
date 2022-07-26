@@ -6,7 +6,7 @@
 
 #include "PortsScanBuiltInProfiles.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 class PortsScanProfilesManager: protected QObject, public Singleton<PortsScanProfilesManager>
@@ -21,6 +21,6 @@ private:
 
 };
 
-}
+}} // Namespaces
 
 #endif // _PORTSSCANPROFILESMANAGER_H_

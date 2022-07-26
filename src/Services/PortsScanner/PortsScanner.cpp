@@ -1,6 +1,6 @@
 #include "PortsScanner.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 PortsScanner::PortsScanner(int max_threads_count)
@@ -37,15 +37,16 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
         return false;
     }
 
-    if(!this->ThreadsPoolPtr()->tryStart(lam))
-    {
-        PortsScanResult response;
-        response.AppErrorDetected = true;
-        response.AppErrorDesc = "No threads available";
+    /// TODO: Fix this
+//    if(!this->ThreadsPoolPtr()->tryStart(lam))
+//    {
+//        PortsScanResult response;
+//        response.AppErrorDetected = true;
+//        response.AppErrorDesc = "No threads available";
 
-        emit this->OnRequestError(host, response);
-        return false;
-    }
+//        emit this->OnRequestError(host, response);
+//        return false;
+//    }
 
     this->mutex.lock();
     ActiveHostsScanned.append(host);
@@ -280,7 +281,7 @@ QString PortsScanner::RunNmapScan(QString nMapCommand)
 
     // Use openssl to parse certificate
     QProcess process;
-    process.startCommand(nMapCommand);
+    process.start(nMapCommand);
     process.waitForFinished(999999999);
     QString processOutput = process.readAllStandardOutput();
     processOutput += process.readAllStandardError();
@@ -356,7 +357,7 @@ bool PortsScanner::TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmap
     return true;
 }
 
-}
+}} // Namespaces
 
 
 

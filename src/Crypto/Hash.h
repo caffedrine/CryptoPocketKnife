@@ -3,7 +3,7 @@
 
 #include <QByteArray>
 
-namespace Crypto::Hash
+namespace Crypto { namespace Hash
 {
     QByteArray MD5(const QByteArray &input);
     QByteArray SHA1(const QByteArray &input);
@@ -29,7 +29,7 @@ namespace Crypto::Hash
     QByteArray BLAKE2S_160(const QByteArray &input);
     QByteArray BLAKE2S_224(const QByteArray &input);
     QByteArray BLAKE2S_256(const QByteArray &input);
-}
+    }} // Namespaces
 
 
 #endif // _CRYPTO_HASH_H_

@@ -1,6 +1,6 @@
 #include "MmdbReader.h"
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 namespace
@@ -471,4 +471,4 @@ QVariant MmdbReader::readArrayValue(quint32 &offset, const quint32 count) const
     return array;
 }
 
-}
+}} // Namespaces

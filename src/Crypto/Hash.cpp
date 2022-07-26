@@ -1,7 +1,7 @@
 #include <QCryptographicHash>
 #include "Hash.h"
 
-namespace Crypto::Hash
+namespace Crypto { namespace Hash
 {
     QByteArray MD5(const QByteArray &input)
     {
@@ -122,57 +122,90 @@ namespace Crypto::Hash
 
     QByteArray BLAKE2B_160(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2b_160);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2B_256(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+
         QCryptographicHash hash(QCryptographicHash::Blake2b_256);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2B_384(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2b_384);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2B_512(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2b_512);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2S_128(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2s_128);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2S_160(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2s_160);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2S_224(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2s_224);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
 
     QByteArray BLAKE2S_256(const QByteArray &input)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QCryptographicHash hash(QCryptographicHash::Blake2s_256);
         hash.addData(input);
         return hash.result();
+#else
+        return QByteArray("qt5_not_supported");
+#endif
     }
-}
+}} // Namespaces

@@ -6,7 +6,7 @@
 
 #include "MmdbReader.h"
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 class DbIP
@@ -30,6 +30,6 @@ private:
 
 };
 
-}
+}} // Namespaces
 
 #endif // _DBIP_H_

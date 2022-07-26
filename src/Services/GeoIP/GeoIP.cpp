@@ -3,7 +3,7 @@
 #include <QLocale>
 #include <QMutexLocker>
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 // Class instance init
@@ -77,4 +77,4 @@ QString GeoIP::IP2Org(const QString &ip_address)
     return this->dbip->IP2Org(QCoreApplication::applicationDirPath() + Settings::DBIP::IP2ASN_DB_PATH, ip_address);
 }
 
-}
+}} // Namespaces

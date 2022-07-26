@@ -1,6 +1,6 @@
 #include "PortsScanProfilesManager.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 QList<PortsScanProfileType> PortsScanProfilesManager::GetAll()
@@ -25,4 +25,4 @@ PortsScanProfileType PortsScanProfilesManager::GetByName(QString profile_name)
     return output;
 }
 
-}
+}} // Namespaces

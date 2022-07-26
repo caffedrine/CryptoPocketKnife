@@ -1,7 +1,7 @@
 /*  
  *  File      : RegexUtils.h
  *  Created on: 2022-05-02
- *      Author: uib74520
+ *      Author: curiosul
  */
 
 #ifndef _REGEXUTILS_H_
@@ -10,9 +10,9 @@
 #include <QString>
 #include <QStringList>
 
-namespace utils::regex
+namespace utils { namespace regex
 {
     QStringList GetAllMatches(QString regexPattern, QString str);
-}
+}} // Namespaces
 
 #endif // _REGEXUTILS_H_

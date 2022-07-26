@@ -4,7 +4,7 @@
 #include <QString>
 #include <QStringList>
 
-namespace utils::network
+namespace utils { namespace network
 {
     namespace ipv4
     {
@@ -22,6 +22,6 @@ namespace utils::network
         QStringList ExtractIpAddresses(QString input);
         QStringList ExtractIpPortProxies(QString input);
     }
-}
+}} // Namespaces
 
 #endif // _NETWORKUTILS_H_

@@ -3,10 +3,10 @@
 
 #include <QMap>
 
-namespace Services::TldCountry
+namespace Services { namespace TldCountry
 {
     QString GetCountryByTLD(QString tld);
     QString GetTldByCountry(QString country_tld);
-}
+}} // Namespaces
 
 #endif //CRYPTOPOCKETKNIFE_TLDCOUNTRY_H

@@ -1,6 +1,6 @@
 #include "Maxmind.h"
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 Maxmind::Maxmind()
@@ -13,4 +13,4 @@ Maxmind::~Maxmind()
 
 }
 
-}
+}} // Namespaces

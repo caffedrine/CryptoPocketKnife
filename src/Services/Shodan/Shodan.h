@@ -26,7 +26,7 @@ public:
         if( response.object().contains("error"))
             return "shodan error:" + response.object().value("error").toString();
 
-        return "Credits available: " + QString::number(response.object().value("credits").toInteger(-1));
+        return "Credits available: " + QString::number(response.object().value("credits").toInt(-1));
     }
     QString GetSearchFilters()
     {
@@ -63,7 +63,7 @@ public:
         if( !response.object().contains("total") )
             return "-3";
 
-        return QString::number( response.object().value("total").toInteger(-4) );
+        return QString::number( response.object().value("total").toInt(-4) );
     }
     QMap<QString, QJsonDocument> GetResultsByByQuery(QString query, int page = 1)
     {

@@ -7,7 +7,7 @@
 
 #include "PortScanTargetType.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 class PortsScanProfileType
@@ -28,6 +28,6 @@ private:
 
 };
 
-}
+}} // Namespaces
 
 #endif // _PORTSSCANPROFILE_H_

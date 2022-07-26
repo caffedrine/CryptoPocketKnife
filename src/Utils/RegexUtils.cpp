@@ -2,7 +2,7 @@
 
 #include <QRegularExpressionMatchIterator>
 
-namespace utils::regex
+namespace utils { namespace regex
 {
     QStringList GetAllMatches(QString regexPattern, QString str)
     {
@@ -26,4 +26,4 @@ namespace utils::regex
 
         return list;
     }
-}
+}} // Namespaces

@@ -8,13 +8,13 @@
 #include "DbIP/DbIP.h"
 #include "Maxmind/Maxmind.h"
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 class GeoIP
 {
 public:
-    Q_DISABLE_COPY_MOVE(GeoIP)
+    Q_DISABLE_COPY(GeoIP)
 
     static GeoIP *Instance();
     static void DestroyInstance();
@@ -37,6 +37,6 @@ private:
     class Maxmind *maxmind = nullptr;
 };
 
-}
+}} // Namespaces
 
 #endif // _GEOIP_H_

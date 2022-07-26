@@ -21,7 +21,7 @@
 #include "PortsScanProfilesManager.h"
 #include "nMapXmlParser.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 /* */
@@ -92,6 +92,6 @@ private:
     bool TryParseNmapXML(QString xmlContent, nMapXmlParser *outputNmapXmlParser, PortsScanResult *output, QString scanCommand);
 };
 
-}
+}} // Namespaces
 
 #endif // _PORTSSCANNER_H_

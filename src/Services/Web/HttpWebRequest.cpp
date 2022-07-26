@@ -7,7 +7,9 @@ HttpWebRequest::HttpWebRequest(QObject *parent): QObject(parent)
 {
     // create network manager
     this->networkManager = new QNetworkAccessManager(this);
-    this->networkManager->setAutoDeleteReplies(true);
+
+    /// TODO: Check this one
+    //this->networkManager->setAutoDeleteReplies(true);
     connect(this->networkManager, SIGNAL(finished(QNetworkReply * )), this, SLOT(onNetworkReplyFinished(QNetworkReply * )));
 }
 
@@ -184,7 +186,8 @@ void HttpWebRequest::setHeaders(const QMap<QByteArray, QByteArray> &headers_)
 
 void HttpWebRequest::setTimeout(int ms)
 {
-    this->networkManager->setTransferTimeout(ms);
+    /// TODO: Also fix this
+    //this->networkManager->setTransferTimeout(ms);
 }
 
 void HttpWebRequest::ApplyReplySettings(QNetworkReply *reply)

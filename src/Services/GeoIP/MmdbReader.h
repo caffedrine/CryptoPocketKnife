@@ -9,7 +9,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QJsonValue>
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 struct DataFieldDescriptor;
@@ -76,6 +76,6 @@ private:
     uchar *m_data;
 };
 
-}
+}} // Namespaces
 
 #endif // _MMDBREADER_H_

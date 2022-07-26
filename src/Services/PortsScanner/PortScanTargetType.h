@@ -8,7 +8,7 @@
 
 #include "utils.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 class DeviceTypes
@@ -174,6 +174,6 @@ private:
 
 };
 
-}
+}} // Namespaces
 
 #endif // _PORTSCANTARGETTYPE_H_

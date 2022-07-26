@@ -1,6 +1,6 @@
 #include "nMapXmlParser.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 nMapXmlParser::nMapXmlParser()
@@ -93,4 +93,4 @@ float nMapXmlParser::GetNmapParam_LatencySeconds()
     return  microseconds / 1000 / 1000;
 }
 
-}
+}} // Namespaces

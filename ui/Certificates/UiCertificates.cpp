@@ -120,7 +120,7 @@ void UiCertificates::ParseCert()
     // Use openssl to parse certificate
     QProcess process;
     process.setWorkingDirectory("tmp/");
-    process.start("openssl.exe", QStringList() << "x509" << "-in" << "cert_pem" << "-text");
+    process.start("openssl x509 -in cert_pem -text");
     process.waitForFinished(5000);
     QByteArray processOutput = process.readAllStandardOutput();
     processOutput += process.readAllStandardError();
@@ -203,7 +203,7 @@ void UiCertificates::ParseCSR()
     // Use openssl to parse certificate
     QProcess process;
     process.setWorkingDirectory("tmp/");
-    process.start("openssl.exe", QStringList() << "req" << "-in" << "csr_pem" << "-text");
+    process.start("openssl req -in csr_pem -text");
     process.waitForFinished(5000);
     QByteArray processOutput = process.readAllStandardOutput();
     processOutput += process.readAllStandardError();

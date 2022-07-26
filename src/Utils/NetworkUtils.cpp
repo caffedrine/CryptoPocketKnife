@@ -4,7 +4,7 @@
 #include <QAbstractSocket>
 #include <QRegularExpressionMatchIterator>
 
-namespace utils::network
+namespace utils { namespace network
 {
     QStringList GetRegexAllMatches(QString regexPattern, QString str)
     {
@@ -107,4 +107,4 @@ namespace utils::network
             return GetRegexAllMatches(regexPattern, input);
         }
     }
-}
+}} // Namespaces

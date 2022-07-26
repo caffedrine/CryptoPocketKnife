@@ -4,7 +4,7 @@
 #include <QDomDocument>
 #include <QList>
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 class nMapPortState
@@ -42,6 +42,6 @@ private:
 
 };
 
-}
+}} // Namespaces
 
 #endif // _NMAPXMLPARSER_H_

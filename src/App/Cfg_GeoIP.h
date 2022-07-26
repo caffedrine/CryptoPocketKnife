@@ -3,14 +3,13 @@
 
 #include <QtCore/QString>
 
-namespace Services::GeoIP::Settings
+namespace Services { namespace GeoIP { namespace Settings
 {
-    class GeoIPProviders
+    namespace GeoIPProviders
     {
-    public:
-        inline static const QString DbIP = "DB-IP";
-        inline static const QString Maxmind = "MaxMind";
-    };
+        static const QString DbIP = "DB-IP";
+        static const QString Maxmind = "MaxMind";
+    }
 
     namespace DBIP
     {
@@ -23,6 +22,6 @@ namespace Services::GeoIP::Settings
         const QString IP2ISP_DB_PATH = "/data/GeoIP/Maxmind/ip2isp.mmdb";
         const QString IP2ORG_DB_PATH = "/data/GeoIP/Maxmind/ip2org.mmdb";
     }
-}
+}}} // Namespaces
 
 #endif // _CFG_GEOIP_H_

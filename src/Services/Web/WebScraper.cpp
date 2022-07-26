@@ -29,15 +29,16 @@ bool WebScraper::EnqueueGetRequest(const QString &uniqueRequestId, const QString
         emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads() - 1)); // substract current worker which will be disposed
     };
 
-    if(!this->ThreadsPoolPtr()->tryStart(lam))
-    {
-        HttpResponse response;
-        response.AppErrorDetected = true;
-        response.AppErrorDesc = "No threads available";
+    /// Fix this
+//    if(!this->ThreadsPoolPtr()->tryStart(lam))
+//    {
+//        HttpResponse response;
+//        response.AppErrorDetected = true;
+//        response.AppErrorDesc = "No threads available";
 
-        emit this->OnRequestError(uniqueRequestId, requestUrl, response);
-        return false;
-    }
+//        emit this->OnRequestError(uniqueRequestId, requestUrl, response);
+//        return false;
+//    }
     return true;
 }
 

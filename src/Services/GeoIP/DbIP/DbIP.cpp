@@ -6,7 +6,7 @@
 #include <QHostAddress>
 #include <QVariant>
 
-namespace Services::GeoIP
+namespace Services { namespace GeoIP
 {
 
 DbIP::DbIP()
@@ -91,4 +91,4 @@ QString DbIP::IP2Org(const QString &AsnDbPath, const QString &ip_address)
     return lookupResultBlock.toHash()["autonomous_system_organization"].toString();
 }
 
-}
+}} // Namespaces

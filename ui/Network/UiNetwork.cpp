@@ -227,12 +227,12 @@ void UiNetwork::PortsScanner_OnRequestFinished(const QString &host, const PortsS
 
 void UiNetwork::PortsScanner_ShowScanResults(int tableHostIndex, const QString &host, bool ScanInProgress)
 {
-    QList<QString> tcpPorts = this->PortsScanResults[host].OpenTcpPorts;
+    QStringList tcpPorts = this->PortsScanResults[host].OpenTcpPorts;
     tcpPorts.removeDuplicates();
     Utils_NumericListSort(&tcpPorts);
 
 
-    QList<QString> udpPorts = this->PortsScanResults[host].OpenUdpPorts;
+    QStringList udpPorts = this->PortsScanResults[host].OpenUdpPorts;
     udpPorts.removeDuplicates();
     Utils_NumericListSort(&udpPorts);
 

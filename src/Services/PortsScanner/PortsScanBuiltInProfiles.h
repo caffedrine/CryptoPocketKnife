@@ -4,7 +4,7 @@
 #include "PortsScanProfileType.h"
 #include "Singleton.h"
 
-namespace Services::PortsScanner
+namespace Services { namespace PortsScanner
 {
 
 class PortsScanBuiltInProfiles: public Singleton<PortsScanBuiltInProfiles>
@@ -119,6 +119,6 @@ private:
 
 };
 
-}
+}} // Namespaces
 
 #endif // _PORTSSCANBUILTINPROFILES_H_
