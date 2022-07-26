@@ -130,4 +130,7 @@ private:
     void ApplyReplySettings(QNetworkReply *reply);
 };
 
+
+Q_DECLARE_METATYPE(HttpWebRequestsResponse)
+
 #endif // HTTPWEBREQUEST_H

@@ -1,14 +1,16 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
+#include <QtGlobal>
 #include <string>
 
 template <typename T, typename D = T>
 class Singleton
 {
     friend D;
-    /// TODO: Fix this
-    //static_assert(std::is_base_of_v<T, D>, "T should be a base type for D");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    static_assert(std::is_base_of_v<T, D>, "T should be a base type for D");
+#endif
 
 public:
     static T& instance()

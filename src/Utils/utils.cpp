@@ -33,6 +33,9 @@ QString Utils_QByteArrayToHexQStr(const QByteArray& bytes_arr)
 {
     QString result = "";
 
+    if( bytes_arr.isEmpty() )
+        return "";
+
     for( int i = 0; i < bytes_arr.count(); i++ )
     {
         result += Utils_Uint8ToHexQStr((uint8_t)bytes_arr.at(i)) + " ";
@@ -74,6 +77,10 @@ bool Utils_Sha512(uint8_t *in_data, ssize_t in_len, uint8_t outData[SHA512_HASH_
 QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr)
 {
     QString result = "";
+
+    if( in_arr->isEmpty() )
+        return "";
+
     for(char i : *in_arr)
     {
         auto c = QChar(i);
@@ -88,6 +95,10 @@ QString Utils_BytesToPrintableAsciiString(const QByteArray *in_arr)
 QString Utils_BytesToAlphanumericString(const QByteArray *in_arr)
 {
     QString result = "";
+
+    if( in_arr->isEmpty() )
+        return "";
+
     for(char i : *in_arr)
     {
         auto c = QChar(i);
@@ -102,6 +113,10 @@ QString Utils_BytesToAlphanumericString(const QByteArray *in_arr)
 QString Utils_BytesToBinaryString(const QByteArray *in_arr)
 {
     QString result = "";
+
+    if( in_arr->isEmpty() )
+        return "";
+
     for(char i : *in_arr)
     {
         result += QString("%1").arg((uint8_t)i, 8, 2, QChar('0')) + " ";
@@ -112,6 +127,10 @@ QString Utils_BytesToBinaryString(const QByteArray *in_arr)
 QString Utils_BytesToDECString(const QByteArray *in_arr)
 {
     QString result = "";
+
+    if( in_arr->isEmpty() )
+        return "";
+
     for(char i : *in_arr)
     {
         result += QString::number((uint8_t)i) + " ";

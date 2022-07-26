@@ -4,7 +4,7 @@ namespace Services { namespace PortsScanner
 {
 
 PortsScanner::PortsScanner(int max_threads_count)
-{
+{   
     if( max_threads_count <= 1 || max_threads_count >= 500 )
     {
         qDebug() << "Max threads count out of range for port scanner";
@@ -18,14 +18,6 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
 {
     this->CancelAllThreads = 0;
 
-    // Add record to queue to be executed by the threads in pool
-    auto lam = [this, host, scanProfileName]()
-    {
-        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads())); // substract current worker which will be disposed
-        this->Task(host, scanProfileName);
-        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads()-1)); // substract current worker which will be disposed
-    };
-
     // Already running a scan for this host?
     if( this->IsScanRunning(host) )
     {
@@ -37,16 +29,23 @@ bool PortsScanner::EnqueueScan(const QString &host, const QString &scanProfileNa
         return false;
     }
 
-    /// TODO: Fix this
-//    if(!this->ThreadsPoolPtr()->tryStart(lam))
-//    {
-//        PortsScanResult response;
-//        response.AppErrorDetected = true;
-//        response.AppErrorDesc = "No threads available";
+    // Add record to queue to be executed by the threads in pool - this will be executed from a separate thread
+    auto lam = [this, host, scanProfileName]()
+    {
+        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads()));
+        this->Task(host, scanProfileName);
+        emit(this->AvailableWorkersChanged(this->ThreadsPoolPtr()->AvailableThreads(), this->ThreadsPoolPtr()->ActiveThreads()-1)); // substract current worker which will be disposed
+    };
 
-//        emit this->OnRequestError(host, response);
-//        return false;
-//    }
+    if(!this->ThreadsPoolPtr()->tryStart(lam))
+    {
+        PortsScanResult response;
+        response.AppErrorDetected = true;
+        response.AppErrorDesc = "No threads available";
+
+        emit this->OnRequestError(host, response);
+        return false;
+    }
 
     this->mutex.lock();
     ActiveHostsScanned.append(host);

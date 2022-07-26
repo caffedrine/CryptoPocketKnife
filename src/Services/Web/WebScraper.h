@@ -52,4 +52,7 @@ signals:
 private:
     void Task(const QString& uniqueRequestId, const QString& requestUrl);
 };
+
+Q_DECLARE_METATYPE(HttpResponse)
+
 #endif // WEBSCRAPER_H

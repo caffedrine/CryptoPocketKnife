@@ -127,7 +127,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -139,7 +140,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -150,7 +152,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -161,7 +164,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -172,7 +176,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -183,7 +188,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -194,7 +200,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 
@@ -205,7 +212,8 @@ namespace Crypto { namespace Hash
         hash.addData(input);
         return hash.result();
 #else
-        return QByteArray("qt5_not_supported");
+        Q_UNUSED(input);
+        return QByteArray();
 #endif
     }
 }} // Namespaces

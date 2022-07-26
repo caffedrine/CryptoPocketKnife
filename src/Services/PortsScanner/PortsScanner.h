@@ -80,6 +80,7 @@ signals:
     void OnProcessProgress(const QString &host, const PortsScanResult &result);
     void OnRequestFinished(const QString &host, const PortsScanResult &result);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
+
 private:
     mutable QMutex mutex;
     QAtomicInt CancelAllThreads = 0;
@@ -93,5 +94,8 @@ private:
 };
 
 }} // Namespaces
+
+
+Q_DECLARE_METATYPE(Services::PortsScanner::PortsScanResult)
 
 #endif // _PORTSSCANNER_H_
