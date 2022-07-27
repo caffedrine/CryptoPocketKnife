@@ -12,6 +12,10 @@ list(APPEND THIRD_PARTY_LIBS spdlog::spdlog)
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/BigInt)
 list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/BigInt/*.cpp)
 
+# Include QJsonModel
+list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/QJsonModel)
+list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/QJsonModel/*.cpp)
+
 # Add AES as a separete library since this is C code
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/tiny-AES-c)
 add_library(tiny-AES-lib ${CMAKE_CURRENT_LIST_DIR}/tiny-AES-c/aes.c)

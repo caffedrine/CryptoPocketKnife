@@ -26,7 +26,8 @@ protected:
     public:
         bool CallLambdaFunction(QObject* parent, QObject* watched, QEvent* event) override {
             auto calling_arguments = std::tuple_cat(std::make_tuple(parent, watched, event), lambdaArguments);
-           //return std::apply(lambdaFunction, calling_arguments);
+           // TODO: FIX
+           return std::apply(lambdaFunction, calling_arguments);
         }
 
         LambdaContainer(LF lambda_function, LARG... larg) : lambdaFunction(lambda_function) {
