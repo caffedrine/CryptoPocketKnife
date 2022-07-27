@@ -1,3 +1,4 @@
+#include "Compiler.h"
 #include "ui/mainwindow.h"
 #include <QApplication>
 #include <iostream>

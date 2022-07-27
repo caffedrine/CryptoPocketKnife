@@ -12,6 +12,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkRequest>
+#include "Compiler.h"
 #include "HttpStatusCodes.h"
 
 class HttpWebRequestsResponse
@@ -32,8 +33,8 @@ public:
     bool Redirected = false;
     QNetworkReply *reply;
     QByteArray responseBody;
-
-    [[nodiscard]] QString toString() const
+    
+    CORE_NODISCARD QString toString() const
     {
         QString result;
 
@@ -48,8 +49,8 @@ public:
 
        return result;
     }
-
-    [[nodiscard]] QString HttpMethod() const
+    
+    CORE_NODISCARD QString HttpMethod() const
     {
         QMap<QNetworkAccessManager::Operation, QString> opStrings;
         opStrings[QNetworkAccessManager::Operation::UnknownOperation]   = "UNKNOWN";
@@ -61,8 +62,8 @@ public:
         opStrings[QNetworkAccessManager::Operation::CustomOperation]    = "CUSTOM";
         return opStrings[reply->operation()];
     }
-
-    [[nodiscard]] QByteArray GetResponseHeaders() const
+    
+    CORE_NODISCARD QByteArray GetResponseHeaders() const
     {
         QByteArray output;
         for(const QNetworkReply::RawHeaderPair &pair: this->reply->rawHeaderPairs())
@@ -74,8 +75,8 @@ public:
 
         return output;
     }
-
-    [[nodiscard]] QString ErrorString() const
+    
+    CORE_NODISCARD QString ErrorString() const
     {
         QString result = "";
         result += AppErrorDetected ? "Appl error: " +  AppErrorDesc : "";

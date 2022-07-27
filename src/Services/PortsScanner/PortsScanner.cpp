@@ -277,10 +277,16 @@ QString PortsScanner::BuildNmapScanCommand(const QString &host, PortsScanTargetT
 QString PortsScanner::RunNmapScan(QString nMapCommand)
 {
     //qDebug() << "Execute " << nMapCommand;
-
+    QStringList args = nMapCommand.split(" ");
+    QString nmapExecutable = args[0];
+    args.pop_front();
+    
+    if( args.isEmpty() || nmapExecutable.isEmpty() )
+        return "nmap command empty";
+    
     // Use openssl to parse certificate
     QProcess process;
-    process.start(nMapCommand);
+    process.start(nmapExecutable, args);
     process.waitForFinished(999999999);
     QString processOutput = process.readAllStandardOutput();
     processOutput += process.readAllStandardError();
