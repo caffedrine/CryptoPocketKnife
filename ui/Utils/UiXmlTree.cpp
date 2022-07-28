@@ -1,21 +1,21 @@
-#include "UiHtmlRenderer.h"
-#include "ui_UiHtmlRenderer.h"
+#include "UiXmlTree.h"
+#include "ui_UiXmlTree.h"
 
-
-UiHtmlRenderer::UiHtmlRenderer(QWidget *parent, QString html_content): QWidget(parent), ui(new Ui::UiHtmlRenderer)
+UiXmlTree::UiXmlTree(QWidget *parent, QString dom_data): QWidget(parent), ui(new Ui::UiXmlTree)
 {
     ui->setupUi(this);
     this->model = new DomModel(QDomDocument());
     this->ui->treeView->setModel( this->model );
-    this->ui->plainTextEdit->setPlainText(html_content);
+    this->ui->plainTextEdit->setPlainText(dom_data);
 }
 
-UiHtmlRenderer::~UiHtmlRenderer()
+UiXmlTree::~UiXmlTree()
 {
     delete ui;
+    delete this->model;
 }
 
-void UiHtmlRenderer::on_plainTextEdit_textChanged()
+void UiXmlTree::on_plainTextEdit_textChanged()
 {
     if( this->ui->plainTextEdit->toPlainText().isEmpty() )
     {

@@ -2,7 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UIHTMLRENDERER_H
 
 #include <QWidget>
-
+#include "DomModel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -16,11 +16,15 @@ class UiHtmlRenderer : public QWidget
 Q_OBJECT
 
 public:
-    explicit UiHtmlRenderer(QWidget *parent = nullptr);
+    explicit UiHtmlRenderer(QWidget *parent = nullptr, QString html_content = "");
     ~UiHtmlRenderer() override;
+
+protected slots:
+    void on_plainTextEdit_textChanged();
 
 private:
     Ui::UiHtmlRenderer *ui;
+    DomModel *model = nullptr;
 };
 
 
