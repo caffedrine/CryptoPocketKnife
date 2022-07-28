@@ -6,21 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>347</height>
+    <width>987</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>UiHtmlRenderer</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
-      <layout class="QVBoxLayout" name="verticalLayout">
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_Input">
        <item>
         <widget class="QSplitter" name="splitter_2">
          <property name="orientation">
@@ -58,8 +58,8 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+     <widget class="QWidget" name="layoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_WebView">
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
@@ -68,7 +68,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QMdiArea" name="mdiArea"/>
+        <widget class="QTextEdit" name="textEdit_HtmlOutput">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

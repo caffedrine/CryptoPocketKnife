@@ -529,11 +529,20 @@ QJsonValue  QJsonModel::genJson(QJsonTreeItem * item) const
         return arr;
     } else {
         QJsonValue va;
-        switch(item->value().type()) {
-        case QVariant::Bool: {
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        switch(item->value().typeId()) {
+            case QMetaType::Bool: {
             va = item->value().toBool();
             break;
         }
+#else
+        switch(item->value().type()) {
+            case QVariant::Bool: {
+                va = item->value().toBool();
+                break;
+            }
+#endif
         default:
             va = item->value().toString();
             break;
