@@ -70,7 +70,7 @@ public:
         {
             output += pair.first + ": " + pair.second + "\n";
         }
-        if( output.count() > 0 )
+        if( output.size() > 0 )
             output.chop(1);
 
         return output;

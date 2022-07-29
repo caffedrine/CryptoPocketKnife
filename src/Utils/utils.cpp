@@ -36,7 +36,7 @@ QString Utils_QByteArrayToHexQStr(const QByteArray& bytes_arr)
     if( bytes_arr.isEmpty() )
         return "";
 
-    for( int i = 0; i < bytes_arr.count(); i++ )
+    for( int i = 0; i < bytes_arr.size(); i++ )
     {
         result += Utils_Uint8ToHexQStr((uint8_t)bytes_arr.at(i)) + " ";
     }
@@ -51,7 +51,7 @@ QString Utils_QByteArrayToHexQStr(const QByteArray& bytes_arr)
 bool Utils_RawHexStrToArr(QString in_hexstr, uint8_t *out_arr, ssize_t *out_len, ssize_t max_len)
 {
     QByteArray bytes = Utils_RawHexStrToQByteArr(std::move(in_hexstr));
-    *out_len = ( bytes.count() <= max_len ) ? bytes.count() : max_len;
+    *out_len = ( bytes.size() <= max_len ) ? bytes.size() : max_len;
     memcpy(out_arr, bytes.constData(), *out_len);
     return true;
 }

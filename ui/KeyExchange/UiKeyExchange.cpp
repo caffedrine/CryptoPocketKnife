@@ -57,7 +57,7 @@ void UiKeyExchange::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
 
     // Read or generate own private key
     QByteArray tmpArr = Utils_RawHexStrToQByteArr(this->ui->x25529_textEdit_ownPrivateKey->text());
-    if( tmpArr.count() != 32 )
+    if( tmpArr.size() != 32 )
     {
         for( size_t i = 0; i < sizeof(own_private_key); i++ )
             own_private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);
@@ -69,7 +69,7 @@ void UiKeyExchange::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
 
     // Read or generate other private key
     tmpArr = Utils_RawHexStrToQByteArr(this->ui->x25529_textEdit_otherPrivateKey->text());
-    if( tmpArr.count() != 32 )
+    if( tmpArr.size() != 32 )
     {
         for( size_t i = 0; i < sizeof(other_private_key); i++ )
             other_private_key[i] = (uint8_t)QRandomGenerator::global()->bounded(256);

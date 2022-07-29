@@ -36,7 +36,7 @@ QJsonDocument Shodan::CallApi(QNetworkAccessManager::Operation method, const QSt
         {
             requestHeaders += header + ": " + request->rawHeader(header) + "\n";
         }
-        if(requestHeaders.count() > 0 )
+        if(requestHeaders.size() > 0 )
             requestHeaders.chop(1);
 
         //qDebug().noquote().nospace() << "SHODAN REQUEST:\n" << requestMethod << " " << request->url().toString() << "\n" << requestHeaders << (requestBody.count() ? "\n\n" + requestBody.trimmed() : "");
@@ -60,7 +60,7 @@ QJsonDocument Shodan::CallApi(QNetworkAccessManager::Operation method, const QSt
         QJsonParseError json_parse_error;
         QByteArray jsonError = QString("{\"error\": \"" + response->reply->errorString().trimmed().replace(this->ApiKey, "xxx") + "\"}").toUtf8();
         //qDebug().noquote().nospace() << "ERROR: " << response->reply->errorString() << "\n" << response->GetResponseHeaders().trimmed() << (response->responseBody.count() ? "\n\n" + response->responseBody.trimmed() : "");
-        qDebug().noquote().nospace() << "SHODAN ERROR: " << response->HttpCode << " " << response->reply->errorString().replace(this->ApiKey, "xxx") << "\n" << (response->responseBody.count() ? response->responseBody.trimmed() : "");
+        qDebug().noquote().nospace() << "SHODAN ERROR: " << response->HttpCode << " " << response->reply->errorString().replace(this->ApiKey, "xxx") << "\n" << (response->responseBody.size() ? response->responseBody.trimmed() : "");
         output = QJsonDocument::fromJson(jsonError, &json_parse_error);
         if( json_parse_error.error != QJsonParseError::NoError )
         {
