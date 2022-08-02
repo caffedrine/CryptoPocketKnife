@@ -2,8 +2,8 @@
   * https://gist.github.com/PsychedelicShayna/9cc2166ed5598456f88d78620bc64864
   */
 
-#ifndef LAMBDAEVENTFILTER_H
-#define LAMBDAEVENTFILTER_H
+#ifndef _LAMBDAEVENTFILTER_H_
+#define _LAMBDAEVENTFILTER_H_
 
 #include <QObject>
 #include <QEvent>
@@ -54,4 +54,4 @@ public:
     }
 };
 
-#endif //LAMBDAEVENTFILTER_H
+#endif // _LAMBDAEVENTFILTER_H_

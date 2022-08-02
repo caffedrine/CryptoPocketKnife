@@ -1,7 +1,7 @@
 #include "Compiler.h"
 #include "ui/mainwindow.h"
 #include <QApplication>
-#include <QtWebView/QtWebView>
+
 #ifdef _WIN32
     #include <Windows.h>
 #endif

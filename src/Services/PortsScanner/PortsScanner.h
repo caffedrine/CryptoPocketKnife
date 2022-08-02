@@ -1,5 +1,5 @@
-#ifndef _PORTSSCANNER_H_
-#define _PORTSSCANNER_H_
+#ifndef _SERVICES_PORTSSCANNER_H_
+#define _SERVICES_PORTSSCANNER_H_
 
 #include <QObject>
 #include <QThreadPool>
@@ -98,4 +98,4 @@ private:
 
 Q_DECLARE_METATYPE(Services::PortsScanner::PortsScanResult)
 
-#endif // _PORTSSCANNER_H_
+#endif // _SERVICES_PORTSSCANNER_H_

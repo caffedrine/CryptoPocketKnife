@@ -1,5 +1,5 @@
-#ifndef _MMDBREADER_H_
-#define _MMDBREADER_H_
+#ifndef _SERVICES_MMDBREADER_H_
+#define _SERVICES_MMDBREADER_H_
 
 #include <QtCore/QString>
 #include <QtCore/QDebug>
@@ -78,4 +78,4 @@ private:
 
 }} // Namespaces
 
-#endif // _MMDBREADER_H_
+#endif // _SERVICES_MMDBREADER_H_

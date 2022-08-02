@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://C:/Qt/6.4.0/mingw_64/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CryptoPocketKnife" TARGET_NAME="CryptoPocketKnife" CONFIG_NAME="Debug_Qt" RUN_TARGET_PROJECT_NAME="CryptoPocketKnife" RUN_TARGET_NAME="CryptoPocketKnife">
+  <configuration default="false" name="Build" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://C:/Qt/6.3.1/mingw_64/bin" PASS_PARENT_ENVS_2="true" PROJECT_NAME="CryptoPocketKnife" TARGET_NAME="CryptoPocketKnife" CONFIG_NAME="Debug_Qt" RUN_TARGET_PROJECT_NAME="CryptoPocketKnife" RUN_TARGET_NAME="CryptoPocketKnife">
     <envs>
       <env name="QT_ASSUME_STDERR_HAS_CONSOLE" value="1" />
-      <env name="CONSOLE_WIDTH" value="1000" />
+      <env name="CONSOLE_WIDTH" value="800" />
       <env name="CMAKE_BUILD_PARALLEL_LEVEL" value="8" />
     </envs>
     <method v="2">

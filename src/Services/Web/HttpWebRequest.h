@@ -2,8 +2,8 @@
 // https://gist.github.com/olafurjohannsson/801e0bd1428aec51bced75907c58c551
 //
 
-#ifndef HTTPWEBREQUEST_H
-#define HTTPWEBREQUEST_H
+#ifndef _SERVICES_HTTPWEBREQUEST_H_
+#define _SERVICES_HTTPWEBREQUEST_H_
 
 #include <QObject>
 #include <QString>
@@ -134,4 +134,4 @@ private:
 
 Q_DECLARE_METATYPE(HttpWebRequestsResponse)
 
-#endif // HTTPWEBREQUEST_H
+#endif // _SERVICES_HTTPWEBREQUEST_H_

@@ -1,5 +1,5 @@
-#ifndef _PORTSCANTARGETTYPE_H_
-#define _PORTSCANTARGETTYPE_H_
+#ifndef _SERVICES_PORTSCANTARGETTYPE_H_
+#define _SERVICES_PORTSCANTARGETTYPE_H_
 
 #include <QString>
 #include <QList>
@@ -176,4 +176,4 @@ private:
 
 }} // Namespaces
 
-#endif // _PORTSCANTARGETTYPE_H_
+#endif // _SERVICES_PORTSCANTARGETTYPE_H_

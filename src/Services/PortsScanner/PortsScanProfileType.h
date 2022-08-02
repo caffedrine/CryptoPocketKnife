@@ -1,5 +1,5 @@
-#ifndef _PORTSSCANPROFILE_H_
-#define _PORTSSCANPROFILE_H_
+#ifndef _SERVICES_PORTSSCANPROFILE_H_
+#define _SERVICES_PORTSSCANPROFILE_H_
 
 #include <QString>
 #include <QList>
@@ -30,4 +30,4 @@ private:
 
 }} // Namespaces
 
-#endif // _PORTSSCANPROFILE_H_
+#endif // _SERVICES_PORTSSCANPROFILE_H_

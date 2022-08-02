@@ -1,5 +1,5 @@
-#ifndef _THREADSPOOL_H_
-#define _THREADSPOOL_H_
+#ifndef _SERVICES_THREADSPOOL_H_
+#define _SERVICES_THREADSPOOL_H_
 
 #include "QThreadPoolExtended.h"
 
@@ -15,4 +15,4 @@ private:
     QThreadPoolExtended threadsPool;
 };
 
-#endif // _THREADSPOOL_H_
+#endif // _SERVICES_THREADSPOOL_H_

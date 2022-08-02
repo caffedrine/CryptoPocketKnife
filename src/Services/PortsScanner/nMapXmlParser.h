@@ -1,5 +1,5 @@
-#ifndef _NMAPXMLPARSER_H_
-#define _NMAPXMLPARSER_H_
+#ifndef _SERVICES_NMAPXMLPARSER_H_
+#define _SERVICES_NMAPXMLPARSER_H_
 
 #include <QDomDocument>
 #include <QList>
@@ -44,4 +44,4 @@ private:
 
 }} // Namespaces
 
-#endif // _NMAPXMLPARSER_H_
+#endif // _SERVICES_NMAPXMLPARSER_H_

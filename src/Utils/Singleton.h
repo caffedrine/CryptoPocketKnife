@@ -1,5 +1,5 @@
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#ifndef _SINGLETON_H_
+#define _SINGLETON_H_
 
 #include <QtGlobal>
 #include <string>
@@ -28,4 +28,4 @@ protected:
     virtual void OnContructorCalled() {};
 };
 
-#endif // SINGLETON_H
+#endif // _SINGLETON_H_

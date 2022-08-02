@@ -9,8 +9,8 @@
  * \copyright Licensed under Creative Commons CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
  */
 
-#ifndef HTTPSTATUSCODES_QT_H_
-#define HTTPSTATUSCODES_QT_H_
+#ifndef _SERVICES_HTTPSTATUSCODES_QT_H_
+#define _SERVICES_HTTPSTATUSCODES_QT_H_
 
 #include <QString>
 #include <QObject>
@@ -340,6 +340,4 @@ class DummyQGadget
 
 } // namespace HttpStatus
 
-
-
-#endif /* HTTPSTATUSCODES_QT_8_H_ */
+#endif /* _SERVICES_HTTPSTATUSCODES_QT_H_ */

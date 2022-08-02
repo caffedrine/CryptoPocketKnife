@@ -19,7 +19,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidget_1">
       <layout class="QVBoxLayout" name="verticalLayout_Input">
        <item>
         <widget class="QSplitter" name="splitter_2">
@@ -27,7 +27,7 @@
           <enum>Qt::Vertical</enum>
          </property>
          <widget class="QWidget" name="verticalLayoutWidget_2">
-          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <layout class="QVBoxLayout" name="verticalLayout_HTML">
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
@@ -41,7 +41,7 @@
           </layout>
          </widget>
          <widget class="QWidget" name="verticalLayoutWidget">
-          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <layout class="QVBoxLayout" name="verticalLayout_TreeView">
            <item>
             <widget class="QLabel" name="label_2">
              <property name="text">
@@ -58,7 +58,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidget_3">
       <layout class="QVBoxLayout" name="verticalLayout_WebView">
        <item>
         <widget class="QLabel" name="label_3">

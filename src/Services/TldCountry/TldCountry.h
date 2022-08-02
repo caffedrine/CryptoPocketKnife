@@ -1,5 +1,5 @@
-#ifndef CRYPTOPOCKETKNIFE_TLDCOUNTRY_H
-#define CRYPTOPOCKETKNIFE_TLDCOUNTRY_H
+#ifndef _SERVICES_TLDCOUNTRY_H_
+#define _SERVICES_TLDCOUNTRY_H_
 
 #include <QMap>
 
@@ -9,4 +9,4 @@ namespace Services { namespace TldCountry
     QString GetTldByCountry(QString country_tld);
 }} // Namespaces
 
-#endif //CRYPTOPOCKETKNIFE_TLDCOUNTRY_H
+#endif //_SERVICES_TLDCOUNTRY_H_

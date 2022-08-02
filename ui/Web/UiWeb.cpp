@@ -1,5 +1,6 @@
 #include "UiWeb.h"
 #include "ui_UiWeb.h"
+#include "UiDomainWhois.h"
 
 UiWeb::UiWeb(QWidget *parent): QWidget(parent), ui(new Ui::UiWeb)
 {
@@ -262,6 +263,7 @@ void UiWeb::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &p
     QAction Item_ShowHeaders("Show headers", this);
     QAction Item_CopyResponse("Show response", this);
     QAction Item_Retest("Retest", this);
+    QAction Item_WHOIS("WHOIS", this);
 
     if( row < 0 )
     {
@@ -292,7 +294,6 @@ void UiWeb::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &p
             editor->setReadOnly(true);
             editor->setMinimumSize(QSize(800, 400));
             editor->show();
-
         });
 
         connect(&Item_Retest, &QAction::triggered, this, [this, row, rowUrl]()
@@ -300,12 +301,24 @@ void UiWeb::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &p
             this->webScrapper_InitEngine();
             this->WebScrapperEngine->EnqueueGetRequest(QString::number(row), rowUrl);
         });
+
+        connect(&Item_WHOIS, &QAction::triggered, this, [this, row, rowUrl]()
+        {
+            QString domain = ui->tableWidget_WebScraper->model()->index(row, 1).data().toString();
+
+            UiDomainWhois *whois = new UiDomainWhois(nullptr, domain);
+            whois->setAttribute( Qt::WA_DeleteOnClose, true );
+            whois->show();
+            whois->TriggerWhois();
+        });
     }
 
     menu.addAction(&Item_ShowHeaders);
     menu.addAction(&Item_CopyResponse);
     menu.addSeparator();
     menu.addAction(&Item_Retest);
+    menu.addSeparator();
+    menu.addAction(&Item_WHOIS);
     menu.exec(ui->tableWidget_WebScraper->viewport()->mapToGlobal(pos));
 }
 

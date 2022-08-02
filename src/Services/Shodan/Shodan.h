@@ -1,5 +1,5 @@
-#ifndef _SHODAN_H_
-#define _SHODAN_H_
+#ifndef _SERVICES_SHODAN_H_
+#define _SERVICES_SHODAN_H_
 
 #include <QObject>
 #include <QJsonDocument>
@@ -105,4 +105,4 @@ private:
 
 };
 
-#endif // _SHODAN_H_
+#endif // _SERVICES_SHODAN_H_

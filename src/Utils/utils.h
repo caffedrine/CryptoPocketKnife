@@ -1,8 +1,8 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef _UTILS_H_
+#define _UTILS_H_
 
 #include <QString>
 #include <QCryptographicHash>
@@ -56,6 +56,6 @@ void Utils_PrintNestedQMap_AsQStrings(const QVariantMap &map, int level = 0);
 
 void SleepMs(quint64 ms);
 
-#endif // UTILS_H
+#endif // _UTILS_H_
 
 #pragma clang diagnostic pop

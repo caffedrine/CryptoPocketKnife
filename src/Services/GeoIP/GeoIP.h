@@ -1,5 +1,5 @@
-#ifndef _GEOIP_H_
-#define _GEOIP_H_
+#ifndef _SERVICES_GEOIP_H_
+#define _SERVICES_GEOIP_H_
 
 #include <QMutex>
 
@@ -39,4 +39,4 @@ private:
 
 }} // Namespaces
 
-#endif // _GEOIP_H_
+#endif // _SERVICES_GEOIP_H_
