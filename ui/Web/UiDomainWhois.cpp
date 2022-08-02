@@ -3,6 +3,7 @@
 
 #include <QHostInfo>
 #include "utils.h"
+#include "WebUtils.h"
 
 UiDomainWhois::UiDomainWhois(QWidget *parent, QString domain): QWidget(parent), ui(new Ui::UiDomainWhois)
 {
@@ -21,7 +22,7 @@ void UiDomainWhois::on_pushButton_Lookup_clicked()
 
     // Query domain info
     Services::Whois::DomainWhois whoisHandler;
-    whoisHandler.GetDomainInfo(this->ui->lineEdit_DomainName->text().trimmed());
+    whoisHandler.GetDomainInfo(utils::web::GetDomainNameFromUrl(this->ui->lineEdit_DomainName->text().trimmed()));
 
     if( !whoisHandler.WhoisServers.isEmpty() && !whoisHandler.ServersResponses.isEmpty())
     {

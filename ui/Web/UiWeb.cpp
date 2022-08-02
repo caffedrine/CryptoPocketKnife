@@ -304,9 +304,7 @@ void UiWeb::on_tableWidget_WebScraper_customContextMenuRequested(const QPoint &p
 
         connect(&Item_WHOIS, &QAction::triggered, this, [this, row, rowUrl]()
         {
-            QString domain = ui->tableWidget_WebScraper->model()->index(row, 1).data().toString();
-
-            UiDomainWhois *whois = new UiDomainWhois(nullptr, domain);
+            UiDomainWhois *whois = new UiDomainWhois(nullptr, utils::web::GetDomainNameFromUrl(ui->tableWidget_WebScraper->model()->index(row, 1).data().toString()));
             whois->setAttribute( Qt::WA_DeleteOnClose, true );
             whois->show();
             whois->TriggerWhois();

@@ -1,9 +1,3 @@
-/*  
- *  File      : Web.h
- *  Created on: 2022-03-29
- *      Author: uib74520
- */
-
 #ifndef CRYPTOPOCKETKNIFE_UIWEB_H
 #define CRYPTOPOCKETKNIFE_UIWEB_H
 
@@ -19,6 +13,7 @@
 #include "GeoIP.h"
 #include "WebScraper.h"
 #include "utils.h"
+#include "WebUtils.h"
 #include "LambdaEventFilter.h"
 #include "AdvancedTableWidget.h"
 

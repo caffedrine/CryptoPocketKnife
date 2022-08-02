@@ -28,6 +28,12 @@ namespace Services { namespace Whois
 
         if( this->ShowDebugMessages ) qDebug().noquote().nospace() << "Start whois lookup for host " << domainName << " using server " << whoisServer;
 
+        if( domainName.isEmpty() )
+        {
+            if( this->ShowDebugMessages ) qDebug().noquote().nospace() << "Empty domain name received";
+            return "";
+        }
+
         // Wait until response is received
         QEventLoop waitLoop;
         QTimer timer;
