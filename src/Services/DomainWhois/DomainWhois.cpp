@@ -23,12 +23,8 @@ namespace Services { namespace Whois
     {
         const int TimeoutConnectMs = 2000;
         const int TimeoutWriteMs = 2000;
-        const int TimeoutReadyReadMs = 2000;
+        const int TimeoutDataReadMs = 5000;
         const int TimeoutCloseSocket = 500;
-
-        this->WhoisServers.push_back(whoisServer);
-        this->ServersResponses.push_back("");
-
 
         if( this->ShowDebugMessages ) qDebug().noquote().nospace() << "Start whois lookup for host " << domainName << " using server " << whoisServer;
 
@@ -37,6 +33,7 @@ namespace Services { namespace Whois
         QTimer timer;
         QTcpSocket socket;
 
+        QByteArray whoisResponse = "";
         bool ErrorDetected = false;
         bool HostDisconnected = true;
 
@@ -50,7 +47,7 @@ namespace Services { namespace Whois
         step_t step = WAIT_CONNECT;
 
         // timeout handler
-        QObject::connect(&timer, &QTimer::timeout, [&socket, &ErrorDetected, &waitLoop, &step, &whoisServer, this]()
+        QObject::connect(&timer, &QTimer::timeout, [&socket, &ErrorDetected, &waitLoop, &step, &whoisServer, &whoisResponse, this]()
         {
             ErrorDetected = true;
             QString timeoutReason = "";
@@ -62,6 +59,7 @@ namespace Services { namespace Whois
                 timeoutReason += "DATA_RECV";
             else if( step == WAIT_CLOSE )
                 timeoutReason += "SOCKET_CLOSE";
+
             if( this->ShowDebugMessages ) qWarning().nospace().noquote() << "\t -> [DOMAIN WHOIS] Timeout on socket " << socket.socketDescriptor() << " while waiting for " << timeoutReason << " on host " << whoisServer << ":43";
 
             waitLoop.quit();
@@ -93,12 +91,14 @@ namespace Services { namespace Whois
         });
 
         // Data reception handler
-        QObject::connect(&socket, &QTcpSocket::readyRead, [&waitLoop, &socket, this]()->void
+        QObject::connect(&socket, &QTcpSocket::readyRead, [&waitLoop, &socket, &whoisResponse, this]()->void
         {
             // Read data from socket and store it
             if( this->ShowDebugMessages ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Socket " << socket.socketDescriptor() << " data available: " << socket.bytesAvailable() << " bytes";
-            this->ServersResponses.push_back(socket.readAll());
-            waitLoop.quit();
+            whoisResponse += socket.readAll();
+
+            // Do not break the loop as data might be fragmented and new packets might still arrive
+            //waitLoop.quit();
         });
 
         // Data write finished handler
@@ -132,13 +132,13 @@ namespace Services { namespace Whois
         if( !ErrorDetected )
         {
             step = WAIT_RECV_DATA;
-            timer.start(TimeoutReadyReadMs);
+            timer.start(TimeoutDataReadMs);
             waitLoop.exec();
             timer.stop();
         }
 
         // close socket if open
-        if( !ErrorDetected)
+        if( !ErrorDetected )
         {
             step = WAIT_CLOSE;
             socket.close();
@@ -154,7 +154,10 @@ namespace Services { namespace Whois
             socket.abort();
         }
 
-        return this->ServersResponses.last();
+        // Record the data and return whois response
+        this->WhoisServers.push_back(whoisServer);
+        this->ServersResponses.push_back(whoisResponse);
+        return whoisResponse;
     }
 
     QString DomainWhois::ParseWhoisReponseAndGetForwardWhois(const QString &whoisServer, const QString &whoisReponse)
