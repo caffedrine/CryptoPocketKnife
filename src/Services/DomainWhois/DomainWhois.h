@@ -16,7 +16,7 @@ namespace Services { namespace Whois
         QStringList ServersResponses;
 
         QString GetDomainInfo(QString domain_name);
-        const bool ShowDebugMessages = true;
+        const bool ShowDebugMessages = false;
 
     private:
         QString DownloadWhoisInfo(const QString &whoisServer, const QString &domainName);
