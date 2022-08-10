@@ -35,8 +35,8 @@
 //    return QApplication::exec();
 //}
 
-#ifndef _DICT_H
-#define _DICT_H
+#ifndef _DICT_H_
+#define _DICT_H_
 
 #include <QString>
 #include <QVariant>
@@ -57,6 +57,8 @@ public:
 
     void unset(const QString &idx);
     bool isset(const QString &idx);
+    void set(const QString &idx, const QVariant &value = QVariant());
+    Dict *get(const QString &idx);
     QMap<QString, Dict *> *dataPtr();
     QString toString(bool tree_view = false) const; // NOLINT(modernize-use-nodiscard)
 
@@ -66,4 +68,4 @@ private:
     QString buildStringTree(const Dict *next, int level = 0) const;
 };
 
-#endif //_DICT_H
+#endif //_DICT_H_

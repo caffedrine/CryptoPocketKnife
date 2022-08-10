@@ -44,6 +44,23 @@ bool Dict::isset(const QString &idx)
     return this->map.find(idx) != this->map.end();
 }
 
+void Dict::set(const QString &idx, const QVariant &v)
+{
+    if( this->map.find(idx) == this->map.end() )
+    {
+        this->map.insert(idx, new Dict(v));
+    }
+    else
+    {
+        this->map[idx]->val = v;
+    }
+}
+
+Dict *Dict::get(const QString &idx)
+{
+    return this->map[idx];
+}
+
 QMap<QString, Dict *> *Dict::dataPtr()
 {
     return &this->map;
