@@ -20,15 +20,6 @@ UiEncoding::UiEncoding(QWidget *parent): QWidget(parent), ui(new Ui::UiEncoding)
     QObject::connect(this->ui->textEdit_EncodeDecode_General_RawData, SIGNAL( OnDraggedFile(QString) ), this, SLOT(OnRawDataFileDragged(QString)) );
 }
 
-void UiEncoding::OnRawDataFileDragged(QString filename)
-{
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly))
-        return;
-    this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(file.readAll(), "");
-    file.close();
-}
-
 UiEncoding::~UiEncoding()
 {
     delete ui;
@@ -43,6 +34,15 @@ UiEncoding::~UiEncoding()
                                            __/ |
                                           |___/
 */
+void UiEncoding::OnRawDataFileDragged(QString filename)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+    this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(file.readAll(), "");
+    file.close();
+}
+
 void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, const QString& exception)
 {
     // Disable triggering "OnTextChange" event for the boxes that are being updated since this is a programatically triggered event.
