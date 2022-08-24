@@ -13,6 +13,20 @@ UiEncoding::UiEncoding(QWidget *parent): QWidget(parent), ui(new Ui::UiEncoding)
     // Connect encoding/decoding boxes
     QObject::connect(this->ui->textEdit_EncodeDecode_General_Number, SIGNAL(textChanged()), this, SLOT(on_textEdit_EncodeDecode_General_Number_textChanged()), Qt::UniqueConnection);
 
+    // Enable drops for raw data to drop file and display its content
+    this->setAcceptDrops(false);
+
+    this->ui->textEdit_EncodeDecode_General_RawData->setAcceptDrops(true);
+    QObject::connect(this->ui->textEdit_EncodeDecode_General_RawData, SIGNAL( OnDraggedFile(QString) ), this, SLOT(OnRawDataFileDragged(QString)) );
+}
+
+void UiEncoding::OnRawDataFileDragged(QString filename)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+    this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(file.readAll(), "");
+    file.close();
 }
 
 UiEncoding::~UiEncoding()

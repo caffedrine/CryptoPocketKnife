@@ -37,6 +37,8 @@ private slots:
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
     void on_textEdit_EncodeDecode_General_AlphanumericStrings_textChanged();
+    void OnRawDataFileDragged(QString filename);
+
     void on_textEdit_EncodeDecode_UrlEncoded_textChanged();
     void on_textEdit_EncodeDecode_UrlDecoded_textChanged();
     void on_textEdit_EncodeDecode_HtmlEncoded_textChanged();
