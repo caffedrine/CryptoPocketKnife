@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -13,8 +12,9 @@ QT_END_NAMESPACE
 
 class UiEncoding: public QWidget
 {
-Q_OBJECT
+    const bool ENC_DEBUGGING = true;
 
+Q_OBJECT
 public:
     explicit UiEncoding(QWidget *parent = nullptr);
     ~UiEncoding() override;

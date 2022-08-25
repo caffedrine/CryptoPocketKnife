@@ -1,5 +1,6 @@
 #include <QTextDocument>
 #include <QFileDialog>
+#include <QElapsedTimer>
 #include "UiEncoding.h"
 #include "ui_UiEncoding.h"
 #include "utils.h"
@@ -45,6 +46,9 @@ void UiEncoding::OnRawDataFileDragged(QString filename)
 
 void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray bytes, const QString& exception)
 {
+    QElapsedTimer globalTimer;
+    globalTimer.start();
+
     // Disable triggering "OnTextChange" event for the boxes that are being updated since this is a programatically triggered event.
     this->BypassOnChangeEventFlag = true;
 
@@ -134,6 +138,8 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 
     // Since the boxes were updated, enable event back. As any further change will be a user change.
     this->BypassOnChangeEventFlag = false;
+
+    this->ui->label_ElapsedTime->setText( "Processed " + QString::number(bytes.length()) +  " bytes in " + QString::number( (float)((float)globalTimer.elapsed() / 1000.0)) + "s"  );
 }
 
 void UiEncoding::on_textEdit_EncodeDecode_General_Ascii_textChanged()
