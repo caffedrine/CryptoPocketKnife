@@ -90,14 +90,6 @@ class HttpWebRequest : public QObject
 {
     Q_OBJECT
 public:
-    enum class HttpMethod
-    {
-        GET,
-        POST,
-        PUT,
-        HEAD
-    };
-
     explicit HttpWebRequest(QObject *parent = nullptr);
     ~HttpWebRequest() override;
     void setHeaders(const QMap<QByteArray, QByteArray> &headers);
