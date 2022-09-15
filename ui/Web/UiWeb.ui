@@ -29,7 +29,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="web_WebScraper">
       <attribute name="title">
@@ -189,6 +189,28 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_HttpWebRequests">
+      <attribute name="title">
+       <string>HTTP Web Requests</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="UiHttpWebRequests" name="widget_2" native="true"/>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_Web_Settings">
       <attribute name="title">
        <string>Settings</string>
@@ -221,6 +243,12 @@
    <class>UiDomainWhois</class>
    <extends>QWidget</extends>
    <header>UiDomainWhois.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiHttpWebRequests</class>
+   <extends>QWidget</extends>
+   <header>UiHttpWebRequests.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

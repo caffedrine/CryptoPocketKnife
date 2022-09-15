@@ -107,6 +107,7 @@ public:
     void GET(const QString& url);
     void POST(const QString& url, const QByteArray &rawData);
     void POST(const QString& url, const QMap<QString, QString> &data);
+    void CUSTOM(QByteArray method, const QString &url, const QByteArray &data);
     void PUT(const QString& url, const QByteArray &rawData);
     void PUT(const QString& url, const QMap<QString, QString> &data);
     void HEAD(const QString& url);

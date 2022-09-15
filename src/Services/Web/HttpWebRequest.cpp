@@ -74,6 +74,14 @@ void HttpWebRequest::POST(const QString &url, const QMap<QString, QString> &data
     emit this->RequestStarted("POST", &request, postData);
 }
 
+void HttpWebRequest::CUSTOM(QByteArray method, const QString &url, const QByteArray &data)
+{
+    QNetworkRequest request = this->constructNetworkRequest(url);
+    QNetworkReply *reply = this->networkManager->sendCustomRequest(request, method, data);
+    this->ApplyReplySettings(reply);
+    emit this->RequestStarted(method, &request, data);
+}
+
 void HttpWebRequest::onNetworkReplyFinished(QNetworkReply *networkReply) const
 {
     // build response
