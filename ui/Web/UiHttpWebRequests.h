@@ -9,6 +9,21 @@ namespace Ui
 {
     class UiHttpWebRequests;
 }
+
+struct web_request_t
+{
+    QByteArray Method;
+    QByteArray Header;
+    QByteArray Body;
+};
+
+struct web_response_t
+{
+    int HttpCode;
+    QByteArray Header;
+    QByteArray Body;
+};
+
 QT_END_NAMESPACE
 
 class UiHttpWebRequests : public QWidget
@@ -25,9 +40,9 @@ protected slots:
 private:
     Ui::UiHttpWebRequests *ui;
     int CurrentRequestIdx;
-    QList<QPair<QByteArray, QByteArrayList>> RequestsHistory;
+    QList< QPair<web_request_t, QList<web_response_t> > > RequestsHistory;
 
-    void ShowRequestOutput();
+    void ShowRequestOutput(int which);
 };
 
 

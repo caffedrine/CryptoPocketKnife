@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>873</width>
-    <height>556</height>
+    <width>1024</width>
+    <height>731</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,7 +112,7 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QTreeWidget" name="treeWidget">
+         <widget class="QTreeWidget" name="treeWidget_HistoryList">
           <column>
            <property name="text">
             <string>Response Code</string>
@@ -149,25 +149,89 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_REQUEST">
           <property name="currentIndex">
-           <number>2</number>
+           <number>4</number>
           </property>
-          <widget class="QWidget" name="tab_XML_3">
+          <widget class="QWidget" name="tab_REQUEST_Headers">
+           <attribute name="title">
+            <string>Headers</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QPlainTextEdit" name="plainTextEdit_REQUEST_Headers">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_REQUEST_Body">
+           <attribute name="title">
+            <string>Body</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QPlainTextEdit" name="plainTextEdit_REQUEST_Body">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_REQUEST_XML">
            <attribute name="title">
             <string>XML</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_JSON_3">
+          <widget class="QWidget" name="tab_REQUEST_JSON">
            <attribute name="title">
             <string>JSON</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_RawOutput_3">
+          <widget class="QWidget" name="tab_REQUEST_RawOutput">
            <attribute name="title">
             <string>RAW Output</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_3">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item row="0" column="0">
-             <widget class="QPlainTextEdit" name="plainTextEdit_OutputRAW_REQUEST">
+             <widget class="QPlainTextEdit" name="plainTextEdit_REQUEST_OutputRAW">
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -191,30 +255,94 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_RESPONSE">
           <property name="currentIndex">
-           <number>3</number>
+           <number>5</number>
           </property>
-          <widget class="QWidget" name="tab_WebView_2">
+          <widget class="QWidget" name="tab_RESPONSE_WebView">
            <attribute name="title">
             <string>Web view</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_XML_2">
+          <widget class="QWidget" name="tab_RESPONSE_XML">
            <attribute name="title">
             <string>XML</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_JSON_2">
+          <widget class="QWidget" name="tab_RESPONSE_JSON">
            <attribute name="title">
             <string>JSON</string>
            </attribute>
           </widget>
-          <widget class="QWidget" name="tab_RawOutput_2">
+          <widget class="QWidget" name="tab_RESPONSE_Header">
+           <attribute name="title">
+            <string>Header</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QPlainTextEdit" name="plainTextEdit_RESPONSE_Header">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_RESPONSE_Body">
+           <attribute name="title">
+            <string>Body</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QPlainTextEdit" name="plainTextEdit_RESPONSE_Body">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_RESPONSE_RawOutput">
            <attribute name="title">
             <string>RAW Output</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_2">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item row="0" column="0">
-             <widget class="QPlainTextEdit" name="plainTextEdit_OutputRAW_RESPONSE">
+             <widget class="QPlainTextEdit" name="plainTextEdit_RESPONSE_OutputRAW">
               <property name="readOnly">
                <bool>true</bool>
               </property>

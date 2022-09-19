@@ -6,9 +6,17 @@
 UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QWidget(parent), ui(new Ui::UiHttpWebRequests)
 {
     ui->setupUi(this);
-    connect(this->ui->treeWidget, &QTreeWidget::itemSelectionChanged, [this](){
-        this->CurrentRequestIdx = this->ui->treeWidget->currentIndex().row();
-        this->ShowRequestOutput();
+    connect(this->ui->treeWidget_HistoryList, &QTreeWidget::itemSelectionChanged, [this](){
+        this->CurrentRequestIdx = this->ui->treeWidget_HistoryList->currentIndex().row();
+        this->ShowRequestOutput(3);
+    });
+
+    connect(this->ui->tabWidget_RESPONSE, &QTabWidget::currentChanged, [this](int new_idx){
+        this->ShowRequestOutput(2);
+    });
+
+    connect(this->ui->tabWidget_REQUEST, &QTabWidget::currentChanged, [this](int new_idx){
+        this->ShowRequestOutput(1);
     });
 }
 
@@ -94,16 +102,25 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     QByteArray RAW_Request = requestHeaders + (!requestBody_.isEmpty()?("\n\n\n"+requestBody_):(QByteArray()));
     QByteArray RAW_Response = (resp.NetworkErrorDetected || resp.AppErrorDetected) ? resp.reply->errorString().toUtf8() :  resp.GetResponseHeaders() + "\n\n\n" + resp.responseBody;
 
-    this->ui->plainTextEdit_OutputRAW_REQUEST->setPlainText( RAW_Request );
-    this->ui->plainTextEdit_OutputRAW_RESPONSE->setPlainText( RAW_Response );
+    this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText( RAW_Request );
+    this->ui->plainTextEdit_RESPONSE_OutputRAW->setPlainText( RAW_Response );
 
     // Save history
-    this->RequestsHistory.append( {{ RAW_Request, {{RAW_Response}} }} );
+    web_request_t req;
+    req.Method = this->ui->lineEdit_Composer_HttpMethod->text().toUtf8();
+    req.Header = requestHeaders;
+    req.Body = requestBody_;
+    web_response_t res;
+    res.HttpCode = resp.HttpCode;
+    res.Header = resp.GetResponseHeaders();
+    res.Body = resp.responseBody;
+
+    this->RequestsHistory.append( {{ req, {{res}} }} );
     this->CurrentRequestIdx = this->RequestsHistory.count() - 1;
-    this->ShowRequestOutput();
+    this->ShowRequestOutput(3);
 
     // Populate tree widget
-    QTreeWidgetItem *root = new QTreeWidgetItem(this->ui->treeWidget);
+    QTreeWidgetItem *root = new QTreeWidgetItem(this->ui->treeWidget_HistoryList);
     root->setText(0, ((resp.NetworkErrorDetected || resp.AppErrorDetected) ? "ERROR" : QString::number(resp.HttpCode)));
     if( (resp.NetworkErrorDetected || resp.AppErrorDetected) || resp.HttpCode >= 400)
         root->setForeground(0, QColor("red"));
@@ -113,23 +130,50 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         root->setForeground(0, QColor("green"));
     root->setText(1, this->ui->lineEdit_Composer_HttpMethod->text());
     root->setText(2, resp.reply->url().toString() );
-    this->ui->treeWidget->addTopLevelItem(root);
+    this->ui->treeWidget_HistoryList->addTopLevelItem(root);
 
     Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
 }
 
-void UiHttpWebRequests::ShowRequestOutput()
+void UiHttpWebRequests::ShowRequestOutput(int which)
 {
     // Clean up all outputs
-    this->ui->plainTextEdit_OutputRAW_REQUEST->clear();
-    this->ui->plainTextEdit_OutputRAW_RESPONSE->clear();
+    if(which == 1 || which >= 3)
+    {
+        this->ui->plainTextEdit_REQUEST_Headers->clear();
+        this->ui->plainTextEdit_REQUEST_Body->clear();
+        this->ui->plainTextEdit_REQUEST_OutputRAW->clear();
+    }
 
-    if( this->RequestsHistory.isEmpty())
+    if(which >= 2)
+    {
+        this->ui->plainTextEdit_RESPONSE_OutputRAW->clear();
+        this->ui->plainTextEdit_RESPONSE_Body->clear();
+        this->ui->plainTextEdit_RESPONSE_Header->clear();
+    }
+
+    if(this->RequestsHistory.isEmpty())
         return;
 
     // Update request
-    this->ui->plainTextEdit_OutputRAW_REQUEST->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first);
+    if(which == 1 || which >= 3)
+    {
+        if(this->ui->tabWidget_REQUEST->currentIndex() == 0)
+            this->ui->plainTextEdit_REQUEST_Headers->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first.Header);
+        if(this->ui->tabWidget_REQUEST->currentIndex() == 1)
+            this->ui->plainTextEdit_REQUEST_Body->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first.Body);
+        else
+            this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first.Header + "\n\n\n" + this->RequestsHistory.at(this->CurrentRequestIdx).first.Body);
+    }
 
     // Update response
-    this->ui->plainTextEdit_OutputRAW_RESPONSE->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0]);
+    if(which >= 2)
+    {
+        if(this->ui->tabWidget_RESPONSE->currentIndex() == 3)
+            this->ui->plainTextEdit_RESPONSE_Header->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Header);
+        else if(this->ui->tabWidget_RESPONSE->currentIndex() == 4)
+            this->ui->plainTextEdit_RESPONSE_Body->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Body);
+        else
+            this->ui->plainTextEdit_RESPONSE_OutputRAW->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Header + "\n\n\n" + this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Body);
+    }
 }
