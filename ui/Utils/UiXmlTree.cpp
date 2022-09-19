@@ -37,7 +37,6 @@ void UiXmlTree::on_plainTextEdit_textChanged()
             delete this->model;
             this->model = nullptr;
         }
-
         styleSheetString = "border: 2px solid red;";
     }
     else

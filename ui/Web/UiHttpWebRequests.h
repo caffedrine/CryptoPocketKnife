@@ -24,7 +24,10 @@ protected slots:
 
 private:
     Ui::UiHttpWebRequests *ui;
-    QList<QPair<QString, QStringList>> ResponsesHistory;
+    int CurrentRequestIdx;
+    QList<QPair<QByteArray, QByteArrayList>> RequestsHistory;
+
+    void ShowRequestOutput();
 };
 
 

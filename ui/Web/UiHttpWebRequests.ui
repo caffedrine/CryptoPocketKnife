@@ -38,11 +38,6 @@
             <string>GET /index.php HTTP/1.1</string>
            </property>
           </widget>
-          <widget class="QPlainTextEdit" name="plainTextEdit_ComposerRawData">
-           <property name="placeholderText">
-            <string>post_data1=1&amp;post_data2=2</string>
-           </property>
-          </widget>
          </widget>
         </item>
         <item row="2" column="0" colspan="2">
@@ -79,7 +74,7 @@
            </size>
           </property>
           <property name="text">
-           <string/>
+           <string>https://sectelecom.net/test</string>
           </property>
           <property name="dragEnabled">
            <bool>true</bool>
@@ -98,7 +93,7 @@
            </size>
           </property>
           <property name="text">
-           <string/>
+           <string>GET</string>
           </property>
           <property name="placeholderText">
            <string>GET</string>
@@ -117,7 +112,23 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QListWidget" name="listWidget_History"/>
+         <widget class="QTreeWidget" name="treeWidget">
+          <column>
+           <property name="text">
+            <string>Response Code</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Method</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>URL</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -136,7 +147,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget">
+         <widget class="QTabWidget" name="tabWidget_REQUEST">
           <property name="currentIndex">
            <number>2</number>
           </property>
@@ -178,7 +189,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTabWidget" name="tabWidget_2">
+         <widget class="QTabWidget" name="tabWidget_RESPONSE">
           <property name="currentIndex">
            <number>3</number>
           </property>

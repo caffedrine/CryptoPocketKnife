@@ -6,6 +6,10 @@
 UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QWidget(parent), ui(new Ui::UiHttpWebRequests)
 {
     ui->setupUi(this);
+    connect(this->ui->treeWidget, &QTreeWidget::itemSelectionChanged, [this](){
+        this->CurrentRequestIdx = this->ui->treeWidget->currentIndex().row();
+        this->ShowRequestOutput();
+    });
 }
 
 UiHttpWebRequests::~UiHttpWebRequests()
@@ -15,6 +19,12 @@ UiHttpWebRequests::~UiHttpWebRequests()
 
 void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 {
+    if( this->ui->lineEdit_Composer_TargetHost->text().isEmpty() )
+    {
+        Utils_Alert("Empty URL", "Please provide target URL");
+        return;
+    }
+
     Utils_PushButtonStartLoading(this->ui->pushButton_Composer_Submit);
 
     // Wait until response is received
@@ -25,22 +35,32 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     HttpWebRequestsResponse resp;
     request.setIgnoreSslErrors(true);
 
-    QMap<QByteArray, QByteArray> headers;
-    QStringList lines = this->ui->plainTextEdit_ComposerRawHeaders->toPlainText().split("\n", Qt::SkipEmptyParts);
-    for( const QString line: lines )
+    if( this->ui->plainTextEdit_ComposerRawHeaders->toPlainText().contains("\n\n") )
+    {
+        requestHeaders = this->ui->plainTextEdit_ComposerRawHeaders->toPlainText().split("\n\n")[0].toUtf8();
+        requestBody_ = this->ui->plainTextEdit_ComposerRawHeaders->toPlainText().split("\n\n")[1].toUtf8();
+    }
+    else
+    {
+        requestHeaders = this->ui->plainTextEdit_ComposerRawHeaders->toPlainText().toUtf8();
+    }
+
+    QMap<QByteArray, QByteArray> headersMap;
+    for( const QByteArray line: requestHeaders.split('\n') )
     {
         if( !line.contains(":"))
             continue;
 
-        headers[line.split(":")[0].toUtf8()] = line.split(":")[1].toUtf8();
+        headersMap[line.split(':')[0]] = line.split(':')[1];
     }
-    request.setHeaders(headers);
+    request.setHeaders(headersMap);
 
 
     // Connect signals from HTTP web request
     QObject::connect(&request, &HttpWebRequest::RequestStarted, this, [&requestHeaders, &requestBody_](const QString &requestMethod, const QNetworkRequest *request, const QByteArray &requestBody)// clazy:exclude=lambda-in-connect
     {
         requestBody_ = requestBody;
+        requestHeaders = QByteArray();
         for(const QByteArray &header: request->rawHeaderList())
         {
             requestHeaders += header + ": " + request->rawHeader(header) + "\n";
@@ -63,7 +83,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         waitLoop.quit();
     });
 
-    request.CUSTOM(this->ui->lineEdit_Composer_HttpMethod->text().toUtf8(), this->ui->lineEdit_Composer_TargetHost->text(), this->ui->plainTextEdit_ComposerRawData->toPlainText().toUtf8());
+    request.CUSTOM(this->ui->lineEdit_Composer_HttpMethod->text().toUtf8(), this->ui->lineEdit_Composer_TargetHost->text(), requestBody_);
     waitLoop.exec();
 
     // Remove connections as these will persist
@@ -71,9 +91,45 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     QObject::disconnect(&request, &HttpWebRequest::RequestFinished, this, nullptr);
     QObject::disconnect(&request, &HttpWebRequest::RequestReturnedError, this, nullptr);
 
-    this->ui->plainTextEdit_OutputRAW_REQUEST->setPlainText(requestHeaders + (!requestBody_.isEmpty()?("\n\n"+QString(requestBody_)):("")) );
-    this->ui->plainTextEdit_OutputRAW_RESPONSE->setPlainText( (resp.NetworkErrorDetected || resp.AppErrorDetected) ? resp.reply->errorString() :  resp.GetResponseHeaders() + "\n\n" + QString(resp.responseBody));
-    this->ui->listWidget_History->addItem( ((resp.NetworkErrorDetected || resp.AppErrorDetected) ? "ERROR" : QString::number(resp.HttpCode)) + " - " + this->ui->lineEdit_Composer_HttpMethod->text() + " " + resp.reply->url().toString() );
+    QByteArray RAW_Request = requestHeaders + (!requestBody_.isEmpty()?("\n\n\n"+requestBody_):(QByteArray()));
+    QByteArray RAW_Response = (resp.NetworkErrorDetected || resp.AppErrorDetected) ? resp.reply->errorString().toUtf8() :  resp.GetResponseHeaders() + "\n\n\n" + resp.responseBody;
+
+    this->ui->plainTextEdit_OutputRAW_REQUEST->setPlainText( RAW_Request );
+    this->ui->plainTextEdit_OutputRAW_RESPONSE->setPlainText( RAW_Response );
+
+    // Save history
+    this->RequestsHistory.append( {{ RAW_Request, {{RAW_Response}} }} );
+    this->CurrentRequestIdx = this->RequestsHistory.count() - 1;
+    this->ShowRequestOutput();
+
+    // Populate tree widget
+    QTreeWidgetItem *root = new QTreeWidgetItem(this->ui->treeWidget);
+    root->setText(0, ((resp.NetworkErrorDetected || resp.AppErrorDetected) ? "ERROR" : QString::number(resp.HttpCode)));
+    if( (resp.NetworkErrorDetected || resp.AppErrorDetected) || resp.HttpCode >= 400)
+        root->setForeground(0, QColor("red"));
+    else if( resp.HttpCode >= 300 && resp.HttpCode <= 399)
+        root->setForeground(0, QColor("orange"));
+    else if( resp.HttpCode == 200 )
+        root->setForeground(0, QColor("green"));
+    root->setText(1, this->ui->lineEdit_Composer_HttpMethod->text());
+    root->setText(2, resp.reply->url().toString() );
+    this->ui->treeWidget->addTopLevelItem(root);
 
     Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
+}
+
+void UiHttpWebRequests::ShowRequestOutput()
+{
+    // Clean up all outputs
+    this->ui->plainTextEdit_OutputRAW_REQUEST->clear();
+    this->ui->plainTextEdit_OutputRAW_RESPONSE->clear();
+
+    if( this->RequestsHistory.isEmpty())
+        return;
+
+    // Update request
+    this->ui->plainTextEdit_OutputRAW_REQUEST->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first);
+
+    // Update response
+    this->ui->plainTextEdit_OutputRAW_RESPONSE->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0]);
 }
