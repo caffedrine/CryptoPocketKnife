@@ -2,6 +2,8 @@
 #include "ui_UiHttpWebRequests.h"
 
 #include "utils.h"
+#include "qjsonmodel.h"
+#include "DomModel.h"
 
 UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QWidget(parent), ui(new Ui::UiHttpWebRequests)
 {
@@ -137,19 +139,38 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 
 void UiHttpWebRequests::ShowRequestOutput(int which)
 {
-    // Clean up all outputs
+    static QJsonModel jsonModelRequest;
+    static QJsonModel jsonModelResponse;
+
+    static DomModel xmlModelRequest;
+    static DomModel xmlModelResponse;
+
+    QString borderRed = "border-top: 1px solid red; border-bottom: 1px solid red; border-left: 1px solid red; border-right: 1px solid red;";
+
+    // Clean up all outputs for request
     if(which == 1 || which >= 3)
     {
         this->ui->plainTextEdit_REQUEST_Headers->clear();
         this->ui->plainTextEdit_REQUEST_Body->clear();
         this->ui->plainTextEdit_REQUEST_OutputRAW->clear();
+        jsonModelRequest.clear();
+        this->ui->treeView_REQUEST_Json->setStyleSheet("");
+        xmlModelRequest.clear();
+        this->ui->treeView_REQUEST_Xml->setModel(nullptr);
+        this->ui->treeView_REQUEST_Xml->setStyleSheet("");
     }
 
+    // Clean up all output or response
     if(which >= 2)
     {
         this->ui->plainTextEdit_RESPONSE_OutputRAW->clear();
         this->ui->plainTextEdit_RESPONSE_Body->clear();
         this->ui->plainTextEdit_RESPONSE_Header->clear();
+        jsonModelResponse.clear();
+        this->ui->treeView_RESPONSE_Json->setStyleSheet("");
+        xmlModelResponse.clear();
+        this->ui->treeView_RESPONSE_Xml->setModel(nullptr);
+        this->ui->treeView_RESPONSE_Xml->setStyleSheet("");
     }
 
     if(this->RequestsHistory.isEmpty())
@@ -158,22 +179,88 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     // Update request
     if(which == 1 || which >= 3)
     {
+        web_request_t CurrRequest = this->RequestsHistory.at(this->CurrentRequestIdx).first;
+
         if(this->ui->tabWidget_REQUEST->currentIndex() == 0)
-            this->ui->plainTextEdit_REQUEST_Headers->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first.Header);
+        {
+            this->ui->plainTextEdit_REQUEST_Headers->setPlainText(CurrRequest.Header);
+        }
         if(this->ui->tabWidget_REQUEST->currentIndex() == 1)
-            this->ui->plainTextEdit_REQUEST_Body->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first.Body);
+        {
+            this->ui->plainTextEdit_REQUEST_Body->setPlainText(CurrRequest.Body);
+        }
+        else if ( this->ui->tabWidget_REQUEST->currentIndex() == 2 )
+        {
+            QDomDocument doc;
+            if(!doc.setContent( CurrRequest.Body.trimmed() ) || !xmlModelRequest.loadDom(doc) )
+            {
+                this->ui->treeView_REQUEST_Xml->setStyleSheet(borderRed);
+                this->ui->treeView_REQUEST_Xml->setModel(nullptr );
+            }
+            else
+            {
+                this->ui->treeView_REQUEST_Xml->setModel(&xmlModelRequest);
+            }
+        }
+        else if( this->ui->tabWidget_REQUEST->currentIndex() == 3 )
+        {
+            if( !jsonModelRequest.loadJson(CurrRequest.Body.trimmed()) )
+            {
+                this->ui->treeView_REQUEST_Json->setModel(nullptr);
+                this->ui->treeView_REQUEST_Json->setStyleSheet(borderRed);
+            }
+            else
+            {
+                this->ui->treeView_REQUEST_Json->setModel(&jsonModelRequest);
+            }
+        }
         else
-            this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).first.Header + "\n\n\n" + this->RequestsHistory.at(this->CurrentRequestIdx).first.Body);
+        {
+            this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText(CurrRequest.Header + "\n\n\n" + CurrRequest.Body);
+        }
     }
 
     // Update response
     if(which >= 2)
     {
-        if(this->ui->tabWidget_RESPONSE->currentIndex() == 3)
-            this->ui->plainTextEdit_RESPONSE_Header->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Header);
+        web_response_t CurrResponse = this->RequestsHistory.at(this->CurrentRequestIdx).second[0];
+
+        if(this->ui->tabWidget_RESPONSE->currentIndex() == 1)
+        {
+            QDomDocument doc;
+            if(!doc.setContent( CurrResponse.Body.trimmed() ) || !xmlModelResponse.loadDom(doc) )
+            {
+                this->ui->treeView_RESPONSE_Xml->setStyleSheet(borderRed);
+                this->ui->treeView_RESPONSE_Xml->setModel(nullptr);
+            }
+            else
+            {
+                this->ui->treeView_RESPONSE_Xml->setModel(&xmlModelResponse);
+            }
+        }
+        else if(this->ui->tabWidget_RESPONSE->currentIndex() == 2)
+        {
+            if( !jsonModelResponse.loadJson(CurrResponse.Body.trimmed()) )
+            {
+                this->ui->treeView_RESPONSE_Json->setStyleSheet(borderRed);
+                this->ui->treeView_RESPONSE_Json->setModel(nullptr);
+            }
+            else
+            {
+                this->ui->treeView_RESPONSE_Json->setModel(&jsonModelResponse);
+            }
+        }
+        else if(this->ui->tabWidget_RESPONSE->currentIndex() == 3)
+        {
+            this->ui->plainTextEdit_RESPONSE_Header->setPlainText(CurrResponse.Header);
+        }
         else if(this->ui->tabWidget_RESPONSE->currentIndex() == 4)
-            this->ui->plainTextEdit_RESPONSE_Body->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Body);
+        {
+            this->ui->plainTextEdit_RESPONSE_Body->setPlainText(CurrResponse.Body);
+        }
         else
-            this->ui->plainTextEdit_RESPONSE_OutputRAW->setPlainText(this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Header + "\n\n\n" + this->RequestsHistory.at(this->CurrentRequestIdx).second[0].Body);
+        {
+            this->ui->plainTextEdit_RESPONSE_OutputRAW->setPlainText(CurrResponse.Header + "\n\n\n" + CurrResponse.Body);
+        }
     }
 }

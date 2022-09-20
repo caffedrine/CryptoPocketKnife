@@ -24,6 +24,8 @@ struct web_response_t
     QByteArray Body;
 };
 
+
+
 QT_END_NAMESPACE
 
 class UiHttpWebRequests : public QWidget

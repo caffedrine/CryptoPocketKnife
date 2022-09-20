@@ -1,15 +1,14 @@
 #include "DomModel.h"
 
-DomItem::DomItem(const QDomNode &node, int row, DomItem *parent)
-        : domNode(node),
-          parentItem(parent),
-          rowNumber(row)
+DomItem::DomItem(const QDomNode &node, int row, DomItem *parent): domNode(node), parentItem(parent), rowNumber(row)
 {
+
 }
 
 DomItem::~DomItem()
 {
-    qDeleteAll(childItems);
+    // Fix this crashing
+     qDeleteAll(childItems);
 }
 
 DomItem *DomItem::parent()
@@ -43,10 +42,11 @@ DomItem *DomItem::child(int i)
     return childItem;
 }
 
-DomModel::DomModel(const QDomDocument &document, QObject *parent)
-        : QAbstractItemModel(parent),
-          domDocument(document),
-          rootItem(new DomItem(domDocument, 0))
+DomModel::DomModel(QObject *parent) : QAbstractItemModel(parent)
+{
+}
+
+DomModel::DomModel(const QDomDocument &document, QObject *parent): QAbstractItemModel(parent), domDocument(document), rootItem(new DomItem(domDocument, 0))
 {
 }
 
@@ -69,8 +69,7 @@ Qt::ItemFlags DomModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index);
 }
 
-QVariant DomModel::headerData(int section, Qt::Orientation orientation,
-                              int role) const
+QVariant DomModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
@@ -117,6 +116,9 @@ int DomModel::rowCount(const QModelIndex &parent) const
         parentItem = rootItem;
     else
         parentItem = static_cast<DomItem *>(parent.internalPointer());
+
+    if( !parentItem )
+        return 0;
 
     return parentItem->node().childNodes().count();
 }
@@ -166,4 +168,30 @@ QVariant DomModel::data(const QModelIndex &index, int role) const
             break;
     }
     return QVariant();
+}
+
+bool DomModel::loadDom(const QDomDocument &document)
+{
+    if( rootItem != nullptr )
+    {
+        delete rootItem;
+        rootItem = nullptr;
+    }
+
+    this->domDocument = document;
+    this->rootItem = new DomItem(domDocument, 0);
+    return true;
+}
+
+void DomModel::clear()
+{
+    this->beginResetModel();
+
+    if( rootItem != nullptr )
+    {
+        delete rootItem;
+        rootItem = nullptr;
+    }
+
+    this->endResetModel();
 }

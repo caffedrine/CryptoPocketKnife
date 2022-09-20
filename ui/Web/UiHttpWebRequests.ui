@@ -149,7 +149,7 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_REQUEST">
           <property name="currentIndex">
-           <number>4</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_REQUEST_Headers">
            <attribute name="title">
@@ -207,11 +207,45 @@
            <attribute name="title">
             <string>XML</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTreeView" name="treeView_REQUEST_Xml"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab_REQUEST_JSON">
            <attribute name="title">
             <string>JSON</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTreeView" name="treeView_REQUEST_Json"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab_REQUEST_RawOutput">
            <attribute name="title">
@@ -255,7 +289,7 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_RESPONSE">
           <property name="currentIndex">
-           <number>5</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_RESPONSE_WebView">
            <attribute name="title">
@@ -266,11 +300,45 @@
            <attribute name="title">
             <string>XML</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_10">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTreeView" name="treeView_RESPONSE_Xml"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab_RESPONSE_JSON">
            <attribute name="title">
             <string>JSON</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QTreeView" name="treeView_RESPONSE_Json"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="tab_RESPONSE_Header">
            <attribute name="title">
