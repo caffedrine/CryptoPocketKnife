@@ -1,6 +1,7 @@
 #include "UiHttpWebRequests.h"
 #include "ui_UiHttpWebRequests.h"
 
+#include "RawHttpWebRequest.h"
 #include "utils.h"
 #include "qjsonmodel.h"
 #include "DomModel.h"
@@ -29,6 +30,29 @@ UiHttpWebRequests::~UiHttpWebRequests()
 
 void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 {
+
+    Services::Web::RawHttpWebRequest http("254.ro", 443);
+
+    QByteArray ret =  http.SendHttps("GET / HTTP/1.0\r\nHost: 254.ro\r\n\r\n");
+
+    qDebug().nospace().noquote() << ret;
+
+    Utils_Alert("Response", QString(ret));
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return;
+
     if( this->ui->lineEdit_Composer_TargetHost->text().isEmpty() )
     {
         Utils_Alert("Empty URL", "Please provide target URL");
@@ -132,6 +156,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         root->setForeground(0, QColor("green"));
     root->setText(1, this->ui->lineEdit_Composer_HttpMethod->text());
     root->setText(2, resp.reply->url().toString() );
+    root->setText(3, this->locale().formattedDataSize(resp.GetResponseHeaders().size() + resp.responseBody.size()));
     this->ui->treeWidget_HistoryList->addTopLevelItem(root);
 
     Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
