@@ -3,24 +3,32 @@
 
 #include <QString>
 #include <QByteArray>
+#include <QSslSocket>
 
 namespace Services { namespace Web
 {
     class RawHttpWebRequest
     {
+        Q_OBJECT
     public:
         RawHttpWebRequest(QString host, quint16 port);
+        ~RawHttpWebRequest();
 
-        QByteArray SendHttp(QByteArray rawHttpRequest);
-        QByteArray SendHttps(QByteArray rawHttpRequest);
+        void SendHttp(const QByteArray &rawHttpRequest);
+        void SendHttps(const QByteArray &rawHttpRequest);
 
     private:
         QString host;
         quint16 port;
+        QSslSocket *sslSocket = nullptr;
+        QTcpSocket *tcpSocket = nullptr;
 
     signals:
-        void RequestFinished(const QByteArray &rawHttpRequest, const QByteArray &response) const;
-        void RequestReturnedError(const QString &errorDescription) const;
+        void RequestFinished(QTcpSocket *socket, const QByteArray &rawHttpRequest, const QByteArray &response) const;
+        void RequestReturnedError(QTcpSocket *socket, const QString &errorDescription) const;
+
+    private slots:
+        void ConnectedToHost(QTcpSocket *socket, const QByteArray &rawHttpRequestToBeSend);
     };
 }} // namespaces
 
