@@ -15,6 +15,7 @@ struct web_request_t
     QByteArray Method;
     QByteArray Header;
     QByteArray Body;
+    QByteArray RAW;
 };
 
 struct web_response_t
@@ -22,6 +23,7 @@ struct web_response_t
     int HttpCode;
     QByteArray Header;
     QByteArray Body;
+    QByteArray RAW;
 };
 
 

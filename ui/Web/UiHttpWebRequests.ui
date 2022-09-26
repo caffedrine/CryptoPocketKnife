@@ -247,7 +247,7 @@
           </widget>
           <widget class="QWidget" name="tab_REQUEST_RawOutput">
            <attribute name="title">
-            <string>RAW Output</string>
+            <string>RAW</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_3">
             <property name="leftMargin">
@@ -392,7 +392,7 @@
           </widget>
           <widget class="QWidget" name="tab_RESPONSE_RawOutput">
            <attribute name="title">
-            <string>RAW Output</string>
+            <string>RAW</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_2">
             <property name="leftMargin">

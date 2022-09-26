@@ -18,32 +18,33 @@ namespace Services { namespace Web
         QSslSocket *socket = new QSslSocket();
 
         // Connect TCP error signal
-        QObject::connect(this->sslSocket, &QSslSocket::errorOccurred, [this, socket](const QAbstractSocket::SocketError error){
-            qDebug().nospace().noquote() << "Error connecting to host " << socket->peerAddress() << ":" << socket->peerPort() << " - error " + QString::number(error) + " - " + socket->errorString();
-            emit this->RequestReturnedError( "error " + QString::number(error) + " - " + socket->errorString() );
+        QObject::connect(socket, &QSslSocket::errorOccurred, [this, socket, rawHttpRequest](const QAbstractSocket::SocketError error){
+            qDebug().nospace().noquote() << "Error connecting to host " << socket->peerAddress().toString() << ":" << socket->peerPort() << " - error " + QString::number(error) + " - " + socket->errorString();
+            emit this->RequestReturnedError(socket, rawHttpRequest, "error " + QString::number(error) + " - " + socket->errorString() );
             socket->deleteLater();
         });
 
         // Connect TLS handshake error signal
-        QObject::connect(this->sslSocket, &QSslSocket::handshakeInterruptedOnError, [this, socket](const QSslError error){
-            qDebug().nospace().noquote() << "TLS error while connecting to host " << socket->peerAddress() << ":" << socket->peerPort() << " - " << error.errorString();
-            emit this->RequestReturnedError( error.errorString());
+        QObject::connect(socket, &QSslSocket::handshakeInterruptedOnError, [this, socket, rawHttpRequest](const QSslError error){
+            qDebug().nospace().noquote() << "TLS error while connecting to host " << socket->peerAddress().toString() << ":" << socket->peerPort() << " - " << error.errorString();
+            emit this->RequestReturnedError(socket, rawHttpRequest, error.errorString());
             socket->deleteLater();
         });
 
         // Connect signal when connection was established
-        QObject::connect(this->sslSocket, &QSslSocket::connected, [this, socket, &rawHttpRequest](){
-            qDebug().nospace().noquote() << "Connected to host " << socket->peerAddress() << ":" << socket->peerPort();
+        QObject::connect(socket, &QSslSocket::connected, [this, socket, rawHttpRequest](){
+            qDebug().nospace().noquote() << "Connected to host " << socket->peerAddress().toString() << ":" << socket->peerPort();
             this->ConnectedToHost(socket, rawHttpRequest );
         });
 
         // Connect signal when bytes were written
-        QObject::connect(this->sslSocket, &QSslSocket::bytesWritten, [this, socket, &rawHttpRequest](quint64 bytes){
+        QObject::connect(socket, &QSslSocket::bytesWritten, [this, socket, rawHttpRequest](quint64 bytes){
             qDebug() << "bytes written: " << bytes;
         });
 
         // Connect signal to show the received response
-        QObject::connect(this->sslSocket, &QSslSocket::readyRead, [this, socket, &rawHttpRequest](){
+        QObject::connect(socket, &QSslSocket::readyRead, [this, socket, rawHttpRequest](){
+            QObject::disconnect(socket, &QSslSocket::errorOccurred, 0, 0); // disable this as it will be triggered by TLS disconnected
             qDebug() << "received: " << socket->bytesAvailable();
             emit this->RequestFinished(socket, rawHttpRequest, socket->readAll());
         });

@@ -7,7 +7,7 @@
 
 namespace Services { namespace Web
 {
-    class RawHttpWebRequest
+    class RawHttpWebRequest: public QObject
     {
         Q_OBJECT
     public:
@@ -25,7 +25,7 @@ namespace Services { namespace Web
 
     signals:
         void RequestFinished(QTcpSocket *socket, const QByteArray &rawHttpRequest, const QByteArray &response) const;
-        void RequestReturnedError(QTcpSocket *socket, const QString &errorDescription) const;
+        void RequestReturnedError(QTcpSocket *socket, const QByteArray &rawHttpRequest, const QString &errorDescription) const;
 
     private slots:
         void ConnectedToHost(QTcpSocket *socket, const QByteArray &rawHttpRequestToBeSend);

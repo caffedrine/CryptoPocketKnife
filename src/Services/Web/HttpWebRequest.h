@@ -86,7 +86,7 @@ public:
     }
 };
 
-class HttpWebRequest : public QObject
+class HttpWebRequest: public QObject
 {
     Q_OBJECT
 public:
