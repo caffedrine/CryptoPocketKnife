@@ -26,11 +26,11 @@ namespace Services { namespace Whois
         const int TimeoutDataReadMs = 5000;
         const int TimeoutCloseSocket = 500;
 
-        if( this->ShowDebugMessages ) qDebug().noquote().nospace() << "Start whois lookup for host " << domainName << " using server " << whoisServer;
+        if( this->SHOW_DEBUG_MESSAGES ) qDebug().noquote().nospace() << "Start whois lookup for host " << domainName << " using server " << whoisServer;
 
         if( domainName.isEmpty() )
         {
-            if( this->ShowDebugMessages ) qDebug().noquote().nospace() << "Empty domain name received";
+            if( this->SHOW_DEBUG_MESSAGES ) qDebug().noquote().nospace() << "Empty domain name received";
             return "";
         }
 
@@ -42,6 +42,7 @@ namespace Services { namespace Whois
         QByteArray whoisResponse = "";
         bool ErrorDetected = false;
         bool HostDisconnected = true;
+        QString errorDescription = "";
 
         typedef enum
         {
@@ -53,7 +54,7 @@ namespace Services { namespace Whois
         step_t step = WAIT_CONNECT;
 
         // timeout handler
-        QObject::connect(&timer, &QTimer::timeout, [&socket, &ErrorDetected, &waitLoop, &step, &whoisServer, &whoisResponse, this]()
+        QObject::connect(&timer, &QTimer::timeout, [&socket, &ErrorDetected, &errorDescription, &waitLoop, &step, &whoisServer, &whoisResponse, this]()
         {
             ErrorDetected = true;
             QString timeoutReason = "";
@@ -66,17 +67,21 @@ namespace Services { namespace Whois
             else if( step == WAIT_CLOSE )
                 timeoutReason += "SOCKET_CLOSE";
 
-            if( this->ShowDebugMessages ) qWarning().nospace().noquote() << "\t -> [DOMAIN WHOIS] Timeout on socket " << socket.socketDescriptor() << " while waiting for " << timeoutReason << " on host " << whoisServer << ":43";
+            errorDescription = "\t -> [DOMAIN WHOIS] Timeout on socket " + QString::number(socket.socketDescriptor()) +
+                    " while waiting for " + timeoutReason + " on host " + whoisServer + ":43";
+            if( this->SHOW_DEBUG_MESSAGES ) qWarning().nospace().noquote() << errorDescription;
 
             waitLoop.quit();
         });
 
         // Socket error handler
-        QObject::connect(&socket, &QTcpSocket::errorOccurred, [&timer, &waitLoop, &socket, &ErrorDetected, this](QAbstractSocket::SocketError socketError)->void
+        QObject::connect(&socket, &QTcpSocket::errorOccurred, [&timer, &waitLoop, &socket, &ErrorDetected, &errorDescription, this](QAbstractSocket::SocketError socketError)->void
         {
             timer.stop();
             ErrorDetected = true;
-            if( this->ShowDebugMessages ) qWarning().nospace().noquote() << "\t -> [DOMAIN WHOIS] Socket " << socket.socketDescriptor() << " error detected: " << socket.errorString();
+
+            errorDescription = "\t -> [DOMAIN WHOIS] Socket " + QString::number(socket.socketDescriptor()) + " error detected: " + socket.errorString();
+            if( this->SHOW_DEBUG_MESSAGES ) qWarning().nospace().noquote() << errorDescription;
             waitLoop.quit();
         });
 
@@ -84,7 +89,7 @@ namespace Services { namespace Whois
         QObject::connect(&socket, &QTcpSocket::connected, [&waitLoop, &socket, &HostDisconnected, this]()->void
         {
             HostDisconnected = false;
-            if( this->ShowDebugMessages )qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Socket " << socket.socketDescriptor() << " connected to " << socket.peerAddress().toString() << ":" << socket.peerPort();
+            if( this->SHOW_DEBUG_MESSAGES )qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Socket " << socket.socketDescriptor() << " connected to " << socket.peerAddress().toString() << ":" << socket.peerPort();
             waitLoop.quit();
         });
 
@@ -92,15 +97,18 @@ namespace Services { namespace Whois
         QObject::connect(&socket, &QTcpSocket::disconnected, [&waitLoop, &socket, &HostDisconnected, this]()->void
         {
             HostDisconnected = true;
-            if( this->ShowDebugMessages ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Disconnected from " << socket.peerAddress().toString() << ":" << socket.peerPort();
+            if( this->SHOW_DEBUG_MESSAGES ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Disconnected from " << socket.peerAddress().toString() << ":" << socket.peerPort();
             waitLoop.quit();
         });
 
         // Data reception handler
         QObject::connect(&socket, &QTcpSocket::readyRead, [&waitLoop, &socket, &whoisResponse, this]()->void
         {
+            // Disable error reporting after data was read
+            QObject::disconnect(&socket, &QTcpSocket::errorOccurred, 0, 0);
+
             // Read data from socket and store it
-            if( this->ShowDebugMessages ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Socket " << socket.socketDescriptor() << " data available: " << socket.bytesAvailable() << " bytes";
+            if( this->SHOW_DEBUG_MESSAGES ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Socket " << socket.socketDescriptor() << " data available: " << socket.bytesAvailable() << " bytes";
             whoisResponse += socket.readAll();
 
             // Do not break the loop as data might be fragmented and new packets might still arrive
@@ -110,7 +118,7 @@ namespace Services { namespace Whois
         // Data write finished handler
         QObject::connect(&socket, &QTcpSocket::bytesWritten, [&waitLoop, &socket, this](qint64 bytes)->void
         {
-            if( this->ShowDebugMessages ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Written " << bytes << " bytes to socket " << socket.socketDescriptor() << ", " << socket.peerAddress().toString() << ":" << socket.peerPort();
+            if( this->SHOW_DEBUG_MESSAGES ) qDebug().nospace().noquote() << "\t -> [DOMAIN WHOIS] Written " << bytes << " bytes to socket " << socket.socketDescriptor() << ", " << socket.peerAddress().toString() << ":" << socket.peerPort();
             waitLoop.quit();
         });
 
@@ -162,7 +170,7 @@ namespace Services { namespace Whois
 
         // Record the data and return whois response
         this->WhoisServers.push_back(whoisServer);
-        this->ServersResponses.push_back(whoisResponse);
+        this->ServersResponses.push_back(whoisResponse + (!errorDescription.isEmpty() ? "\n" + errorDescription.trimmed() : ""));
         return whoisResponse;
     }
 

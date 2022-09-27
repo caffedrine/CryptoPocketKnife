@@ -28,7 +28,7 @@ void UiDomainWhois::on_pushButton_Lookup_clicked()
     {
         this->ui->plainTextEdit_LookupResult->setPlainText(whoisHandler.WhoisServers.join(" -> "));
         this->ui->plainTextEdit_LookupResult->appendPlainText("---------------------------");
-        this->ui->plainTextEdit_LookupResult->appendPlainText(whoisHandler.ServersResponses.last());
+        this->ui->plainTextEdit_LookupResult->appendPlainText(whoisHandler.ServersResponses.last().trimmed());
     }
 
     Utils_PushButtonEndLoading(this->ui->pushButton_Lookup);

@@ -12,11 +12,12 @@ namespace Services { namespace Whois
     class DomainWhois
     {
     public:
+        const bool SHOW_DEBUG_MESSAGES = true;
+
         QStringList WhoisServers;
         QStringList ServersResponses;
 
         QString GetDomainInfo(QString domain_name);
-        const bool ShowDebugMessages = false;
 
     private:
         QString DownloadWhoisInfo(const QString &whoisServer, const QString &domainName);
