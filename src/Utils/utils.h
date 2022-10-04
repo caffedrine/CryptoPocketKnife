@@ -54,6 +54,8 @@ void Utils_RichTextBoxPopup(const QString &title, const QString &content);
 void Utils_PrintNestedQMap(const QVariantMap &map, int level = 0);
 void Utils_PrintNestedQMap_AsQStrings(const QVariantMap &map, int level = 0);
 
+QByteArrayList SplitByteArray(const QByteArray &in, QByteArray delimiter);
+
 void SleepMs(quint64 ms);
 
 #endif // _UTILS_H_

@@ -8,6 +8,8 @@
 #include <QPlainTextEdit>
 #include <QThread>
 #include <QTime>
+#include <QString>
+#include <QByteArray>
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
@@ -454,6 +456,18 @@ void Utils_PrintNestedQMap_AsQStrings(const QVariantMap &map, int level)
         }
     }
 }
+
+QByteArrayList SplitByteArray(const QByteArray &in, QByteArray delimiter)
+{
+    QByteArrayList out;
+
+    for(const QString &str: QString(in).split(delimiter))
+    {
+        out.append(str.toUtf8());
+    }
+    return out;
+}
+
 #pragma clang diagnostic pop
 
 void SleepMs(quint64 ms)

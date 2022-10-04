@@ -33,6 +33,12 @@ file(GLOB_RECURSE lib_eddsa_src ${CMAKE_CURRENT_LIST_DIR}/libeddsa/lib/*.c)
 add_library(eddsa-lib ${lib_eddsa_src})
 list(APPEND THIRD_PARTY_LIBS eddsa-lib)
 
+# Add URI parser lib
+list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/uriparser-0.9.6/include)
+file(GLOB_RECURSE uri_parser_src ${CMAKE_CURRENT_LIST_DIR}/uriparser-0.9.6/src/*.c)
+add_library(uriparser-lib ${uri_parser_src})
+list(APPEND THIRD_PARTY_LIBS uriparser-lib)
+
 #
 # Resolve wildchars
 #
