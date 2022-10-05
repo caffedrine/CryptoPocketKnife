@@ -39,6 +39,7 @@ namespace Services { namespace Web
         QTcpSocket *tcpSocket = nullptr;
         QTimer socketTimer;
         Services::Parsers::RawHttpResponseParser currResponse;
+        bool ErrorOccurred;
 
     signals:
         void RequestFinished(QTcpSocket *socket, const QByteArray &rawHttpRequest, const Services::Parsers::RawHttpResponseParser &response) const;

@@ -114,12 +114,22 @@ hr { height: 1px; border-width: 0; }
          <widget class="QTreeWidget" name="treeWidget_HistoryList">
           <column>
            <property name="text">
-            <string>Response Code</string>
+            <string>Time</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>Method</string>
+            <string>HTTP Code</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>HTTP Method</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>HTTP Host</string>
            </property>
           </column>
           <column>
@@ -130,6 +140,11 @@ hr { height: 1px; border-width: 0; }
           <column>
            <property name="text">
             <string>Size</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Remote host</string>
            </property>
           </column>
          </widget>

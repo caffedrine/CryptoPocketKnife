@@ -6,40 +6,44 @@
 #include "HttpWebRequest.h"
 #include "Uri.h"
 #include "RawHttpResponseParser.h"
+#include "RawHttpRequestParser.h"
 
 using Services::Parsers::RawHttpResponseParser;
+using Services::Parsers::RawHttpRequestParser;
 
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
     class UiHttpWebRequests;
 }
-
-struct web_response_metadata_t
-{
-    QHostAddress remoteHost;
-    quint16 remotePort;
-    QString remoteName;
-    quint64 Timestamp;
-};
+QT_END_NAMESPACE
 
 struct web_request_t
 {
-    QByteArray Method;
-    QByteArray Header;
-    QByteArray Body;
-    QByteArray RAW;
+    struct
+    {
+        QByteArray Host;
+        quint16 Port;
+        quint64 StartTimestampMs;
+    } Metadata;
+
+    RawHttpRequestParser Data;
 };
 
 struct web_response_t
 {
-    web_response_metadata_t Metadata;
-    Services::Parsers::RawHttpResponseParser Data;
+    struct web_response_metadata_t
+    {
+        QHostAddress remoteHost;
+        quint16 remotePort;
+        QString remoteName;
+        quint64 ResponseTimestamp;
+    } Metadata;
+
+    RawHttpResponseParser Data;
     bool ErrorOccurred = false;
     QString ErrorDesc = "";
 };
-
-QT_END_NAMESPACE
 
 class UiHttpWebRequests : public QWidget
 {

@@ -41,7 +41,7 @@ UiHttpWebRequests::~UiHttpWebRequests()
 void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 {
     bool errorDetected = false;
-    QByteArray RAW_Request;
+    web_request_t Request;
     web_response_t Response;
 
     if( this->ui->lineEdit_Composer_TargetHost->text().isEmpty() )
@@ -60,32 +60,41 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     QEventLoop waitLoop;
     Services::Web::RawHttpWebRequest http(url.host(), !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80));
 
-    QObject::connect(&http, &Services::Web::RawHttpWebRequest::RequestReturnedError, [&Response, &RAW_Request, &waitLoop](QTcpSocket *socket, const QByteArray &rawHttpRequest, const QString &errorDescription, const Services::Parsers::RawHttpResponseParser &response)
+    QObject::connect(&http, &Services::Web::RawHttpWebRequest::RequestReturnedError, [&Response, &Request, &waitLoop](QTcpSocket *socket, const QByteArray &request, const QString &errorDescription, const RawHttpResponseParser &response)
     {
-        RAW_Request = rawHttpRequest;
+        Request.Data.clear();
+        Request.Data.addData(request);
+
         Response.Metadata.remoteHost = socket->peerAddress();
         Response.Metadata.remotePort = socket->peerPort();
         Response.Metadata.remoteName = socket->peerName();
+        Response.Metadata.ResponseTimestamp = QDateTime::currentMSecsSinceEpoch();
         Response.ErrorOccurred = true;
         Response.ErrorDesc = errorDescription;
         Response.Data = response;
         waitLoop.quit();
     });
 
-    QObject::connect(&http, &Services::Web::RawHttpWebRequest::RequestFinished, [&Response, &RAW_Request, &waitLoop](QTcpSocket *socket, const QByteArray &rawHttpRequest, const Services::Parsers::RawHttpResponseParser &response)
+    QObject::connect(&http, &Services::Web::RawHttpWebRequest::RequestFinished, [&Response, &Request, &waitLoop](QTcpSocket *socket, const QByteArray &request, const RawHttpResponseParser &response)
     {
-        RAW_Request = rawHttpRequest;
+        Request.Data.clear();
+        Request.Data.addData(request);
+
         Response.Metadata.remoteHost = socket->peerAddress();
         Response.Metadata.remotePort = socket->peerPort();
         Response.Metadata.remoteName = socket->peerName();
+        Response.Metadata.ResponseTimestamp = QDateTime::currentMSecsSinceEpoch();
         Response.ErrorOccurred = false;
         Response.ErrorDesc = "";
         Response.Data = response;
-
         waitLoop.quit();
     });
 
     Utils_PushButtonStartLoading(this->ui->pushButton_Composer_Submit);
+
+    Request.Metadata.Host = url.host().toUtf8();
+    Request.Metadata.Port = !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80);
+    Request.Metadata.StartTimestampMs = QDateTime::currentMSecsSinceEpoch();
 
     if( url.scheme() == "https" )
         http.SendHttps(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().replace('\n', "\r\n"));
@@ -94,33 +103,27 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     waitLoop.exec();
 
 //    qDebug().nospace().noquote() << "REQ: " << RAW_Request;
-//    qDebug().nospace().noquote() << "RES: " << Response.Data.GetRawResponse();
+//    qDebug().nospace().noquote() << "RES: " << Response.Data.GetRaw();
 
-    // Save history
-    web_request_t req;
-    req.RAW = RAW_Request;
-    QByteArray firstReqLine = RAW_Request.first(RAW_Request.contains("\r\n") > 0 ?RAW_Request.indexOf("\r\n") : 0 );
-    req.Method = firstReqLine.split(' ').count() >= 1 ? firstReqLine.split(' ')[0] : "UNKNOWN";
-    req.Header = RAW_Request.indexOf("\r\n\r\n") > 0 ? RAW_Request.first(RAW_Request.indexOf("\r\n\r\n")) : RAW_Request;
-    req.Body = RAW_Request.indexOf("\r\n\r\n") > 0 ? RAW_Request.last(RAW_Request.count() - RAW_Request.indexOf("\r\n\r\n") - 4) : QByteArray();
-
-
-    this->RequestsHistory.append( {{ req, {{Response}} }} );
+    this->RequestsHistory.append( {{ Request, {{Response}} }} );
     this->CurrentRequestIdx = this->RequestsHistory.count() - 1;
     this->ShowRequestOutput(3);
 
     // Populate tree widget
     QTreeWidgetItem *root = new QTreeWidgetItem(this->ui->treeWidget_HistoryList);
-    root->setText(0, Response.ErrorOccurred ? "ERROR" : QString::number(Response.Data.GetResponseCode()));
-    if( Response.ErrorOccurred || Response.Data.GetResponseCode() >= 400 || Response.Data.GetResponseCode() < 0)
-        root->setForeground(0, QColor("red"));
-    else if( Response.Data.GetResponseCode() >= 300 && Response.Data.GetResponseCode() <= 399)
-        root->setForeground(0, QColor("orange"));
-    else if( Response.Data.GetResponseCode() == 200 )
-        root->setForeground(0, QColor("green"));
-    root->setText(1, this->ui->lineEdit_Composer_HttpMethod->text());
-    root->setText(2, "" );
-    root->setText(3, this->locale().formattedDataSize(Response.Data.GetRawResponse().count()));
+    root->setText(0, QDateTime::fromMSecsSinceEpoch(Request.Metadata.StartTimestampMs).toString("hh:mm:ss.zzz"));
+    root->setText(1, Response.ErrorOccurred ? "ERROR" : (Response.Data.GetHttpResponseCode() < 0 ? "INVALID" : QString::number(Response.Data.GetHttpResponseCode())));
+    if(Response.ErrorOccurred || Response.Data.GetHttpResponseCode() >= 400 || Response.Data.GetHttpResponseCode() < 0)
+        root->setForeground(1, QColor("red"));
+    else if(Response.Data.GetHttpResponseCode() >= 300 && Response.Data.GetHttpResponseCode() <= 399)
+        root->setForeground(1, QColor("orange"));
+    else if(Response.Data.GetHttpResponseCode() == 200 )
+        root->setForeground(1, QColor("green"));
+    root->setText(2, this->ui->lineEdit_Composer_HttpMethod->text());
+    root->setText(3, Request.Data.GetHeaderByName("Host") );
+    root->setText(4, Request.Data.GetPath() );
+    root->setText(5, (!Response.ErrorOccurred ? this->locale().formattedDataSize(Response.Data.GetRaw().count()) : "") );
+    root->setText(6, Request.Metadata.Host + ":" + QString::number(Request.Metadata.Port) +  " (" + (Response.Metadata.remoteHost.toString() + ":" + QString::number(Response.Metadata.remotePort)) + ")" );
     this->ui->treeWidget_HistoryList->addTopLevelItem(root);
 
     Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
@@ -172,16 +175,16 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
 
         if(this->ui->tabWidget_REQUEST->currentIndex() == 0)
         {
-            this->ui->plainTextEdit_REQUEST_Headers->setPlainText(CurrRequest.Header);
+            this->ui->plainTextEdit_REQUEST_Headers->setPlainText(CurrRequest.Data.GetRawHeaders());
         }
         if(this->ui->tabWidget_REQUEST->currentIndex() == 1)
         {
-            this->ui->plainTextEdit_REQUEST_Body->setPlainText(CurrRequest.Body);
+            this->ui->plainTextEdit_REQUEST_Body->setPlainText(CurrRequest.Data.GetRawBody());
         }
         else if ( this->ui->tabWidget_REQUEST->currentIndex() == 2 )
         {
             QDomDocument doc;
-            if(!doc.setContent( CurrRequest.Body.trimmed() ) || !xmlModelRequest.loadDom(doc) )
+            if(!doc.setContent( CurrRequest.Data.GetRawBody().trimmed() ) || !xmlModelRequest.loadDom(doc) )
             {
                 this->ui->treeView_REQUEST_Xml->setStyleSheet(borderRed);
                 this->ui->treeView_REQUEST_Xml->setModel(nullptr );
@@ -193,7 +196,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
         }
         else if( this->ui->tabWidget_REQUEST->currentIndex() == 3 )
         {
-            if( !jsonModelRequest.loadJson(CurrRequest.Body.trimmed()) )
+            if( !jsonModelRequest.loadJson(CurrRequest.Data.GetRawBody().trimmed()) )
             {
                 this->ui->treeView_REQUEST_Json->setModel(nullptr);
                 this->ui->treeView_REQUEST_Json->setStyleSheet(borderRed);
@@ -205,7 +208,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
         }
         else
         {
-            this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText(CurrRequest.Header + "\n\n\n" + CurrRequest.Body);
+            this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText(CurrRequest.Data.GetRaw());
         }
     }
 
@@ -249,7 +252,11 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
         }
         else
         {
-            this->ui->plainTextEdit_RESPONSE_OutputRAW->setPlainText(CurrResponse.Data.GetRawResponse());
+            this->ui->plainTextEdit_RESPONSE_OutputRAW->clear();
+            if(CurrResponse.ErrorOccurred)
+                this->ui->plainTextEdit_RESPONSE_OutputRAW->appendPlainText(CurrResponse.ErrorDesc + "\r\n----------\r\n");
+
+            this->ui->plainTextEdit_RESPONSE_OutputRAW->appendPlainText(CurrResponse.Data.GetRaw());
         }
     }
 }

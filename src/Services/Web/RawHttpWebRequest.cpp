@@ -4,7 +4,7 @@ namespace Services { namespace Web
 {
     RawHttpWebRequest::RawHttpWebRequest(QString host, quint16 port) : targetHost(host), targetPort(port)
     {
-
+        qDebug().nospace().noquote() << "Create HTTP request handler for " << host << ":" << port;
     }
 
     RawHttpWebRequest::~RawHttpWebRequest()
@@ -18,8 +18,14 @@ namespace Services { namespace Web
         QSslSocket *socket = new QSslSocket();
         this->currResponse.clear();
 
+        // Host found
+        QObject::connect(socket, &QSslSocket::hostFound, [this, socket](){
+            qDebug().nospace().noquote() << this->targetHost << ":" << this->targetPort << " successfully resolved to " << socket->peerAddress().toString() << ":" << socket->peerPort();
+        });
+
         // Connect TCP error signal
         QObject::connect(socket, &QSslSocket::errorOccurred, [this, socket, rawHttpRequest](const QAbstractSocket::SocketError error){
+            this->ErrorOccurred = true;
             qDebug().nospace().noquote() << "Error connecting to host " << socket->peerAddress().toString() << ":" << socket->peerPort() << " - error " + QString::number(error) + " - " + socket->errorString();
             emit this->RequestReturnedError(socket, rawHttpRequest, "error " + QString::number(error) + " - " + socket->errorString(), this->currResponse);
             socket->deleteLater();
@@ -27,6 +33,7 @@ namespace Services { namespace Web
 
         // Connect TLS handshake error signal
         QObject::connect(socket, &QSslSocket::handshakeInterruptedOnError, [this, socket, rawHttpRequest](const QSslError error){
+            this->ErrorOccurred = true;
             qDebug().nospace().noquote() << "TLS error while connecting to host " << socket->peerAddress().toString() << ":" << socket->peerPort() << " - " << error.errorString();
             emit this->RequestReturnedError(socket, rawHttpRequest, error.errorString(), this->currResponse);
             socket->deleteLater();
@@ -34,7 +41,7 @@ namespace Services { namespace Web
 
         // Connect signal when connection was established
         QObject::connect(socket, &QSslSocket::connected, [this, socket, rawHttpRequest](){
-            qDebug().nospace().noquote() << "Connected to host " << socket->peerAddress().toString() << ":" << socket->peerPort();
+            qDebug().nospace().noquote() << "TCP Socket connected to host " << socket->peerAddress().toString() << ":" << socket->peerPort();
             this->ConnectedToHost(socket, rawHttpRequest );
         });
 
@@ -42,7 +49,11 @@ namespace Services { namespace Web
         QObject::connect(socket, &QSslSocket::disconnected, [this, socket, rawHttpRequest](){
             qDebug().nospace().noquote() << "Disconnected from host " << socket->peerAddress().toString() << ":" << socket->peerPort();
 
-            emit this->RequestFinished(socket, rawHttpRequest, this->currResponse);
+            // If error occurred, response was already send
+            if( !this->ErrorOccurred )
+            {
+                emit this->RequestFinished(socket, rawHttpRequest, this->currResponse);
+            }
             this->currResponse.clear();
 
             //this->socketTimer.blockSignals(true);
@@ -51,10 +62,7 @@ namespace Services { namespace Web
 
         // Connect signal when bytes were written
         QObject::connect(socket, &QSslSocket::bytesWritten, [this, socket, rawHttpRequest](quint64 bytes){
-//            static qint64 WrittenSoFar = 0;
-//            WrittenSoFar += bytes;
-
-            qDebug() << "bytes written: " << bytes;
+            qDebug().nospace().noquote() << "bytes written: " << bytes;
         });
 
         // Connect signal to show the received response
@@ -70,6 +78,7 @@ namespace Services { namespace Web
         //this->socketTimer.
 
         // Trigger connection
+        qDebug().nospace().noquote() << "Start HTTP request on " << this->targetHost << ":" << this->targetPort;
         socket->connectToHostEncrypted(this->targetHost, this->targetPort);
     }
 
@@ -77,17 +86,6 @@ namespace Services { namespace Web
     {
         QTcpSocket socket;
         this->currResponse.clear();
-
-//        socket.connectToHost(this->host, this->port);
-//        if(!socket.waitForConnected(30000))
-//        {
-//            return QByteArray();
-//        }
-//
-//        socket.write(rawHttpRequest);
-//        socket.waitForReadyRead();
-//        socket.deleteLater();
-//        return socket.readAll();
     }
 
     void RawHttpWebRequest::ConnectedToHost(QTcpSocket *socket, const QByteArray &rawHttpRequestToBeSend)
