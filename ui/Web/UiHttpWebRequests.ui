@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1024</width>
-    <height>731</height>
+    <width>1039</width>
+    <height>752</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -471,6 +471,13 @@ hr { height: 1px; border-width: 0; }
        </layout>
       </widget>
      </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_State">
+     <property name="text">
+      <string>State: idle</string>
+     </property>
     </widget>
    </item>
   </layout>

@@ -11,6 +11,8 @@
 #include <QString>
 #include <QByteArray>
 
+using Services::Web::RawHttpWebRequest;
+
 UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QWidget(parent), ui(new Ui::UiHttpWebRequests)
 {
     ui->setupUi(this);
@@ -58,13 +60,11 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     }
 
     QEventLoop waitLoop;
-    Services::Web::RawHttpWebRequest http(url.host(), !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80));
+    RawHttpWebRequest http(url.host(), !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80));
 
-    QObject::connect(&http, &Services::Web::RawHttpWebRequest::RequestReturnedError, [&Response, &Request, &waitLoop](QTcpSocket *socket, const QByteArray &request, const QString &errorDescription, const RawHttpResponseParser &response)
+    QObject::connect(&http, &RawHttpWebRequest::RequestReturnedError, [&Response, &Request, &waitLoop](QTcpSocket *socket, const RawHttpRequestParser &request, const QString &errorDescription, const RawHttpResponseParser &response)
     {
-        Request.Data.clear();
-        Request.Data.addData(request);
-
+        Request.Data = request;
         Response.Metadata.remoteHost = socket->peerAddress();
         Response.Metadata.remotePort = socket->peerPort();
         Response.Metadata.remoteName = socket->peerName();
@@ -75,10 +75,9 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         waitLoop.quit();
     });
 
-    QObject::connect(&http, &Services::Web::RawHttpWebRequest::RequestFinished, [&Response, &Request, &waitLoop](QTcpSocket *socket, const QByteArray &request, const RawHttpResponseParser &response)
+    QObject::connect(&http, &RawHttpWebRequest::RequestFinished, [&Response, &Request, &waitLoop](QTcpSocket *socket, const RawHttpRequestParser &request, const RawHttpResponseParser &response)
     {
-        Request.Data.clear();
-        Request.Data.addData(request);
+        Request.Data = request;
 
         Response.Metadata.remoteHost = socket->peerAddress();
         Response.Metadata.remotePort = socket->peerPort();
@@ -88,6 +87,10 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         Response.ErrorDesc = "";
         Response.Data = response;
         waitLoop.quit();
+    });
+
+    QObject::connect(&http, &RawHttpWebRequest::RequestStateChangeInfo, [this](QTcpSocket *socket, const RawHttpRequestParser &request, const RawHttpResponseParser &response, QString status){
+        this->ui->label_State->setText("State: " + status);
     });
 
     Utils_PushButtonStartLoading(this->ui->pushButton_Composer_Submit);

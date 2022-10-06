@@ -6,9 +6,13 @@
 #include <QSslSocket>
 #include <QTimer>
 #include "RawHttpResponseParser.h"
+#include "RawHttpRequestParser.h"
 
 namespace Services { namespace Web
 {
+    using Services::Parsers::RawHttpRequestParser;
+    using Services::Parsers::RawHttpResponseParser;
+
     class RawHttpWebRequest: public QObject
     {
         enum state
@@ -33,20 +37,34 @@ namespace Services { namespace Web
     private:
         QString targetHost;
         quint16 targetPort;
+        QString targetIp;
+
         quint32 ConnectTimeout = 10000, ReadTimeout = 5000;
         quint16 ConnectMaxRetries = 0;
-        QSslSocket *sslSocket = nullptr;
+
         QTcpSocket *tcpSocket = nullptr;
         QTimer socketTimer;
-        Services::Parsers::RawHttpResponseParser currResponse;
+        RawHttpRequestParser currRequest;
+        RawHttpResponseParser currResponse;
         bool ErrorOccurred;
 
+        void InitTcpSocket();
+        void Log(const QString &str);
+
     signals:
-        void RequestFinished(QTcpSocket *socket, const QByteArray &rawHttpRequest, const Services::Parsers::RawHttpResponseParser &response) const;
-        void RequestReturnedError(QTcpSocket *socket, const QByteArray &rawHttpRequest, const QString &errorDescription, const Services::Parsers::RawHttpResponseParser &response) const;
+        void RequestFinished(QTcpSocket *socket, const RawHttpRequestParser &request, const RawHttpResponseParser &response) const;
+        void RequestReturnedError(QTcpSocket *socket, const RawHttpRequestParser &request, const QString &errorDescription, const RawHttpResponseParser &response) const;
+        void RequestStateChangeInfo(QTcpSocket *socket, const RawHttpRequestParser &request, const RawHttpResponseParser &response, QString status);
 
     private slots:
-        void ConnectedToHost(QTcpSocket *socket, const QByteArray &rawHttpRequestToBeSend);
+        void Conn_HostFound();
+        void Conn_ErrorOccurred(const QAbstractSocket::SocketError error);
+        void Conn_SslErrorOccurred(const QSslError error);
+        void Conn_TcpConnected();
+        void Conn_TcpDisconnected();
+        void Conn_BytesWritten(quint64 bytes);
+        void Conn_ReadyRead();
+
     };
 }} // namespaces
 
