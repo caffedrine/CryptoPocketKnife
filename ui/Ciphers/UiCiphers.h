@@ -22,10 +22,6 @@ public:
 
 private:
     Ui::UiCiphers *ui;
-
-private slots:
-    void on_ciphers_AES_pushButton_Encrypt_clicked();
-    void on_ciphers_AES_pushButton_Decrypt_clicked();
 };
 
 

@@ -27,11 +27,11 @@
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QTabWidget" name="keyExchange_tabWidget_X25519_2">
+    <widget class="QTabWidget" name="ciphers_AES">
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tabName_KeyExchange_X25519_2">
+     <widget class="QWidget" name="tabName_Ciphers_AES">
       <attribute name="title">
        <string>AES</string>
       </attribute>
@@ -49,133 +49,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>AES encrypt/decrypt</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_8">
-          <item row="8" column="1">
-           <widget class="QPushButton" name="ciphers_AES_pushButton_Decrypt">
-            <property name="text">
-             <string>Decrypt</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>AES key</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0" colspan="4">
-           <widget class="QTextEdit" name="ciphers_AES_textEdit_AesOutput">
-            <property name="font">
-             <font>
-              <family>Consolas</family>
-             </font>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <widget class="QPushButton" name="ciphers_AES_pushButton_Encrypt">
-            <property name="text">
-             <string>Encrypt</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="3">
-           <widget class="QComboBox" name="ciphers_AES_comboBox">
-            <item>
-             <property name="text">
-              <string>AES-128</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="4">
-           <widget class="QLineEdit" name="ciphers_AES_textEdit_AesKey">
-            <property name="font">
-             <font>
-              <family>Consolas</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>2E D5 C0 15 30 78 92 7C B1 FD 43 CF C6 E6 71 CB</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="4">
-           <widget class="QLineEdit" name="ciphers_AES_textEdit_AesIV">
-            <property name="font">
-             <font>
-              <family>Consolas</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>09 18 63 1B 0D 0E 0F C6 14 DE 1D F3 33 2B C8 51</string>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0" colspan="4">
-           <widget class="QTextEdit" name="ciphers_AES_textEdit_AesInput">
-            <property name="font">
-             <font>
-              <family>Consolas</family>
-             </font>
-            </property>
-            <property name="html">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-hr { height: 1px; border-width: 0; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;50 C7 02 53 6D 80 9F FF 25 30 3A 6E BF 90 98 8D 86 E7 F0 BF 47 F3 D5 FE 26 53 74 AB B6 C6 08 58 56 CF 01 E0 3B FE FC 14 8C 46 AE 0E 60 14 15 2E 6E B1 02 CE 0E E5 74 50 91 9E 25 8F AA D7 C4 2A 4D D7 9E 9F 5D 10 A1 73 81 86 30 10 92 27 ED 7B&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>AES IV (for CTR)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>Output</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_15">
-            <property name="text">
-             <string>Input</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="2">
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
+        <widget class="UiAesCipher" name="widget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -183,6 +57,14 @@ hr { height: 1px; border-width: 0; }
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UiAesCipher</class>
+   <extends>QWidget</extends>
+   <header>UiAesCipher.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
