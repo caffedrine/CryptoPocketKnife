@@ -566,8 +566,15 @@ QByteArray QAESEncryption::encode(const QByteArray &rawText, const QByteArray &k
         }
         ret.append(byteXor(alignedText, ofbTemp));
         return ret;
-    }
-    break;
+    }break;
+
+    case CTR:
+    {
+        if(plusaes::crypt_ctr((unsigned char *) alignedText.data(), alignedText.count(), (unsigned char *)key.data(), key.count(), (unsigned char *)iv.data()) == plusaes::kErrorOk)
+            return alignedText;
+        return QByteArray();
+    }break;
+
     default: break;
     }
     return QByteArray();

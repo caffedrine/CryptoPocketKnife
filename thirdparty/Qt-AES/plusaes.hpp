@@ -1245,7 +1245,7 @@ inline Error crypt_ctr(
     const std::size_t data_size,
     const unsigned char * key,
     const std::size_t key_size,
-    const unsigned char (*nonce)[16]
+    const unsigned char *nonce
 ) {
     if (!detail::is_valid_key_size(key_size)) return kErrorInvalidKeySize;
     const detail::RoundKeys rkeys = detail::expand_key(key, static_cast<int>(key_size));

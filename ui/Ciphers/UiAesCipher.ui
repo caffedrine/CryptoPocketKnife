@@ -91,7 +91,7 @@
         </item>
         <item>
          <property name="text">
-          <string>CTR (not supported)</string>
+          <string>CTR</string>
          </property>
         </item>
        </widget>

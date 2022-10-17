@@ -34,7 +34,7 @@ void UiAesCipher::on_pushButton_Encrypt_clicked()
         return;
     }
 
-    this->ui->textEdit_Output->setText(QAESEncryption::Crypt( (QAESEncryption::Aes)SelectedLevel, (QAESEncryption::Mode)SelectedMode, Utils_RawHexStrToQByteArr(this->ui->textEdit_Input->toPlainText()), aesKey, aesIV, (QAESEncryption::Padding)SelectedPadding).toHex(' '));
+    this->ui->textEdit_Output->setText(QAESEncryption::Crypt((QAESEncryption::Aes) SelectedLevel, (QAESEncryption::Mode) SelectedMode, Utils_RawHexStrToQByteArr(this->ui->textEdit_Input->toPlainText()), aesKey, aesIV, (QAESEncryption::Padding) SelectedPadding).toHex(' '));
 }
 
 void UiAesCipher::on_pushButton_Decrypt_clicked()
