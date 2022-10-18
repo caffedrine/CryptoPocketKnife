@@ -575,6 +575,18 @@ QByteArray QAESEncryption::encode(const QByteArray &rawText, const QByteArray &k
         return QByteArray();
     }break;
 
+    case GCM:
+    {
+        unsigned char tag[16];
+
+        if( plusaes::encrypt_gcm((unsigned char *) alignedText.data(), alignedText.count(),
+                                 nullptr, 0,
+                                 (unsigned char *)key.data(), key.count(),
+                                 (unsigned char *)iv.data(), iv.count(), tag, 16) == plusaes::kErrorOk )
+            return alignedText + QByteArray((const char *)tag, 16);
+        return QByteArray();
+    }break;
+
     default: break;
     }
     return QByteArray();

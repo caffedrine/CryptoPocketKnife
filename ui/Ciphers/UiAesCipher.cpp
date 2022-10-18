@@ -28,9 +28,9 @@ void UiAesCipher::on_pushButton_Encrypt_clicked()
     int SelectedMode = this->GetCurrentMode();
     int SelectedPadding = this->GetCurrentPadding();
 
-    if( (this->AesKeySizes[SelectedLevel] != aesKey.count() * 8) || ( aesIV.count() != 16 ) )
+    if( (this->AesKeySizes[SelectedLevel] != aesKey.count() * 8) || ( aesIV.count() < 1 ) )
     {
-        Utils_Alert("Wrong AES configuration", "Selected mode require the KEY to have " + QString::number(this->AesKeySizes[SelectedLevel]) + " bits, and IV should always have 128 bit");
+        Utils_Alert("Wrong AES configuration", "Selected mode require the KEY to have " + QString::number(this->AesKeySizes[SelectedLevel]) + " bits, and IV should have at least 8 bits");
         return;
     }
 
