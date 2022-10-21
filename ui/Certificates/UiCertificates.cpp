@@ -116,6 +116,7 @@ void UiCertificates::ParseCert()
         return;
     }
     ui->textEdit_certificates_Parse_ParsedCertificate->clear();
+    ui->textEdit_certificates_Parse_ParsedCertificate->append(this->GetCertHumanReadableFormat(this->LastParsedCert) + "\n");
 
     // Use openssl to parse certificate
     QProcess process;
@@ -125,7 +126,7 @@ void UiCertificates::ParseCert()
     QByteArray processOutput = process.readAllStandardOutput();
     processOutput += process.readAllStandardError();
     if( processOutput.length() > 0)
-        ui->textEdit_certificates_Parse_ParsedCertificate->append(QString(processOutput));
+        ui->textEdit_certificates_Parse_ParsedCertificate->append("OpenSSL output: $ openssl x509 -in cert_pem -text\n" + QString(processOutput));
 }
 
 //void Certificates::ParseCert()
@@ -357,4 +358,62 @@ void UiCertificates::OnCertFileDragged(QString fileName)
 void UiCertificates::OnCsrFileDragged(QString fileName)
 {
     this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(ParseCertOrCsrFromFileToHexStr(fileName));
+}
+
+QString UiCertificates::GetCertHumanReadableFormat(const QByteArray &certBytes)
+{
+    auto GetSubjInfoHumanReadable = [](const QSslCertificate &cert, bool subject) -> QString {
+        QMap<int, QString> tagStr = {{QSslCertificate::SubjectInfo::Organization, "ORG"},
+                                     {QSslCertificate::SubjectInfo::CommonName, "CN"},
+                                     {QSslCertificate::SubjectInfo::LocalityName, "LN"},
+                                     {QSslCertificate::SubjectInfo::OrganizationalUnitName, "OUN"},
+                                     {QSslCertificate::SubjectInfo::CountryName, "CTR"},
+                                     {QSslCertificate::SubjectInfo::StateOrProvinceName, "ST"},
+                                     {QSslCertificate::SubjectInfo::DistinguishedNameQualifier, "DN"},
+                                     {QSslCertificate::SubjectInfo::SerialNumber, "SN"},
+                                     {QSslCertificate::SubjectInfo::EmailAddress, "EMAIL"}};
+        QMap<int, QString>::iterator i;
+
+        QString output = "";
+        bool AlreadyStarted = false;
+        for (i = tagStr.begin(); i != tagStr.end(); ++i)
+        {
+            QStringList currTag = subject ? cert.subjectInfo((QSslCertificate::SubjectInfo)i.key()) : cert.issuerInfo((QSslCertificate::SubjectInfo)i.key());
+            if( !currTag.empty() )
+            {
+                if( AlreadyStarted )
+                    output += "; ";
+                output += i.value() + " = " + currTag.join(", ");
+                AlreadyStarted = true;
+            }
+        }
+        return output;
+    };
+
+    // Parse certificate first using Qt
+    QString output = "";
+    const auto certs = QSslCertificate::fromData(certBytes, QSsl::Der);
+    for (const QSslCertificate &cert : certs)
+    {
+        output += "Subject: " + GetSubjInfoHumanReadable(cert, true);
+        if(cert.isSelfSigned())
+           output += "\nSelf signed: true";
+        output += "\nVersion: " + QString(cert.version());
+        output += "\nSerial number: " + QString(cert.serialNumber());
+        output += "\nIssuer: " + GetSubjInfoHumanReadable(cert, false);
+        output += "\nValid not before: " + cert.effectiveDate().toString("yyyy-MM-dd hh:mm:ss") + " " + cert.effectiveDate().timeZoneAbbreviation();
+        output += "\nValid not after: " + cert.expiryDate().toString("yyyy-MM-dd hh:mm:ss") + " " + cert.expiryDate().timeZoneAbbreviation();
+
+//        output += "\nPublic key algorithm: " + QString::number((int)cert.publicKey().algorithm());
+//        output += "\nPublic key len: " + QString::number(cert.publicKey().length());
+//        output += "\nPublic key: " + cert.publicKey().toDer().toHex(':').toLower();
+//        output += "\nExtensions: " + QString::number(cert.extensions().count());
+//        certHumanReadable += "\nSignature algo       : ";
+//        certHumanReadable += "\nSignature            : ";
+        output += "\n";
+    }
+    if( certs.empty() )
+        output += "No valid certificates found\n";
+
+    return output;
 }

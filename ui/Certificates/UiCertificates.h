@@ -1,11 +1,11 @@
-//
-// Created by uib74520 on 2022-06-14.
-//
-
 #ifndef CRYPTOPOCKETKNIFE_UICERTIFICATES_H
 #define CRYPTOPOCKETKNIFE_UICERTIFICATES_H
 
 #include <QWidget>
+#include <QSsl>
+#include <QSslKey>
+#include <QSslCertificate>
+#include <QSslCertificateExtension>
 
 
 QT_BEGIN_NAMESPACE
@@ -46,6 +46,7 @@ private:
     void ParseCert();
     void ParseCSR();
     QString ParseCertCsrInputStringToB64(QString);
+    QString GetCertHumanReadableFormat(const QByteArray &certificate);
 
     void Status_EndWithError(QString err_msg);
     void Status_EndWithSuccess(QString err_msg);
