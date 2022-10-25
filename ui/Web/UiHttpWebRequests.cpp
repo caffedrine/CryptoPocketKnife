@@ -100,10 +100,17 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     Request.Metadata.Port = !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80);
     Request.Metadata.StartTimestampMs = QDateTime::currentMSecsSinceEpoch();
 
+    // Replace \n with \r\n only on header. Leave payload untouched
+    QByteArray headers = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().first(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().indexOf("\n\n")).replace("\n", "\r\n");
+    QByteArray body = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().last(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().count() - this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().indexOf("\n\n") - 2);
+
+//    qDebug() << headers.toHex(' ');
+//    qDebug() << body.toHex(' ');
+
     if( url.scheme() == "https" )
-        http.SendHttps(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().replace('\n', "\r\n"));
+        http.SendHttps(headers + "\r\n\r\n" + body);
     else
-        http.SendHttp(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().replace('\n', "\r\n"));
+        http.SendHttp(headers + "\r\n\r\n" + body);
     waitLoop.exec();
 
 //    qDebug().nospace().noquote() << "REQ: " << RAW_Request;
