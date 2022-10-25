@@ -14,7 +14,7 @@ public:
     RawHttpRequestParser();
     RawHttpRequestParser(QByteArray responseChunk);
 
-    QByteArray GetMethod() { return this->Path; };
+    QByteArray GetMethod() { return this->Method; };
     QByteArray GetPath() { return this->Path; };
     QByteArray GetFirstLine();
 
