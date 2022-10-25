@@ -29,10 +29,11 @@ UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QWidget(parent), ui(new U
         this->ShowRequestOutput(1);
     });
 
-//    // Show whitespaces
+    // Show whitespaces
 //    QTextOption option;
 //    option.setFlags(QTextOption::ShowLineAndParagraphSeparators | QTextOption::ShowTabsAndSpaces);
 //    this->ui->textEdit_ComposerRAW->document()->setDefaultTextOption(option);
+
 }
 
 UiHttpWebRequests::~UiHttpWebRequests()
@@ -115,14 +116,14 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     // Populate tree widget
     QTreeWidgetItem *root = new QTreeWidgetItem(this->ui->treeWidget_HistoryList);
     root->setText(0, QDateTime::fromMSecsSinceEpoch(Request.Metadata.StartTimestampMs).toString("hh:mm:ss.zzz"));
-    root->setText(1, Response.ErrorOccurred ? "ERROR" : (Response.Data.GetHttpResponseCode() < 0 ? "INVALID" : QString::number(Response.Data.GetHttpResponseCode())));
+    root->setText(1, Response.ErrorOccurred ? "ERROR" : (Response.Data.GetHttpResponseCode() < 0 ? "INVALID" : QString::number(Response.Data.GetHttpResponseCode()) + " " + Response.Data.GetHttpResponseCodeDescription()));
     if(Response.ErrorOccurred || Response.Data.GetHttpResponseCode() >= 400 || Response.Data.GetHttpResponseCode() < 0)
         root->setForeground(1, QColor("red"));
     else if(Response.Data.GetHttpResponseCode() >= 300 && Response.Data.GetHttpResponseCode() <= 399)
         root->setForeground(1, QColor("orange"));
     else if(Response.Data.GetHttpResponseCode() == 200 )
         root->setForeground(1, QColor("green"));
-    root->setText(2, this->ui->lineEdit_Composer_HttpMethod->text());
+    root->setText(2, Request.Data.GetMethod());
     root->setText(3, Request.Data.GetHeaderByName("Host") );
     root->setText(4, Request.Data.GetPath() );
     root->setText(5, (!Response.ErrorOccurred ? this->locale().formattedDataSize(Response.Data.GetRaw().count()) : "") );
