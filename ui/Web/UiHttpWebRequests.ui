@@ -543,6 +543,7 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </attribute>
    <addaction name="actionShowWhitespaces"/>
+   <addaction name="actionAppendContentLength"/>
   </widget>
   <action name="actionShowWhitespaces">
    <property name="checkable">
@@ -557,6 +558,24 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Show All Characters (including whitespaces)</string>
+   </property>
+  </action>
+  <action name="actionAppendContentLength">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../res/res.qrc">
+     <normaloff>:/img/web/content-length.png</normaloff>:/img/web/content-length.png</iconset>
+   </property>
+   <property name="text">
+    <string>appendContentLength</string>
+   </property>
+   <property name="toolTip">
+    <string>Append content-length automatically to headers</string>
    </property>
   </action>
  </widget>

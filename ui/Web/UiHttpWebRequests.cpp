@@ -100,7 +100,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     Request.Metadata.Port = !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80);
     Request.Metadata.StartTimestampMs = QDateTime::currentMSecsSinceEpoch();
 
-    // Parse raw request if needed
+    // Parse raw request
     RawHttpRequestParser parser;
     QByteArray rawInput = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8();
     if( rawInput.indexOf("\n\n") > 0  )
@@ -116,12 +116,18 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         parser.addData(rawInput.replace("\n", "\r\n"));
     }
 
-    //qDebug() << parser.GetRaw();
+    // Check if data send should have Content-Length appended automatically
+    QByteArray sendData = parser.GetRaw();
+    if( this->ui->actionAppendContentLength->isChecked() && !parser.GetRawBody().isEmpty())
+    {
+        sendData = parser.GetRawHeaders() + QString("Content-Length: " + QString::number(parser.GetRawBody().count()) + "\r\n\r\n").toUtf8() + parser.GetRawBody();
+    }
+    qDebug() << sendData;
 
     if( url.scheme() == "https" )
-        http.SendHttps(parser.GetRaw());
+        http.SendHttps(sendData);
     else
-        http.SendHttp(parser.GetRaw());
+        http.SendHttp(sendData);
     waitLoop.exec();
 
 //    qDebug().nospace().noquote() << "REQ: " << RAW_Request;
