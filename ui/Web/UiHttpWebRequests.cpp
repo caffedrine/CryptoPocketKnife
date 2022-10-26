@@ -292,3 +292,25 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
         }
     }
 }
+
+void UiHttpWebRequests::on_actionShowWhitespaces_triggered()
+{
+    if(this->ui->actionShowWhitespaces->isChecked())
+    {
+        QTextOption option;
+        option.setFlags(QTextOption::ShowLineAndParagraphSeparators | QTextOption::ShowTabsAndSpaces | QTextOption::ShowDocumentTerminator);
+        this->ui->textEdit_ComposerRAW->document()->setDefaultTextOption(option);
+
+//        QList<QPlainTextEdit *> children = this->findChildren<QPlainTextEdit *>();
+//        for(const QPlainTextEdit *child: children)
+//        {
+//            child->set
+//        }
+    }
+    else
+    {
+        QTextOption option;
+        option.setFlags(QTextOption::Flag(0));
+        this->ui->textEdit_ComposerRAW->document()->setDefaultTextOption(option);
+    }
+}
