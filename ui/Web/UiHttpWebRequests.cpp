@@ -13,7 +13,7 @@
 
 using Services::Web::RawHttpWebRequest;
 
-UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QWidget(parent), ui(new Ui::UiHttpWebRequests)
+UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QMainWindow(parent), ui(new Ui::UiHttpWebRequests)
 {
     ui->setupUi(this);
     connect(this->ui->treeWidget_HistoryList, &QTreeWidget::itemSelectionChanged, [this](){
@@ -116,7 +116,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         parser.addData(rawInput.replace("\n", "\r\n"));
     }
 
-    qDebug() << parser.GetRaw();
+    //qDebug() << parser.GetRaw();
 
     if( url.scheme() == "https" )
         http.SendHttps(parser.GetRaw());

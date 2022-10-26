@@ -2,6 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UIHTTPWEBREQUESTS_H
 
 #include <QWidget>
+#include <QMainWindow>
 
 #include "HttpWebRequest.h"
 #include "Uri.h"
@@ -45,13 +46,13 @@ struct web_response_t
     QString ErrorDesc = "";
 };
 
-class UiHttpWebRequests : public QWidget
+class UiHttpWebRequests : public QMainWindow
 {
 Q_OBJECT
 
 public:
     explicit UiHttpWebRequests(QWidget *parent = nullptr);
-    ~UiHttpWebRequests() override;
+    ~UiHttpWebRequests() ;
 
 protected slots:
     void on_pushButton_Composer_Submit_clicked();
