@@ -2,6 +2,8 @@
     <qresource prefix="/">
 		<file>fonts/Monalisa.ttf</file>
 	
+		<file>img/web/content-length.png</file>
+	
         <file>img/icon.png</file>
         <file>img/icon.ico</file>
         <file>img/fail.png</file>

@@ -100,17 +100,28 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     Request.Metadata.Port = !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80);
     Request.Metadata.StartTimestampMs = QDateTime::currentMSecsSinceEpoch();
 
-    // Replace \n with \r\n only on header. Leave payload untouched
-    QByteArray headers = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().first(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().indexOf("\n\n")).replace("\n", "\r\n");
-    QByteArray body = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().last(this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().count() - this->ui->textEdit_ComposerRAW->toPlainText().toUtf8().indexOf("\n\n") - 2);
+    // Parse raw request if needed
+    RawHttpRequestParser parser;
+    QByteArray rawInput = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8();
+    if( rawInput.indexOf("\n\n") > 0  )
+    {
+        // Replace \n with \r\n only on header (plain text edit does not automatically append \r\n requires by HTTP RFC). Leave payload untouched
+        parser.addData( rawInput.first(rawInput.indexOf("\n\n")).replace("\n", "\r\n") + "\r\n\r\n" );
+        if(rawInput.indexOf("\n\n") < rawInput.count() - 2)
+            parser.addData(rawInput.last(rawInput.count() - rawInput.indexOf("\n\n") - 2));
+    }
+    else
+    {
+        // Only header is present and it is malformed since it misses the \n\n terminator. Treat everything as header content and replace \n with \r\n
+        parser.addData(rawInput.replace("\n", "\r\n"));
+    }
 
-//    qDebug() << headers.toHex(' ');
-//    qDebug() << body.toHex(' ');
+    qDebug() << parser.GetRaw();
 
     if( url.scheme() == "https" )
-        http.SendHttps(headers + "\r\n\r\n" + body);
+        http.SendHttps(parser.GetRaw());
     else
-        http.SendHttp(headers + "\r\n\r\n" + body);
+        http.SendHttp(parser.GetRaw());
     waitLoop.exec();
 
 //    qDebug().nospace().noquote() << "REQ: " << RAW_Request;
@@ -184,14 +195,17 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     {
         web_request_t CurrRequest = this->RequestsHistory.at(this->CurrentRequestIdx).first;
 
+        // Output HEADERS
         if(this->ui->tabWidget_REQUEST->currentIndex() == 0)
         {
             this->ui->plainTextEdit_REQUEST_Headers->setPlainText(CurrRequest.Data.GetRawHeaders());
         }
+        // Output  BODY
         if(this->ui->tabWidget_REQUEST->currentIndex() == 1)
         {
             this->ui->plainTextEdit_REQUEST_Body->setPlainText(CurrRequest.Data.GetRawBody());
         }
+        // Output XML
         else if ( this->ui->tabWidget_REQUEST->currentIndex() == 2 )
         {
             QDomDocument doc;
@@ -205,6 +219,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
                 this->ui->treeView_REQUEST_Xml->setModel(&xmlModelRequest);
             }
         }
+        // Output JSON
         else if( this->ui->tabWidget_REQUEST->currentIndex() == 3 )
         {
             if( !jsonModelRequest.loadJson(CurrRequest.Data.GetRawBody().trimmed()) )
@@ -217,6 +232,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
                 this->ui->treeView_REQUEST_Json->setModel(&jsonModelRequest);
             }
         }
+        // Output RAW
         else
         {
             this->ui->plainTextEdit_REQUEST_OutputRAW->setPlainText(CurrRequest.Data.GetRaw());
@@ -228,6 +244,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     {
         web_response_t CurrResponse = this->RequestsHistory.at(this->CurrentRequestIdx).second[0];
 
+        // Output XML
         if(this->ui->tabWidget_RESPONSE->currentIndex() == 1)
         {
             QDomDocument doc;
@@ -241,6 +258,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
                 this->ui->treeView_RESPONSE_Xml->setModel(&xmlModelResponse);
             }
         }
+        // Output JSON
         else if(this->ui->tabWidget_RESPONSE->currentIndex() == 2)
         {
             if( !jsonModelResponse.loadJson(CurrResponse.Data.GetRawBody().trimmed()) )
@@ -253,14 +271,17 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
                 this->ui->treeView_RESPONSE_Json->setModel(&jsonModelResponse);
             }
         }
+        // Output HEADER
         else if(this->ui->tabWidget_RESPONSE->currentIndex() == 3)
         {
             this->ui->plainTextEdit_RESPONSE_Header->setPlainText(CurrResponse.Data.GetRawHeaders());
         }
+        // Output BODY
         else if(this->ui->tabWidget_RESPONSE->currentIndex() == 4)
         {
             this->ui->plainTextEdit_RESPONSE_Body->setPlainText(CurrResponse.Data.GetRawBody());
         }
+        // Output RAW
         else
         {
             this->ui->plainTextEdit_RESPONSE_OutputRAW->clear();
