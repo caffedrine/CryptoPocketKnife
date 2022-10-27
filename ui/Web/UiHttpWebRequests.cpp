@@ -32,7 +32,7 @@ UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QMainWindow(parent), ui(n
     // Show whitespaces
 //    QTextOption option;
 //    option.setFlags(QTextOption::ShowLineAndParagraphSeparators | QTextOption::ShowTabsAndSpaces);
-//    this->ui->textEdit_ComposerRAW->document()->setDefaultTextOption(option);
+//    this->ui->plainTextEdit_ComposerRAW->document()->setDefaultTextOption(option);
 
 }
 
@@ -102,7 +102,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 
     // Parse raw request
     RawHttpRequestParser parser;
-    QByteArray rawInput = this->ui->textEdit_ComposerRAW->toPlainText().toUtf8();
+    QByteArray rawInput = this->ui->plainTextEdit_ComposerRAW->toPlainText().toUtf8();
     if( rawInput.indexOf("\n\n") > 0  )
     {
         // Replace \n with \r\n only on header (plain text edit does not automatically append \r\n requires by HTTP RFC). Leave payload untouched
@@ -301,22 +301,24 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
 
 void UiHttpWebRequests::on_actionShowWhitespaces_triggered()
 {
+    QTextOption option;
     if(this->ui->actionShowWhitespaces->isChecked())
-    {
-        QTextOption option;
         option.setFlags(QTextOption::ShowLineAndParagraphSeparators | QTextOption::ShowTabsAndSpaces | QTextOption::ShowDocumentTerminator);
-        this->ui->textEdit_ComposerRAW->document()->setDefaultTextOption(option);
-
-//        QList<QPlainTextEdit *> children = this->findChildren<QPlainTextEdit *>();
-//        for(const QPlainTextEdit *child: children)
-//        {
-//            child->set
-//        }
-    }
     else
-    {
-        QTextOption option;
         option.setFlags(QTextOption::Flag(0));
-        this->ui->textEdit_ComposerRAW->document()->setDefaultTextOption(option);
-    }
+
+    // Apply these settings for all PLainTextEdits
+    QList<QPlainTextEdit *> plainTextEdits = this->findChildren<QPlainTextEdit *>();
+    for(const QPlainTextEdit *child: plainTextEdits)
+        child->document()->setDefaultTextOption(option);
+}
+
+void UiHttpWebRequests::on_actionWordWrap_triggered()
+{
+    QPlainTextEdit::LineWrapMode mode = (this->ui->actionWordWrap->isChecked()) ?  QPlainTextEdit::WidgetWidth :  QPlainTextEdit::NoWrap;
+
+    // Apply these settings for all PLainTextEdits
+    QList<QPlainTextEdit *> plainTextEdits = this->findChildren<QPlainTextEdit *>();
+    for(QPlainTextEdit *child: plainTextEdits)
+        child->setLineWrapMode(mode);
 }

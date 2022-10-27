@@ -56,6 +56,7 @@ public:
 
 protected slots:
     void on_actionShowWhitespaces_triggered();
+    void on_actionWordWrap_triggered();
     void on_pushButton_Composer_Submit_clicked();
 
 private:

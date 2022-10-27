@@ -26,6 +26,25 @@
        </property>
        <widget class="QWidget" name="layoutWidget">
         <layout class="QGridLayout" name="gridLayout_ComposerGroup">
+         <item row="2" column="0" colspan="2">
+          <widget class="QPushButton" name="pushButton_Composer_Submit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Submit</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0" colspan="2">
           <widget class="QLineEdit" name="lineEdit_Composer_TargetHost">
            <property name="sizePolicy">
@@ -57,52 +76,24 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="2">
-          <widget class="QPushButton" name="pushButton_Composer_Submit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Submit</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="0" colspan="2">
-          <widget class="QSplitter" name="splitter_ComposerRequestAndData">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QPlainTextEdit" name="plainTextEdit_ComposerRAW">
+           <property name="font">
+            <font>
+             <family>Courier</family>
+             <pointsize>10</pointsize>
+            </font>
            </property>
-           <widget class="QTextEdit" name="textEdit_ComposerRAW">
-            <property name="font">
-             <font>
-              <family>Courier</family>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="html">
-             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Courier'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;GET / HTTP/1.0&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Host: 254.ro&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;User-Agent: Crypto Pocket Knife 1.1&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="acceptRichText">
-             <bool>false</bool>
-            </property>
-           </widget>
+           <property name="lineWrapMode">
+            <enum>QPlainTextEdit::NoWrap</enum>
+           </property>
+           <property name="plainText">
+            <string>GET / HTTP/1.0
+Host: 254.ro
+User-Agent: Crypto Pocket Knife 1.1
+
+</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -194,6 +185,9 @@ p, li { white-space: pre-wrap; }
                  <pointsize>10</pointsize>
                 </font>
                </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
+               </property>
                <property name="readOnly">
                 <bool>true</bool>
                </property>
@@ -225,6 +219,9 @@ p, li { white-space: pre-wrap; }
                  <family>Courier</family>
                  <pointsize>10</pointsize>
                 </font>
+               </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
                </property>
                <property name="readOnly">
                 <bool>true</bool>
@@ -301,6 +298,9 @@ p, li { white-space: pre-wrap; }
                  <family>Courier</family>
                  <pointsize>10</pointsize>
                 </font>
+               </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
                </property>
                <property name="readOnly">
                 <bool>true</bool>
@@ -401,6 +401,9 @@ p, li { white-space: pre-wrap; }
                  <pointsize>10</pointsize>
                 </font>
                </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
+               </property>
                <property name="readOnly">
                 <bool>true</bool>
                </property>
@@ -432,6 +435,9 @@ p, li { white-space: pre-wrap; }
                  <family>Courier</family>
                  <pointsize>10</pointsize>
                 </font>
+               </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
                </property>
                <property name="readOnly">
                 <bool>true</bool>
@@ -465,6 +471,9 @@ p, li { white-space: pre-wrap; }
                  <pointsize>10</pointsize>
                 </font>
                </property>
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
+               </property>
                <property name="readOnly">
                 <bool>true</bool>
                </property>
@@ -497,7 +506,11 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QPlainTextEdit" name="plainTextEdit_RESPONSE_CustomOutput"/>
+              <widget class="QPlainTextEdit" name="plainTextEdit_RESPONSE_CustomOutput">
+               <property name="lineWrapMode">
+                <enum>QPlainTextEdit::NoWrap</enum>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -542,8 +555,10 @@ p, li { white-space: pre-wrap; }
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionShowWhitespaces"/>
    <addaction name="actionAppendContentLength"/>
+   <addaction name="separator"/>
+   <addaction name="actionShowWhitespaces"/>
+   <addaction name="actionWordWrap"/>
   </widget>
   <action name="actionShowWhitespaces">
    <property name="checkable">
@@ -576,6 +591,21 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="toolTip">
     <string>Append content-length automatically to headers</string>
+   </property>
+  </action>
+  <action name="actionWordWrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../res/res.qrc">
+     <normaloff>:/img/word-wrap.png</normaloff>:/img/word-wrap.png</iconset>
+   </property>
+   <property name="text">
+    <string>WordWrap</string>
+   </property>
+   <property name="toolTip">
+    <string>Word wrap</string>
    </property>
   </action>
  </widget>
