@@ -100,33 +100,40 @@ void UiCertificates::ParseCert()
     // Store as HEX bytes parsed certificate
     this->LastParsedCert = QByteArray::fromBase64(inputContentB64.toUtf8());
 
-    // Add tags to PEM format and write it to a file so it can be parsed by OpenSSL
-    inputContentB64 = "-----BEGIN CERTIFICATE-----\n" + inputContentB64 + "\n-----END CERTIFICATE-----";
-    QFile file("tmp/cert_pem");
-    if( file.open(QIODevice::ReadWrite | QIODevice::Text ) )
+    if( this->ui->checkBox_CertOpensslOutput->isChecked() )
     {
-        QTextStream stream(&file);
-        stream << inputContentB64;
-        file.waitForBytesWritten(1000);
-        file.close();
+        // Add tags to PEM format and write it to a file so it can be parsed by OpenSSL
+        inputContentB64 = "-----BEGIN CERTIFICATE-----\n" + inputContentB64 + "\n-----END CERTIFICATE-----";
+        QFile file("tmp/cert_pem");
+        if(file.open(QIODevice::ReadWrite | QIODevice::Text))
+        {
+            QTextStream stream(&file);
+            stream << inputContentB64;
+            file.waitForBytesWritten(1000);
+            file.close();
+        }
+        else
+        {
+            this->Status_EndWithError("Failed to write to tmp/cert_hex");
+            return;
+        }
     }
-    else
-    {
-        this->Status_EndWithError("Failed to write to tmp/cert_hex");
-        return;
-    }
+
     ui->textEdit_certificates_Parse_ParsedCertificate->clear();
     ui->textEdit_certificates_Parse_ParsedCertificate->append(this->GetCertHumanReadableFormat(this->LastParsedCert) + "\n");
 
-    // Use openssl to parse certificate
-    QProcess process;
-    process.setWorkingDirectory("tmp/");
-    process.start("openssl", QString("x509 -in cert_pem -text").split(" "));
-    process.waitForFinished(5000);
-    QByteArray processOutput = process.readAllStandardOutput();
-    processOutput += process.readAllStandardError();
-    if( processOutput.length() > 0)
-        ui->textEdit_certificates_Parse_ParsedCertificate->append("OpenSSL output: $ openssl x509 -in cert_pem -text\n" + QString(processOutput));
+    if( this->ui->checkBox_CertOpensslOutput->isChecked() )
+    {
+        // Use openssl to parse certificate
+        QProcess process;
+        process.setWorkingDirectory("tmp/");
+        process.start("openssl", QString("x509 -in cert_pem -text").split(" "));
+        process.waitForFinished(5000);
+        QByteArray processOutput = process.readAllStandardOutput();
+        processOutput += process.readAllStandardError();
+        if(processOutput.length() > 0)
+            ui->textEdit_certificates_Parse_ParsedCertificate->append("OpenSSL output: $ openssl x509 -in cert_pem -text\n" + QString(processOutput));
+    }
 }
 
 //void Certificates::ParseCert()
@@ -185,31 +192,37 @@ void UiCertificates::ParseCSR()
     this->LastParsedCSR = QByteArray::fromBase64(inputContentB64.toUtf8());
 
     // Add tags
-    inputContentB64 = "-----BEGIN NEW CERTIFICATE REQUEST-----\n" + inputContentB64 + "\n-----END NEW CERTIFICATE REQUEST-----";
-    QFile file("tmp/csr_pem");
-    if( file.open(QIODevice::ReadWrite ) )
+    if( this->ui->checkBox_CsrOpenSslOutput->isChecked() )
     {
-        QTextStream stream(&file);
-        stream << inputContentB64;
-        file.waitForBytesWritten(1000);
-        file.close();
-    }
-    else
-    {
-        this->Status_EndWithError("Failed to write to tmp/csr_hex");
-        return;
+        inputContentB64 = "-----BEGIN NEW CERTIFICATE REQUEST-----\n" + inputContentB64 + "\n-----END NEW CERTIFICATE REQUEST-----";
+        QFile file("tmp/csr_pem");
+        if(file.open(QIODevice::ReadWrite))
+        {
+            QTextStream stream(&file);
+            stream << inputContentB64;
+            file.waitForBytesWritten(1000);
+            file.close();
+        }
+        else
+        {
+            this->Status_EndWithError("Failed to write to tmp/csr_hex");
+            return;
+        }
     }
     ui->textEdit_certificates_Parse_ParsedCSR->clear();
 
-    // Use openssl to parse certificate
-    QProcess process;
-    process.setWorkingDirectory("tmp/");
-    process.start("openssl", QString("req -in csr_pem -text").split(" "));
-    process.waitForFinished(5000);
-    QByteArray processOutput = process.readAllStandardOutput();
-    processOutput += process.readAllStandardError();
-    if( processOutput.length() > 0)
-        ui->textEdit_certificates_Parse_ParsedCSR->append(QString(processOutput));
+    if( this->ui->checkBox_CsrOpenSslOutput->isChecked() )
+    {
+        // Use openssl to parse certificate
+        QProcess process;
+        process.setWorkingDirectory("tmp/");
+        process.start("openssl", QString("req -in csr_pem -text").split(" "));
+        process.waitForFinished(5000);
+        QByteArray processOutput = process.readAllStandardOutput();
+        processOutput += process.readAllStandardError();
+        if(processOutput.length() > 0)
+            ui->textEdit_certificates_Parse_ParsedCSR->append("OpenSSL output: $ openssl req -in csr_pem -text\n" + QString(processOutput));
+    }
 }
 
 void UiCertificates::on_textEdit_certificates_Parse_InputCertificate_textChanged()

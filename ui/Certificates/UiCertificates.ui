@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
+    <width>745</width>
     <height>518</height>
    </rect>
   </property>
@@ -36,7 +36,27 @@
        <string>Parse X509 Cert</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0" colspan="5">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_certificates_Parse_LoadCertificate">
+         <property name="text">
+          <string>Load certificate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>349</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="6">
         <widget class="QSplitter" name="splitter_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -80,6 +100,13 @@ hr { height: 1px; border-width: 0; }
          </widget>
         </widget>
        </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pushButton_certificates_Parse_ExportCRT">
+         <property name="text">
+          <string>Save As</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0">
         <widget class="QPushButton" name="pushButton_certificates_Parse_ParseCertificate">
          <property name="text">
@@ -87,37 +114,20 @@ hr { height: 1px; border-width: 0; }
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_certificates_Parse_LoadCertificate">
+       <item row="1" column="5">
+        <widget class="QPushButton" name="pushButton_certificates_Parse_CopyCertHEX">
          <property name="text">
-          <string>Load certificate</string>
+          <string>Copy HEX</string>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>349</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="pushButton_certificates_Parse_ExportCRT">
+        <widget class="QCheckBox" name="checkBox_CertOpensslOutput">
          <property name="text">
-          <string>Save As</string>
+          <string>OpenSSL Output (require openssl to be installed)</string>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="pushButton_certificates_Parse_CopyCertHEX">
-         <property name="text">
-          <string>Copy HEX</string>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -128,7 +138,7 @@ hr { height: 1px; border-width: 0; }
        <string>Parse X509 CSR</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0" colspan="5">
+       <item row="0" column="0" colspan="6">
         <widget class="QSplitter" name="splitter">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -186,7 +196,14 @@ hr { height: 1px; border-width: 0; }
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pushButton_certificates_Parse_ExportCSR">
+         <property name="text">
+          <string>Save As</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -199,17 +216,20 @@ hr { height: 1px; border-width: 0; }
          </property>
         </spacer>
        </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="pushButton_certificates_Parse_ExportCSR">
-         <property name="text">
-          <string>Save As</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
+       <item row="1" column="5">
         <widget class="QPushButton" name="pushButton_certificates_Parse_CopyCSRHEX">
          <property name="text">
           <string>Copy HEX</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="checkBox_CsrOpenSslOutput">
+         <property name="text">
+          <string>OpenSSL Output (require OpenSSL installed)</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
