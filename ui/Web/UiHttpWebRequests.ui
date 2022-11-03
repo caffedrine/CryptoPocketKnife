@@ -325,12 +325,35 @@ User-Agent: Crypto Pocket Knife 1.1
          <item>
           <widget class="QTabWidget" name="tabWidget_RESPONSE">
            <property name="currentIndex">
-            <number>5</number>
+            <number>0</number>
            </property>
-           <widget class="QWidget" name="tab_RESPONSE_WebView">
+           <widget class="QWidget" name="tab_RESPONSE_HtmlRender">
             <attribute name="title">
-             <string>Web view</string>
+             <string>HTML Render</string>
             </attribute>
+            <layout class="QGridLayout" name="gridLayout_13">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QTextEdit" name="textEdit_RESPONSE_HtmlRender">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
            <widget class="QWidget" name="tab_RESPONSE_XML">
             <attribute name="title">

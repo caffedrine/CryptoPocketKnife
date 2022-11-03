@@ -183,6 +183,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     // Clean up all output or response
     if(which >= 2)
     {
+        this->ui->textEdit_RESPONSE_HtmlRender->clear();
         this->ui->plainTextEdit_RESPONSE_OutputRAW->clear();
         this->ui->plainTextEdit_RESPONSE_Body->clear();
         this->ui->plainTextEdit_RESPONSE_Header->clear();
@@ -250,6 +251,10 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     {
         web_response_t CurrResponse = this->RequestsHistory.at(this->CurrentRequestIdx).second[0];
 
+        if( this->ui->tabWidget_RESPONSE->currentIndex() == 0 )
+        {
+            this->ui->textEdit_RESPONSE_HtmlRender->setHtml(CurrResponse.Data.GetRawBody());
+        }
         // Output XML
         if(this->ui->tabWidget_RESPONSE->currentIndex() == 1)
         {

@@ -69,6 +69,11 @@
        </item>
        <item>
         <widget class="QTextEdit" name="textEdit_HtmlOutput">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>

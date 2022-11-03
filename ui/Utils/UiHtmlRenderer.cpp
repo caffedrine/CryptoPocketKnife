@@ -38,14 +38,14 @@ void UiHtmlRenderer::on_plainTextEdit_textChanged()
             delete this->model;
             this->model = nullptr;
         }
-        this->ui->textEdit_HtmlOutput->clear();
         styleSheetString = "border: 2px solid red;";
     }
     else
     {
         this->model = new DomModel(doc);
         this->ui->treeView->setModel(this->model);
-        this->ui->textEdit_HtmlOutput->setHtml( this->ui->plainTextEdit->toPlainText() );
     }
-    this->ui->plainTextEdit->setStyleSheet(styleSheetString);
+
+    this->ui->textEdit_HtmlOutput->setHtml( this->ui->plainTextEdit->toPlainText() );
+    this->ui->treeView->setStyleSheet(styleSheetString);
 }
