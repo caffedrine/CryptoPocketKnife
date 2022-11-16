@@ -380,7 +380,7 @@ QString UiCertificates::GetCertHumanReadableFormat(const QByteArray &certBytes)
                                      {QSslCertificate::SubjectInfo::CommonName, "CN"},
                                      {QSslCertificate::SubjectInfo::LocalityName, "LN"},
                                      {QSslCertificate::SubjectInfo::OrganizationalUnitName, "OUN"},
-                                     {QSslCertificate::SubjectInfo::CountryName, "CTR"},
+                                     {QSslCertificate::SubjectInfo::CountryName, "C"},
                                      {QSslCertificate::SubjectInfo::StateOrProvinceName, "ST"},
                                      {QSslCertificate::SubjectInfo::DistinguishedNameQualifier, "DN"},
                                      {QSslCertificate::SubjectInfo::SerialNumber, "SN"},
@@ -406,6 +406,7 @@ QString UiCertificates::GetCertHumanReadableFormat(const QByteArray &certBytes)
     // Parse certificate first using Qt
     QString output = "";
     const auto certs = QSslCertificate::fromData(certBytes, QSsl::Der);
+    qInfo() << "Certificates found: " << certs.count();
     for (const QSslCertificate &cert : certs)
     {
         output += "Subject: " + GetSubjInfoHumanReadable(cert, true);
