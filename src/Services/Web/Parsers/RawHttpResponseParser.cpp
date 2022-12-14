@@ -42,7 +42,7 @@ namespace Services { namespace Parsers {
 
         // First line must contain 3 elements
         QByteArrayList elements = firstLine.split(' ');
-        if(elements.count() < 2)
+        if(elements.length() < 2)
         {
             this->ParseFailReason = "first line does not contain properly formatted version and response code (there must be 2-3 elements found)";
             this->State = PARSE_FAILED;

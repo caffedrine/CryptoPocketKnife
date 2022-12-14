@@ -8,10 +8,10 @@ UiAesCipher::UiAesCipher(QWidget *parent): QWidget(parent), ui(new Ui::UiAesCiph
 {
     ui->setupUi(this);
 
-    this->ui->label_Input->setText( "Input (" + QString::number( Utils_RawHexStrToQByteArr(this->ui->textEdit_Input->toPlainText()).count() ) + " bytes)" );
-    this->ui->label_Output->setText( "Output (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->textEdit_Output->toPlainText()).count()) + " bytes)" );
-    this->ui->label_Key->setText( "AES KEY (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text()).count()) + " bytes)" );
-    this->ui->label_IV->setText( "AES IV (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_IV->text()).count()) + " bytes)" );
+    this->ui->label_Input->setText( "Input (" + QString::number( Utils_RawHexStrToQByteArr(this->ui->textEdit_Input->toPlainText()).length() ) + " bytes)" );
+    this->ui->label_Output->setText( "Output (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->textEdit_Output->toPlainText()).length()) + " bytes)" );
+    this->ui->label_Key->setText( "AES KEY (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text()).length()) + " bytes)" );
+    this->ui->label_IV->setText( "AES IV (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_IV->text()).length()) + " bytes)" );
 
 }
 
@@ -28,7 +28,7 @@ void UiAesCipher::on_pushButton_Encrypt_clicked()
     int SelectedMode = this->GetCurrentMode();
     int SelectedPadding = this->GetCurrentPadding();
 
-    if( (this->AesKeySizes[SelectedLevel] != aesKey.count() * 8) || ( aesIV.count() < 1 ) )
+    if( (this->AesKeySizes[SelectedLevel] != aesKey.length() * 8) || ( aesIV.length() < 1 ) )
     {
         Utils_Alert("Wrong AES configuration", "Selected mode require the KEY to have " + QString::number(this->AesKeySizes[SelectedLevel]) + " bits, and IV should have at least 8 bits");
         return;
@@ -45,7 +45,7 @@ void UiAesCipher::on_pushButton_Decrypt_clicked()
     int SelectedMode = this->GetCurrentMode();
     int SelectedPadding = this->GetCurrentPadding();
 
-    if( (this->AesKeySizes[SelectedLevel] != aesKey.count() * 8) || ( aesIV.count() != 16 ) )
+    if( (this->AesKeySizes[SelectedLevel] != aesKey.length() * 8) || ( aesIV.length() != 16 ) )
     {
         Utils_Alert("Wrong AES configuration", "Selected mode require the KEY to have " + QString::number(this->AesKeySizes[SelectedLevel]) + " bits, and IV should always have 128 bit");
         return;
@@ -71,21 +71,21 @@ int UiAesCipher::GetCurrentPadding()
 
 void UiAesCipher::on_textEdit_Input_textChanged()
 {
-    this->ui->label_Input->setText( "Input (" + QString::number( Utils_RawHexStrToQByteArr(this->ui->textEdit_Input->toPlainText()).count() ) + " bytes)" );
+    this->ui->label_Input->setText( "Input (" + QString::number( Utils_RawHexStrToQByteArr(this->ui->textEdit_Input->toPlainText()).length() ) + " bytes)" );
 }
 
 void UiAesCipher::on_textEdit_Output_textChanged()
 {
-    this->ui->label_Output->setText( "Output (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->textEdit_Output->toPlainText()).count()) + " bytes)" );
+    this->ui->label_Output->setText( "Output (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->textEdit_Output->toPlainText()).length()) + " bytes)" );
 }
 
 void UiAesCipher::on_lineEdit_Key_textChanged()
 {
-    this->ui->label_Key->setText( "AES KEY (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text()).count()) + " bytes)" );
+    this->ui->label_Key->setText( "AES KEY (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text()).length()) + " bytes)" );
 }
 
 void UiAesCipher::on_lineEdit_IV_textChanged()
 {
-    this->ui->label_IV->setText( "AES IV (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_IV->text()).count()) + " bytes)" );
+    this->ui->label_IV->setText( "AES IV (" + QString::number(Utils_RawHexStrToQByteArr(this->ui->lineEdit_IV->text()).length()) + " bytes)" );
 }
 

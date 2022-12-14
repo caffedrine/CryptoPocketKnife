@@ -105,7 +105,7 @@ void RawHttpWebRequest::Conn_SslErrorOccurred(const QSslError error)
 void RawHttpWebRequest::Conn_TcpConnected()
 {
     this->Log("TCP Socket connected to host " + this->tcpSocket->peerAddress().toString() + ":" + QString::number(this->tcpSocket->peerPort()));
-    this->Log("Writing " + QString::number(this->currRequest.GetRaw().count()) + " to remote host");
+    this->Log("Writing " + QString::number(this->currRequest.GetRaw().length()) + " to remote host");
     this->tcpSocket->write(this->currRequest.GetRaw());
 }
 

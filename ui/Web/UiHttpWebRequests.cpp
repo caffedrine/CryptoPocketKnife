@@ -107,8 +107,8 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     {
         // Replace \n with \r\n only on header (plain text edit does not automatically append \r\n requires by HTTP RFC). Leave payload untouched
         parser.addData( rawInput.left(rawInput.indexOf("\n\n")).replace("\n", "\r\n") + "\r\n\r\n" );
-        if(rawInput.indexOf("\n\n") < rawInput.count() - 2)
-            parser.addData(rawInput.right(rawInput.count() - rawInput.indexOf("\n\n") - 2));
+        if(rawInput.indexOf("\n\n") < rawInput.length() - 2)
+            parser.addData(rawInput.right(rawInput.length() - rawInput.indexOf("\n\n") - 2));
     }
     else
     {
@@ -120,7 +120,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     QByteArray sendData = parser.GetRaw();
     if( this->ui->actionAppendContentLength->isChecked() && !parser.GetRawBody().isEmpty())
     {
-        sendData = parser.GetRawHeaders() + QString("Content-Length: " + QString::number(parser.GetRawBody().count()) + "\r\n\r\n").toUtf8() + parser.GetRawBody();
+        sendData = parser.GetRawHeaders() + QString("Content-Length: " + QString::number(parser.GetRawBody().length()) + "\r\n\r\n").toUtf8() + parser.GetRawBody();
     }
 
     if( url.scheme() == "https" )
@@ -149,7 +149,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     root->setText(2, Request.Data.GetMethod());
     root->setText(3, Request.Data.GetHeaderByName("Host") );
     root->setText(4, Request.Data.GetPath() );
-    root->setText(5, (!Response.ErrorOccurred ? this->locale().formattedDataSize(Response.Data.GetRaw().count()) : "") );
+    root->setText(5, (!Response.ErrorOccurred ? this->locale().formattedDataSize(Response.Data.GetRaw().length()) : "") );
     root->setText(6, Request.Metadata.Host + ":" + QString::number(Request.Metadata.Port) +  " (" + (Response.Metadata.remoteHost.toString() + ":" + QString::number(Response.Metadata.remotePort)) + ")" );
     this->ui->treeWidget_HistoryList->addTopLevelItem(root);
 

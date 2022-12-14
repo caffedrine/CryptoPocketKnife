@@ -127,7 +127,7 @@ namespace Services { namespace Parsers {
             }
 
             QByteArray headerName = header.left(header.indexOf(':'));
-            QByteArray headerValue = header.right(header.count() - 1 - header.indexOf(':'));
+            QByteArray headerValue = header.right(header.length() - 1 - header.indexOf(':'));
 
             this->HeadersVals.append(headerValue);
             this->HeadersNames.append(headerName);
@@ -148,9 +148,9 @@ namespace Services { namespace Parsers {
 
         if(expectedLength > -1)
         {
-            if(this->Body.count() < expectedLength)
+            if(this->Body.length() < expectedLength)
             {
-                this->ParseFailReason = "incomplete body, expected " + QString::number(expectedLength) + ", received " + QString::number(this->Body.count());
+                this->ParseFailReason = "incomplete body, expected " + QString::number(expectedLength) + ", received " + QString::number(this->Body.length());
             }
             else
             {
