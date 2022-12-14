@@ -122,7 +122,6 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     {
         sendData = parser.GetRawHeaders() + QString("Content-Length: " + QString::number(parser.GetRawBody().count()) + "\r\n\r\n").toUtf8() + parser.GetRawBody();
     }
-    qDebug() << sendData;
 
     if( url.scheme() == "https" )
         http.SendHttps(sendData);

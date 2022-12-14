@@ -32,6 +32,7 @@ public:
     QString Body;
     QString HostIp;
 };
+Q_DECLARE_METATYPE(HttpResponse)
 
 /* */
 class WebScraper: public QObject, public ThreadsPool
@@ -45,14 +46,12 @@ public:
     static HttpResponse HttpGet(const QString &url, QMap<QString, QString> *AdditionalHeaders = nullptr);
 
 signals:
-    void OnRequestStarted(const QString &requestId, const QString &requestUrl);
-    void OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
-    void OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
+    void OnRequestStarted(QString requestId, QString requestUrl);
+    void OnRequestError(QString requestId, QString requestUrl, HttpResponse response);
+    void OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 private:
     void Task(const QString& uniqueRequestId, const QString& requestUrl);
 };
-
-Q_DECLARE_METATYPE(HttpResponse)
 
 #endif // WEBSCRAPER_H

@@ -155,6 +155,8 @@ void UiNetwork::PortsScanner_ClearTable_pushButtonClicked()
 
 void UiNetwork::PortsScanner_InitEngine()
 {
+    qRegisterMetaType<PortsScanResult>("PortsScanResult");
+    
     if( !this->PortsScannerEngine )
     {
         this->PortsScannerEngine = new PortsScanner(50);
@@ -166,7 +168,7 @@ void UiNetwork::PortsScanner_InitEngine()
     }
 }
 
-void UiNetwork::PortsScanner_OnRequestStarted(const QString &host, const PortsScanResult &result)
+void UiNetwork::PortsScanner_OnRequestStarted(QString host, PortsScanResult result)
 {
     int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
     this->PortsScanResults[host] = result;
@@ -174,7 +176,7 @@ void UiNetwork::PortsScanner_OnRequestStarted(const QString &host, const PortsSc
     this->ui->tableWidget_PortsScanner->item(hostIndex, this->ui->tableWidget_PortsScanner->columnCount() - 1)->setText("Working...");
 }
 
-void UiNetwork::PortsScanner_OnRequestError(const QString &host, const PortsScanResult &result)
+void UiNetwork::PortsScanner_OnRequestError(QString host, PortsScanResult result)
 {
     int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
     this->PortsScanResults[host] = result;
@@ -187,7 +189,7 @@ void UiNetwork::PortsScanner_OnRequestError(const QString &host, const PortsScan
     this->ui->tableWidget_PortsScanner->item(hostIndex, 4)->setText(QTime(0,0,0,0).addSecs(this->PortsScanResults[host].ScanDurationSeconds).toString("hh:mm:ss"));
 }
 
-void UiNetwork::PortsScanner_OnProcessProgress(const QString &host, const PortsScanResult &result)
+void UiNetwork::PortsScanner_OnProcessProgress(QString host, PortsScanResult result)
 {
     int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
     this->PortsScanResults[host] = result;
@@ -204,7 +206,7 @@ void UiNetwork::PortsScanner_OnProcessProgress(const QString &host, const PortsS
     }
 }
 
-void UiNetwork::PortsScanner_OnRequestFinished(const QString &host, const PortsScanResult &result)
+void UiNetwork::PortsScanner_OnRequestFinished(QString host, PortsScanResult result)
 {
     int hostIndex = this->PortsScanner_GetRowIndexByHost(host);
     this->PortsScanResults[host] = result;

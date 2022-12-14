@@ -75,10 +75,10 @@ public:
 
 signals:
     //void OnRequestPreStart(const QString &host_address, const QString &rdns );
-    void OnRequestStarted(const QString &host, const PortsScanResult &result);
-    void OnRequestError(const QString &host, const PortsScanResult &result);
-    void OnProcessProgress(const QString &host, const PortsScanResult &result);
-    void OnRequestFinished(const QString &host, const PortsScanResult &result);
+    void OnRequestStarted(QString host, PortsScanResult result);
+    void OnRequestError(QString host, PortsScanResult result);
+    void OnProcessProgress(QString host, PortsScanResult result);
+    void OnRequestFinished(QString host, PortsScanResult result);
     void AvailableWorkersChanged(int availableWorkers, int activeWorkers);
 
 private:
@@ -94,7 +94,6 @@ private:
 };
 
 }} // Namespaces
-
 
 Q_DECLARE_METATYPE(Services::PortsScanner::PortsScanResult)
 
