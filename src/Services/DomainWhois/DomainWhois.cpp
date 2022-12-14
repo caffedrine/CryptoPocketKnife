@@ -5,6 +5,7 @@
 #include <QEventLoop>
 #include <QObject>
 #include <QTimer>
+#include <QHostAddress>
 
 namespace Services { namespace Whois
 {

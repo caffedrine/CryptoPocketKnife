@@ -51,8 +51,11 @@ void RawHttpWebRequest::SendHttps(const QByteArray &rawHttpRequest)
     this->currRequest.clear();
     this->currRequest.addData(rawHttpRequest);
 
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // Connect TLS handshake error signal
     QObject::connect((QSslSocket *)this->tcpSocket, &QSslSocket::handshakeInterruptedOnError, this, &RawHttpWebRequest::Conn_SslErrorOccurred, Qt::UniqueConnection);
+#endif
 
     // Configure timeout timer
     this->socketTimer.blockSignals(false);

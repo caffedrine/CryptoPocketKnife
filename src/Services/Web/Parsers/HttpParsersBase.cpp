@@ -127,7 +127,7 @@ namespace Services { namespace Parsers {
             }
 
             QByteArray headerName = header.left(header.indexOf(':'));
-            QByteArray headerValue = header.last(header.count() - 1 - header.indexOf(':'));
+            QByteArray headerValue = header.right(header.count() - 1 - header.indexOf(':'));
 
             this->HeadersVals.append(headerValue);
             this->HeadersNames.append(headerName);

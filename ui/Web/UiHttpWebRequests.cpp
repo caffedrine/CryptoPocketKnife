@@ -106,9 +106,9 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     if( rawInput.indexOf("\n\n") > 0  )
     {
         // Replace \n with \r\n only on header (plain text edit does not automatically append \r\n requires by HTTP RFC). Leave payload untouched
-        parser.addData( rawInput.first(rawInput.indexOf("\n\n")).replace("\n", "\r\n") + "\r\n\r\n" );
+        parser.addData( rawInput.left(rawInput.indexOf("\n\n")).replace("\n", "\r\n") + "\r\n\r\n" );
         if(rawInput.indexOf("\n\n") < rawInput.count() - 2)
-            parser.addData(rawInput.last(rawInput.count() - rawInput.indexOf("\n\n") - 2));
+            parser.addData(rawInput.right(rawInput.count() - rawInput.indexOf("\n\n") - 2));
     }
     else
     {
