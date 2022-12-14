@@ -53,10 +53,10 @@ public slots:
     void PortsScanner_ClearTable_pushButtonClicked();
     void PortsScanner_ExportTableCSV_pushButtonClicked();
     void PortsScanner_ExportTableHTML_pushButtonClicked();
-    void PortsScanner_OnRequestStarted(const QString &host, const PortsScanResult &result);
-    void PortsScanner_OnRequestError(const QString &host, const PortsScanResult &result);
-    void PortsScanner_OnProcessProgress(const QString &host, const PortsScanResult &result);
-    void PortsScanner_OnRequestFinished(const QString &host, const PortsScanResult &result);
+    void PortsScanner_OnRequestStarted(QString host, PortsScanResult result);
+    void PortsScanner_OnRequestError(QString host, PortsScanResult result);
+    void PortsScanner_OnProcessProgress(QString host, PortsScanResult result);
+    void PortsScanner_OnRequestFinished(QString host, PortsScanResult result);
     void PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers);
     void PortsScanner_ShowScanResults(int tableHostIndex, const QString &host, bool ScanInProgress);
 

@@ -138,14 +138,14 @@ void UiWebScrapper::tableWidget_WebScraper_OnRowsDeleted(const QModelIndex &pare
     this->ui->label_WebScraper_RecordsCount->setText("Records count: " + QString::number(this->ui->tableWidget_WebScraper->rowCount()));
 }
 
-void UiWebScrapper::webScraper_OnRequestStarted(const QString &requestId, const QString &requestUrl)
+void UiWebScrapper::webScraper_OnRequestStarted(QString requestId, QString requestUrl)
 {
     //dbgln << "[HTTP GET START] " << requestId << ". " << requestUrl;
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setIcon(QIcon(":/img/working.png"));
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setText("Working...");
 }
 
-void UiWebScrapper::webScraper_OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response)
+void UiWebScrapper::webScraper_OnRequestError(QString requestId, QString requestUrl, HttpResponse response)
 {
     //dbgln << "[HTTP GET FAILED] [" << errorDescription << "] " << requestId << ". " << requestUrl;
 
@@ -157,7 +157,7 @@ void UiWebScrapper::webScraper_OnRequestError(const QString &requestId, const QS
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
 }
 
-void UiWebScrapper::webScraper_OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response)
+void UiWebScrapper::webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response)
 {
     //dbgln << "[HTTP GET SUCCEED] " << requestId << ". " << requestUrl << ": " << response.Code;
     if( response.Code == 200 )
@@ -331,12 +331,14 @@ void UiWebScrapper::on_pushButton_WebScraping_StretchCols_clicked()
 
 void UiWebScrapper::webScrapper_InitEngine()
 {
+    qRegisterMetaType<HttpResponse>("HttpResponse");
+    
     if( !this->WebScrapperEngine )
     {
         this->WebScrapperEngine = new WebScraper(25);
-        connect(this->WebScrapperEngine, SIGNAL(OnRequestStarted(const QString &, const QString &)), this, SLOT(webScraper_OnRequestStarted(const QString &, const QString &)));
-        connect(this->WebScrapperEngine, SIGNAL(OnRequestError(const QString &, const QString &, const HttpResponse &)), this, SLOT(webScraper_OnRequestError(const QString &, const QString &, const HttpResponse &)));
-        connect(this->WebScrapperEngine, SIGNAL(OnRequestFinished(const QString &, const QString &, const HttpResponse &)), this, SLOT(webScraper_OnRequestFinished(const QString &, const QString &, const HttpResponse &)));
+        connect(this->WebScrapperEngine, SIGNAL(OnRequestStarted(QString, QString)), this, SLOT(webScraper_OnRequestStarted(QString, QString)));
+        connect(this->WebScrapperEngine, SIGNAL(OnRequestError(QString, QString, HttpResponse)), this, SLOT(webScraper_OnRequestError(QString, QString, HttpResponse)));
+        connect(this->WebScrapperEngine, SIGNAL(OnRequestFinished(QString , QString, HttpResponse)), this, SLOT(webScraper_OnRequestFinished(QString, QString, HttpResponse)));
         connect(this->WebScrapperEngine, SIGNAL(AvailableWorkersChanged(int, int)), this, SLOT(webScraper_OnAvailableWorkersChanged(int, int)));
     }
 }

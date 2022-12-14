@@ -45,9 +45,9 @@ private slots:
     void on_pushButton_WebScraping_Clear_clicked();
     void on_pushButton_WebScraper_StopDownload_clicked();
     void on_pushButton_WebScraper_StartDownload_clicked();
-    void webScraper_OnRequestStarted(const QString &requestId, const QString &requestUrl);
-    void webScraper_OnRequestError(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
-    void webScraper_OnRequestFinished(const QString &requestId, const QString &requestUrl, const HttpResponse &response);
+    void webScraper_OnRequestStarted(QString requestId, QString requestUrl);
+    void webScraper_OnRequestError(QString requestId, QString requestUrl, HttpResponse response);
+    void webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response);
     void webScraper_OnAvailableWorkersChanged(int availableWorkers, int activeWorkers);
     void on_pushButton_WebScraping_StretchCols_clicked();
 
