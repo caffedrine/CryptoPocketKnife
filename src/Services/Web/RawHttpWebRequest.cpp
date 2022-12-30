@@ -137,6 +137,12 @@ void RawHttpWebRequest::Conn_ReadyRead()
     this->Log("Reading " + QString::number(this->tcpSocket->bytesAvailable()) + " from remote host");
 
     this->currResponse.addData(this->tcpSocket->readAll());
+
+    // Emit data if parsing was completed and disconnect from host - data will be emitted automatically on sicket disconnect
+    if( this->currResponse.IsCompleteHttpData() )
+    {
+        this->tcpSocket->disconnectFromHost();
+    }
 }
 
 void RawHttpWebRequest::Log(const QString &str)

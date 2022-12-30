@@ -140,13 +140,13 @@ namespace Services { namespace Parsers {
         this->Body.append(this->UnprocessedChunk);
         this->UnprocessedChunk.clear();
 
-        int expectedLength = -1;
+        int expectedLength = 0;
         if(this->HaveHeader("Content-Length"))
         {
             expectedLength = QString(this->GetHeaderByName("Content-Length")).toInt();
         }
 
-        if(expectedLength > -1)
+        if(expectedLength > 0)
         {
             if(this->Body.length() < expectedLength)
             {
