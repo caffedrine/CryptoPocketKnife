@@ -570,7 +570,7 @@ QByteArray QAESEncryption::encode(const QByteArray &rawText, const QByteArray &k
 
     case CTR:
     {
-        if(plusaes::crypt_ctr((unsigned char *) alignedText.data(), alignedText.count(), (unsigned char *)key.data(), key.count(), (unsigned char *)iv.data()) == plusaes::kErrorOk)
+        if(plusaes::crypt_ctr((unsigned char *) alignedText.data(), alignedText.size(), (unsigned char *)key.data(), key.size(), (unsigned char *)iv.data()) == plusaes::kErrorOk)
             return alignedText;
         return QByteArray();
     }break;
@@ -579,10 +579,10 @@ QByteArray QAESEncryption::encode(const QByteArray &rawText, const QByteArray &k
     {
         unsigned char tag[16];
 
-        if( plusaes::encrypt_gcm((unsigned char *) alignedText.data(), alignedText.count(),
+        if( plusaes::encrypt_gcm((unsigned char *) alignedText.data(), alignedText.size(),
                                  nullptr, 0,
-                                 (unsigned char *)key.data(), key.count(),
-                                 (unsigned char *)iv.data(), iv.count(), tag, 16) == plusaes::kErrorOk )
+                                 (unsigned char *)key.data(), key.size(),
+                                 (unsigned char *)iv.data(), iv.size(), tag, 16) == plusaes::kErrorOk )
             return alignedText + QByteArray((const char *)tag, 16);
         return QByteArray();
     }break;

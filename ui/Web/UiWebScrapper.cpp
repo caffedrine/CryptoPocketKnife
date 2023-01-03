@@ -294,6 +294,7 @@ void UiWebScrapper::on_tableWidget_WebScraper_customContextMenuRequested(const Q
             editor->setWindowTitle("GET " + rowUrl);
             editor->setReadOnly(true);
             editor->setMinimumSize(QSize(800, 400));
+            editor->setAttribute(Qt::WA_DeleteOnClose);
             editor->show();
         });
 

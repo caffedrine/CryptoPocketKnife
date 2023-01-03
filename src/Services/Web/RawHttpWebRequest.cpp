@@ -1,5 +1,7 @@
 #include "RawHttpWebRequest.h"
 
+#include <QTime>
+
 namespace Services { namespace Web {
 
 RawHttpWebRequest::RawHttpWebRequest(QString host, quint16 port) : targetHost(host), targetPort(port)
@@ -28,7 +30,7 @@ void RawHttpWebRequest::InitTcpSocket()
     QObject::connect(this->tcpSocket, &QTcpSocket::hostFound, this, &RawHttpWebRequest::Conn_HostFound, Qt::UniqueConnection);
 
     // Connect TCP error signal
-    QObject::connect(this->tcpSocket, &QTcpSocket::errorOccurred, this, &RawHttpWebRequest::Conn_ErrorOccurred, Qt::UniqueConnection);
+    QObject::connect(this->tcpSocket, &QTcpSocket::errorOccurred, this, &RawHttpWebRequest::Conn_SocketErrorOccurred, Qt::UniqueConnection);
 
     // Connect signal when connection was established
     QObject::connect(this->tcpSocket, &QTcpSocket::connected, this, &RawHttpWebRequest::Conn_TcpConnected, Qt::UniqueConnection);
@@ -86,7 +88,14 @@ void RawHttpWebRequest::Conn_HostFound()
     this->Log("Connecting to host");
 }
 
-void RawHttpWebRequest::Conn_ErrorOccurred(const QAbstractSocket::SocketError error)
+void RawHttpWebRequest::Conn_SystemErrorOccurred(const QString errorDescription)
+{
+    this->ErrorOccurred = true;
+    this->Log("System error occurred: " + errorDescription);
+    emit this->RequestReturnedError(this->tcpSocket, this->currRequest, "system error - " + errorDescription, this->currResponse);
+}
+
+void RawHttpWebRequest::Conn_SocketErrorOccurred(const QAbstractSocket::SocketError error)
 {
     this->ErrorOccurred = true;
     this->Log("Error connecting to host " + this->tcpSocket->peerAddress().toString() + ":" + QString::number(this->tcpSocket->peerPort())+ " - error " + QString::number(error) + " - " + this->tcpSocket->errorString());
@@ -147,8 +156,23 @@ void RawHttpWebRequest::Conn_ReadyRead()
 
 void RawHttpWebRequest::Log(const QString &str)
 {
+    this->flowLogs.append("[" + QTime::currentTime().toString("yyyy-MM-dd hh:mm:ss.zzz") + "] " +  str);
     emit this->RequestStateChangeInfo(this->tcpSocket, this->currRequest, this->currResponse, str);
     qDebug().nospace().noquote() << "[HTTP WEB REQUEST] [" << this->targetHost << ":" << this->targetPort << "] " << str;
+}
+
+void RawHttpWebRequest::Abort()
+{
+    if( this->tcpSocket != nullptr && this->tcpSocket->isValid() || this->tcpSocket->isOpen() )
+    {
+        this->Conn_SystemErrorOccurred("abort requested by user");
+        this->tcpSocket->abort();
+    }
+}
+
+QStringList RawHttpWebRequest::GetLogsFlow()
+{
+    return this->flowLogs;
 }
 
 }} //namespaces

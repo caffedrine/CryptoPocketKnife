@@ -29,15 +29,18 @@ namespace Services { namespace Web
 
         void SendHttp(const QByteArray &rawHttpRequest);
         void SendHttps(const QByteArray &rawHttpRequest);
+        void Abort();
 
         void setConnectTimeoutMs(quint32 ms) { this->ConnectTimeout = ms;};
         void setReadTimeoutMs(quint32 ms) { this->ReadTimeout = ms; };
         void setMaxRetries(quint16 retries) { this->ConnectMaxRetries = retries; };
 
+        QStringList GetLogsFlow();
     private:
         QString targetHost;
         quint16 targetPort;
         QString targetIp;
+        QStringList flowLogs;
 
         quint32 ConnectTimeout = 10000, ReadTimeout = 5000;
         quint16 ConnectMaxRetries = 0;
@@ -58,7 +61,8 @@ namespace Services { namespace Web
 
     private slots:
         void Conn_HostFound();
-        void Conn_ErrorOccurred(const QAbstractSocket::SocketError error);
+        void Conn_SocketErrorOccurred(const QAbstractSocket::SocketError error);
+        void Conn_SystemErrorOccurred(const QString errorDescription);
         void Conn_SslErrorOccurred(const QSslError error);
         void Conn_TcpConnected();
         void Conn_TcpDisconnected();

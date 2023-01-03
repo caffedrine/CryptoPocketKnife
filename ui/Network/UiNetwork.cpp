@@ -391,6 +391,7 @@ void UiNetwork::PortsScanner_tableWidget_customContextMenuRequested(const QPoint
             QPlainTextEdit *editor = new QPlainTextEdit(text);
             editor->setWindowTitle("Ping scan result for " + host);
             editor->setBaseSize(QSize(800, 400));
+            editor->setAttribute(Qt::WA_DeleteOnClose);
             editor->show();
         });
 
@@ -402,6 +403,7 @@ void UiNetwork::PortsScanner_tableWidget_customContextMenuRequested(const QPoint
             editor->setWindowTitle("Scan results for " + host + ", profile " + this->PortsScanResults[host].ScanProfile);
             editor->setReadOnly(true);
             editor->setMinimumSize(QSize(800, 400));
+            editor->setAttribute(Qt::WA_DeleteOnClose);
             editor->show();
         });
 

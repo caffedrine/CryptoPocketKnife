@@ -7,27 +7,47 @@
 #include "Uri.h"
 #include "RawHttpResponseParser.h"
 
+#include <QTreeWidget>
 #include <QTcpSocket>
 #include <QString>
 #include <QByteArray>
+#include <QMenu>
+#include <QMessageBox>
 
 using Services::Web::RawHttpWebRequest;
 
 UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QMainWindow(parent), ui(new Ui::UiHttpWebRequests)
 {
     ui->setupUi(this);
-    connect(this->ui->treeWidget_HistoryList, &QTreeWidget::itemSelectionChanged, [this](){
-        this->CurrentRequestIdx = this->ui->treeWidget_HistoryList->currentIndex().row();
+
+    // Some rows were deleted
+    QObject::connect(this->ui->treeWidget_HistoryList->model(), SIGNAL(rowsRemoved(const QModelIndex&,int,int)), this, SLOT(treeWidget_OnRowsRmoved(const QModelIndex&,int,int)), Qt::UniqueConnection);
+
+//    connect(this->ui->treeWidget_HistoryList->model(), &QTreeWidget::rowsRemoved, [this](const QModelIndex &parent, int start, int end){
+//        this->RequestsHistory.remove(start, end-start);
+//    });
+
+    // New transaction to be added
+    connect(this->ui->treeWidget_HistoryList, &QTreeWidget::currentItemChanged, [this](QTreeWidgetItem *current, QTreeWidgetItem *previous){
         this->ShowRequestOutput(3);
     });
 
+    connect(this->ui->treeWidget_HistoryList, &QTreeWidget::currentItemChanged, [this](QTreeWidgetItem *current, QTreeWidgetItem *previous){
+        this->ShowRequestOutput(3);
+    });
+
+    // Tab for RESPONSE was switched
     connect(this->ui->tabWidget_RESPONSE, &QTabWidget::currentChanged, [this](int new_idx){
         this->ShowRequestOutput(2);
     });
 
+    // Tab for REQUEST was switched
     connect(this->ui->tabWidget_REQUEST, &QTabWidget::currentChanged, [this](int new_idx){
         this->ShowRequestOutput(1);
     });
+
+    // Enable custom context menu for TreeWidget
+    this->ui->treeWidget_HistoryList->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // Show whitespaces
 //    QTextOption option;
@@ -43,10 +63,6 @@ UiHttpWebRequests::~UiHttpWebRequests()
 
 void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 {
-    bool errorDetected = false;
-    web_request_t Request;
-    web_response_t Response;
-
     if( this->ui->lineEdit_Composer_TargetHost->text().isEmpty() )
     {
         Utils_Alert("Empty URL", "Please provide target URL that contain a valid host");
@@ -60,6 +76,9 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         return;
     }
 
+    bool errorDetected = false;
+    web_request_t Request;
+    web_response_t Response;
     QEventLoop waitLoop;
     RawHttpWebRequest http(url.host(), !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80));
 
@@ -123,18 +142,21 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         sendData = parser.GetRawHeaders() + QString("Content-Length: " + QString::number(parser.GetRawBody().length()) + "\r\n\r\n").toUtf8() + parser.GetRawBody();
     }
 
+    this->currRequest = &http;
+
     if( url.scheme() == "https" )
         http.SendHttps(sendData);
     else
         http.SendHttp(sendData);
     waitLoop.exec();
 
+    Request.DataFlowLog = http.GetLogsFlow();
+    this->currRequest = nullptr;
+
 //    qDebug().nospace().noquote() << "REQ: " << RAW_Request;
 //    qDebug().nospace().noquote() << "RES: " << Response.Data.GetRaw();
 
     this->RequestsHistory.append( {{ Request, {{Response}} }} );
-    this->CurrentRequestIdx = this->RequestsHistory.count() - 1;
-    this->ShowRequestOutput(3);
 
     // Populate tree widget
     QTreeWidgetItem *root = new QTreeWidgetItem(this->ui->treeWidget_HistoryList);
@@ -152,12 +174,17 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     root->setText(5, (!Response.ErrorOccurred ? this->locale().formattedDataSize(Response.Data.GetRaw().length()) : "") );
     root->setText(6, Request.Metadata.Host + ":" + QString::number(Request.Metadata.Port) +  " (" + (Response.Metadata.remoteHost.toString() + ":" + QString::number(Response.Metadata.remotePort)) + ")" );
     this->ui->treeWidget_HistoryList->addTopLevelItem(root);
+    this->ui->treeWidget_HistoryList->setCurrentItem(root);
 
     Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
 }
 
 void UiHttpWebRequests::ShowRequestOutput(int which)
 {
+    // which = 3: New transaction to be added
+    // which = 2: Tab for RESPONSE was switched
+    // which = 1: Tab for REQUEST was switched
+
     static QJsonModel jsonModelRequest;
     static QJsonModel jsonModelResponse;
 
@@ -166,7 +193,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
 
     QString borderRed = "border-top: 1px solid red; border-bottom: 1px solid red; border-left: 1px solid red; border-right: 1px solid red;";
 
-    // Clean up all outputs for request
+    // Clean up all outputs for REQUEST
     if(which == 1 || which >= 3)
     {
         this->ui->plainTextEdit_REQUEST_Headers->clear();
@@ -179,7 +206,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
         this->ui->treeView_REQUEST_Xml->setStyleSheet("");
     }
 
-    // Clean up all output or response
+    // Clean up all outputs for RESPONSE
     if(which >= 2)
     {
         this->ui->textEdit_RESPONSE_HtmlRender->clear();
@@ -196,10 +223,18 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     if(this->RequestsHistory.isEmpty())
         return;
 
+    int treeCurrentIndex = this->ui->treeWidget_HistoryList->currentIndex().row();
+    if( treeCurrentIndex > this->RequestsHistory.size() - 1 || treeCurrentIndex < 0)
+    {
+        qDebug() << "which " << which;
+        qWarning().nospace().noquote() << "Received request to show index " << treeCurrentIndex << " but history max index is " << this->RequestsHistory.size() - 1;
+        return;
+    }
+
     // Update request
     if(which == 1 || which >= 3)
     {
-        web_request_t CurrRequest = this->RequestsHistory.at(this->CurrentRequestIdx).first;
+        web_request_t CurrRequest = this->RequestsHistory.at(treeCurrentIndex).first;
 
         // Output HEADERS
         if(this->ui->tabWidget_REQUEST->currentIndex() == 0)
@@ -248,7 +283,7 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     // Update response
     if(which >= 2)
     {
-        web_response_t CurrResponse = this->RequestsHistory.at(this->CurrentRequestIdx).second[0];
+        web_response_t CurrResponse = this->RequestsHistory.at(treeCurrentIndex).second[0];
 
         if( this->ui->tabWidget_RESPONSE->currentIndex() == 0 )
         {
@@ -303,6 +338,14 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
     }
 }
 
+void UiHttpWebRequests::on_pushButton_AbortRequest_clicked()
+{
+    if( this->currRequest != nullptr )
+    {
+        currRequest->Abort();
+    }
+}
+
 void UiHttpWebRequests::on_actionShowWhitespaces_triggered()
 {
     QTextOption option;
@@ -325,4 +368,59 @@ void UiHttpWebRequests::on_actionWordWrap_triggered()
     QList<QPlainTextEdit *> plainTextEdits = this->findChildren<QPlainTextEdit *>();
     for(QPlainTextEdit *child: plainTextEdits)
         child->setLineWrapMode(mode);
+}
+
+void UiHttpWebRequests::on_treeWidget_HistoryList_customContextMenuRequested(const QPoint &pos)
+{
+    int row = ui->treeWidget_HistoryList->indexAt(pos).row();
+    if( row < 0 )
+    {
+        return;
+    }
+
+    // Show flow logs menu
+    QAction Item_ShowFlowLogs("Show flow logs", this);
+    connect(&Item_ShowFlowLogs, &QAction::triggered, this, [&row, this]()
+    {
+        QDateTime tm;
+        tm.setMSecsSinceEpoch(this->RequestsHistory.at(row).first.Metadata.StartTimestampMs);
+
+        // Output text
+        QPlainTextEdit *editor = new QPlainTextEdit(this->RequestsHistory.at(row).first.DataFlowLog.join("\n"));
+        editor->setWindowTitle("Flow info for request on " + this->RequestsHistory.at(row).first.Metadata.Host + ":" +
+                               QString::number(this->RequestsHistory.at(row).first.Metadata.Port) + " at " + tm.toString("yyyy-MM-dd hh:mm:ss.zzz"));
+        editor->setBaseSize(QSize(800, 400));
+        editor->setAttribute(Qt::WA_DeleteOnClose);
+        editor->show();
+    });
+
+    // Delete item menu
+    QAction Item_DeleteSelection("Delete", this);
+    connect(&Item_DeleteSelection, &QAction::triggered, this, [&row, this]()
+    {
+        this->ui->treeWidget_HistoryList->takeTopLevelItem(row);
+        //this->RequestsHistory.removeAt(row);
+    });
+
+    QMenu menu("contextMenu", this);
+    menu.addAction(&Item_ShowFlowLogs);
+    menu.addSeparator();
+    menu.addAction(&Item_DeleteSelection);
+    menu.exec(ui->treeWidget_HistoryList->viewport()->mapToGlobal(pos));
+}
+
+void UiHttpWebRequests::treeWidget_OnRowsRmoved(const QModelIndex &parent, int start, int end)
+{
+    qDebug() << "removed!: from " << start << " to " << end;
+
+    if( start > this->RequestsHistory.size() )
+    {
+        qWarning().nospace().noquote() << "TreeView model requested to delete starting from " << start << " but history max index is " << this->RequestsHistory.size() - 1;
+        return;
+    }
+
+    if( start == end )
+        this->RequestsHistory.remove(start);
+    else
+        this->RequestsHistory.remove(start, end-start-1);
 }

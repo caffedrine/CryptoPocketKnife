@@ -26,25 +26,6 @@
        </property>
        <widget class="QWidget" name="layoutWidget">
         <layout class="QGridLayout" name="gridLayout_ComposerGroup">
-         <item row="2" column="0" colspan="2">
-          <widget class="QPushButton" name="pushButton_Composer_Submit">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Submit</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="0" colspan="2">
           <widget class="QLineEdit" name="lineEdit_Composer_TargetHost">
            <property name="sizePolicy">
@@ -96,12 +77,48 @@ User-Agent: Crypto Pocket Knife 1.1
            </property>
           </widget>
          </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="pushButton_Composer_Submit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Submit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QPushButton" name="pushButton_AbortRequest">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../res/res.qrc">
+             <normaloff>:/img/fail.png</normaloff>:/img/fail.png</iconset>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="formLayoutWidget">
         <layout class="QGridLayout" name="gridLayout_History">
          <item row="0" column="0">
-          <widget class="QTreeWidget" name="treeWidget_HistoryList">
+          <widget class="QTreeWidgetExtended" name="treeWidget_HistoryList">
            <column>
             <property name="text">
              <string>Time</string>
@@ -632,6 +649,13 @@ User-Agent: Crypto Pocket Knife 1.1
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QTreeWidgetExtended</class>
+   <extends>QTreeWidget</extends>
+   <header>QTreeWidgetExtended.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../res/res.qrc"/>
  </resources>
