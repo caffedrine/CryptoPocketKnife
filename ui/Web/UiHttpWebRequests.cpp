@@ -224,9 +224,11 @@ void UiHttpWebRequests::ShowRequestOutput(int which)
         return;
 
     int treeCurrentIndex = this->ui->treeWidget_HistoryList->currentIndex().row();
-    if( treeCurrentIndex > this->RequestsHistory.size() - 1 || treeCurrentIndex < 0)
+    if( treeCurrentIndex < 0 )
+        return;
+
+    if( treeCurrentIndex > this->RequestsHistory.size() - 1)
     {
-        qDebug() << "which " << which;
         qWarning().nospace().noquote() << "Received request to show index " << treeCurrentIndex << " but history max index is " << this->RequestsHistory.size() - 1;
         return;
     }
@@ -411,8 +413,6 @@ void UiHttpWebRequests::on_treeWidget_HistoryList_customContextMenuRequested(con
 
 void UiHttpWebRequests::treeWidget_OnRowsRmoved(const QModelIndex &parent, int start, int end)
 {
-    qDebug() << "removed!: from " << start << " to " << end;
-
     if( start > this->RequestsHistory.size() )
     {
         qWarning().nospace().noquote() << "TreeView model requested to delete starting from " << start << " but history max index is " << this->RequestsHistory.size() - 1;
