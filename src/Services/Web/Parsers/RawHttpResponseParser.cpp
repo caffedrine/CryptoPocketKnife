@@ -90,4 +90,13 @@ namespace Services { namespace Parsers {
     {
         return this->HttpVersion + " " + (this->ResponseCode > 0 ? QString::number(this->ResponseCode).toUtf8() : " ") + " " + this->ResponseCodeDesc;
     }
+
+    void RawHttpResponseParser::ConnectionCloseReceived()
+    {
+        // If body length cannot be determined and client added "Connection: close" header, then we consider body complete whenever server closes the connection
+        if(this->UnspecifiedBodyLength)
+        {
+            this->GlobalParserState = GlobalParserState::PARSE_COMPLETED;
+        }
+    }
 }} // Namespaces

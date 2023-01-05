@@ -145,6 +145,12 @@ namespace Services { namespace Parsers {
         {
             this->ParseContentLengthBody();
         }
+        else // no body length specified - treat whatever is received as body and wait until connection is closed
+        {
+            this->Body.append(this->UnprocessedBodyDataReceived);
+            this->UnprocessedBodyDataReceived.clear();
+            this->UnspecifiedBodyLength = true;
+        }
     }
 
     void HttpParsersBase::ParseChunkedTransferEncoding()
@@ -281,6 +287,5 @@ namespace Services { namespace Parsers {
             this->ParseFailReason = "";
         }
     }
-
 
 }}; // Parsers

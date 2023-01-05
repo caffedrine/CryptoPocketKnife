@@ -61,6 +61,7 @@ namespace Services { namespace Parsers {
         QList<QByteArray> HeadersVals;
         QMap<QByteArray, int>HeaderIdx; // Can't use single Map due to duplicate headers
         QByteArray Body;
+        bool UnspecifiedBodyLength = false;
 
         virtual QByteArray GetFirstLine() = 0;
         virtual void clear();

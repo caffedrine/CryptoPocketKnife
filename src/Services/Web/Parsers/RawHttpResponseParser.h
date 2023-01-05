@@ -19,6 +19,7 @@ class RawHttpResponseParser: public Services::Parsers::HttpParsersBase
         bool IsKeepAliveEnabled();
         QByteArray GetHttpResponseCodeDescription() { return this->ResponseCodeDesc; };
         QByteArray GetFirstLine();
+        void ConnectionCloseReceived();
 
         void clear();
 

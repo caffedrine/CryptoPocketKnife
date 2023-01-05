@@ -120,7 +120,20 @@ void RawHttpWebRequest::Conn_TcpConnected()
 
 void RawHttpWebRequest::Conn_TcpDisconnected()
 {
-    this->Log("Disconnected from host " + this->tcpSocket->peerAddress().toString() + ":" + QString::number(this->tcpSocket->peerPort()));
+    QString disconnectInitiator = "";
+    if (this->tcpSocket->error() == QAbstractSocket::RemoteHostClosedError) {
+        disconnectInitiator = "server";
+    } else if (this->tcpSocket->error() == QAbstractSocket::UnknownSocketError) {
+        disconnectInitiator = "client";
+    } else {
+        disconnectInitiator = "error";
+    }
+
+    // Mark HTTP response as complete if Connection: close header was set and connection was closed by the server
+    if( disconnectInitiator == "server" && this->currResponse.GetHeaderByName("Connection").contains("close") )
+        this->currResponse.ConnectionCloseReceived();
+
+    this->Log("Disconnected from host " + this->tcpSocket->peerAddress().toString() + ":" + QString::number(this->tcpSocket->peerPort()) + ", initiated by " + disconnectInitiator);
 
     // If error occurred, response was already send
     if(!this->ErrorOccurred)
