@@ -7,6 +7,9 @@
 #endif
 #include "Logger.h"
 
+#include <QListView>
+#include <QListViewModel.h>
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -26,4 +29,22 @@ int main(int argc, char *argv[])
     logger->info("App started...");
     w.show();
     return a.exec();
+
+//    QListView view;
+//    view.setEditTriggers(QAbstractItemView::AllEditTriggers);
+//
+//    QModelIndex index = view.currentIndex();
+//    view.edit(index);
+//
+//    QStringList lines; lines << "aaa" << "bbb";
+//    QListViewModel model(lines);
+//    view.setModel(&model);
+//
+//    view.show();
+//
+//    QEventLoop waitLoop;
+//    QObject::connect( &view, &QListView::destroyed, [&waitLoop](){
+//        waitLoop.exec();
+//    });
+//    return waitLoop.exec();
 }

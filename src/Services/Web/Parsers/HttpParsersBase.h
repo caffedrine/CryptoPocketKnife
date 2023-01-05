@@ -12,6 +12,19 @@ namespace Services { namespace Parsers {
 
     class HttpParsersBase
     {
+        enum ChunksParserState
+        {
+            CHNK_INVALID = 0,
+            CHNK_WAIT_LENGTH = 1,
+            CHNK_WAIT_CONTENT = 2,
+            CHNK_WAIT_CONTENT_EOF = 3,
+            CHNK_WAIT_FINAL_EOF = 4,
+            CHNK_PARSE_COMPLETED = 5
+        };
+
+        ChunksParserState ChunkedParsingState = CHNK_INVALID;
+        quint64 currentChunkLength = -1;
+
     public:
         void addData(QByteArray chunkData);
 
@@ -29,7 +42,7 @@ namespace Services { namespace Parsers {
     protected:
         HttpParsersBase() = default;
 
-        enum ParserState
+        enum GlobalParserState
         {
             PARSE_FIRST_LINE,
             PARSE_HEADERS,
@@ -38,9 +51,9 @@ namespace Services { namespace Parsers {
             PARSE_FAILED,
         };
 
-        QByteArray UnprocessedChunk;
+        QByteArray UnprocessedBodyDataReceived;
         QByteArray RawData;
-        ParserState State = PARSE_FIRST_LINE;
+        GlobalParserState GlobalParserState = PARSE_FIRST_LINE;
         QString ParseFailReason;
 
         QByteArray HttpVersion;
@@ -55,8 +68,11 @@ namespace Services { namespace Parsers {
         virtual void ParseFirstLine() = 0;
         virtual void ParseHeaders();
         virtual void ParseBody();
-    };
 
+        // HTTP fragments - still parts of the body
+        virtual void ParseContentLengthBody();
+        virtual void ParseChunkedTransferEncoding();
+    };
 }}; // Namespaces
 
 #endif //_HTTPPARSERSBASE_H_

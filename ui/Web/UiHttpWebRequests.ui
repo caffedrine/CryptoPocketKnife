@@ -564,7 +564,7 @@ User-Agent: Crypto Pocket Knife 1.1
     <item row="1" column="0">
      <widget class="QLabel" name="label_State">
       <property name="text">
-       <string>State: idle</string>
+       <string>GlobalParserState: idle</string>
       </property>
      </widget>
     </item>

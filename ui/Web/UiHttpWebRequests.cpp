@@ -391,7 +391,7 @@ void UiHttpWebRequests::on_treeWidget_HistoryList_customContextMenuRequested(con
         QPlainTextEdit *editor = new QPlainTextEdit(this->RequestsHistory.at(row).first.DataFlowLog.join("\n"));
         editor->setWindowTitle("Flow info for request on " + this->RequestsHistory.at(row).first.Metadata.Host + ":" +
                                QString::number(this->RequestsHistory.at(row).first.Metadata.Port) + " at " + tm.toString("yyyy-MM-dd hh:mm:ss.zzz"));
-        editor->setBaseSize(QSize(800, 400));
+        editor->resize(800, 400);
         editor->setAttribute(Qt::WA_DeleteOnClose);
         editor->show();
     });

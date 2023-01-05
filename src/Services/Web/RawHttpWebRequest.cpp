@@ -152,6 +152,8 @@ void RawHttpWebRequest::Conn_ReadyRead()
     {
         this->tcpSocket->disconnectFromHost();
     }
+
+    // in case parsing failed, just wait to reach time out in case there is some more data.
 }
 
 void RawHttpWebRequest::Log(const QString &str)

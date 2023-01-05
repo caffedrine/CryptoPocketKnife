@@ -6,12 +6,12 @@ namespace Services { namespace Parsers {
 
     RawHttpResponseParser::RawHttpResponseParser()
     {
-        this->State = PARSE_FIRST_LINE;
+        this->GlobalParserState = PARSE_FIRST_LINE;
     }
 
     RawHttpResponseParser::RawHttpResponseParser(QByteArray responseChunk)
     {
-        this->State = PARSE_FIRST_LINE;
+        this->GlobalParserState = PARSE_FIRST_LINE;
         this->addData(responseChunk);
     }
 
@@ -22,21 +22,21 @@ namespace Services { namespace Parsers {
 
     void RawHttpResponseParser::ParseFirstLine()
     {
-        if(!this->UnprocessedChunk.contains("\r\n"))
+        if(!this->UnprocessedBodyDataReceived.contains("\r\n"))
         {
             this->ParseFailReason = "no first line with version detected";
             return;
         }
 
         // Extract first line and remove it from buffer
-        QByteArray firstLine = this->UnprocessedChunk.left(this->UnprocessedChunk.indexOf("\r\n"));
-        this->UnprocessedChunk.remove(0, this->UnprocessedChunk.indexOf("\r\n") + 2);
+        QByteArray firstLine = this->UnprocessedBodyDataReceived.left(this->UnprocessedBodyDataReceived.indexOf("\r\n"));
+        this->UnprocessedBodyDataReceived.remove(0, this->UnprocessedBodyDataReceived.indexOf("\r\n") + 2);
 
         // Three elements separated by three spaces
         if(!firstLine.contains(' '))
         {
             this->ParseFailReason = "first line does not contain properly formatted version and response code (no spaces found)";
-            this->State = PARSE_FAILED;
+            this->GlobalParserState = PARSE_FAILED;
             return;
         }
 
@@ -45,7 +45,7 @@ namespace Services { namespace Parsers {
         if(elements.length() < 2)
         {
             this->ParseFailReason = "first line does not contain properly formatted version and response code (there must be 2-3 elements found)";
-            this->State = PARSE_FAILED;
+            this->GlobalParserState = PARSE_FAILED;
             return;
         }
 
@@ -53,7 +53,7 @@ namespace Services { namespace Parsers {
         if(!elements.first().toLower().startsWith("http/"))
         {
             this->ParseFailReason = "invalid http version";
-            this->State = PARSE_FAILED;
+            this->GlobalParserState = PARSE_FAILED;
             return;
         }
         this->HttpVersion = elements.first();
@@ -64,7 +64,7 @@ namespace Services { namespace Parsers {
         if(!isNumber)
         {
             this->ParseFailReason = "invalid response code";
-            this->State = PARSE_FAILED;
+            this->GlobalParserState = PARSE_FAILED;
             return;
         }
         this->ResponseCode = intNo;
@@ -75,7 +75,7 @@ namespace Services { namespace Parsers {
             this->ResponseCodeDesc = elements.join(' ');
 
         // If all is good so far, advance to next state and parse headers
-        this->State = PARSE_HEADERS;
+        this->GlobalParserState = PARSE_HEADERS;
         this->ParseFailReason.clear();
     }
 

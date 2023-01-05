@@ -4,20 +4,20 @@ namespace Services { namespace Parsers {
 
     void HttpParsersBase::addData(QByteArray chunkData)
     {
-        this->UnprocessedChunk.append(chunkData);
+        this->UnprocessedBodyDataReceived.append(chunkData);
         this->RawData.append(chunkData);
 
-        if(this->State == PARSE_FIRST_LINE)
+        if(this->GlobalParserState == PARSE_FIRST_LINE)
         {
             this->ParseFirstLine();
         }
 
-        if(this->State == PARSE_HEADERS)
+        if(this->GlobalParserState == PARSE_HEADERS)
         {
             this->ParseHeaders();
         }
 
-        if(this->State == PARSE_BODY || this->State == PARSE_COMPLETED)
+        if(this->GlobalParserState == PARSE_BODY || this->GlobalParserState == PARSE_COMPLETED)
         {
             this->ParseBody();
         }
@@ -25,14 +25,14 @@ namespace Services { namespace Parsers {
 
     bool HttpParsersBase::HaveHeader(QByteArray headerName)
     {
-        return this->HeaderIdx.find(headerName) != this->HeaderIdx.end();
+        return this->HeaderIdx.find(headerName.toLower()) != this->HeaderIdx.end();
     }
 
     QByteArray HttpParsersBase::GetHeaderByName(QByteArray headerName)
     {
-        if( this->HeaderIdx.find(headerName) != this->HeaderIdx.end())
+        if( this->HeaderIdx.find(headerName.toLower()) != this->HeaderIdx.end())
         {
-            return this->HeadersVals.at(this->HeaderIdx[headerName]);
+            return this->HeadersVals.at(this->HeaderIdx[headerName.toLower()]);
         }
         return QByteArray();
     }
@@ -65,19 +65,19 @@ namespace Services { namespace Parsers {
 
     bool HttpParsersBase::IsValidHttpData()
     {
-        return this->State != PARSE_COMPLETED;
+        return this->GlobalParserState != PARSE_COMPLETED;
     }
 
     bool HttpParsersBase::IsCompleteHttpData()
     {
-        return this->State == PARSE_COMPLETED;
+        return this->GlobalParserState == PARSE_COMPLETED;
     }
 
     void HttpParsersBase::clear()
     {
-        this->UnprocessedChunk.clear();
+        this->UnprocessedBodyDataReceived.clear();
         this->RawData.clear();
-        this->State = PARSE_FIRST_LINE;
+        this->GlobalParserState = PARSE_FIRST_LINE;
         this->ParseFailReason.clear();
 
         this->HttpVersion.clear();
@@ -89,30 +89,30 @@ namespace Services { namespace Parsers {
 
     void HttpParsersBase::ParseHeaders()
     {
-        if(!this->UnprocessedChunk.contains("\r\n"))
+        if(!this->UnprocessedBodyDataReceived.contains("\r\n"))
             return;
 
         QByteArray headersToBeProcessed;
 
         // Full body received?
-        if(this->UnprocessedChunk.contains("\r\n\r\n"))
+        if(this->UnprocessedBodyDataReceived.contains("\r\n\r\n"))
         {
-            headersToBeProcessed = this->UnprocessedChunk.left(this->UnprocessedChunk.indexOf("\r\n\r\n"));
-            this->UnprocessedChunk.remove(0, this->UnprocessedChunk.indexOf("\r\n\r\n") + 4);
-            this->State = PARSE_BODY;
+            headersToBeProcessed = this->UnprocessedBodyDataReceived.left(this->UnprocessedBodyDataReceived.indexOf("\r\n\r\n"));
+            this->UnprocessedBodyDataReceived.remove(0, this->UnprocessedBodyDataReceived.indexOf("\r\n\r\n") + 4);
+            this->GlobalParserState = PARSE_BODY;
         }
         else
         {
             // Complete headers received?
-            if(this->UnprocessedChunk.endsWith("\r\n"))
+            if(this->UnprocessedBodyDataReceived.endsWith("\r\n"))
             {
-                headersToBeProcessed = this->UnprocessedChunk;
-                this->UnprocessedChunk.clear();
+                headersToBeProcessed = this->UnprocessedBodyDataReceived;
+                this->UnprocessedBodyDataReceived.clear();
             }
-            else if(this->UnprocessedChunk.contains("\r\n")) // Last header from list is not completed? leave it for next time and process what we have so far
+            else if(this->UnprocessedBodyDataReceived.contains("\r\n")) // Last header from list is not completed? leave it for next time and process what we have so far
             {
-                headersToBeProcessed = this->UnprocessedChunk.left(this->UnprocessedChunk.lastIndexOf("\r\n"));
-                this->UnprocessedChunk.remove(0, this->UnprocessedChunk.lastIndexOf("\r\n"));
+                headersToBeProcessed = this->UnprocessedBodyDataReceived.left(this->UnprocessedBodyDataReceived.lastIndexOf("\r\n"));
+                this->UnprocessedBodyDataReceived.remove(0, this->UnprocessedBodyDataReceived.lastIndexOf("\r\n"));
             }
         }
 
@@ -121,7 +121,7 @@ namespace Services { namespace Parsers {
         {
             if(!header.contains(":"))
             {
-                this->State = PARSE_FAILED;
+                this->GlobalParserState = PARSE_FAILED;
                 this->ParseFailReason = "invalid header detected: '" + header + "'";
                 return;
             }
@@ -129,22 +129,137 @@ namespace Services { namespace Parsers {
             QByteArray headerName = header.left(header.indexOf(':'));
             QByteArray headerValue = header.right(header.length() - 1 - header.indexOf(':'));
 
-            this->HeadersVals.append(headerValue);
-            this->HeadersNames.append(headerName);
-            this->HeaderIdx[headerName] = this->HeadersNames.count() - 1;
+            this->HeadersVals.append(headerValue.trimmed());
+            this->HeadersNames.append(headerName.trimmed());
+            this->HeaderIdx[headerName.trimmed().toLower()] = this->HeadersNames.count() - 1;
         }
     }
 
     void HttpParsersBase::ParseBody()
     {
-        this->Body.append(this->UnprocessedChunk);
-        this->UnprocessedChunk.clear();
-
-        int expectedLength = 0;
-        if(this->HaveHeader("Content-Length"))
+        if( this->GetHeaderByName("Transfer-Encoding").toLower().contains("chunked"))
         {
-            expectedLength = QString(this->GetHeaderByName("Content-Length")).toInt();
+            this->ParseChunkedTransferEncoding();
         }
+        else if(this->HaveHeader("Content-Length"))
+        {
+            this->ParseContentLengthBody();
+        }
+    }
+
+    void HttpParsersBase::ParseChunkedTransferEncoding()
+    {
+        // Here for the first time. Read first byte length form the body;
+        if( ChunkedParsingState == ChunksParserState::CHNK_INVALID )
+        {
+            ChunkedParsingState = ChunksParserState::CHNK_WAIT_LENGTH;
+            this->currentChunkLength = -1;
+        }
+
+        // Get the length of the chunk
+        if( ChunkedParsingState == ChunksParserState::CHNK_WAIT_LENGTH )
+        {
+            // Length needs to be terminated with \r\n. If this token is not found, just wait for some more incoming data
+            if( this->UnprocessedBodyDataReceived.contains("\r\n") )
+            {
+                bool ok  = false;
+                //this->currentChunkLength = QString(this->UnprocessedBodyDataReceived).split(QRegularExpression("\r\n"))[0].toInt(&ok, 16);
+                this->currentChunkLength = QString(this->UnprocessedBodyDataReceived.left(this->UnprocessedBodyDataReceived.indexOf("\r\n"))).toInt(&ok, 16);
+
+                // consume bytes from unprocessed data
+                this->UnprocessedBodyDataReceived.remove(0, this->UnprocessedBodyDataReceived.indexOf("\r\n") + 2);
+
+                // If length is invalid, just abort
+                if( !ok )
+                {
+                    this->ParseFailReason = "invalid chunk length received (expected number of bytes in HEX format)";
+                    this->GlobalParserState = GlobalParserState::PARSE_FAILED;
+                    this->ChunkedParsingState = ChunksParserState::CHNK_INVALID;
+                }
+
+                // Chunk length 0 means this was the last packet.
+                else if(this->currentChunkLength == 0)
+                {
+                    this->ChunkedParsingState = ChunksParserState::CHNK_WAIT_FINAL_EOF;
+                }
+
+                // Correct length received, switch to next state - waiting for actual content to be transferred
+                else
+                {
+                    this->ChunkedParsingState = ChunksParserState::CHNK_WAIT_CONTENT;
+                }
+            }
+        }
+
+        // Get the content of the chunk
+        if( this->ChunkedParsingState == ChunksParserState::CHNK_WAIT_CONTENT )
+        {
+            // All the data was received
+            if( this->UnprocessedBodyDataReceived.length() >= this->currentChunkLength )
+            {
+                this->Body.append(this->UnprocessedBodyDataReceived.left(this->currentChunkLength));
+                //  Consume data from reception buffer
+                this->UnprocessedBodyDataReceived.remove(0, this->currentChunkLength);
+                // Switch to next state
+                this->ChunkedParsingState = ChunksParserState::CHNK_WAIT_CONTENT_EOF;
+            }
+        }
+
+        // Get chunk EOF
+        if( this->ChunkedParsingState == ChunksParserState::CHNK_WAIT_CONTENT_EOF )
+        {
+            if( this->UnprocessedBodyDataReceived.size() >= 2 )
+            {
+                if( this->UnprocessedBodyDataReceived[0] == '\r' && this->UnprocessedBodyDataReceived[1] == '\n' )
+                {
+                    // Consume the EOF and switch to next state
+                    this->UnprocessedBodyDataReceived.remove(0, 2);
+                    this->ChunkedParsingState = ChunksParserState::CHNK_WAIT_LENGTH;
+                }
+                else
+                {
+                    this->ParseFailReason = "invalid chunk EOF received (expected '\\r\\n' after each chunk)";
+                    this->GlobalParserState = GlobalParserState::PARSE_FAILED;
+                    this->ChunkedParsingState = ChunksParserState::CHNK_INVALID;
+                }
+            }
+        }
+
+        // Get final EOF
+        if( this->ChunkedParsingState == ChunksParserState::CHNK_WAIT_FINAL_EOF )
+        {
+            if( this->UnprocessedBodyDataReceived.size() >= 2 )
+            {
+                if( this->UnprocessedBodyDataReceived[0] == '\r' && this->UnprocessedBodyDataReceived[1] == '\n' )
+                {
+                    this->ParseFailReason = "";
+                    this->GlobalParserState = GlobalParserState::PARSE_COMPLETED;
+                    this->ChunkedParsingState = ChunksParserState::CHNK_PARSE_COMPLETED;
+                    this->UnprocessedBodyDataReceived.remove(0, 2);
+                }
+                else
+                {
+                    this->ParseFailReason = "final chunk end token is wrong, expected '\\r\\n'";
+                    this->GlobalParserState = GlobalParserState::PARSE_FAILED;
+                    this->ChunkedParsingState = ChunksParserState::CHNK_INVALID;
+                }
+            }
+        }
+
+        // This function is executed only on events. We need to process all possible events in the loop
+        if( (this->UnprocessedBodyDataReceived.contains("\r\n") && (ChunkedParsingState == ChunksParserState::CHNK_WAIT_LENGTH))
+        && (this->ChunkedParsingState != ChunksParserState::CHNK_INVALID) && (this->ChunkedParsingState != ChunksParserState::CHNK_PARSE_COMPLETED))
+        {
+            this->ParseChunkedTransferEncoding();
+        }
+    }
+
+    void HttpParsersBase::ParseContentLengthBody()
+    {
+        this->Body.append(this->UnprocessedBodyDataReceived);
+        this->UnprocessedBodyDataReceived.clear();
+
+        int expectedLength = QString(this->GetHeaderByName("Content-Length")).toInt();
 
         if(expectedLength > 0)
         {
@@ -154,17 +269,18 @@ namespace Services { namespace Parsers {
             }
             else
             {
-                this->State = PARSE_COMPLETED;
+                this->GlobalParserState = PARSE_COMPLETED;
                 // Also clear last error when successfully finished
                 this->ParseFailReason = "";
             }
         }
         else
         {
-            this->State = PARSE_COMPLETED;
+            this->GlobalParserState = PARSE_COMPLETED;
             // Also clear last error when successfully finished
             this->ParseFailReason = "";
         }
     }
+
 
 }}; // Parsers

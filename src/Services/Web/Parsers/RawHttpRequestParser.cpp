@@ -6,32 +6,32 @@ namespace Services { namespace Parsers {
 
 RawHttpRequestParser::RawHttpRequestParser()
 {
-    this->State = PARSE_FIRST_LINE;
+    this->GlobalParserState = PARSE_FIRST_LINE;
 }
 
 RawHttpRequestParser::RawHttpRequestParser(QByteArray responseChunk)
 {
-    this->State = PARSE_FIRST_LINE;
+    this->GlobalParserState = PARSE_FIRST_LINE;
     this->addData(responseChunk);
 }
 
 void RawHttpRequestParser::ParseFirstLine()
 {
-    if(!this->UnprocessedChunk.contains("\r\n"))
+    if(!this->UnprocessedBodyDataReceived.contains("\r\n"))
     {
         this->ParseFailReason = "no first line with version detected";
         return;
     }
 
     // Extract first line and remove it from buffer
-    QByteArray firstLine = this->UnprocessedChunk.left(this->UnprocessedChunk.indexOf("\r\n"));
-    this->UnprocessedChunk.remove(0, this->UnprocessedChunk.indexOf("\r\n") + 2);
+    QByteArray firstLine = this->UnprocessedBodyDataReceived.left(this->UnprocessedBodyDataReceived.indexOf("\r\n"));
+    this->UnprocessedBodyDataReceived.remove(0, this->UnprocessedBodyDataReceived.indexOf("\r\n") + 2);
 
     // Three elements separated by three spaces
     if(!firstLine.contains(' '))
     {
         this->ParseFailReason = "first line does not contain properly formatted METHOD PATH VERSION (no spaces found)";
-        this->State = PARSE_FAILED;
+        this->GlobalParserState = PARSE_FAILED;
         return;
     }
 
@@ -40,7 +40,7 @@ void RawHttpRequestParser::ParseFirstLine()
     if(elements.count() < 3)
     {
         this->ParseFailReason = "first line does not contain properly METHOD PATH VERSION (there must be 3 elements found)";
-        this->State = PARSE_FAILED;
+        this->GlobalParserState = PARSE_FAILED;
         return;
     }
 
@@ -56,7 +56,7 @@ void RawHttpRequestParser::ParseFirstLine()
     this->Path = elements.join(' ');
 
     // If all is good so far, advance to next state and parse headers
-    this->State = PARSE_HEADERS;
+    this->GlobalParserState = PARSE_HEADERS;
     this->ParseFailReason.clear();
 }
 
