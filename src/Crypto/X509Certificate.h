@@ -4,11 +4,6 @@
 #include <QString>
 #include <QByteArray>
 
-class X509Certificate
-{
-
-};
-
 namespace Core { namespace Crypto { namespace x509 {
     QString GetCertHumanReadableFormat(const QByteArray &certBytes);
 

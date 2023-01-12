@@ -5,13 +5,17 @@
 #include <QSslCertificate>
 #include <QSslCertificateExtension>
 
+//#include <x509-parser.h>
+
 namespace Core { namespace Crypto { namespace x509 {
     QString GetCertHumanReadableFormat(const QByteArray &certBytes)
     {
+
+
         auto GetSubjInfoHumanReadable = [](const QSslCertificate &cert, bool subject) -> QString {
-            QMap<int, QString> tagStr = {{QSslCertificate::SubjectInfo::Organization, "ORG"},
+            QMap<int, QString> tagStr = {{QSslCertificate::SubjectInfo::Organization, "O"},
                                          {QSslCertificate::SubjectInfo::CommonName, "CN"},
-                                         {QSslCertificate::SubjectInfo::LocalityName, "LN"},
+                                         {QSslCertificate::SubjectInfo::LocalityName, "L"},
                                          {QSslCertificate::SubjectInfo::OrganizationalUnitName, "OUN"},
                                          {QSslCertificate::SubjectInfo::CountryName, "C"},
                                          {QSslCertificate::SubjectInfo::StateOrProvinceName, "ST"},
@@ -20,7 +24,7 @@ namespace Core { namespace Crypto { namespace x509 {
                                          {QSslCertificate::SubjectInfo::EmailAddress, "EMAIL"}};
             QMap<int, QString>::iterator i;
 
-            QString output = "";
+            QString output;
             bool AlreadyStarted = false;
             for (i = tagStr.begin(); i != tagStr.end(); ++i)
             {

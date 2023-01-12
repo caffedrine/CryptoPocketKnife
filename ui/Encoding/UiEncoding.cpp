@@ -1,6 +1,7 @@
 #include <QTextDocument>
 #include <QFileDialog>
 #include <QElapsedTimer>
+#include <QSaveFile>
 #include "UiEncoding.h"
 #include "ui_UiEncoding.h"
 #include "utils.h"
@@ -48,6 +49,7 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 {
     QElapsedTimer globalTimer;
     globalTimer.start();
+    this->CurrentBytes = bytes;
 
     // Disable triggering "OnTextChange" event for the boxes that are being updated since this is a programatically triggered event.
     this->BypassOnChangeEventFlag = true;
@@ -364,4 +366,21 @@ void UiEncoding::on_textEdit_EncodeDecode_HtmlDecoded_textChanged()
 
     this->ui->textEdit_EncodeDecode_HtmlEncoded->setText( tmp );
     this->BypassOnChangeEventFlag = false;
+}
+
+void UiEncoding::on_pushButton_SaveAs_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                                    "dump.bin",
+                                                    tr("Binary format (*.bin);;Text format (*.txt)"));
+
+    if( fileName.isEmpty() )
+        return;
+
+    // Write data to file
+    QSaveFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+    file.write(this->CurrentBytes);
+    // Calling commit() is mandatory, otherwise nothing will be written.
+    file.commit();
 }

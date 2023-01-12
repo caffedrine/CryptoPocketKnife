@@ -23,7 +23,7 @@ public:
 private:
     Ui::UiEncoding *ui;
     bool BypassOnChangeEventFlag = false;
-
+    QByteArray CurrentBytes;
 
 private slots:
     // Encoding/decoding
@@ -35,6 +35,7 @@ private slots:
     void on_textEdit_EncodeDecode_General_Number_textChanged();
     void on_pushButton_EncodeDecode_General_ClearAll_clicked();
     void on_pushButton_EncodeDecode_General_LoadBinary_clicked();
+    void on_pushButton_SaveAs_clicked();
     void on_textEdit_EncodeDecode_General_Base64_textChanged();
     void on_textEdit_EncodeDecode_General_AlphanumericStrings_textChanged();
     void OnRawDataFileDragged(QString filename);

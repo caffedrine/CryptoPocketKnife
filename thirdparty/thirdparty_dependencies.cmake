@@ -2,11 +2,23 @@
 set(THIRD_PARTY_SRC "")
 set(THIRD_PARTY_LIBS "")
 set(THIRD_PARTY_INCLUDES "")
+set(THIRD_PARTY_COPY_TO_OUTPUT "")
 
 # Include spdlog logger
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spdlog)
 #include_directories(thirdparty/spdlog/include) # there is also to build sources instead of lib
 list(APPEND THIRD_PARTY_LIBS spdlog::spdlog)
+
+# Include x509 parser
+list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src)
+file(GLOB_RECURSE lib_x509_parser_src ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.cpp ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.c)
+add_library(x509-parser-lib ${lib_x509_parser_src})
+list(APPEND THIRD_PARTY_LIBS x509-parser-lib)
+
+# Include GnuTLS
+#list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/GnuTLS/includes)
+##find_library(GnuTLS_LIB NAMES libgnutls HINTS "${CMAKE_CURRENT_LIST_DIR}/GnuTLS/lib" REQUIRED)
+#list(APPEND THIRD_PARTY_LIBS ${CMAKE_CURRENT_LIST_DIR}/GnuTLS/lib/libgnutls.dll.a)
 
 # Include BigIntegers
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/BigInt)

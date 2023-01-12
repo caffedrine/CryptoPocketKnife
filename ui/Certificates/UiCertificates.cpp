@@ -120,8 +120,8 @@ void UiCertificates::ParseCert()
     }
 
     ui->textEdit_certificates_Parse_ParsedCertificate->clear();
-    ui->textEdit_certificates_Parse_ParsedCertificate->append(Core::Crypto::x509::GetCertHumanReadableFormat(this->LastParsedCert) + "\n");
 
+    ui->textEdit_certificates_Parse_ParsedCertificate->append(Core::Crypto::x509::GetCertHumanReadableFormat(this->LastParsedCert) + "\n");
     if( this->ui->checkBox_CertOpensslOutput->isChecked() )
     {
         // Use openssl to parse certificate

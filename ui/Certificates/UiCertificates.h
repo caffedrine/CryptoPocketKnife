@@ -7,6 +7,7 @@
 #include <QSslCertificate>
 #include <QSslCertificateExtension>
 #include "X509Certificate.h"
+
 //
 // USefully to autodetect multiple certificates in the same string
 // https://letsencrypt.org/docs/a-warm-welcome-to-asn1-and-der/
