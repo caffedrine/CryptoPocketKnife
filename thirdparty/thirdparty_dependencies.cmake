@@ -20,6 +20,10 @@ list(APPEND THIRD_PARTY_LIBS x509-parser-lib)
 ##find_library(GnuTLS_LIB NAMES libgnutls HINTS "${CMAKE_CURRENT_LIST_DIR}/GnuTLS/lib" REQUIRED)
 #list(APPEND THIRD_PARTY_LIBS ${CMAKE_CURRENT_LIST_DIR}/GnuTLS/lib/libgnutls.dll.a)
 
+# Include random analyzer
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/random_test)
+list(APPEND THIRD_PARTY_LIBS Random::RandomTest)
+
 # Include BigIntegers
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/BigInt)
 list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/BigInt/*.cpp)
