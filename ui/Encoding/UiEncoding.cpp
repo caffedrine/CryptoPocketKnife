@@ -111,8 +111,8 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->encoding_lineEdit_SHA512->clear();
         this->ui->encoding_lineEdit_SHA3_512->clear();
         this->ui->encoding_lineEdit_KECCAK512->clear();
-        this->ui->encoding_lineEdit_CRC16->clear();
-        this->ui->encoding_lineEdit_CRC32->clear();
+//        this->ui->encoding_lineEdit_CRC16->clear();
+//        this->ui->encoding_lineEdit_CRC32->clear();
     }
     else
     {
@@ -123,19 +123,19 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
         this->ui->encoding_lineEdit_KECCAK512->setText(QCryptographicHash::hash(bytes, QCryptographicHash::Keccak_512).toHex());
 
         // Calculate quick checksums
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-        this->ui->encoding_lineEdit_CRC16->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumIso3309), 16));
-        this->ui->encoding_lineEdit_CRC32->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumItuV41), 16));
-#pragma GCC diagnostic pop
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+//        this->ui->encoding_lineEdit_CRC16->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumIso3309), 16));
+//        this->ui->encoding_lineEdit_CRC32->setText(QString::number(qChecksum(bytes.data(), bytes.length(), Qt::ChecksumType::ChecksumItuV41), 16));
+//#pragma GCC diagnostic pop
 
         // Set cursor to initial positions for cursor. Show results from the beginning
         this->ui->encoding_lineEdit_MD5->setCursorPosition(0);
         this->ui->encoding_lineEdit_SHA512->setCursorPosition(0);
         this->ui->encoding_lineEdit_SHA3_512->setCursorPosition(0);
         this->ui->encoding_lineEdit_KECCAK512->setCursorPosition(0);
-        this->ui->encoding_lineEdit_CRC16->setCursorPosition(0);
-        this->ui->encoding_lineEdit_CRC32->setCursorPosition(0);
+//        this->ui->encoding_lineEdit_CRC16->setCursorPosition(0);
+//        this->ui->encoding_lineEdit_CRC32->setCursorPosition(0);
     }
 
     // Since the boxes were updated, enable event back. As any further change will be a user change.
@@ -273,7 +273,10 @@ void UiEncoding::on_textEdit_EncodeDecode_General_Number_textChanged()
     }
 
     if( number.isEmpty() )
+    {
+        this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray(), "number");
         return;
+    }
 
     BigInt n(number.toStdString());
     bytes = Utils_RawHexStrToQByteArr( QString::fromStdString(n.to_hex_str()) );
