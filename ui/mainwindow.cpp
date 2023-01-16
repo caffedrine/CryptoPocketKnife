@@ -2,8 +2,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "GeoIP.h"
-
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -52,10 +50,10 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionLogs_triggered()
 {
-    loggerContentGui->setWindowTitle("Application logs");
-    loggerContentGui->setReadOnly(true);
-    loggerContentGui->setMinimumSize(QSize(800, 400));
-    loggerContentGui->showNormal();
+    base::loggerContentGui->setWindowTitle("Application logs");
+    base::loggerContentGui->setReadOnly(true);
+    base::loggerContentGui->setMinimumSize(QSize(800, 400));
+    base::loggerContentGui->showNormal();
 }
 
 /*   _    _ _   _ _

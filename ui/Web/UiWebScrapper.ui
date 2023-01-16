@@ -149,7 +149,7 @@
   <customwidget>
    <class>AdvancedTableWidget</class>
    <extends>QTableWidget</extends>
-   <header>AdvancedTableWidget.h</header>
+   <header>base/extensions/AdvancedTableWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

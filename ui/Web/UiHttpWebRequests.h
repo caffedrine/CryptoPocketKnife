@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QMainWindow>
 
-#include "uriparser/Uri.h"
+#include "base/thirdparty/uriparser/Uri.h"
 #include "base/services/Web/RawHttpWebRequest.h"
 #include "base/services/Web/Parsers/RawHttpResponseParser.h"
 #include "base/services/Web/Parsers/RawHttpRequestParser.h"

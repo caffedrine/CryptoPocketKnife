@@ -2,7 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UIJSONTREE_H
 
 #include <QWidget>
-#include <thirdparty/>
+#include <base/thirdparty/QJsonModel/QJsonModel.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui

@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include <eddsa.h>
+#include "base/crypto/Hash.h"
 #include "base/utils/utils.h"
 
 UiKeyExchange::UiKeyExchange(QWidget *parent): QWidget(parent), ui(new Ui::UiKeyExchange)
@@ -167,7 +168,7 @@ void UiKeyExchange::on_x25519_pushButton_CalcSymKeys_clicked()
     memcpy(hashMaterial, nonce, sizeof (nonce));
     memcpy(&hashMaterial[sizeof(nonce)], ownSharedSecret, sizeof(ownSharedSecret));
     // Calculate hash
-    Utils_Sha512(hashMaterial, sizeof(hashMaterial), hashResult);
+     (hashMaterial, sizeof(hashMaterial), hashResult);
     // Extract key and IV from calculated hash
     memcpy(ownSymKey, hashResult, 16u);
     memcpy(ownAesIv, &hashResult[sizeof (hashResult) - 16u], 16u);
@@ -176,7 +177,8 @@ void UiKeyExchange::on_x25519_pushButton_CalcSymKeys_clicked()
     memcpy(hashMaterial, nonce, sizeof (nonce));
     memcpy(&hashMaterial[sizeof(nonce)], otherSharedSecret, sizeof(otherSharedSecret));
     // Calculate hash
-    Utils_Sha512(hashMaterial, sizeof(hashMaterial), hashResult);
+    QByteArray hashResultTmp = base::Crypto::Hash::SHA2_512(QByteArray(reinterpret_cast<const char *>(hashMaterial), sizeof(hashMaterial)));
+    memcpy(hashResult, hashResultTmp.data(), hashResultTmp.size());
     // Extract key and IV from calculated hash
     memcpy(otherSymKey, hashResult, 16u);
     memcpy(otherAesIv, &hashResult[sizeof (hashResult) - 16u], 16u);

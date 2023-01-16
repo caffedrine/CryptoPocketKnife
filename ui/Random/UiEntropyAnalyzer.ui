@@ -69,7 +69,7 @@
   <customwidget>
    <class>AdvancedPlainTextEdit</class>
    <extends>QPlainTextEdit</extends>
-   <header>AdvancedPlainTextEdit.h</header>
+   <header>base/extensions/AdvancedPlainTextEdit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

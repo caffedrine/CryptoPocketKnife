@@ -653,7 +653,7 @@ User-Agent: Crypto Pocket Knife 1.1
   <customwidget>
    <class>QTreeWidgetExtended</class>
    <extends>QTreeWidget</extends>
-   <header>QTreeWidgetExtended.h</header>
+   <header>base/extensions/QTreeWidgetExtended.h</header>
   </customwidget>
  </customwidgets>
  <resources>

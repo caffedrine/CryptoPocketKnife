@@ -5,7 +5,7 @@ IF(CMAKE_BUILD_TYPE MATCHES Release)
     # Windows deployment
     if (WIN32)
         # Copy executable to deploy folder
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/${PROJECT_NAME}.exe" "${CMAKE_BINARY_DIR}/../Deploy/Windows/${PROJECT_NAME}.exe" COMMENT "Copying to output directory")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/bin_output" "${CMAKE_BINARY_DIR}/../Deploy/Windows/" COMMENT "Copying to output directory")
 
         # Copy additional windows libs
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/libs/precompiled/Windows/libeay32.dll" "${CMAKE_BINARY_DIR}/../Deploy/Windows/libeay32.dll" COMMENT "Copying required DLLs to output directory")
