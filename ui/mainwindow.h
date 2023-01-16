@@ -7,8 +7,8 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 
-#include "Logger.h"
-#include "utils.h"
+#include "base/utils/Logger.h"
+#include "base/utils/utils.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

@@ -16,6 +16,9 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Concurrent Xm
 # Include thirdparty libraries
 include(thirdparty/thirdparty_dependencies.cmake)
 
+# Include core functionality
+add_subdirectory(libs/QtAppBase)
+
 ###################################### Include recursively all the sources ##################################
 file(GLOB_RECURSE Proj_SOURCES "src/*.c" "src/*.cpp")
 file(GLOB_RECURSE Proj_HEADERS "src/*.h" "src/*.hpp" "ui/*.h")
@@ -50,7 +53,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Network
         Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Concurrent)
+        Qt${QT_VERSION_MAJOR}::Concurrent
+        base::QtAppBase)
 
 # Deployment execution
 include(deploy.cmake)

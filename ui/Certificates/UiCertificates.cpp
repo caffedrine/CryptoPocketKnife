@@ -6,7 +6,7 @@
 #include <QDebug>
 #include "UiCertificates.h"
 #include "ui_UiCertificates.h"
-#include "utils.h"
+#include "base/utils/utils.h"
 
 UiCertificates::UiCertificates(QWidget *parent): QWidget(parent), ui(new Ui::UiCertificates)
 {

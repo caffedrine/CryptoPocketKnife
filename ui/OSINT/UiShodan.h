@@ -2,7 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UISHODAN_H
 
 #include <QWidget>
-#include "UserSettings.h"
+#include "base/app/UserSettings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

@@ -10,13 +10,13 @@
 #include <QFuture>
 
 #include "UiHttpWebRequests.h"
-#include "TldCountry.h"
-#include "GeoIP.h"
-#include "WebScraper.h"
-#include "utils.h"
-#include "WebUtils.h"
-#include "LambdaEventFilter.h"
-#include "AdvancedTableWidget.h"
+#include "base/services/TldCountry/TldCountry.h"
+#include "base/services/GeoIP/GeoIP.h"
+#include "base/services/Web/WebScraper.h"
+#include "base/utils/utils.h"
+#include "base/utils/WebUtils.h"
+#include "base/utils/LambdaEventFilter.h"
+#include "base/extensions/AdvancedTableWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

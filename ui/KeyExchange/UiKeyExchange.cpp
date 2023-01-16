@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include <eddsa.h>
-#include "utils.h"
+#include "base/utils/utils.h"
 
 UiKeyExchange::UiKeyExchange(QWidget *parent): QWidget(parent), ui(new Ui::UiKeyExchange)
 {

@@ -3,7 +3,7 @@
 
 #include <QRandomGenerator>
 #include <eddsa.h>
-#include "utils.h"
+#include "base/utils/utils.h"
 
 
 UiDigitalSignatures::UiDigitalSignatures(QWidget *parent): QWidget(parent), ui(new Ui::UiDigitalSignatures)

@@ -2,8 +2,8 @@
 #include "ui_UiDomainWhois.h"
 
 #include <QHostInfo>
-#include "utils.h"
-#include "WebUtils.h"
+#include "base/utils/utils.h"
+#include "base/utils/WebUtils.h"
 
 UiDomainWhois::UiDomainWhois(QWidget *parent, QString domain): QWidget(parent), ui(new Ui::UiDomainWhois)
 {

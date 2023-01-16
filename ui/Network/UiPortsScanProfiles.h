@@ -9,8 +9,8 @@
 #include <QWidget>
 #include <QListWidgetItem>
 
-#include "QDialogExtended.h"
-#include "PortsScanProfilesManager.h"
+#include "base/extensions/QDialogExtended.h"
+#include "base/services/PortsScanner/PortsScanProfilesManager.h"
 
 using namespace Services::PortsScanner;
 

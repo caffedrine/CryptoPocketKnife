@@ -4,10 +4,10 @@
 #include <QWidget>
 #include <QMainWindow>
 
-#include "Uri.h"
-#include "RawHttpWebRequest.h"
-#include "RawHttpResponseParser.h"
-#include "RawHttpRequestParser.h"
+#include "uriparser/Uri.h"
+#include "base/services/Web/RawHttpWebRequest.h"
+#include "base/services/Web/Parsers/RawHttpResponseParser.h"
+#include "base/services/Web/Parsers/RawHttpRequestParser.h"
 
 using Services::Web::RawHttpWebRequest;
 using Services::Parsers::RawHttpResponseParser;

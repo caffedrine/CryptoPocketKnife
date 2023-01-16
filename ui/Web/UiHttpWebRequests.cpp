@@ -1,11 +1,11 @@
 #include "UiHttpWebRequests.h"
 #include "ui_UiHttpWebRequests.h"
-#include "RawHttpWebRequest.h"
-#include "utils.h"
+#include "base/data_structures/DomModel.h"
+#include "base/services/Web/Parsers/RawHttpResponseParser.h"
+#include "base/services/Web/RawHttpWebRequest.h"
+#include "base/utils/utils.h"
+#include "uriparser/Uri.h"
 #include "qjsonmodel.h"
-#include "DomModel.h"
-#include "Uri.h"
-#include "RawHttpResponseParser.h"
 
 #include <QTreeWidget>
 #include <QTcpSocket>

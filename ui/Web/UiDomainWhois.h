@@ -2,7 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UIDOMAINWHOIS_H
 
 #include <QWidget>
-#include "DomainWhois.h"
+#include "base/services/DomainWhois/DomainWhois.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

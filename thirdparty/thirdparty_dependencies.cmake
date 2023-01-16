@@ -4,10 +4,6 @@ set(THIRD_PARTY_LIBS "")
 set(THIRD_PARTY_INCLUDES "")
 set(THIRD_PARTY_COPY_TO_OUTPUT "")
 
-# Include spdlog logger
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/spdlog)
-#include_directories(thirdparty/spdlog/include) # there is also to build sources instead of lib
-list(APPEND THIRD_PARTY_LIBS spdlog::spdlog)
 
 # Include x509 parser
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src)

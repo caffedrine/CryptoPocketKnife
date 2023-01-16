@@ -1,8 +1,8 @@
 #include "UiHashes.h"
 #include "ui_UiHashes.h"
 
-#include "utils.h"
-#include "Hash.h"
+#include "base/utils/utils.h"
+#include "base/crypto/Hash.h"
 
 UiHashes::UiHashes(QWidget *parent): QWidget(parent), ui(new Ui::UiHashes)
 {

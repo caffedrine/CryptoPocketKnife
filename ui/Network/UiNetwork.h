@@ -13,11 +13,12 @@
 #include <QDomText>
 #include <QFileDialog>
 
-#include "utils.h"
-#include "GeoIP.h"
-#include "PortsScanner.h"
+#include "base/utils/utils.h"
+#include "base/services/GeoIP/GeoIP.h"
+#include "base/services/PortsScanner/PortsScanner.h"
+#include "base/services/PortsScanner/PortsScanProfilesManager.h"
+
 #include "UiPortsScanProfiles.h"
-#include "PortsScanProfilesManager.h"
 
 using namespace Services::GeoIP;
 

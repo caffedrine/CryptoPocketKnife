@@ -2,7 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UIHTMLRENDERER_H
 
 #include <QWidget>
-#include "DomModel.h"
+#include "base/data_structures/DomModel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui

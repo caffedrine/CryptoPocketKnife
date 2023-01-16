@@ -4,8 +4,8 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QMessageBox>
-#include "Shodan.h"
-#include "utils.h"
+#include "base/services/Shodan/Shodan.h"
+#include "base/utils/utils.h"
 
 UiShodan::UiShodan(QWidget *parent): QWidget(parent), ui(new Ui::UiShodan)
 {
