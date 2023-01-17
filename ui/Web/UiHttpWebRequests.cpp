@@ -11,7 +11,6 @@
 #include <QString>
 #include <QByteArray>
 #include <QMenu>
-#include <QMessageBox>
 
 using Services::Web::RawHttpWebRequest;
 
