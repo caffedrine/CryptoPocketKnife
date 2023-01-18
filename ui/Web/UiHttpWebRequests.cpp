@@ -56,6 +56,12 @@ UiHttpWebRequests::UiHttpWebRequests(QWidget *parent): QMainWindow(parent), ui(n
 
 UiHttpWebRequests::~UiHttpWebRequests()
 {
+    if( this->currRequest)
+    {
+        this->currRequest->Abort();
+    }
+
+    delete this->currRequest;
     delete ui;
 }
 

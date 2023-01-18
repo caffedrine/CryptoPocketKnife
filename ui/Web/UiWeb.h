@@ -10,13 +10,14 @@
 #include <QFuture>
 
 #include "UiHttpWebRequests.h"
+#include "base/extensions/QTabWidgetExtended.h"
+#include "base/extensions/AdvancedTableWidget.h"
 #include "base/services/TldCountry/TldCountry.h"
 #include "base/services/GeoIP/GeoIP.h"
 #include "base/services/Web/WebScraper.h"
 #include "base/utils/utils.h"
 #include "base/utils/WebUtils.h"
 #include "base/utils/LambdaEventFilter.h"
-#include "base/extensions/AdvancedTableWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -40,8 +41,7 @@ private slots:
 private:
     Ui::UiWeb *ui;
 
-    UiHttpWebRequests *webRequestsMainwindow;
-
+    QTabWidgetExtended *dynamicTabs;
 };
 
 
