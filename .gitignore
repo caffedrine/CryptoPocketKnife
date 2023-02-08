@@ -2,4 +2,4 @@ build/*
 *.user
 *~
 *logs.log
-!build/Deploy/
+# !build/Deploy/

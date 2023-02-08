@@ -424,7 +424,8 @@ void UiHttpWebRequests::treeWidget_OnRowsRmoved(const QModelIndex &parent, int s
     }
 
     if( start == end )
-        this->RequestsHistory.remove(start);
+        this->RequestsHistory.removeAt(start);
     else
-        this->RequestsHistory.remove(start, end-start-1);
+        qWarning() << "Cannot delete multiple elements :(";
+        //this->RequestsHistory.remove(start, end-start-1);
 }

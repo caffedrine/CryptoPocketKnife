@@ -20,4 +20,10 @@ IF(CMAKE_BUILD_TYPE MATCHES Release)
         set(QT_WINDEPLOYQT_EXECUTABLE "${QT_WINDEPLOYQT_EXECUTABLE}/windeployqt.exe")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${QT_WINDEPLOYQT_EXECUTABLE} --no-translations --qmldir ${CMAKE_SOURCE_DIR}/../Deployed "${CMAKE_BINARY_DIR}/../Deploy/Windows/${PROJECT_NAME}.exe")
     endif(WIN32)
+
+    if(UNIX)
+        # Copy executable to deploy folder
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/bin_output" "${CMAKE_BINARY_DIR}/../deploy/Linux" COMMENT "Copying to output directory")
+    endif()
+
 ENDIF(CMAKE_BUILD_TYPE MATCHES Release)
