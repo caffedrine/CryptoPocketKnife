@@ -13,6 +13,16 @@ UiIpUtils::UiIpUtils(QWidget *parent): QWidget(parent), ui(new Ui::UiIpUtils)
     connect(this->ui->pushButton_ExtractIPv6, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIPv6_clicked()));
     connect(this->ui->pushButton_ExtractIPv6Port, SIGNAL(clicked()), this, SLOT(on_pushButton_ExtractIPv6Port_clicked()));
     connect(this->ui->pushButton_OrderList, SIGNAL(clicked()), this, SLOT(on_pushButton_OrderList_clicked()));
+
+    // Show lines count for INPUT
+    connect(this->ui->plainTextEdit_Input, &QPlainTextEdit::textChanged, [=](){
+        this->ui->label_CountInputLines->setText("Count: " + QString::number(this->ui->plainTextEdit_Input->toPlainText().count('\n') + 1));
+    });
+
+    // Show lines count for OUTPUT
+    connect(this->ui->plainTextEdit_Output, &QPlainTextEdit::textChanged, [=](){
+        this->ui->label_CountOutputLines->setText("Count: " + QString::number(this->ui->plainTextEdit_Output->toPlainText().count('\n') + 1));
+    });
 }
 
 UiIpUtils::~UiIpUtils()

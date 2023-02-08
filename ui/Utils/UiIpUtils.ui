@@ -39,6 +39,13 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_CountInputLines">
+        <property name="text">
+         <string>Count: 0</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -106,17 +113,24 @@
       <property name="bottomMargin">
        <number>5</number>
       </property>
-      <item row="1" column="0">
+      <item row="0" column="0">
+       <widget class="QPlainTextEdit" name="plainTextEdit_Output">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
        <widget class="QPushButton" name="pushButton_Output_Clear">
         <property name="text">
          <string>Clear</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QPlainTextEdit" name="plainTextEdit_Output">
-        <property name="readOnly">
-         <bool>true</bool>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_CountOutputLines">
+        <property name="text">
+         <string>Count: 0</string>
         </property>
        </widget>
       </item>
