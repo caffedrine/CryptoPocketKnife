@@ -97,7 +97,7 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
             line += "," + r.second.object().value("product").toString().toUtf8().replace('\0', "");
             line += "," + r.second.object().value("location").toObject().value("country_code").toString();
             line += "," + r.second.object().value("isp").toString();
-            line += "," + r.second.object().value("hostnames").toArray()[0].toString();
+            line += "," +  (!r.second.object().value("hostnames").toArray().isEmpty() ? r.second.object().value("hostnames").toArray()[0].toString() : "");
             line += "," + r.second.object().value("asn").toString();
             this->ui->plainTextEdit_ManualQuery_Results->appendPlainText(line);
         }
