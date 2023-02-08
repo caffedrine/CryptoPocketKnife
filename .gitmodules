@@ -1,5 +1,5 @@
 [submodule "libs/QtAppBase"]
 	path = libs/QtAppBase
-	url = git@github.com:github.com/caffedrine/QtAppBase.git
+	url = git@github.com:caffedrine/QtAppBase.git
 	branch = master
 	
