@@ -333,7 +333,7 @@ void UiNetwork::PortsScanner_tableWidget_OnTextPasted(const QString &text)
         int currentRow = this->ui->tableWidget_PortsScanner->rowCount();
 
         this->ui->tableWidget_PortsScanner->setRowCount(currentRow + 1);
-        this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host));
+        this->ui->tableWidget_PortsScanner->setItem(currentRow, 0, new QTableWidgetItem(host.trimmed()));
 
         // Clear the other cols
         for(int i = 1; i < (this->ui->tableWidget_PortsScanner->columnCount()); i++)
