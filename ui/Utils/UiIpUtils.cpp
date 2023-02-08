@@ -1,6 +1,8 @@
 #include "UiIpUtils.h"
 #include "ui_UiIpUtils.h"
 
+#include "base/utils/utils.h"
+
 UiIpUtils::UiIpUtils(QWidget *parent): QWidget(parent), ui(new Ui::UiIpUtils)
 {
     ui->setupUi(this);
@@ -22,6 +24,13 @@ UiIpUtils::UiIpUtils(QWidget *parent): QWidget(parent), ui(new Ui::UiIpUtils)
     // Show lines count for OUTPUT
     connect(this->ui->plainTextEdit_Output, &QPlainTextEdit::textChanged, [=](){
         this->ui->label_CountOutputLines->setText("Count: " + QString::number(this->ui->plainTextEdit_Output->toPlainText().count('\n')));
+    });
+
+    // Connect button to remove duplicates from list
+    connect(this->ui->pushButton_RemoveDuplicates, &QPushButton::clicked, [=](bool checked) {
+        QStringList text = this->ui->plainTextEdit_Output->toPlainText().split("\n");
+        Utils_MsgBox("Duplicates removing result", "Found and removed " + QString::number(text.removeDuplicates()) + " duplicates");
+        this->ui->plainTextEdit_Output->setPlainText(text.join('\n'));
     });
 }
 
