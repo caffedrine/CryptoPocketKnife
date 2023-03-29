@@ -56,7 +56,7 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 
     if( exception != "ascii" )
     {
-        this->ui->textEdit_EncodeDecode_General_Ascii->setText(Utils_BytesToPrintableAsciiString(&bytes));
+        this->ui->textEdit_EncodeDecode_General_Ascii->setPlainText(Utils_BytesToPrintableAsciiString(&bytes));
     }
 
     if( exception != "hex" )
@@ -100,7 +100,7 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 
     if( exception != "raw" )
     {
-        this->ui->textEdit_EncodeDecode_General_RawData->setText( QString(bytes) );
+        this->ui->textEdit_EncodeDecode_General_RawData->setPlainText( QString(bytes) );
     }
 
     // Calculate hashes and CRC
