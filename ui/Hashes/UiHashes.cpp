@@ -29,6 +29,9 @@ void UiHashes::on_textBrowser_SHA2_InputBytes_textChanged()
         return;
     }
 
+    // Show bytes
+    this->ui->label_Sha2InputLabel->setText( "Input hex bytes: " + QString::number(bytes.length()) + " bytes" );
+
     // Calculate SHA2 224 hash
     this->ui->lineEdit_SHA2_224_OUTPUT->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::SHA2_224(bytes)));
 
@@ -56,6 +59,9 @@ void UiHashes::on_textBrowser_SHA1_InputBytes_textChanged()
         return;
     }
 
+    // Show bytes
+    this->ui->label_Sha1InputLabel->setText( "Input hex bytes: " + QString::number(bytes.length()) + " bytes" );
+
     // Calculate SHA1 hash
     QByteArray hash = base::Crypto::Hash::SHA1(bytes);
     this->ui->lineEdit_SHA1_Output->setText( Utils_QByteArrayToHexQStr(hash));
@@ -69,6 +75,9 @@ void UiHashes::on_textBrowser_MD5_InputBytes_textChanged()
         return;
     }
 
+    // Show bytes
+    this->ui->label_Md5InputLabel->setText( "Input hex bytes: " + QString::number(bytes.length()) + " bytes" );
+
     // Calculate MD5 hash
     QByteArray hash = base::Crypto::Hash::MD5(bytes);
     this->ui->lineEdit_MD5_Output->setText( Utils_QByteArrayToHexQStr(hash));
@@ -81,6 +90,9 @@ void UiHashes::on_textBrowser_SHA3_InputBytes_textChanged()
     {
         return;
     }
+
+    // Show bytes
+    this->ui->label_Sha3InputLabel->setText( "Input hex bytes: " + QString::number(bytes.length()) + " bytes" );
 
     this->ui->lineEdit_SHA3_224_OUTPUT->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::SHA3_224(bytes)));
     this->ui->lineEdit_SHA3_256_OUTPUT->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::SHA3_256(bytes)));
@@ -96,6 +108,9 @@ void UiHashes::on_textBrowser_BLAKE2_InputBytes_textChanged()
     {
         return;
     }
+
+    // Show bytes
+    this->ui->label_Blake2InputLabel->setText( "Input hex bytes: " + QString::number(bytes.length()) + " bytes" );
 
     this->ui->lineEdit_BLAKE2B_160_OUTPUT->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::BLAKE2B_160(bytes)));
     this->ui->lineEdit_BLAKE2B_256_OUTPUT_3->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::BLAKE2B_256(bytes)));
@@ -115,6 +130,9 @@ void UiHashes::on_textBrowser_KECCAK_InputBytes_textChanged()
     {
         return;
     }
+
+    // Show bytes
+    this->ui->label_KeccakInputLabel->setText( "Input hex bytes: " + QString::number(bytes.length()) + " bytes" );
 
     this->ui->lineEdit_KECCAK_224_OUTPUT->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::KECCAK_224(bytes)));
     this->ui->lineEdit_KECCAK_256_OUTPUT->setText( Utils_QByteArrayToHexQStr(base::Crypto::Hash::KECCAK_256(bytes)));
