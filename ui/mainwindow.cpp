@@ -8,6 +8,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     // Top menu slots connecting
     QObject::connect(this->ui->actionLogs, SIGNAL(triggered()), this, SLOT(on_actionLogs_triggered()), Qt::UniqueConnection);
+
+    // Initialize MAC tab
+    UiMac *mac = new UiMac(this);
+    mac->setWindowFlags(Qt::Widget);
+    this->ui->gridLayout_8->addWidget(mac);
 }
 
 MainWindow::~MainWindow()
