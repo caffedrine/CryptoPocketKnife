@@ -1,7 +1,3 @@
-//
-// Created by uib74520 on 2023-08-10.
-//
-
 #ifndef CRYPTOPOCKETKNIFE_UIAESGMAC_H
 #define CRYPTOPOCKETKNIFE_UIAESGMAC_H
 
@@ -22,8 +18,19 @@ public:
     explicit UiAesGmac(QWidget *parent = nullptr);
     ~UiAesGmac() override;
 
+public slots:
+    void on_textEdit_InputData_textChanged();
+    void on_lineEdit_Mac_textChanged();
+    void on_lineEdit_Key_textChanged();
+    void on_lineEdit_IV_textChanged();
+    void on_pushButton_CalcMac_clicked();
+    void on_pushButton_VerifyMac_clicked();
+
 private:
     Ui::UiAesGmac *ui;
+    QByteArray inputBytes, mac, key, iv;
+
+    bool CheckPreconditions();
 };
 
 

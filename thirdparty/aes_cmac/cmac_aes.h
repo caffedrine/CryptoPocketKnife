@@ -13,6 +13,7 @@ extern "C"
 #define CMAC_AES_MAC_SIZE       (16u)
 #define CMAC_AES128_KEY_SIZE    (16u)
 #define CMAC_AES256_KEY_SIZE    (32u)
+#define CMAC_INCORECT_MAC       (0x2000u + 0x000Fu)
 
 uint16_t cmac_aes128_init(uint8_t key[CMAC_AES128_KEY_SIZE]);
 uint16_t cmac_aes128_update(uint8_t *data, int length);

@@ -95,7 +95,7 @@ void UiAesCmac::on_pushButton_VerifyMac_clicked()
     {
         Utils_MsgBox("MAC Result", "MAC is OK");
     }
-    else if( retVal == 0x2000u + 0x000Fu )
+    else if( retVal == CMAC_INCORECT_MAC )
     {
         Utils_Alert("MAC Result", QString("MAC is NOT ok."));
     }

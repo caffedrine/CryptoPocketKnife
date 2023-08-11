@@ -79,7 +79,7 @@
 #define VSECPRIM_HMAC_SHA1_ENABLED                                                                  STD_ON
 #define VSECPRIM_HMAC_RMD160_ENABLED                                                                STD_OFF
 #define VSECPRIM_HMAC_SHA2_256_ENABLED                                                              STD_ON
-#define VSECPRIM_GMAC_ENABLED                                                                       STD_OFF
+#define VSECPRIM_GMAC_ENABLED                                                                       STD_ON
 #define VSECPRIM_POLY1305_ENABLED                                                                   STD_OFF
 #define VSECPRIM_HMAC_SHA2_384_ENABLED                                                              STD_OFF
 #define VSECPRIM_RSA_PSS_RIPEMD160_ENABLED                                                          STD_OFF
