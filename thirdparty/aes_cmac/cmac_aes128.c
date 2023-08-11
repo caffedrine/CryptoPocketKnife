@@ -1,0 +1,178 @@
+#ifndef _AES_CMAC_128_H_
+#define _AES_CMAC_128_H_
+
+#include "cmac_aes128.h"
+
+VSECPRIM_FUNC(eslt_ErrorCode) esl_initCMACAES128(
+        VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
+        const eslt_Length keyLength,
+        VSECPRIM_P2CONST_PARA(eslt_Byte) key)
+{
+  eslt_ErrorCode retVal;
+
+  if (workSpace == NULL_PTR)
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  else if ((retVal = esl_CheckWorkSpaceHeader(&workSpace->header, ESL_MAXSIZEOF_WS_CMACAES)) != ESL_ERC_NO_ERROR) /* PRQA S 3326 */ /* MD_VSECPRIM_13.1 */ /* SBSW_VSECPRIM_CALL_FUNCTION */
+  {
+    /* retVal already set */
+  }
+  else if (key == NULL_PTR)
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  /* Check keyLength */
+  else if (keyLength != ESL_SIZEOF_AES128_KEY)
+  {
+    retVal = ESL_ERC_HMAC_KEY_LENGTH_OUT_OF_RANGE;
+  }
+  else
+  {
+    /* Init actCLib CMAC-AES */
+    (void)actCMACAESInit(&workSpace->wsCMACAESbuffer, key, ESL_SIZEOF_AES128_KEY, workSpace->header.watchdog); /* SBSW_VSECPRIM_CALL_FUNCTION */
+
+    /* Provide backward compatible pointer */
+    workSpace->wsCMACAES = (VSECPRIM_P2VAR_PARA(eslt_Byte))&(workSpace->wsCMACAESbuffer); /* PRQA S 0310 */ /* MD_VSECPRIM_11.4 */ /* SBSW_VSECPRIM_WRITE_POINTER */
+
+    /* Set workSpace state */
+    esl_SetWorkspaceStatus(&workSpace->header, ESL_WST_ALGO_CMACAES128); /* SBSW_VSECPRIM_CALL_FUNCTION */
+  }
+
+  return retVal;
+}
+
+eslt_ErrorCode esl_getExpandedKeyCMACAES128(
+  VSECPRIM_P2CONST_PARA(eslt_WorkSpaceCMACAES) workSpace,
+  VSECPRIM_P2VAR_PARA(eslt_Byte) keyPtr,
+  VSECPRIM_P2VAR_PARA(eslt_Length) keyLengthPtr) /* PRQA S 3673 */ /* MD_VSECPRIM_16.7 */
+{
+  eslt_ErrorCode retVal = ESL_ERC_NO_ERROR;
+
+  if ((workSpace == NULL_PTR) || (keyLengthPtr == NULL_PTR) || (keyPtr == NULL_PTR))
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  else if ((workSpace->header.status & ESL_WST_M_RUNNING) != ESL_WST_M_RUNNING)
+  {
+    retVal = ESL_ERC_WS_STATE_INVALID;
+  }
+  else if (*keyLengthPtr < 256u)
+  {
+    retVal = ESL_ERC_INPUT_INVALID;
+  }
+  else
+  {
+    /* Copy expanded key to provided buffer */
+    *keyLengthPtr = 256u; /* SBSW_VSECPRIM_WRITE_POINTER */
+    actMemCpyByteArray(keyPtr, workSpace->wsCMACAESbuffer.e_key, *keyLengthPtr); /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */ /* SBSW_VSECPRIM_CALL_FUNCTION */
+  }
+
+  return retVal;
+}
+
+
+eslt_ErrorCode esl_initExpandedCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2CONST_PARA(eslt_Byte) expandedKey, const eslt_Length expandedKeyLength)
+{
+  eslt_ErrorCode retVal = ESL_ERC_NO_ERROR;
+  VSECPRIM_P2VAR_PARA(actCMACAESSTRUCT) internalWorkspace;
+
+  if ((workSpace == NULL_PTR) || (expandedKey == NULL_PTR))
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  else if (workSpace->header.size < ESL_MAXSIZEOF_WS_CMACAES)
+  {
+    retVal = ESL_ERC_WS_TOO_SMALL;
+  }
+  /* Check keyLength */
+  else if (expandedKeyLength != 256u)
+  {
+    retVal = ESL_ERC_HMAC_KEY_LENGTH_OUT_OF_RANGE;
+  }
+  else
+  {
+    /* Init actCLib CMAC-AES */
+    internalWorkspace = &workSpace->wsCMACAESbuffer;
+    actMemset(internalWorkspace->buffer, 0x00u, actAES_BLOCK_SIZE); /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */ /* SBSW_VSECPRIM_CALL_FUNCTION */
+    internalWorkspace->buffer_used = 0u; /* SBSW_VSECPRIM_WRITE_POINTER */
+    internalWorkspace->key_dword_len = 4u; /* SBSW_VSECPRIM_WRITE_POINTER */
+    actMemCpyByteArray(internalWorkspace->e_key, expandedKey, expandedKeyLength); /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */ /* SBSW_VSECPRIM_CALL_FUNCTION */
+
+    /* Set workSpace state */
+    esl_SetWorkspaceStatus(&workSpace->header, ESL_WST_ALGO_CMACAES128); /* SBSW_VSECPRIM_CALL_FUNCTION */
+  }
+
+  return retVal;
+}
+
+eslt_ErrorCode esl_updateCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, const eslt_Length inputLength, VSECPRIM_P2CONST_PARA(eslt_Byte) input) /* PRQA S 3673 */ /* MD_VSECPRIM_16.7 */
+{
+  eslt_ErrorCode retVal;
+  if ((workSpace == NULL_PTR) || (input == NULL_PTR))
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  else if ((retVal = esl_CheckWorkSpaceHeaderAndState(&workSpace->header, ESL_MAXSIZEOF_WS_CMACAES, ESL_WST_ALGO_CMACAES128)) != ESL_ERC_NO_ERROR) /* PRQA S 3326 */ /* MD_VSECPRIM_13.1 */ /* SBSW_VSECPRIM_FCT_CALL_P2CONST_PARAM */
+  {
+    /* retVal was already set */
+  }
+  else
+  {
+    /* Update actCLib CMAC-AES */
+    (void)actCMACAESUpdate(&workSpace->wsCMACAESbuffer, input, (actLengthType)inputLength, workSpace->header.watchdog); /* SBSW_VSECPRIM_CALL_FUNCTION */
+  }
+
+  return retVal;
+}
+
+eslt_ErrorCode esl_finalizeCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2VAR_PARA(eslt_Byte) messageCMAC)
+{
+  eslt_ErrorCode retVal;
+  if ((workSpace == NULL_PTR) || (messageCMAC == NULL_PTR))
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  else if ((retVal = esl_CheckWorkSpaceHeaderAndState(&workSpace->header, ESL_MAXSIZEOF_WS_CMACAES, ESL_WST_ALGO_CMACAES128)) != ESL_ERC_NO_ERROR) /* PRQA S 3326 */ /* MD_VSECPRIM_13.1 */ /* SBSW_VSECPRIM_FCT_CALL_P2CONST_PARAM */
+  {
+    /* retVal was already set */
+  }
+  else
+  {
+    /* Finalize actCLib CMAC-AES */
+    (void)actCMACAESFinalize(&workSpace->wsCMACAESbuffer, messageCMAC, workSpace->header.watchdog); /* SBSW_VSECPRIM_FCT_CALL_PASSED_BUFFER_CMACAES128_FINALIZE */
+
+    esl_ResetAndClearWorkspace(&workSpace->header, &workSpace->wsCMACAESbuffer); /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */ /* SBSW_VSECPRIM_CALL_FUNCTION */
+  }
+  return retVal;
+}
+
+eslt_ErrorCode esl_verifyCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2CONST_PARA(eslt_Byte) messageCMAC)
+{
+  eslt_ErrorCode retVal;
+  if ((workSpace == NULL_PTR) || (messageCMAC == NULL_PTR))
+  {
+    retVal = ESL_ERC_PARAMETER_INVALID;
+  }
+  else if ((retVal = esl_CheckWorkSpaceHeaderAndState(&workSpace->header, ESL_MAXSIZEOF_WS_CMACAES, ESL_WST_ALGO_CMACAES128)) != ESL_ERC_NO_ERROR) /* PRQA S 3326 */ /* MD_VSECPRIM_13.1 */ /* SBSW_VSECPRIM_FCT_CALL_P2CONST_PARAM */
+  {
+    /* retVal was already set */
+  }
+  else
+  {
+    eslt_Byte tmpMAC[ESL_SIZEOF_AES128_BLOCK];
+    actMemClear(tmpMAC, ESL_SIZEOF_AES256_BLOCK); /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */ /* SBSW_VSECPRIM_FCT_CALL_LOCAL_BUFFER_FIXED_SIZE */
+
+    /* Calculate MAC */
+    (void)esl_finalizeCMACAES128(workSpace, tmpMAC); /* SBSW_VSECPRIM_CALL_FUNCTION */
+
+    if (actMemcmp(tmpMAC, messageCMAC, ESL_SIZEOF_AES128_BLOCK) == FALSE) /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */ /* SBSW_VSECPRIM_CALL_FUNCTION */
+    {
+      retVal = ESL_ERC_HMAC_INCORRECT_MAC;
+    }
+  }
+
+  return retVal;
+}
+
+#endif //_AES_CMAC_128_H_
