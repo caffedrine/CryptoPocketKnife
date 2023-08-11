@@ -36,16 +36,19 @@
        <attribute name="title">
         <string>AES-CMAC</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_AesCmac"/>
       </widget>
       <widget class="QWidget" name="tab_AesGmac">
        <attribute name="title">
         <string>AES-GMAC</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_AesGmac"/>
       </widget>
       <widget class="QWidget" name="tab_Hmac">
        <attribute name="title">
         <string>HMAC</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_Hmac"/>
       </widget>
      </widget>
     </item>

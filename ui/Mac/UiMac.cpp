@@ -10,17 +10,17 @@ UiMac::UiMac(QWidget *parent) :
     // Initialize MAC tab
     UiAesCmac *aesCmac = new UiAesCmac(this);
     aesCmac->setWindowFlags(Qt::Widget);
-    this->ui->gridLayout->addWidget(aesCmac);
+    this->ui->gridLayout_AesCmac->addWidget(aesCmac);
 
     // Initialize MAC tab
     UiAesGmac *aesGmac = new UiAesGmac(this);
     aesGmac->setWindowFlags(Qt::Widget);
-    this->ui->gridLayout->addWidget(aesGmac);
+    this->ui->gridLayout_AesGmac->addWidget(aesGmac);
 
     // Initialize MAC tab
     UiHmac *hmac = new UiHmac(this);
     hmac->setWindowFlags(Qt::Widget);
-    this->ui->gridLayout->addWidget(hmac);
+    this->ui->gridLayout_Hmac->addWidget(hmac);
 }
 
 UiMac::~UiMac()

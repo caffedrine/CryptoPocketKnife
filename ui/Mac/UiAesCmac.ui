@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
-    <height>487</height>
+    <width>543</width>
+    <height>403</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,11 +60,6 @@
       <item>
        <property name="text">
         <string>Aes128-Cmac</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Aes192-Cmac</string>
        </property>
       </item>
       <item>
