@@ -1,5 +1,16 @@
-#include "cmac_aes256.h"
+#include "ESLib.h"
+#include "ESLib_Helper.h"
 
+#include "actICMACAES.h"
+
+/**********************************************************************************************************************
+ *  esl_initCMACAES256()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
 VSECPRIM_FUNC(eslt_ErrorCode) esl_initCMACAES256(
   VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
   const eslt_Length keyLength,
@@ -35,6 +46,15 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_initCMACAES256(
   return retVal;
 }
 
+/**********************************************************************************************************************
+ *  esl_getExpandedKeyCMACAES256()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ *
+ */
 VSECPRIM_FUNC(eslt_ErrorCode) esl_getExpandedKeyCMACAES256(
   VSECPRIM_P2CONST_PARA(eslt_WorkSpaceCMACAES) workSpace,
   VSECPRIM_P2VAR_PARA(eslt_Byte) keyPtr,
@@ -64,6 +84,14 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_getExpandedKeyCMACAES256(
   return retVal;
 }
 
+/**********************************************************************************************************************
+ *  esl_initExpandedCMACAES256()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
 VSECPRIM_FUNC(eslt_ErrorCode) esl_initExpandedCMACAES256(
   VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
   VSECPRIM_P2CONST_PARA(eslt_Byte) expandedKey,
@@ -101,6 +129,14 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_initExpandedCMACAES256(
   return retVal;
 }
 
+/**********************************************************************************************************************
+ *  esl_updateCMACAES256()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
 VSECPRIM_FUNC(eslt_ErrorCode) esl_updateCMACAES256(
   VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
   const eslt_Length inputLength,
@@ -125,6 +161,14 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_updateCMACAES256(
   return retVal;
 }
 
+/**********************************************************************************************************************
+ *  esl_finalizeCMACAES256()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
 VSECPRIM_FUNC(eslt_ErrorCode) esl_finalizeCMACAES256(
   VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
   VSECPRIM_P2VAR_PARA(eslt_Byte) messageCMAC,
@@ -154,6 +198,14 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_finalizeCMACAES256(
   return retVal;
 }
 
+/**********************************************************************************************************************
+ *  esl_verifyCMACAES256()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
 VSECPRIM_FUNC(eslt_ErrorCode) esl_verifyCMACAES256(
   VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
   VSECPRIM_P2CONST_PARA(eslt_Byte) messageCMAC)

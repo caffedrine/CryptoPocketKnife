@@ -1,12 +1,17 @@
-#ifndef _AES_CMAC_128_H_
-#define _AES_CMAC_128_H_
+#include "ESLib.h"
+#include "ESLib_Helper.h"
 
-#include "cmac_aes128.h"
+#include "actICMACAES.h"
 
-VSECPRIM_FUNC(eslt_ErrorCode) esl_initCMACAES128(
-        VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace,
-        const eslt_Length keyLength,
-        VSECPRIM_P2CONST_PARA(eslt_Byte) key)
+/**********************************************************************************************************************
+ *  esl_initCMACAES128()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
+VSECPRIM_FUNC(eslt_ErrorCode) esl_initCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, const eslt_Length keyLength, VSECPRIM_P2CONST_PARA(eslt_Byte) key)
 {
   eslt_ErrorCode retVal;
 
@@ -42,7 +47,16 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_initCMACAES128(
   return retVal;
 }
 
-eslt_ErrorCode esl_getExpandedKeyCMACAES128(
+/**********************************************************************************************************************
+ *  esl_getExpandedKeyCMACAES128()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ *
+ */
+VSECPRIM_FUNC(eslt_ErrorCode) esl_getExpandedKeyCMACAES128(
   VSECPRIM_P2CONST_PARA(eslt_WorkSpaceCMACAES) workSpace,
   VSECPRIM_P2VAR_PARA(eslt_Byte) keyPtr,
   VSECPRIM_P2VAR_PARA(eslt_Length) keyLengthPtr) /* PRQA S 3673 */ /* MD_VSECPRIM_16.7 */
@@ -71,8 +85,15 @@ eslt_ErrorCode esl_getExpandedKeyCMACAES128(
   return retVal;
 }
 
-
-eslt_ErrorCode esl_initExpandedCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2CONST_PARA(eslt_Byte) expandedKey, const eslt_Length expandedKeyLength)
+/**********************************************************************************************************************
+ *  esl_initExpandedCMACAES128()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
+VSECPRIM_FUNC(eslt_ErrorCode) esl_initExpandedCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2CONST_PARA(eslt_Byte) expandedKey, const eslt_Length expandedKeyLength)
 {
   eslt_ErrorCode retVal = ESL_ERC_NO_ERROR;
   VSECPRIM_P2VAR_PARA(actCMACAESSTRUCT) internalWorkspace;
@@ -106,7 +127,15 @@ eslt_ErrorCode esl_initExpandedCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMAC
   return retVal;
 }
 
-eslt_ErrorCode esl_updateCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, const eslt_Length inputLength, VSECPRIM_P2CONST_PARA(eslt_Byte) input) /* PRQA S 3673 */ /* MD_VSECPRIM_16.7 */
+/**********************************************************************************************************************
+ *  esl_updateCMACAES128()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
+VSECPRIM_FUNC(eslt_ErrorCode) esl_updateCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, const eslt_Length inputLength, VSECPRIM_P2CONST_PARA(eslt_Byte) input) /* PRQA S 3673 */ /* MD_VSECPRIM_16.7 */
 {
   eslt_ErrorCode retVal;
   if ((workSpace == NULL_PTR) || (input == NULL_PTR))
@@ -126,7 +155,15 @@ eslt_ErrorCode esl_updateCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) w
   return retVal;
 }
 
-eslt_ErrorCode esl_finalizeCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2VAR_PARA(eslt_Byte) messageCMAC)
+/**********************************************************************************************************************
+ *  esl_finalizeCMACAES128()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
+VSECPRIM_FUNC(eslt_ErrorCode) esl_finalizeCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2VAR_PARA(eslt_Byte) messageCMAC)
 {
   eslt_ErrorCode retVal;
   if ((workSpace == NULL_PTR) || (messageCMAC == NULL_PTR))
@@ -147,7 +184,15 @@ eslt_ErrorCode esl_finalizeCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES)
   return retVal;
 }
 
-eslt_ErrorCode esl_verifyCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2CONST_PARA(eslt_Byte) messageCMAC)
+/**********************************************************************************************************************
+ *  esl_verifyCMACAES128()
+ **********************************************************************************************************************/
+/*!
+ * Internal comment removed.
+ *
+ *
+ */
+VSECPRIM_FUNC(eslt_ErrorCode) esl_verifyCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) workSpace, VSECPRIM_P2CONST_PARA(eslt_Byte) messageCMAC)
 {
   eslt_ErrorCode retVal;
   if ((workSpace == NULL_PTR) || (messageCMAC == NULL_PTR))
@@ -174,5 +219,3 @@ eslt_ErrorCode esl_verifyCMACAES128(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceCMACAES) w
 
   return retVal;
 }
-
-#endif //_AES_CMAC_128_H_

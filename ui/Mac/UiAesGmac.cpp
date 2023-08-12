@@ -73,13 +73,11 @@ void UiAesGmac::on_pushButton_VerifyMac_clicked()
         return;
     }
 
-    //
     uint32_t  retVal = 0;
     GmacAes gmac;
     retVal = gmac.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length(), (uint8_t *) this->iv.toStdString().c_str(), this->iv.length());
     retVal |= gmac.Update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
-    retVal |= gmac.VerifyMac((uint8_t *) this->ui->lineEdit_Mac->text().toStdString().c_str());
-
+    retVal |= gmac.VerifyMac((uint8_t *) this->mac.toStdString().c_str());
 
     if( retVal == 0 )
     {

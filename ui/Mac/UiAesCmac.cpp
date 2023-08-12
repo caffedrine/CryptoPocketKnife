@@ -2,7 +2,7 @@
 #include "ui_UiAesCmac.h"
 
 #include "base/utils/utils.h"
-#include "cmac_aes.h"
+#include "CmacAes.h"
 
 UiAesCmac::UiAesCmac(QWidget *parent) : QMainWindow(parent), ui(new Ui::UiAesCmac)
 {
@@ -42,18 +42,10 @@ void UiAesCmac::on_pushButton_CalcMac_clicked()
     uint16_t retVal;
     uint8_t generatedMac[CMAC_AES_MAC_SIZE];
 
-    if( aesVersion == 0 )
-    {
-        retVal = cmac_aes128_init((uint8_t *) this->key.toStdString().c_str());
-        retVal |= cmac_aes128_update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
-        retVal |= cmac_aes128_finish(generatedMac);
-    }
-    else
-    {
-        retVal = cmac_aes256_init((uint8_t *) this->key.toStdString().c_str());
-        retVal |= cmac_aes256_update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
-        retVal |= cmac_aes256_finish(generatedMac);
-    }
+    CmacAes cmac;
+    retVal = cmac.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length());
+    retVal |= cmac.Update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
+    retVal |= cmac.Finish(generatedMac);
 
     if( retVal == 0 )
     {
@@ -78,24 +70,16 @@ void UiAesCmac::on_pushButton_VerifyMac_clicked()
     }
 
     uint16_t retVal;
-    if( aesVersion == 0 )
-    {
-        retVal = cmac_aes128_init((uint8_t *) this->key.toStdString().c_str());
-        retVal |= cmac_aes128_update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
-        retVal |= cmac_aes128_verifyMac((uint8_t *) this->mac.toStdString().c_str());
-    }
-    else
-    {
-        retVal = cmac_aes256_init((uint8_t *) this->key.toStdString().c_str());
-        retVal |= cmac_aes256_update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
-        retVal |= cmac_aes256_verifyMac((uint8_t *) this->mac.toStdString().c_str());
-    }
+    CmacAes cmac;
+    retVal = cmac.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length());
+    retVal |= cmac.Update((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length());
+    retVal |= cmac.VerifyMac((uint8_t *) this->mac.toStdString().c_str());
 
     if( retVal == 0 )
     {
         Utils_MsgBox("MAC Result", "MAC is OK");
     }
-    else if( retVal == CMAC_INCORECT_MAC )
+    else if( retVal == CMAC_INCORRECT_MAC )
     {
         Utils_Alert("MAC Result", QString("MAC is NOT ok."));
     }

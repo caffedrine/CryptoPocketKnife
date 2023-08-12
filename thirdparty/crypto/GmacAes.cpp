@@ -1,5 +1,5 @@
 #include "GmacAes.h"
-#include "impl/ESLib.h"
+#include "vImpl/ESLib.h"
 
 class GmacAes::impl
 {
@@ -43,7 +43,7 @@ uint16_t GmacAes::Finish(uint8_t *tag)
 
 uint16_t GmacAes::VerifyMac(uint8_t *tag)
 {
-    return esl_verifyGMAC(&pimpl->workspace,  tag);
+    return esl_verifyGMAC(&pimpl->workspace, tag);
 
 }
 

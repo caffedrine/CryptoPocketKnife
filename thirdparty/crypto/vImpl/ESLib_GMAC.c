@@ -168,8 +168,12 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_verifyGMAC(VSECPRIM_P2VAR_PARA(eslt_WorkSpaceG
   /* finalize actCLib GCM and compare provided tag with computed one */
   else
   {
-    /* finalize actCLib GMAC; actGMACFinalize always returns actOK */
+      /* finalize actCLib GMAC; actGMACFinalize always returns actOK */
     (void)actGMACFinalize(&workSpace->wsGMAC, tmpTag, workSpace->header.watchdog);
+
+      uint8 a = tmpTag[0];
+      uint8 b = tag[0];
+
     if (actMemcmp(tmpTag, tag, ESL_SIZEOF_GCM_TAG) != TRUE) /* PRQA S 0315 */ /* MD_VSECPRIM_P2VOID_CAST */
     {
       retVal = ESL_ERC_GCM_TAG_VERIFICATION_FAILED;
