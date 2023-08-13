@@ -1,7 +1,6 @@
 #include "UiMac.h"
 #include "ui_UiMac.h"
 
-
 UiMac::UiMac(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::UiMac)
 {
@@ -18,7 +17,7 @@ UiMac::UiMac(QWidget *parent) :
     this->ui->gridLayout_AesGmac->addWidget(aesGmac);
 
     // Initialize MAC tab
-    UiHmac *hmac = new UiHmac(this);
+    UiHmacSha *hmac = new UiHmacSha(this);
     hmac->setWindowFlags(Qt::Widget);
     this->ui->gridLayout_Hmac->addWidget(hmac);
 }

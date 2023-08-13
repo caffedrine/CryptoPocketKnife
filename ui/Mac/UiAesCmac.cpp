@@ -29,7 +29,7 @@ void UiAesCmac::on_lineEdit_Mac_textChanged()
 void UiAesCmac::on_lineEdit_Key_textChanged()
 {
     this->key = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
-    this->ui->label_Key->setText( QString("MAC (%1 bytes)").arg(this->key.length()) );
+    this->ui->label_Key->setText( QString("KEY (%1 bytes)").arg(this->key.length()) );
 }
 
 

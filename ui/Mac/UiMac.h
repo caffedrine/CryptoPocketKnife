@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "ui/Mac/UiAesCmac.h"
 #include "ui/Mac/UiAesGmac.h"
-#include "ui/Mac/UiHmac.h"
+#include "ui/Mac/UiHmacSha.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
