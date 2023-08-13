@@ -39,7 +39,7 @@ VSECPRIM_FUNC(actRETURNCODE) actCMACAESInit(
 /***********************************************************************************************************************
  *  actCMACAESUpdate
  **********************************************************************************************************************/
-/*! \brief         Update CMAC calculation.
+/*! \brief         AddDecData CMAC calculation.
  *  \details       This function feeds the CMAC calculation with input data.
  *  \param[in]     info  Pointer to context structure
  *  \param[in]     dataIN  Pointer to input data / sub-key

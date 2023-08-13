@@ -67,7 +67,7 @@ VSECPRIM_FUNC(actRETURNCODE) actSHA512_256Init(VSECPRIM_P2VAR_PARA(actSHA512_256
 /**********************************************************************************************************************
  *  actSHA384Update()
  *********************************************************************************************************************/
-/*! \brief       Update of SHA-384 calculation.
+/*! \brief       AddDecData of SHA-384 calculation.
  *  \details     This function hashes the given data and can be called arbitrarily often between an initialize and
  *               finalize of the hash algorithm. Uses any data already in the actSHA384STRUCT structure and leaves
  *               any partial data block there.
@@ -93,7 +93,7 @@ VSECPRIM_FUNC(actRETURNCODE) actSHA384Update(
 /**********************************************************************************************************************
  *  actSHA512Update()
  *********************************************************************************************************************/
-/*! \brief       Update of SHA-512 calculation.
+/*! \brief       AddDecData of SHA-512 calculation.
  *  \details     This function hashes the given data and can be called arbitrarily often between an initialize and
  *               finalize of the hash algorithm. Uses any data already in the actSHA512STRUCT structure and leaves
  *               any partial data block there.
@@ -119,7 +119,7 @@ VSECPRIM_FUNC(actRETURNCODE) actSHA512Update(
 /**********************************************************************************************************************
  *  actSHA512_224Update()
  *********************************************************************************************************************/
-/*! \brief       Update of SHA-512-224 calculation.
+/*! \brief       AddDecData of SHA-512-224 calculation.
  *  \details     This function hashes the given data and can be called arbitrarily often between an initialize and
  *               finalize of the hash algorithm. Uses any data already in the actSHA512_224STRUCT structure and leaves
  *               any partial data block there.
@@ -145,7 +145,7 @@ VSECPRIM_FUNC(actRETURNCODE) actSHA512_224Update(
 /**********************************************************************************************************************
  *  actSHA512_256Update()
  *********************************************************************************************************************/
-/*! \brief       Update of SHA-512-256 calculation.
+/*! \brief       AddDecData of SHA-512-256 calculation.
  *  \details     This function hashes the given data and can be called arbitrarily often between an initialize and
  *               finalize of the hash algorithm. Uses any data already in the actSHA512_256STRUCT structure and leaves
  *               any partial data block there.

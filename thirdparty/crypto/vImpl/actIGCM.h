@@ -162,7 +162,7 @@ VSECPRIM_FUNC(actRETURNCODE) actGCMDecryptUpdate (
  *********************************************************************************************************************/
 /*! \brief          Switches the internal state from AAD to P / C.
  *  \details        This function switches the internal state from AAD to P / C,
- *                  so actGCM*Update now expects plaintext/ciphertext.
+ *                  so actGCM*AddDecData now expects plaintext/ciphertext.
  *  \param[in,out]  info  (in)  pointer to context structure
  *                        (out) updated GHash and internal buffers
  *  \param[in]      watchdog  pointer to watchdog reset function

@@ -13,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     UiMac *mac = new UiMac(this);
     mac->setWindowFlags(Qt::Widget);
     this->ui->gridLayout_8->addWidget(mac);
+
+    // Init authenticated encryption tab
+    AuthenticatedEncryption *ae = new AuthenticatedEncryption(this);
+    ae->setWindowFlags(Qt::Widget);
+    this->ui->gridLayout_AuthEnc->addWidget(ae);
 }
 
 MainWindow::~MainWindow()

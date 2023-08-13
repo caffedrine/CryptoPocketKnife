@@ -4322,7 +4322,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_getExpandedKeyCMACAES128(
 /***********************************************************************************************************************
  *  esl_updateCMACAES128
  **********************************************************************************************************************/
-/*! \brief         Update CMAC calculation.
+/*! \brief         AddDecData CMAC calculation.
  *  \details       This function is used to feed the CMAC calculation with input data.
  *  \param[in,out] workSpace  CMAC work space
  *  \param[in]     inputLength  Length of input data
@@ -4455,7 +4455,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_getExpandedKeyCMACAES256(
 /***********************************************************************************************************************
  *  esl_updateCMACAES256
  **********************************************************************************************************************/
-/*! \brief         Update CMAC AES256 calculation.
+/*! \brief         AddDecData CMAC AES256 calculation.
  *  \details       This function is used to feed the CMAC AES256 calculation with input data.
  *  \param[in,out] workSpace    CMAC work space
  *  \param[in]     inputLength  Length of input data
@@ -6520,7 +6520,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSASHA1_V15(
 /**********************************************************************************************************************
  *  esl_updateSignRSASHA1_V15()
  *********************************************************************************************************************/
-/*! \brief          Update Signature for RSA PKCS#1 V1.5 with SHA-1
+/*! \brief          AddDecData Signature for RSA PKCS#1 V1.5 with SHA-1
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -6607,7 +6607,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSACRTSHA1_V15(
 /**********************************************************************************************************************
  *  esl_updateSignRSACRTSHA1_V15()
  *********************************************************************************************************************/
-/*! \brief          Update Signature for RSA PKCS#1 V1.5 CRT with SHA-1
+/*! \brief          AddDecData Signature for RSA PKCS#1 V1.5 CRT with SHA-1
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -6737,7 +6737,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initVerifyRSASHA1_V15(
 /**********************************************************************************************************************
  *  esl_updateVerifyRSASHA1_V15()
  *********************************************************************************************************************/
-/*! \brief          Update signature verification for RSA PKCS#1 V1.5 with SHA-1
+/*! \brief          AddDecData signature verification for RSA PKCS#1 V1.5 with SHA-1
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -6875,7 +6875,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSARIPEMD160_V15(
 /**********************************************************************************************************************
  *  esl_updateSignRSARIPEMD160_V15()
  *********************************************************************************************************************/
-/*! \brief          Update Signature for RSA PKCS#1 V1.5 with RIPEMD160
+/*! \brief          AddDecData Signature for RSA PKCS#1 V1.5 with RIPEMD160
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -6965,7 +6965,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSACRTRIPEMD160_V15(
 /**********************************************************************************************************************
  *  esl_updateSignRSACRTRIPEMD160_V15()
  *********************************************************************************************************************/
-/*! \brief          Update Signature for RSA PKCS#1 V1.5 CRT with RIPEMD160
+/*! \brief          AddDecData Signature for RSA PKCS#1 V1.5 CRT with RIPEMD160
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -7039,7 +7039,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initVerifyRSARIPEMD160_V15(
 /**********************************************************************************************************************
  *  esl_updateVerifyRSARIPEMD160_V15()
  *********************************************************************************************************************/
-/*! \brief          Update signature verification for RSA PKCS#1 V1.5 with RIPEMD160
+/*! \brief          AddDecData signature verification for RSA PKCS#1 V1.5 with RIPEMD160
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -7180,7 +7180,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSASHA256_V15(
 /**********************************************************************************************************************
  *  esl_updateSignRSASHA256_V15()
  *********************************************************************************************************************/
-/*! \brief          Update Signature for RSA PKCS#1 V1.5 with SHA-256
+/*! \brief          AddDecData Signature for RSA PKCS#1 V1.5 with SHA-256
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -7267,7 +7267,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSACRTSHA256_V15(
 /**********************************************************************************************************************
  *  esl_updateSignRSACRTSHA256_V15()
  *********************************************************************************************************************/
-/*! \brief          Update Signature for RSA PKCS#1 V1.5 CRT with SHA-256
+/*! \brief          AddDecData Signature for RSA PKCS#1 V1.5 CRT with SHA-256
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -7338,7 +7338,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initVerifyRSASHA256_V15(
 /**********************************************************************************************************************
  *  esl_updateVerifyRSASHA256_V15()
  *********************************************************************************************************************/
-/*! \brief          Update signature verification for RSA PKCS#1 V1.5 with SHA-256
+/*! \brief          AddDecData signature verification for RSA PKCS#1 V1.5 with SHA-256
  *  \details        -
  *  \param[in,out]  workSpace    algorithm context buffer, initialized by
  *                               esl_initWorkSpaceHeader(..) function
@@ -8166,7 +8166,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSASHA1_PSS(
 /***********************************************************************************************************************
  *  esl_updateSignRSASHA1_PSS
  **********************************************************************************************************************/
-/*! \brief         Update hash workspace with message to be signed
+/*! \brief         AddDecData hash workspace with message to be signed
  *  \details       During the RSA PSS signature generation scheme, the original message needs to be hashed. For RSA
  *                 PSS SHA1, the hash function is SHA1. This function stores the message into the hash workspace,
  *                 contained in the parameter workSpace.
@@ -8429,7 +8429,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initVerifyRSASHA1_PSS(
 /***********************************************************************************************************************
  *  esl_updateVerifyRSASHA1_PSS
  **********************************************************************************************************************/
-/*! \brief         Update hash workspace with message to be signed
+/*! \brief         AddDecData hash workspace with message to be signed
  *  \details       During the RSA PSS signature verification scheme, the original message needs to be hashed. For RSA
  *                 PSS SHA1, the hash function is SHA1. This function stores the message into the hash workspace,
  *                 contained in the parameter workSpace.
@@ -8746,7 +8746,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSARIPEMD160_PSS(
 /***********************************************************************************************************************
  *  esl_updateSignRSARIPEMD160_PSS
  **********************************************************************************************************************/
-/*! \brief         Update hash workspace with message to be signed
+/*! \brief         AddDecData hash workspace with message to be signed
  *  \details       During the RSA PSS signature generation scheme, the original message needs to be hashed. For RSA
  *                 PSS RIPEMD160, the hash function is RMD160. This function stores the message into the hash
  *                 workspace, contained in the parameter workSpace.
@@ -9011,7 +9011,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initVerifyRSARIPEMD160_PSS(
 /***********************************************************************************************************************
  *  esl_updateVerifyRSARIPEMD160_PSS
  **********************************************************************************************************************/
-/*! \brief         Update hash workspace with message to be signed
+/*! \brief         AddDecData hash workspace with message to be signed
  *  \details       During the RSA PSS signature verification scheme, the original message needs to be hashed. For RSA
  *                 PSS RIPEMD160, the hash function is RMD160. This function stores the message into the hash
  *                 workspace, contained in the parameter workSpace.
@@ -9326,7 +9326,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initSignRSASHA256_PSS(
 /***********************************************************************************************************************
  *  esl_updateSignRSASHA256_PSS
  **********************************************************************************************************************/
-/*! \brief         Update hash workspace with message to be signed
+/*! \brief         AddDecData hash workspace with message to be signed
  *  \details       During the RSA PSS signature generation scheme, the original message needs to be hashed. For RSA
  *                 PSS SHA256, the hash function is SHA2-256. This function stores the message into the hash workspace,
  *                  contained in the parameter workSpace.
@@ -9593,7 +9593,7 @@ extern VSECPRIM_FUNC(eslt_ErrorCode) esl_initVerifyRSASHA256_PSS(
 /***********************************************************************************************************************
  *  esl_updateVerifyRSASHA256_PSS
  **********************************************************************************************************************/
-/*! \brief         Update hash workspace with message to be signed
+/*! \brief         AddDecData hash workspace with message to be signed
  *  \details       During the RSA PSS signature verification scheme, the original message needs to be hashed. For RSA
  *                 PSS SHA256, the hash function is SHA2-256. This function stores the message into the hash workspace,
  *                 contained in the parameter workSpace.

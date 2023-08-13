@@ -24,7 +24,7 @@ VSECPRIM_FUNC(actRETURNCODE) actSHAInit(VSECPRIM_P2VAR_PARA(actSHASTRUCT) info);
 /**********************************************************************************************************************
  *  actSHAUpdate()
  *********************************************************************************************************************/
-/*! \brief       Update SHA.
+/*! \brief       AddDecData SHA.
  *  \details     This function hashes the given data and can be called arbitrarily often between an initialize and
  *               finalize of the SHA-1 algorithm. Uses any data already in the actSHASTRUCT structure and leaves
  *               any partial data block there.

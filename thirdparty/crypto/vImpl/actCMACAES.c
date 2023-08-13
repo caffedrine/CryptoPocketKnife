@@ -25,7 +25,7 @@
 /***********************************************************************************************************************
  *  actCMACAESProcess
  **********************************************************************************************************************/
-/*! \brief         Update CMAC calculation.
+/*! \brief         AddDecData CMAC calculation.
  *  \details       Helper function used by actual update with new data and finalization with sub-key.
  *  \param[in]     info  Pointer to context structure
  *  \param[in]     dataIN  Pointer to input data / sub-key
