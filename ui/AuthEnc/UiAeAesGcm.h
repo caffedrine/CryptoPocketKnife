@@ -19,7 +19,8 @@ public:
     ~UiAeAesGcm() override;
 
 public slots:
-    void on_textEdit_InputData_textChanged();
+    void on_textEdit_InputDataEncDec_textChanged();
+    void on_textEdit_InputDataAuth_textChanged();
     void on_textEdit_OutputData_textChanged();
     void on_lineEdit_Mac_textChanged();
     void on_lineEdit_Key_textChanged();
@@ -30,7 +31,7 @@ public slots:
 private:
     Ui::UiAeAesGcm *ui;
 
-    QByteArray inputBytes, outputBytes, mac, key, iv;
+    QByteArray inputEncDecBytes, inputAuthBytes, outputBytes, mac, key, iv;
 
     bool CheckPreconditions();
 };

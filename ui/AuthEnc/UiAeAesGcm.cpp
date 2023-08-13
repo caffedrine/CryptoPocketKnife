@@ -14,10 +14,16 @@ UiAeAesGcm::~UiAeAesGcm()
     delete ui;
 }
 
-void UiAeAesGcm::on_textEdit_InputData_textChanged()
+void UiAeAesGcm::on_textEdit_InputDataEncDec_textChanged()
 {
-    this->inputBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputData->toPlainText());
-    this->ui->label_Input->setText( QString("Input (%1 bytes)").arg(this->inputBytes.length()) );
+    this->inputEncDecBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputDataEncDec->toPlainText());
+    this->ui->label_InputEncDec->setText( QString("Input encrypt/decrypt data (%1 bytes)").arg(this->inputEncDecBytes.length()) );
+}
+
+void UiAeAesGcm::on_textEdit_InputDataAuth_textChanged()
+{
+    this->inputAuthBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputDataAuth->toPlainText());
+    this->ui->label_InputAuth->setText( QString("Input authenticated data (%1 bytes)").arg(this->inputAuthBytes.length()) );
 }
 
 void UiAeAesGcm::on_textEdit_OutputData_textChanged()
@@ -95,20 +101,23 @@ void UiAeAesGcm::on_pushButton_Encrypt_clicked()
 
     uint16_t retVal;
     uint8_t outTag[AE_AES_GCM_TAG_LENGTH];
-    uint8_t encData[this->inputBytes.length()];
+    uint8_t encData[this->inputEncDecBytes.length()];
     uint32_t encDataIdx = 0;
-    uint32_t tmpOutLen = this->inputBytes.length();
+    uint32_t tmpOutLen = this->inputEncDecBytes.length();
 
     AeAesGcmEncrypt enc;
     retVal = enc.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length(), (uint8_t *) this->iv.toStdString().c_str(), this->iv.length() );
-    retVal |= enc.AddEncData((uint8_t *) this->inputBytes.toStdString().c_str(), this->inputBytes.length(), &encData[encDataIdx], &tmpOutLen);
+    // additional data shall be added before data to be ciphered
+    if( !this->inputAuthBytes.isEmpty() )
+        retVal |= enc.AddAuthData((uint8_t *) this->inputAuthBytes.toStdString().c_str(), this->inputAuthBytes.length());
+    retVal |= enc.AddEncData((uint8_t *) this->inputEncDecBytes.toStdString().c_str(), this->inputEncDecBytes.length(), &encData[encDataIdx], &tmpOutLen);
     encDataIdx += tmpOutLen;
-    tmpOutLen = this->inputBytes.length() - encDataIdx;
+    tmpOutLen = this->inputEncDecBytes.length() - encDataIdx;
     retVal |= enc.Finish(&encData[encDataIdx], &tmpOutLen, outTag);
 
     if( retVal == 0 )
     {
-        this->ui->textEdit_OutputData->setText( QByteArray(reinterpret_cast<const char *>(encData), this->inputBytes.length()).toHex(' ') );
+        this->ui->textEdit_OutputData->setText( QByteArray(reinterpret_cast<const char *>(encData), this->inputEncDecBytes.length()).toHex(' ') );
         this->ui->lineEdit_Mac->setText( QByteArray(reinterpret_cast<const char *>(outTag), AE_AES_GCM_TAG_LENGTH).toHex(' ') );
     }
     else
@@ -121,4 +130,32 @@ void UiAeAesGcm::on_pushButton_Decrypt_clicked()
 {
     if( !this->CheckPreconditions() )
         return;
+
+    uint16_t retVal;
+    uint8_t decData[this->inputEncDecBytes.length()];
+    uint32_t decDataIdx = 0;
+    uint32_t tmpOutLen = this->inputEncDecBytes.length();
+
+    AeAesGcmDecrypt dec;
+    retVal = dec.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length(), (uint8_t *) this->iv.toStdString().c_str(), this->iv.length() );
+    // additional data shall be added before data to be ciphered
+    if( !this->inputAuthBytes.isEmpty() )
+        retVal |= dec.AddAuthData((uint8_t *) this->inputAuthBytes.toStdString().c_str(), this->inputAuthBytes.length());
+    retVal |= dec.AddDecData((uint8_t *) this->inputEncDecBytes.toStdString().c_str(), this->inputEncDecBytes.length(), &decData[decDataIdx], &tmpOutLen);
+    decDataIdx += tmpOutLen;
+    tmpOutLen = this->inputEncDecBytes.length() - decDataIdx;
+    retVal |= dec.Finish(&decData[decDataIdx], &tmpOutLen, (uint8_t *) this->mac.toStdString().c_str());
+
+    if( retVal == 0 )
+    {
+        this->ui->textEdit_OutputData->setText( QByteArray(reinterpret_cast<const char *>(decData), this->inputEncDecBytes.length()).toHex(' ') );
+    }
+    else if(retVal == AE_AES_GCM_ERR_TAG_VERIFICATION)
+    {
+        Utils_Alert("Auth failed", QString("Incorrect TAG"));
+    }
+    else
+    {
+        Utils_Alert("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
+    }
 }

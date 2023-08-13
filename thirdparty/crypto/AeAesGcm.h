@@ -10,6 +10,8 @@
 #define AE_AES_GCM_KEY_SIZE_192     (24u)
 #define AE_AES_GCM_KEY_SIZE_256     (32u)
 
+#define AE_AES_GCM_ERR_TAG_VERIFICATION (0x2000u + 0x0029u)
+
 /// ENCRYPT
 class AeAesGcmEncrypt
 {
