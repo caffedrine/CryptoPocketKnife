@@ -1,4 +1,4 @@
-#include "AeAesGcm.h"
+#include "AeAesCcm.h"
 
 #include "vImpl/ESLib.h"
 
@@ -9,43 +9,38 @@
 //  |_____|_| |_|\___|_|   \__, | .__/ \__|
 //                         |___/|_|
 
-class AeAesGcmEncrypt::impl
+class AeAesCcmEncrypt::impl
 {
 public:
-    eslt_WorkSpaceGCM workspace;
+    eslt_WorkSpaceAESCCM workspace;
 };
 
-AeAesGcmEncrypt::AeAesGcmEncrypt(): pimpl{std::make_unique<impl>()}
+AeAesCcmEncrypt::AeAesCcmEncrypt(): pimpl{std::make_unique<impl>()}
 {
 
 }
 
-AeAesGcmEncrypt::~AeAesGcmEncrypt() = default;
+AeAesCcmEncrypt::~AeAesCcmEncrypt() = default;
 
-uint16_t AeAesGcmEncrypt::Init(uint8_t *key, uint32_t key_length, uint8_t *iv, uint32_t iv_length)
+uint16_t AeAesCcmEncrypt::Init(uint8_t *key, uint32_t key_length, uint8_t *nonce, uint32_t nonce_length, uint32_t aad_length, uint32_t msg_length, uint8_t auth_field_size, uint8_t auth_field_size_length)
 {
     this->KeyLen = key_length;
 
-    eslt_ErrorCode retVal = esl_initWorkSpaceHeader(&pimpl->workspace.header, ESL_MAXSIZEOF_WS_GCM, reinterpret_cast<esl_WatchdogFuncPtr>((esl_WatchdogFuncPtr *) NULL_PTR));
+    eslt_ErrorCode retVal = esl_initWorkSpaceHeader(&pimpl->workspace.header, ESL_SIZEOF_WS_AESCCM, reinterpret_cast<esl_WatchdogFuncPtr>((esl_WatchdogFuncPtr *) NULL_PTR));
 
     if( retVal == ESL_ERC_NO_ERROR )
     {
-        retVal = esl_initEncryptGCM(&pimpl->workspace, key, this->KeyLen, iv, iv_length);
+        retVal = esl_initAESCCM(&pimpl->workspace, key, this->KeyLen, nonce, nonce_length, aad_length, msg_length, auth_field_size, auth_field_size_length);
     }
     return retVal;
 }
 
-uint16_t AeAesGcmEncrypt::AddEncData(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length)
+uint16_t AeAesCcmEncrypt::Update(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length)
 {
     return esl_updatePlaintextEncryptGCM(&pimpl->workspace, input_data, length_data_length, output_data, reinterpret_cast<eslt_Size32 *>(utput_data_length));
 }
 
-uint16_t AeAesGcmEncrypt::AddAuthData(uint8_t *input_data, uint32_t length_data_length)
-{
-    return esl_updateAuthDataEncryptGCM(&pimpl->workspace, input_data, length_data_length);
-}
-
-uint16_t AeAesGcmEncrypt::Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag)
+uint16_t AeAesCcmEncrypt::Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag)
 {
     return esl_finalizeEncryptGCM(&pimpl->workspace, (eslt_Byte *)output_data, (eslt_Size32 *)output_data_length, tag);
 }
@@ -57,20 +52,20 @@ uint16_t AeAesGcmEncrypt::Finish(uint8_t *output_data, uint32_t *output_data_len
 //  |____/ \___|\___|_|   \__, | .__/ \__|
 //                        |___/|_|
 
-class AeAesGcmDecrypt::impl
+class AeAesCcmDecrypt::impl
 {
 public:
     eslt_WorkSpaceGCM workspace;
 };
 
-AeAesGcmDecrypt::AeAesGcmDecrypt(): pimpl{std::make_unique<impl>()}
+AeAesCcmDecrypt::AeAesCcmDecrypt(): pimpl{std::make_unique<impl>()}
 {
 
 }
 
-AeAesGcmDecrypt::~AeAesGcmDecrypt() = default;
+AeAesCcmDecrypt::~AeAesCcmDecrypt() = default;
 
-uint16_t AeAesGcmDecrypt::Init(uint8_t *key, uint32_t key_length, uint8_t *iv, uint8_t iv_length)
+uint16_t AeAesCcmDecrypt::Init(uint8_t *key, uint32_t key_length, uint8_t *iv, uint8_t iv_length)
 {
     this->KeyLen = key_length;
 
@@ -83,17 +78,12 @@ uint16_t AeAesGcmDecrypt::Init(uint8_t *key, uint32_t key_length, uint8_t *iv, u
     return retVal;
 }
 
-uint16_t AeAesGcmDecrypt::AddDecData(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length)
+uint16_t AeAesCcmDecrypt::Update(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length)
 {
     return esl_updateCiphertextDecryptGCM(&pimpl->workspace, input_data, length_data_length, output_data, reinterpret_cast<eslt_Size32 *>(utput_data_length));
 }
 
-uint16_t AeAesGcmDecrypt::AddAuthData(uint8_t *input_data, uint32_t length_data_length)
-{
-    return esl_updateAuthDataDecryptGCM(&pimpl->workspace, input_data, length_data_length);
-}
-
-uint16_t AeAesGcmDecrypt::Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag)
+uint16_t AeAesCcmDecrypt::Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag)
 {
     return esl_finalizeDecryptGCM(&pimpl->workspace, (eslt_Byte *)output_data, (eslt_Size32 *)output_data_length, tag);
 }

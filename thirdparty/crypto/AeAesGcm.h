@@ -18,7 +18,7 @@ class AeAesGcmEncrypt
 public:
     AeAesGcmEncrypt();
     ~AeAesGcmEncrypt();
-    uint16_t Init(uint8_t *key, uint32_t key_length, uint8_t *iv, uint8_t iv_length);
+    uint16_t Init(uint8_t *key, uint32_t key_length, uint8_t *iv, uint32_t iv_length);
     uint16_t AddEncData(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length);
     uint16_t AddAuthData(uint8_t *input_data, uint32_t length_data_length);
     uint16_t Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag);
