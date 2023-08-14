@@ -7,7 +7,6 @@
 UiAeAesCcm::UiAeAesCcm(QWidget *parent): QMainWindow(parent), ui(new Ui::UiAeAesCcm)
 {
     ui->setupUi(this);
-    this->ui->lineEdit_TagSize->setValidator(new QIntValidator(4, 16, this));
 }
 
 UiAeAesCcm::~UiAeAesCcm()
@@ -34,15 +33,15 @@ void UiAeAesCcm::on_textEdit_OutputData_textChanged()
     this->ui->label_OutputData->setText( QString("Output (%1 bytes)").arg(this->outputBytes.length()) );
 }
 
-void UiAeAesCcm::on_lineEdit_Mac_textChanged()
+void UiAeAesCcm::on_lineEdit_Tag_textChanged()
 {
-    this->tag = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Mac->text());
+    this->tag = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Tag->text());
     this->ui->label_Mac->setText( QString("TAG (%1 bytes) - Only needed when decrypting").arg(this->tag.length()) );
 }
 
-void UiAeAesCcm::on_lineEdit_TagSize_textChanged()
+void UiAeAesCcm::on_comboBox_TagSize_currentTextChanged(const QString& text)
 {
-    this->tagSize = (uint8_t)this->ui->lineEdit_TagSize->text().toInt();
+    this->tagSize = text.toInt();
 }
 
 void UiAeAesCcm::on_lineEdit_Key_textChanged()
@@ -113,7 +112,7 @@ void UiAeAesCcm::on_pushButton_Encrypt_clicked()
     if( retVal == 0 )
     {
         this->ui->textEdit_OutputData->setText( QByteArray(reinterpret_cast<const char *>(encData), this->inputEncDecBytes.length()).toHex(' ') );
-        this->ui->lineEdit_Mac->setText( QByteArray(reinterpret_cast<const char *>(outTag), outTagLen).toHex(' ') );
+        this->ui->lineEdit_Tag->setText( QByteArray(reinterpret_cast<const char *>(outTag), outTagLen).toHex(' ') );
     }
     else
     {

@@ -1,8 +1,8 @@
 #include "AuthenticatedEncryption.h"
 #include "ui_AuthenticatedEncryption.h"
 
-#include "ui/AuthEnc/UiAeAesCcm.h"
-#include "ui/AuthEnc/UiAeAesGcm.h"
+#include "ui/AE/UiAeAesCcm.h"
+#include "ui/AE/UiAeAesGcm.h"
 
 AuthenticatedEncryption::AuthenticatedEncryption(QWidget *parent): QMainWindow(parent), ui(new Ui::AuthenticatedEncryption)
 {

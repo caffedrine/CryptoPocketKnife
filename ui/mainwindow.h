@@ -10,7 +10,7 @@
 #include "base/utils/Logger.h"
 #include "base/utils/utils.h"
 #include "ui/Mac/UiMac.h"
-#include "ui/AuthEnc/AuthenticatedEncryption.h"
+#include "ui/AE/AuthenticatedEncryption.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

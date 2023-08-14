@@ -101,19 +101,24 @@ void UiAeAesGcm::on_pushButton_Encrypt_clicked()
 
     uint16_t retVal;
     uint8_t outTag[AE_AES_GCM_TAG_LENGTH];
+
     uint8_t encData[this->inputEncDecBytes.length()];
+    uint32_t endDataLen = this->inputEncDecBytes.length();
     uint32_t encDataIdx = 0;
-    uint32_t tmpOutLen = this->inputEncDecBytes.length();
 
     AeAesGcmEncrypt enc;
-    retVal = enc.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length(), (uint8_t *) this->iv.toStdString().c_str(), this->iv.length() );
+    retVal = enc.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length(),
+                      (uint8_t *) this->iv.toStdString().c_str(), this->iv.length() );
+
     // additional data shall be added before data to be ciphered
     if( !this->inputAuthBytes.isEmpty() )
         retVal |= enc.AddAuthData((uint8_t *) this->inputAuthBytes.toStdString().c_str(), this->inputAuthBytes.length());
-    retVal |= enc.AddEncData((uint8_t *) this->inputEncDecBytes.toStdString().c_str(), this->inputEncDecBytes.length(), &encData[encDataIdx], &tmpOutLen);
-    encDataIdx += tmpOutLen;
-    tmpOutLen = this->inputEncDecBytes.length() - encDataIdx;
-    retVal |= enc.Finish(&encData[encDataIdx], &tmpOutLen, outTag);
+
+    retVal |= enc.AddEncData((uint8_t *) this->inputEncDecBytes.toStdString().c_str(), this->inputEncDecBytes.length(),
+                             &encData[encDataIdx], &endDataLen);
+    encDataIdx += endDataLen;
+    endDataLen = this->inputEncDecBytes.length() - encDataIdx;
+    retVal |= enc.Finish(&encData[encDataIdx], &endDataLen, outTag);
 
     if( retVal == 0 )
     {
@@ -133,18 +138,18 @@ void UiAeAesGcm::on_pushButton_Decrypt_clicked()
 
     uint16_t retVal;
     uint8_t decData[this->inputEncDecBytes.length()];
+    uint32_t decDataLen = this->inputEncDecBytes.length();
     uint32_t decDataIdx = 0;
-    uint32_t tmpOutLen = this->inputEncDecBytes.length();
 
     AeAesGcmDecrypt dec;
     retVal = dec.Init((uint8_t *) this->key.toStdString().c_str(), this->key.length(), (uint8_t *) this->iv.toStdString().c_str(), this->iv.length() );
     // additional data shall be added before data to be ciphered
     if( !this->inputAuthBytes.isEmpty() )
         retVal |= dec.AddAuthData((uint8_t *) this->inputAuthBytes.toStdString().c_str(), this->inputAuthBytes.length());
-    retVal |= dec.AddDecData((uint8_t *) this->inputEncDecBytes.toStdString().c_str(), this->inputEncDecBytes.length(), &decData[decDataIdx], &tmpOutLen);
-    decDataIdx += tmpOutLen;
-    tmpOutLen = this->inputEncDecBytes.length() - decDataIdx;
-    retVal |= dec.Finish(&decData[decDataIdx], &tmpOutLen, (uint8_t *) this->mac.toStdString().c_str());
+    retVal |= dec.AddDecData((uint8_t *) this->inputEncDecBytes.toStdString().c_str(), this->inputEncDecBytes.length(), &decData[decDataIdx], &decDataLen);
+    decDataIdx += decDataLen;
+    decDataLen = this->inputEncDecBytes.length() - decDataIdx;
+    retVal |= dec.Finish(&decData[decDataIdx], &decDataLen, (uint8_t *) this->mac.toStdString().c_str());
 
     if( retVal == 0 )
     {

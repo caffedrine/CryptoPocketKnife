@@ -21,8 +21,8 @@ public slots:
     void on_textEdit_InputDataEncDec_textChanged();
     void on_textEdit_InputDataAuth_textChanged();
     void on_textEdit_OutputData_textChanged();
-    void on_lineEdit_Mac_textChanged();
-    void on_lineEdit_TagSize_textChanged();
+    void on_lineEdit_Tag_textChanged();
+    void on_comboBox_TagSize_currentTextChanged(const QString&);
     void on_lineEdit_Key_textChanged();
     void on_lineEdit_Nonce_textChanged();
     void on_pushButton_Encrypt_clicked();
