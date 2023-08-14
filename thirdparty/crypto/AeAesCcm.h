@@ -5,10 +5,13 @@
 #include <cstdint>
 
 #define AE_AES_CCM_BLOCK_SIZE       (16u)
-#define AE_AES_CCM_TAG_LENGTH       (16u)
 #define AE_AES_CCM_KEY_SIZE_128     (16u)
+#define AE_AES_CCM_NONCE_MIN_LEN    (7u)
+#define AE_AES_CCM_NONCE_MAX_LEN    (13u)
+#define AE_AES_CCM_AUTH_MIN_LEN     (4u)
+#define AE_AES_CCM_AUTH_MAX_LEN     (16u)
 
-#define AE_AES_GCM_ERR_TAG_VERIFICATION (0x2000u + 0x0029u)
+#define AE_AES_CCM_ERR_TAG_VERIFICATION (0x2000u + 0x000Fu)
 
 /// ENCRYPT
 class AeAesCcmEncrypt
@@ -16,9 +19,9 @@ class AeAesCcmEncrypt
 public:
     AeAesCcmEncrypt();
     ~AeAesCcmEncrypt();
-    uint16_t Init(uint8_t *key, uint32_t key_length, uint8_t *nonce, uint32_t nonce_length, uint32_t aad_length, uint32_t msg_length, uint8_t auth_field_size, uint8_t auth_field_size_length);
-    uint16_t Update(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length);
-    uint16_t Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag);
+    uint16_t Init(uint8_t *key, uint32_t key_length, uint8_t *nonce, uint32_t nonce_length, uint32_t aad_length, uint32_t msg_length, uint8_t auth_field_size);
+    uint16_t Update(uint8_t *input_data, uint32_t input_data_length, uint8_t *aad, uint32_t aad_length, uint8_t *output_data, uint32_t *output_data_length);
+    uint16_t Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag, uint32_t *tag_length);
 
 private:
     class impl;
@@ -33,8 +36,8 @@ class AeAesCcmDecrypt
 public:
     AeAesCcmDecrypt();
     ~AeAesCcmDecrypt();
-    uint16_t Init(uint8_t *key, uint32_t key_length, uint8_t *iv, uint8_t iv_length);
-    uint16_t Update(uint8_t *input_data, uint32_t length_data_length, uint8_t *output_data, uint32_t *utput_data_length);
+    uint16_t Init(uint8_t *key, uint32_t key_length, uint8_t *nonce, uint32_t nonce_length, uint32_t aad_length, uint32_t msg_length, uint8_t auth_field_size);
+    uint16_t Update(uint8_t *ciphred_data, uint32_t ciphred_data_length, uint8_t *input_aad, uint32_t aad_length, uint8_t *output_data, uint32_t *output_data_length);
     uint16_t Finish(uint8_t *output_data, uint32_t *output_data_length, uint8_t *tag);
 
 private:

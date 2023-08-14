@@ -30,19 +30,45 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_AesCCM">
        <attribute name="title">
         <string>AES-CCM</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_AesCcm"/>
+       <layout class="QGridLayout" name="gridLayout_AesCcm">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_AesGcm">
        <attribute name="title">
         <string>AES-GCM</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_AesGcm"/>
+       <layout class="QGridLayout" name="gridLayout_AesGcm">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
      </widget>
     </item>

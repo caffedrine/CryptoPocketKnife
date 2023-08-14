@@ -36,19 +36,58 @@
        <attribute name="title">
         <string>AES-CMAC</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_AesCmac"/>
+       <layout class="QGridLayout" name="gridLayout_AesCmac">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_AesGmac">
        <attribute name="title">
         <string>AES-GMAC</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_AesGmac"/>
+       <layout class="QGridLayout" name="gridLayout_AesGmac">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_Hmac">
        <attribute name="title">
         <string>HMAC</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_Hmac"/>
+       <layout class="QGridLayout" name="gridLayout_Hmac">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
      </widget>
     </item>
