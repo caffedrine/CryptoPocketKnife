@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "ui/KDF/UiKdf.h"
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -18,6 +20,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     AuthenticatedEncryption *ae = new AuthenticatedEncryption(this);
     ae->setWindowFlags(Qt::Widget);
     this->ui->gridLayout_AuthEnc->addWidget(ae);
+
+    // Init KDF window
+    UiKdf *kdf = new UiKdf(this);
+    kdf->setWindowFlags(Qt::Widget);
+    this->ui->gridLayout_KDF->addWidget(kdf);
 }
 
 MainWindow::~MainWindow()

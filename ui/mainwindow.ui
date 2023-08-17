@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>878</width>
+    <width>925</width>
     <height>568</height>
    </rect>
   </property>
@@ -239,6 +239,12 @@
          <number>0</number>
         </property>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab_KDF">
+       <attribute name="title">
+        <string>KDF</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_KDF" />
       </widget>
       <widget class="QWidget" name="tab_Random">
        <attribute name="title">
@@ -608,7 +614,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>878</width>
+     <width>925</width>
      <height>22</height>
     </rect>
    </property>
