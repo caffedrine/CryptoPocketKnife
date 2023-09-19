@@ -73,8 +73,17 @@
        <number>4</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
+       <property name="toolTip">
+        <string>Digital Signature Algorithms</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <attribute name="title">
-        <string>Signature</string>
+        <string>DS</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Digital Signature Algorithms</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="leftMargin">
@@ -99,8 +108,17 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_keyExchange">
+       <property name="toolTip">
+        <string>Key Exchange Algorithms</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <attribute name="title">
-        <string>Key exchange</string>
+        <string>KEX</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Key Exchange Algorithms</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <property name="leftMargin">
@@ -125,8 +143,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Ciphers">
+       <property name="toolTip">
+        <string>Ciphering Algorithms</string>
+       </property>
        <attribute name="title">
         <string>Ciphers</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Crypto Ciphers Algorithms</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_10">
         <property name="leftMargin">
@@ -151,8 +175,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Hashes">
+       <property name="toolTip">
+        <string>Hashing Algorithms</string>
+       </property>
        <attribute name="title">
         <string>Hashes</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Hashing Algorithms</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_18">
         <property name="leftMargin">
@@ -177,8 +207,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Certificates">
+       <property name="toolTip">
+        <string>X509 Digital Certificates Tool</string>
+       </property>
        <attribute name="title">
-        <string>Certificates</string>
+        <string>X509</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>X509 digital certificates tool</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11">
         <property name="leftMargin">
@@ -203,8 +239,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Mac">
+       <property name="toolTip">
+        <string>Message Authentication Code Algorithms</string>
+       </property>
        <attribute name="title">
         <string>MAC</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Message Authentication Code Algorithms</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_8">
         <property name="leftMargin">
@@ -222,8 +264,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_AuthenticatedEncryption">
+       <property name="toolTip">
+        <string>Authenticated Encryption Algorithms</string>
+       </property>
        <attribute name="title">
         <string>AE</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Authenticated Encryption Algorithms</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_AuthEnc">
         <property name="leftMargin">
@@ -241,14 +289,42 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_KDF">
+       <property name="toolTip">
+        <string>Key Derivation Functions Algorithms</string>
+       </property>
        <attribute name="title">
         <string>KDF</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_KDF" />
+       <attribute name="toolTip">
+        <string>Key Derivation Functions</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_KDF"/>
+      </widget>
+      <widget class="QWidget" name="tab_KeyEncapsulation">
+       <attribute name="title">
+        <string>KEM</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Key Encapsulation Mechanism Algorithms</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_KeyWrap">
+       <attribute name="title">
+        <string>KW</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Key Wrapping Algorithms</string>
+       </attribute>
       </widget>
       <widget class="QWidget" name="tab_Random">
+       <property name="toolTip">
+        <string>Random Algorithms, Generators and Analyzers</string>
+       </property>
        <attribute name="title">
         <string>Random</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Random generators and analyzers</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_Random">
         <property name="leftMargin">
@@ -269,8 +345,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Encoding">
+       <property name="toolTip">
+        <string>Encoding/Decoding Algorithms</string>
+       </property>
        <attribute name="title">
-        <string>Encode/Decode</string>
+        <string>Enc/Dec</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Encoding/Decoding Tool</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_14">
         <property name="leftMargin">
@@ -292,8 +374,17 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Web">
+       <property name="toolTip">
+        <string>Web tools</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <attribute name="title">
         <string>Web</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Web Utils</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_25">
         <property name="leftMargin">
@@ -336,8 +427,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Network">
+       <property name="toolTip">
+        <string>Network Utils</string>
+       </property>
        <attribute name="title">
         <string>Network</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Network Utils</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_26">
         <property name="leftMargin">
@@ -362,8 +459,14 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_OSINT">
+       <property name="toolTip">
+        <string>Open-Source Intelligence Tools</string>
+       </property>
        <attribute name="title">
         <string>OSINT</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Open-Source Intelligence Tools</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_37">
         <property name="leftMargin">
@@ -388,8 +491,17 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_Utils">
+       <property name="toolTip">
+        <string>Utils tools</string>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
        <attribute name="title">
         <string>Utils</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>Utils tools</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <property name="leftMargin">
