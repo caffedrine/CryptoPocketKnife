@@ -15,7 +15,7 @@ IDI_ICON1               ICON    DISCARDABLE     "img/icon.ico"
             VALUE "OriginalFilename",   "CryptoPocketKnife.exe\0"
             VALUE "ProductName",        "Crypto Pocket Knife\0"
             VALUE "ProductVersion",     "v1.0.0"
-			VALUE "Website",			"www.cryptopocketknife.com"
+			VALUE "Website",			"www.bytesight.net"
         }
     }
     BLOCK "VarFileInfo"

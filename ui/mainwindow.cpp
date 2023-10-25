@@ -57,12 +57,12 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_actionSupport_triggered()
 {
-    QDesktopServices::openUrl(QUrl("https://cryptopocketknife.com"));
+    QDesktopServices::openUrl(QUrl("https://bytesight.net"));
 }
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::information(this, tr("About"), tr("Cryptographic tool to make life of a security engineer easier.\n\nPlease see https://cryptopocketknife.com for more info."), QMessageBox::Ok |  QMessageBox::Ok);
+    QMessageBox::information(this, tr("About"), tr("Cryptographic tool to make life of a security engineer easier.\n\nPlease see https://bytesight.net for more info."), QMessageBox::Ok |  QMessageBox::Ok);
 }
 
 void MainWindow::on_actionLogs_triggered()
