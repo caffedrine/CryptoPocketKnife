@@ -70,7 +70,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>15</number>
       </property>
       <widget class="QWidget" name="tab_Signature">
        <property name="toolTip">
@@ -517,9 +517,9 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QTabWidget" name="utils_TabWidget_XmlTree">
+         <widget class="QTabWidget" name="utils_TabWidget_MathExpEval">
           <property name="currentIndex">
-           <number>3</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="tab_Utils_DateTimeConversion">
            <attribute name="title">
@@ -710,6 +710,28 @@
             </property>
             <item row="0" column="0">
              <widget class="UiHtmlRenderer" name="widget_3" native="true"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_MathExpEval">
+           <attribute name="title">
+            <string>Math eval</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0" colspan="2">
+             <layout class="QGridLayout" name="gridLayout_MathExpEval"/>
             </item>
            </layout>
           </widget>

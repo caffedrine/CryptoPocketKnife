@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include "base/services/Shodan/Shodan.h"
 #include "base/utils/utils.h"
+#include "base/utils/WidgetsUtils.h"
 
 UiShodan::UiShodan(QWidget *parent): QWidget(parent), ui(new Ui::UiShodan)
 {
@@ -33,23 +34,23 @@ void UiShodan::pushButton_shodanSettings_SaveKey_clicked()
 
 void UiShodan::pushButton_shodanSettings_TestApiKey_clicked()
 {
-    Utils_PushButtonStartLoading( this->ui->pushButton_shodanSettings_TestApiKey );
+    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_shodanSettings_TestApiKey );
 
     Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
     Utils_MsgBox("Shodan reply", shodan.GetAccountInfo());
 
-    Utils_PushButtonEndLoading( this->ui->pushButton_shodanSettings_TestApiKey );
+    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_shodanSettings_TestApiKey );
 
 }
 
 void UiShodan::pushButton_shodanSettings_GetSearchFilters_clicked()
 {
-    Utils_PushButtonStartLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
+    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
 
     Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
     Utils_RichTextBoxPopup("Shodan reply", shodan.GetSearchFilters());
 
-    Utils_PushButtonEndLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
+    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
 }
 
 void UiShodan::pushButton_ManualQuery_GetResults_clicked()
@@ -61,7 +62,7 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
     this->ui->plainTextEdit_ManualQuery_Results->clear();
     this->ui->lineEdit_ManualQuery_Count->clear();
 
-    Utils_PushButtonStartLoading( this->ui->pushButton_ManualQuery_GetResults );
+    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_ManualQuery_GetResults );
 
     QString header = "ip,timestamp,product,country,isp,hostname,asn";
     this->ui->plainTextEdit_ManualQuery_Results->setPlainText(header);
@@ -111,19 +112,19 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
         }
     }
 
-    Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_GetResults );
+    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_GetResults );
     this->ui->pushButton_ManualQuery_GetResults->setText(pushButtonOrigText);
 }
 
 void UiShodan::pushButton_ManualQuery_Count_clicked()
 {
-    Utils_PushButtonStartLoading( this->ui->pushButton_ManualQuery_Count );
+    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_ManualQuery_Count );
 
     Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
     QString total = shodan.GetCountByQuery(this->ui->lineEdit_ManualQuery_Query->text());
     this->ui->lineEdit_ManualQuery_Count->setText(total);
 
-    Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_Count );
+    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_Count );
 }
 
 void UiShodan::on_pushButton_ManualQuery_CopyOutputData_clicked()

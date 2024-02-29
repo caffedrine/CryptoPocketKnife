@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 
 #include "ui/KDF/UiKdf.h"
+#include "ui/Utils/UiMathExpEval.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -25,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     UiKdf *kdf = new UiKdf(this);
     kdf->setWindowFlags(Qt::Widget);
     this->ui->gridLayout_KDF->addWidget(kdf);
+
+    // Init math exp evaluator
+    UiMathExpEval *math = new UiMathExpEval(this);
+    kdf->setWindowFlags(Qt::Widget);
+    this->ui->gridLayout_MathExpEval->addWidget(math);
 }
 
 MainWindow::~MainWindow()

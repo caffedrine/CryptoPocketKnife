@@ -49,6 +49,12 @@ IF (WIN32)
     # Icon How-To: https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/res/win.rc")
     add_executable(${PROJECT_NAME} WIN32 ${ALL_SOURCES} ${APP_ICON_RESOURCE_WINDOWS})
+
+    # Workaround: disable win executable for debugging mode in order to show console messages in CLION.
+    # If this will be enabled, the application will also launch a console in the background.
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE OFF)
+    endif()
 ELSE()
     add_executable(${PROJECT_NAME} ${ALL_SOURCES})
 ENDIF()

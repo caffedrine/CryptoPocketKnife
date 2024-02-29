@@ -4,6 +4,7 @@
 #include <QHostInfo>
 #include "base/utils/utils.h"
 #include "base/utils/WebUtils.h"
+#include "base/utils/WidgetsUtils.h"
 
 UiDomainWhois::UiDomainWhois(QWidget *parent, QString domain): QWidget(parent), ui(new Ui::UiDomainWhois)
 {
@@ -18,7 +19,7 @@ UiDomainWhois::~UiDomainWhois()
 
 void UiDomainWhois::on_pushButton_Lookup_clicked()
 {
-    Utils_PushButtonStartLoading(this->ui->pushButton_Lookup);
+    utils::widgets::Utils_PushButtonStartLoading(this->ui->pushButton_Lookup);
 
     // Query domain info
     Services::Whois::DomainWhois whoisHandler;
@@ -31,5 +32,5 @@ void UiDomainWhois::on_pushButton_Lookup_clicked()
         this->ui->plainTextEdit_LookupResult->appendPlainText(whoisHandler.ServersResponses.last().trimmed());
     }
 
-    Utils_PushButtonEndLoading(this->ui->pushButton_Lookup);
+    utils::widgets::Utils_PushButtonEndLoading(this->ui->pushButton_Lookup);
 }

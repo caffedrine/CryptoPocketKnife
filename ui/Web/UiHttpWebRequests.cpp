@@ -5,6 +5,7 @@
 #include "base/utils/utils.h"
 #include "base/thirdparty/QJsonModel/QJsonModel.h"
 #include "base/services/Parsers/Uri.h"
+#include "base/utils/WidgetsUtils.h"
 
 #include <QTreeWidget>
 #include <QTcpSocket>
@@ -117,7 +118,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
         this->ui->label_State->setText("State: " + status);
     });
 
-    Utils_PushButtonStartLoading(this->ui->pushButton_Composer_Submit);
+    utils::widgets::Utils_PushButtonStartLoading(this->ui->pushButton_Composer_Submit);
 
     Request.Metadata.Host = url.host().toUtf8();
     Request.Metadata.Port = !url.port().isEmpty()?url.port().toUInt():(url.scheme()=="https"?443:80);
@@ -180,7 +181,7 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
     this->ui->treeWidget_HistoryList->addTopLevelItem(root);
     this->ui->treeWidget_HistoryList->setCurrentItem(root);
 
-    Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
+    utils::widgets::Utils_PushButtonEndLoading(this->ui->pushButton_Composer_Submit);
 }
 
 void UiHttpWebRequests::ShowRequestOutput(int which)

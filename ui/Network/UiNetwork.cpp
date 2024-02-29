@@ -1,6 +1,8 @@
 #include "UiNetwork.h"
 #include "ui_UiNetwork.h"
 
+#include "base/utils/WidgetsUtils.h"
+
 UiNetwork::UiNetwork(QWidget *parent): QWidget(parent), ui(new Ui::UiNetwork)
 {
     ui->setupUi(this);
@@ -66,7 +68,7 @@ void UiNetwork::PortsScanner_StartScan_pushButtonClicked()
         return;
     }
 
-    Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
+    utils::widgets::Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
     this->ui->pushButton_PortsScanner_Start->setText("Start 0/" + QString::number(rows));
 
     // Clear all columns except for host
@@ -123,8 +125,8 @@ void UiNetwork::PortsScanner_StopScan_pushButtonClicked()
     this->CancelRequests = true;
     this->PortsScannerEngine->RequestAllJobsStop();
 
-    Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Start);
-    Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Stop);
+    utils::widgets::Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Start);
+    utils::widgets::Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Stop);
 }
 
 void UiNetwork::PortsScanner_ScanSettings_pushButtonClicked()
@@ -261,8 +263,8 @@ void UiNetwork::PortsScanner_OnAvailableWorkersChanged(int availableWorkers, int
 
     if( activeWorkers == 0 )
     {
-        Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Start);
-        Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Stop);
+        utils::widgets::Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Start);
+        utils::widgets::Utils_PushButtonEndLoading(this->ui->pushButton_PortsScanner_Stop);
     }
 }
 
@@ -410,7 +412,7 @@ void UiNetwork::PortsScanner_tableWidget_customContextMenuRequested(const QPoint
         connect(&Item_Retest, &QAction::triggered, this, [this, row, host]()
         {
             this->PortsScanner_InitEngine();
-            Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
+            utils::widgets::Utils_PushButtonStartLoading(this->ui->pushButton_PortsScanner_Start);
             for (int i = 1; i < this->ui->tableWidget_PortsScanner->columnCount() - 1; i++)
             {
                 this->ui->tableWidget_PortsScanner->item(row, i)->setText("");
