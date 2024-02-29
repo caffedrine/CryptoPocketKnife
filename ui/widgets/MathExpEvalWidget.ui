@@ -6,102 +6,50 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>432</width>
-    <height>262</height>
+    <width>436</width>
+    <height>163</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Math Expressions Evaluator</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
-   <property name="leftMargin">
-    <number>9</number>
-   </property>
-   <property name="topMargin">
-    <number>9</number>
-   </property>
-   <property name="rightMargin">
-    <number>9</number>
-   </property>
-   <property name="bottomMargin">
-    <number>9</number>
-   </property>
-   <item>
-    <widget class="QSplitter" name="splitter">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>INPUT: Math expression (e.g. 0xAA + sqrt(81) - 6) )</string>
      </property>
-     <property name="midLineWidth">
-      <number>4</number>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Result</string>
      </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QPlainTextEdit" name="plainTextEdit_MathExpInput">
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+      </font>
      </property>
-     <property name="opaqueResize">
+     <property name="plainText">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QLineEdit" name="lineEdit_MathExpResult">
+     <property name="font">
+      <font>
+       <family>Courier New</family>
+      </font>
+     </property>
+     <property name="readOnly">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>INPUT: Math expression</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_MathExpInput">
-         <property name="font">
-          <font>
-           <family>Courier New</family>
-          </font>
-         </property>
-         <property name="plainText">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>OUTPUT: Math expression result</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_MathExpResult">
-         <property name="font">
-          <font>
-           <family>Courier New</family>
-          </font>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Compilation output</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_CompilationOutput">
-         <property name="font">
-          <font>
-           <family>Courier New</family>
-          </font>
-         </property>
-         <property name="plainText">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
     </widget>
    </item>
   </layout>

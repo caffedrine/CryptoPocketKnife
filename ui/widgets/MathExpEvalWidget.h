@@ -17,6 +17,9 @@ public:
     explicit MathExpEvalWidget(QWidget *parent = nullptr);
     ~MathExpEvalWidget() override;
 
+protected slots:
+    void on_plainTextEdit_MathExpInput_textChanged();
+
 private:
     Ui::MathExpEvalWidget *ui;
 };
