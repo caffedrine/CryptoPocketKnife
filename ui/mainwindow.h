@@ -30,6 +30,7 @@ private slots:
     void on_actionAbout_triggered();
     void on_actionExit_triggered();
     void on_actionLogs_triggered();
+    void on_action_StickToTop_triggered();
 
     // Utils
     void on_pushButton_Utils_CurrentTimestamp_clicked();

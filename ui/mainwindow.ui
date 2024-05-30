@@ -767,7 +767,14 @@
     <addaction name="actionSupport"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuPrefs">
+    <property name="title">
+     <string>Prefs</string>
+    </property>
+    <addaction name="action_StickToTop"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuPrefs"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -789,6 +796,14 @@
   <action name="actionLogs">
    <property name="text">
     <string>Logs</string>
+   </property>
+  </action>
+  <action name="action_StickToTop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Stick to top</string>
    </property>
   </action>
  </widget>

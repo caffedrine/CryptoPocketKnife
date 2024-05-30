@@ -106,3 +106,30 @@ void MainWindow::on_pushButton_dateTimeToTimestamp_clicked()
 {
     this->ui->lineEdit_Utils_LinuxTimestamp->setText( QString::number( QDateTime::fromString(this->ui->lineEdit_Utils_DateTime->text(), "yyyy-MM-dd hh:mm:ss").toSecsSinceEpoch()));
 }
+
+void MainWindow::on_action_StickToTop_triggered()
+{
+    bool enabled = this->ui->action_StickToTop->isChecked();
+#ifdef _WIN32
+    if (enabled)
+    {
+        SetWindowPos(reinterpret_cast<HWND>(this->winId()), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+    else
+    {
+        SetWindowPos(reinterpret_cast<HWND>(this->winId()), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+    }
+#else
+    Qt::WindowFlags flags = mw->windowFlags();
+            if (enabled)
+            {
+                mw->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+                mw->show();
+            }
+            else
+            {
+                mw->setWindowFlags(flags ^ (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint));
+                mw->show();
+            }
+#endif
+}
