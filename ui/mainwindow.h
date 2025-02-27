@@ -1,51 +1,37 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef _ASN1EDITOR_MAINWINDOW_H_
+#define _ASN1EDITOR_MAINWINDOW_H_
 
-#include <QDebug>
+#define DEBUG_MENU_TOOLS    1
+
 #include <QMainWindow>
-#include <QDateTime>
-#include <QMessageBox>
-#include <QDesktopServices>
-
-#include "base/utils/Logger.h"
-#include "base/utils/utils.h"
-#include "ui/Mac/UiMac.h"
-#include "ui/AE/AuthenticatedEncryption.h"
+#include <QPlainTextEdit>
+#include <QTimer>
+#include <QWidgetAppElements/QAppMainWindowExtension.h>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, protected QAppMainWindowExtension
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-private slots:
-    // Appl
-    void on_actionSupport_triggered();
-    void on_actionAbout_triggered();
-    void on_actionExit_triggered();
-    void on_actionLogs_triggered();
-    void on_action_StickToTop_triggered();
-
-    // Utils
-    void on_pushButton_Utils_CurrentTimestamp_clicked();
-    void on_pushButton_Utils_CurrentDateTime_clicked();
-    void on_pushButton_TimestampToDatetime_clicked();
-    void on_pushButton_dateTimeToTimestamp_clicked();
-
-    private:
+private:
     Ui::MainWindow *ui;
-    QMap<QString, QString> WebScraperResponseHeaders;
-    QMap<QString, QString> WebScraperResponseData;
 
-    void Status_EndWithError(QString err_msg);
-    void Status_EndWithSuccess(QString err_msg);
-    void Status_Clear();
-
+private slots:
+    void on_action_NewTab_triggered();
+    void on_action_Exit_triggered();
+    void on_action_Logs_triggered();
+    void on_action_About_triggered();
+    void on_action_Preferences_triggered();
+    void on_action_StickToTheTop_triggered();
 };
-#endif // MAINWINDOW_H
+
+#endif // _ASN1EDITOR_MAINWINDOW_H_
