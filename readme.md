@@ -29,3 +29,27 @@ Small tool for all kind of cryptographic operation used often. It currently supp
 
 # Previews:
 ![alt Crypto pocket knife](docs/img/screen.png "Crypto pocket knife")
+
+# Build
+CMake options needed when building:
+```
+-DCMAKE_PREFIX_PATH=X:/Toolchains/Qt/6.7.3/mingw_64/lib/cmake 
+-DQBASE_LIB_TYPE=STATIC 
+```
+
+Can be added in CLion under `File >> Settings >> Build, exec, deploy >> CMake`
+
+### Run
+To run in debug mode, make sure working directory points to:
+```
+X:\Toolchains\Qt\6.7.3\mingw_64\bin
+```
+
+It can be done from `Target >> Working directory`
+
+### Math library
+
+A good math library (unfortunately LGPLv2) would be https://github.com/Qalculate/libqalculate/
+
+A license friendly library:
+https://github.com/ArashPartow/exprtk
