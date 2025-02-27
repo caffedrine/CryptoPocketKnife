@@ -5,7 +5,8 @@
 #include <QRandomGenerator>
 #include <eddsa.h>
 #include "base/crypto/Hash.h"
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 
 UiKeyExchange::UiKeyExchange(QWidget *parent): QWidget(parent), ui(new Ui::UiKeyExchange)
 {
@@ -57,7 +58,7 @@ void UiKeyExchange::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
     uint8_t own_private_key[X25519_KEY_LEN], other_private_key[X25519_KEY_LEN];
 
     // Read or generate own private key
-    QByteArray tmpArr = Utils_RawHexStrToQByteArr(this->ui->x25529_textEdit_ownPrivateKey->text());
+    QByteArray tmpArr = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->x25529_textEdit_ownPrivateKey->text());
     if( tmpArr.size() != 32 )
     {
         for( size_t i = 0; i < sizeof(own_private_key); i++ )
@@ -69,7 +70,7 @@ void UiKeyExchange::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
     }
 
     // Read or generate other private key
-    tmpArr = Utils_RawHexStrToQByteArr(this->ui->x25529_textEdit_otherPrivateKey->text());
+    tmpArr = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->x25529_textEdit_otherPrivateKey->text());
     if( tmpArr.size() != 32 )
     {
         for( size_t i = 0; i < sizeof(other_private_key); i++ )

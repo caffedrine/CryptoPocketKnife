@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(PROJECT_NAME VectorPocketKnife)
-project(VectorPocketKnife DESCRIPTION "Vector Pocket Knife" VERSION 1.0.0 LANGUAGES CXX C)
+set(PROJECT_NAME CryptoPocketKnife)
+project(${PROJECT_NAME} DESCRIPTION "Crypto Pocket Knife" VERSION 1.0.0 LANGUAGES CXX C)
 set(PROJECT_APP_COMPANY "ByteSight")
 set(PROJECT_APP_WEBSITE "www.bytesight.net")
-set(PROJECT_APP_ID "vectorpocketknife")
+set(PROJECT_APP_ID "cryptopocketknife")
 set(PROJECT_APP_BACKEND_API_URL "https://bytesight.net/api/v1")
 
 # Put all the artifacts on a single place so they can be easily copied when application is deployed
@@ -33,6 +33,7 @@ SET(BASE_LIB_DEPENDENCIES
         QBackendServer
         QAppPreferences
         QWorkspace
+        QX509
 )
 
 # Add base dependencies
@@ -60,7 +61,7 @@ find_package(QT NAMES Qt6 Qt5)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Gui Xml Concurrent REQUIRED)
 
 # Include thirdparty libs
-include(thirdparty/trace32api/t32.cmake)
+include(thirdparty/thirdparty_dependencies.cmake)
 
 # Create config file based on CMake definitions
 configure_file(${CMAKE_CURRENT_LIST_DIR}/libs/QBaseLibs/cmake/Config.h.in ${CMAKE_CURRENT_LIST_DIR}/src/gendata/Config.h)
@@ -70,7 +71,7 @@ file(WRITE "${CMAKE_BINARY_DIR}/gendata/include/DummyTriggerRebuild.h" "")
 include_directories(${CMAKE_BINARY_DIR}/gendata/include  "src" "ui")
 
 # All source code files (including generated resources)
-file(GLOB_RECURSE ALL_SOURCES "src/*.c" "src/*.cpp" "ui/*.cpp" "ui/*.ui" "res/main.qrc" "thirdparty/trace32api/src" )
+file(GLOB_RECURSE ALL_SOURCES "src/*.c" "src/*.cpp" "ui/*.cpp" "ui/*.ui" "res/main.qrc" ${THIRD_PARTY_SRC} )
 
 # Proj executable files - if this is not added, application will launch a console simultaneously with the gui app.
 IF (WIN32)
@@ -105,7 +106,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Xml
         Qt${QT_VERSION_MAJOR}::Concurrent
-        trace32api-lib
+        ${THIRD_PARTY_LIBS}
 )
 # Link base dependencies
 foreach(subdirectory ${BASE_LIB_DEPENDENCIES})

@@ -3,7 +3,8 @@
 
 #include <QRandomGenerator>
 #include <eddsa.h>
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 
 
 UiDigitalSignatures::UiDigitalSignatures(QWidget *parent): QWidget(parent), ui(new Ui::UiDigitalSignatures)
@@ -155,7 +156,7 @@ void UiDigitalSignatures::on_ed25519_pushButton_VerifySignature_clicked()
     }
     else
     {
-        Utils_Alert("Signature status","Signature NOT ok");
+        Base::Utils::Widgets::AlertPopup("Signature status","Signature NOT ok");
     }
 }
 

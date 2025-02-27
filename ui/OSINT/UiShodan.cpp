@@ -5,7 +5,8 @@
 #include <QClipboard>
 #include <QMessageBox>
 #include "base/services/Shodan/Shodan.h"
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "base/utils/WidgetsUtils.h"
 
 UiShodan::UiShodan(QWidget *parent): QWidget(parent), ui(new Ui::UiShodan)
@@ -85,7 +86,7 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
         QMap<QString, QJsonDocument> results = shodan.GetResultsByByQuery(this->ui->lineEdit_ManualQuery_Query->text(), i);
         if(results.contains("error"))
         {
-            Utils_Alert("Shodan error detected", results["error"].object().value("error").toString());
+            Base::Utils::Widgets::AlertPopup("Shodan error detected", results["error"].object().value("error").toString());
             i -= 1;
             CurrentAttempts++;
             continue;

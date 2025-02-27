@@ -2,7 +2,8 @@
 #include "ui_UiHttpWebRequests.h"
 #include "base/data_structures/DomModel.h"
 #include "base/services/Web/RawHttpWebRequest.h"
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "base/thirdparty/QJsonModel/QJsonModel.h"
 #include "base/services/Parsers/Uri.h"
 #include "base/utils/WidgetsUtils.h"
@@ -70,14 +71,14 @@ void UiHttpWebRequests::on_pushButton_Composer_Submit_clicked()
 {
     if( this->ui->lineEdit_Composer_TargetHost->text().isEmpty() )
     {
-        Utils_Alert("Empty URL", "Please provide target URL that contain a valid host");
+        Base::Utils::Widgets::AlertPopup("Empty URL", "Please provide target URL that contain a valid host");
         return;
     }
 
     Services::Parsers::Uri url( this->ui->lineEdit_Composer_TargetHost->text());
     if( !url.isValid() || url.host().isEmpty() )
     {
-        Utils_Alert("Invalid URL", "Please provide a valid target URL containing a host");
+        Base::Utils::Widgets::AlertPopup("Invalid URL", "Please provide a valid target URL containing a host");
         return;
     }
 

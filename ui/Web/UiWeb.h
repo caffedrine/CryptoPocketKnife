@@ -15,7 +15,8 @@
 #include "base/services/TldCountry/TldCountry.h"
 #include "base/services/GeoIP/GeoIP.h"
 #include "base/services/Web/WebScraper.h"
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "base/utils/WebUtils.h"
 #include "base/utils/LambdaEventFilter.h"
 

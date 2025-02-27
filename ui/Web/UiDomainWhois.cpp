@@ -2,7 +2,8 @@
 #include "ui_UiDomainWhois.h"
 
 #include <QHostInfo>
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "base/utils/WebUtils.h"
 #include "base/utils/WidgetsUtils.h"
 

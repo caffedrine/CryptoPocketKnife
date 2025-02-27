@@ -1,7 +1,8 @@
 #include "UiCiphers.h"
 #include "ui_UiCiphers.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 
 UiCiphers::UiCiphers(QWidget *parent): QWidget(parent), ui(new Ui::UiCiphers)
 {

@@ -6,7 +6,9 @@
 #include <QDebug>
 #include "UiCertificates.h"
 #include "ui_UiCertificates.h"
-#include "base/utils/utils.h"
+
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 
 UiCertificates::UiCertificates(QWidget *parent): QWidget(parent), ui(new Ui::UiCertificates)
 {
@@ -158,7 +160,7 @@ void UiCertificates::ParseCert()
 //    // Add tags to PEM format and write it to a file so it can be parsed by OpenSSL
 //    inputContentB64 = "-----BEGIN CERTIFICATE-----\n" + inputContentB64 + "\n-----END CERTIFICATE-----";
 
-//    QByteArray certDer = Utils_RawHexStrToQByteArr(ui->textEdit_certificates_Parse_InputCertificate->toPlainText());
+//    QByteArray certDer = Base::Utils::ByteArrays::RawHexStrToQByteArr(ui->textEdit_certificates_Parse_InputCertificate->toPlainText());
 
 //    QList<QSslCertificate> certs = QSslCertificate::fromPath("D:/temp/certs/backend.txt");
 

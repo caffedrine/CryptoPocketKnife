@@ -1,7 +1,8 @@
 #include "UiHmacSha.h"
 #include "ui_UiHmacSha.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "HmacSha1.h"
 #include "HmacSha2.h"
 
@@ -17,19 +18,19 @@ UiHmacSha::~UiHmacSha()
 
 void UiHmacSha::on_textEdit_InputData_textChanged()
 {
-    this->inputBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputData->toPlainText());
+    this->inputBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_InputData->toPlainText());
     this->ui->label_Input->setText( QString("Input (%1 bytes)").arg(this->inputBytes.length()) );
 }
 
 void UiHmacSha::on_lineEdit_Mac_textChanged()
 {
-    this->mac = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Mac->text());
+    this->mac = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Mac->text());
     this->ui->label_Mac->setText( QString("MAC (%1 bytes)").arg(this->mac.length()) );
 }
 
 void UiHmacSha::on_lineEdit_Key_textChanged()
 {
-    this->key = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
+    this->key = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
     this->ui->label_Key->setText( QString("Key (%1 bytes)").arg(this->key.length()) );
 }
 
@@ -41,7 +42,7 @@ bool UiHmacSha::CheckPreconditions()
     // Validate key
     if(this->key.length() == 0)
     {
-        Utils_Alert("Invalid key length", "Key length cannot be empty");
+        Base::Utils::Widgets::AlertPopup("Invalid key length", "Key length cannot be empty");
         return false;
     }
 
@@ -92,7 +93,7 @@ void UiHmacSha::on_pushButton_CalcMac_clicked()
 
     if( retVal != 0 )
     {
-        Utils_Alert("Calculation failed", QString("MAC generation failed with error code %1").arg(retVal));
+        Base::Utils::Widgets::AlertPopup("Calculation failed", QString("MAC generation failed with error code %1").arg(retVal));
     }
 
 }

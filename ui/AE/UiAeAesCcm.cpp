@@ -1,7 +1,9 @@
 #include "UiAeAesCcm.h"
 #include "ui_UiAeAesCcm.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
+
 #include "AeAesCcm.h"
 
 UiAeAesCcm::UiAeAesCcm(QWidget *parent): QMainWindow(parent), ui(new Ui::UiAeAesCcm)
@@ -17,25 +19,25 @@ UiAeAesCcm::~UiAeAesCcm()
 
 void UiAeAesCcm::on_textEdit_InputDataEncDec_textChanged()
 {
-    this->inputEncDecBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputDataEncDec->toPlainText());
+    this->inputEncDecBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_InputDataEncDec->toPlainText());
     this->ui->label_InputEncDec->setText( QString("Input encrypt/decrypt data (%1 bytes)").arg(this->inputEncDecBytes.length()) );
 }
 
 void UiAeAesCcm::on_textEdit_InputDataAuth_textChanged()
 {
-    this->inputBytesAad = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputDataAuth->toPlainText());
+    this->inputBytesAad = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_InputDataAuth->toPlainText());
     this->ui->label_InputAuth->setText( QString("AAD - Authenticated data (%1 bytes)").arg(this->inputBytesAad.length()) );
 }
 
 void UiAeAesCcm::on_textEdit_OutputData_textChanged()
 {
-    this->outputBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_OutputData->toPlainText());
+    this->outputBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_OutputData->toPlainText());
     this->ui->label_OutputData->setText( QString("Output (%1 bytes)").arg(this->outputBytes.length()) );
 }
 
 void UiAeAesCcm::on_lineEdit_Tag_textChanged()
 {
-    this->tag = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Tag->text());
+    this->tag = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Tag->text());
     this->ui->label_Mac->setText( QString("TAG (%1 bytes) - Only needed when decrypting").arg(this->tag.length()) );
 }
 
@@ -46,13 +48,13 @@ void UiAeAesCcm::on_comboBox_TagSize_currentTextChanged(const QString& text)
 
 void UiAeAesCcm::on_lineEdit_Key_textChanged()
 {
-    this->key = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
+    this->key = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
     this->ui->label_Key->setText( QString("KEY (%1 bytes)").arg(this->key.length()) );
 }
 
 void UiAeAesCcm::on_lineEdit_Nonce_textChanged()
 {
-    this->nonce = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Nonce->text());
+    this->nonce = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Nonce->text());
     this->ui->label_Nonce->setText( QString("Nonce (%1 bytes)").arg(this->nonce.length()) );
 }
 
@@ -65,19 +67,19 @@ bool UiAeAesCcm::CheckPreconditions()
     {
         if( this->key.length() != AE_AES_CCM_KEY_SIZE_128 )
         {
-            Utils_Alert("Invalid key length", "AES128-CCM Key length must be 16 bytes");
+            Base::Utils::Widgets::AlertPopup("Invalid key length", "AES128-CCM Key length must be 16 bytes");
             return false;
         }
     }
     else
     {
-        Utils_Alert("Invalid AES algo", "Invalid algo");
+        Base::Utils::Widgets::AlertPopup("Invalid AES algo", "Invalid algo");
         return false;
     }
 
     if(this->nonce.length() < AE_AES_CCM_NONCE_MIN_LEN || this->nonce.length() > AE_AES_CCM_NONCE_MAX_LEN )
     {
-        Utils_Alert("Invalid nonce length", QString("Nonce length needs to be %1-%2 bytes (see RFC 3610)").arg(QString::number(AE_AES_CCM_NONCE_MIN_LEN), QString::number(AE_AES_CCM_NONCE_MAX_LEN)));
+        Base::Utils::Widgets::AlertPopup("Invalid nonce length", QString("Nonce length needs to be %1-%2 bytes (see RFC 3610)").arg(QString::number(AE_AES_CCM_NONCE_MIN_LEN), QString::number(AE_AES_CCM_NONCE_MAX_LEN)));
         return false;
     }
 
@@ -116,7 +118,7 @@ void UiAeAesCcm::on_pushButton_Encrypt_clicked()
     }
     else
     {
-        Utils_Alert("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
+        Base::Utils::Widgets::AlertPopup("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
     }
 }
 
@@ -148,12 +150,12 @@ void UiAeAesCcm::on_pushButton_Decrypt_clicked()
     }
     else if(retVal == AE_AES_CCM_ERR_TAG_VERIFICATION)
     {
-        Utils_Alert("Auth failed", QString("Incorrect TAG"));
+        Base::Utils::Widgets::AlertPopup("Auth failed", QString("Incorrect TAG"));
         this->ui->textEdit_OutputData->clear();
     }
     else
     {
-        Utils_Alert("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
+        Base::Utils::Widgets::AlertPopup("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
         this->ui->textEdit_OutputData->clear();
     }
 }

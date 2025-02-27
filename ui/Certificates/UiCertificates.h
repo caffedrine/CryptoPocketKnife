@@ -6,7 +6,7 @@
 #include <QSslKey>
 #include <QSslCertificate>
 #include <QSslCertificateExtension>
-#include "base/crypto/X509Certificate.h"
+#include <QX509/X509Certificate.h>
 
 //
 // USefully to autodetect multiple certificates in the same string

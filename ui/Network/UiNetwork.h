@@ -13,7 +13,8 @@
 #include <QDomText>
 #include <QFileDialog>
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "base/services/GeoIP/GeoIP.h"
 #include "base/services/PortsScanner/PortsScanner.h"
 #include "base/services/PortsScanner/PortsScanProfilesManager.h"

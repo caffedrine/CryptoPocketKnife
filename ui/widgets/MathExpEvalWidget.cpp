@@ -3,7 +3,8 @@
 
 // https://github.com/Blake-Madden/tinyexpr-plusplus
 #include "tinyexpr.h"
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 
 #include <regex>
 #include <sstream>

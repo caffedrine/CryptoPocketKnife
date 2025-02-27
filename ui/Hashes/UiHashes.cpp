@@ -1,7 +1,8 @@
 #include "UiHashes.h"
 #include "ui_UiHashes.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "base/crypto/Hash.h"
 
 UiHashes::UiHashes(QWidget *parent): QWidget(parent), ui(new Ui::UiHashes)
@@ -23,7 +24,7 @@ UiHashes::~UiHashes()
 */
 void UiHashes::on_textBrowser_SHA2_InputBytes_textChanged()
 {
-    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_SHA2_InputBytes->toPlainText());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textBrowser_SHA2_InputBytes->toPlainText());
     if( bytes.length() <= 0 )
     {
         return;
@@ -53,7 +54,7 @@ void UiHashes::on_textBrowser_SHA2_InputBytes_textChanged()
 
 void UiHashes::on_textBrowser_SHA1_InputBytes_textChanged()
 {
-    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_SHA1_InputBytes->toPlainText());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textBrowser_SHA1_InputBytes->toPlainText());
     if( bytes.length() <= 0 )
     {
         return;
@@ -69,7 +70,7 @@ void UiHashes::on_textBrowser_SHA1_InputBytes_textChanged()
 
 void UiHashes::on_textBrowser_MD5_InputBytes_textChanged()
 {
-    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_MD5_InputBytes->toPlainText());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textBrowser_MD5_InputBytes->toPlainText());
     if( bytes.length() <= 0 )
     {
         return;
@@ -85,7 +86,7 @@ void UiHashes::on_textBrowser_MD5_InputBytes_textChanged()
 
 void UiHashes::on_textBrowser_SHA3_InputBytes_textChanged()
 {
-    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_SHA3_InputBytes->toPlainText());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textBrowser_SHA3_InputBytes->toPlainText());
     if( bytes.length() <= 0 )
     {
         return;
@@ -103,7 +104,7 @@ void UiHashes::on_textBrowser_SHA3_InputBytes_textChanged()
 
 void UiHashes::on_textBrowser_BLAKE2_InputBytes_textChanged()
 {
-    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_BLAKE2_InputBytes->toPlainText());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textBrowser_BLAKE2_InputBytes->toPlainText());
     if( bytes.length() <= 0 )
     {
         return;
@@ -125,7 +126,7 @@ void UiHashes::on_textBrowser_BLAKE2_InputBytes_textChanged()
 
 void UiHashes::on_textBrowser_KECCAK_InputBytes_textChanged()
 {
-    QByteArray bytes = Utils_RawHexStrToQByteArr(this->ui->textBrowser_KECCAK_InputBytes->toPlainText());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textBrowser_KECCAK_InputBytes->toPlainText());
     if( bytes.length() <= 0 )
     {
         return;

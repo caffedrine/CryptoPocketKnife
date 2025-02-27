@@ -1,7 +1,9 @@
 #include "UiAeAesGcm.h"
 #include "ui_UiAeAesGcm.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
+
 #include "AeAesGcm.h"
 
 UiAeAesGcm::UiAeAesGcm(QWidget *parent): QMainWindow(parent), ui(new Ui::UiAeAesGcm)
@@ -16,37 +18,37 @@ UiAeAesGcm::~UiAeAesGcm()
 
 void UiAeAesGcm::on_textEdit_InputDataEncDec_textChanged()
 {
-    this->inputEncDecBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputDataEncDec->toPlainText());
+    this->inputEncDecBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_InputDataEncDec->toPlainText());
     this->ui->label_InputEncDec->setText( QString("Input encrypt/decrypt data (%1 bytes)").arg(this->inputEncDecBytes.length()) );
 }
 
 void UiAeAesGcm::on_textEdit_InputDataAuth_textChanged()
 {
-    this->inputAuthBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_InputDataAuth->toPlainText());
+    this->inputAuthBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_InputDataAuth->toPlainText());
     this->ui->label_InputAuth->setText( QString("Input authenticated data (%1 bytes)").arg(this->inputAuthBytes.length()) );
 }
 
 void UiAeAesGcm::on_textEdit_OutputData_textChanged()
 {
-    this->outputBytes = Utils_RawHexStrToQByteArr(this->ui->textEdit_OutputData->toPlainText());
+    this->outputBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_OutputData->toPlainText());
     this->ui->label_OutputData->setText( QString("Output (%1 bytes)").arg(this->outputBytes.length()) );
 }
 
 void UiAeAesGcm::on_lineEdit_Mac_textChanged()
 {
-    this->mac = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Mac->text());
+    this->mac = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Mac->text());
     this->ui->label_Mac->setText( QString("TAG (%1 bytes) - Only needed when decrypting").arg(this->mac.length()) );
 }
 
 void UiAeAesGcm::on_lineEdit_Key_textChanged()
 {
-    this->key = Utils_RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
+    this->key = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_Key->text());
     this->ui->label_Key->setText( QString("KEY (%1 bytes)").arg(this->key.length()) );
 }
 
 void UiAeAesGcm::on_lineEdit_IV_textChanged()
 {
-    this->iv = Utils_RawHexStrToQByteArr(this->ui->lineEdit_IV->text());
+    this->iv = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_IV->text());
     this->ui->label_IV->setText( QString("IV (%1 bytes)").arg(this->iv.length()) );
 }
 
@@ -59,7 +61,7 @@ bool UiAeAesGcm::CheckPreconditions()
     {
         if( this->key.length() != AE_AES_GCM_KEY_SIZE_128 )
         {
-            Utils_Alert("Invalid key length", "AES128-GCM Key length must be 16 bytes");
+            Base::Utils::Widgets::AlertPopup("Invalid key length", "AES128-GCM Key length must be 16 bytes");
             return false;
         }
     }
@@ -67,7 +69,7 @@ bool UiAeAesGcm::CheckPreconditions()
     {
         if( this->key.length() != AE_AES_GCM_KEY_SIZE_192 )
         {
-            Utils_Alert("Invalid key length", "AES192-GCM Key length must be 24 bytes");
+            Base::Utils::Widgets::AlertPopup("Invalid key length", "AES192-GCM Key length must be 24 bytes");
             return false;
         }
     }
@@ -75,19 +77,19 @@ bool UiAeAesGcm::CheckPreconditions()
     {
         if( this->key.length() != AE_AES_GCM_KEY_SIZE_256 )
         {
-            Utils_Alert("Invalid key length", "AES256-GCM Key length must be 32 bytes");
+            Base::Utils::Widgets::AlertPopup("Invalid key length", "AES256-GCM Key length must be 32 bytes");
             return false;
         }
     }
     else
     {
-        Utils_Alert("Invalid AES algo", "Invalid algo");
+        Base::Utils::Widgets::AlertPopup("Invalid AES algo", "Invalid algo");
         return false;
     }
 
     if( this->iv.length() == 0 )
     {
-        Utils_Alert("Invalid IV length", "IV length cannot be 0");
+        Base::Utils::Widgets::AlertPopup("Invalid IV length", "IV length cannot be 0");
         return false;
     }
 
@@ -127,7 +129,7 @@ void UiAeAesGcm::on_pushButton_Encrypt_clicked()
     }
     else
     {
-        Utils_Alert("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
+        Base::Utils::Widgets::AlertPopup("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
     }
 }
 
@@ -157,10 +159,10 @@ void UiAeAesGcm::on_pushButton_Decrypt_clicked()
     }
     else if(retVal == AE_AES_GCM_ERR_TAG_VERIFICATION)
     {
-        Utils_Alert("Auth failed", QString("Incorrect TAG"));
+        Base::Utils::Widgets::AlertPopup("Auth failed", QString("Incorrect TAG"));
     }
     else
     {
-        Utils_Alert("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
+        Base::Utils::Widgets::AlertPopup("Calculation failed", QString("Encryption failed with error code %1").arg(retVal));
     }
 }

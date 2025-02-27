@@ -57,14 +57,14 @@ void UiNetwork::PortsScanner_StartScan_pushButtonClicked()
     // Table empty?
     if( rows == 0 )
     {
-        Utils_Alert("Cannot start scanner", "No targets provided");
+        Base::Utils::Widgets::AlertPopup("Cannot start scanner", "No targets provided");
         return;
     }
 
     // Check if already running
     if( this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads() > 0 )
     {
-        Utils_Alert("Cannot start scanner", "Scanner already running");
+        Base::Utils::Widgets::AlertPopup("Cannot start scanner", "Scanner already running");
         return;
     }
 
@@ -118,7 +118,7 @@ void UiNetwork::PortsScanner_StopScan_pushButtonClicked()
     // Check if already running
     if( (this->PortsScannerEngine == nullptr) || this->PortsScannerEngine->ThreadsPoolPtr()->ActiveThreads() == 0 )
     {
-        Utils_Alert("Cannot stop scanner", "Already stopped!");
+        Base::Utils::Widgets::AlertPopup("Cannot stop scanner", "Already stopped!");
         return;
     }
 
@@ -421,7 +421,7 @@ void UiNetwork::PortsScanner_tableWidget_customContextMenuRequested(const QPoint
 
             if( this->PortsScannerEngine->IsScanRunning(host) )
             {
-                Utils_Alert("Cannot start scan", "Selected host is already being scanned");
+                Base::Utils::Widgets::AlertPopup("Cannot start scan", "Selected host is already being scanned");
             }
             else
             {

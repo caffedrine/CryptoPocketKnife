@@ -2,9 +2,11 @@
 #include <QFileDialog>
 #include <QElapsedTimer>
 #include <QSaveFile>
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
+
 #include "UiEncoding.h"
 #include "ui_UiEncoding.h"
-#include "base/utils/utils.h"
 #include "BigInt.h"
 
 
@@ -279,7 +281,7 @@ void UiEncoding::on_textEdit_EncodeDecode_General_Number_textChanged()
     }
 
     BigInt n(number.toStdString());
-    bytes = Utils_RawHexStrToQByteArr( QString::fromStdString(n.to_hex_str()) );
+    bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr( QString::fromStdString(n.to_hex_str()) );
 
     // Set only bytes hex, there all the other boxes will be converted
     this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "number");

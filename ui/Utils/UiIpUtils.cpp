@@ -1,7 +1,8 @@
 #include "UiIpUtils.h"
 #include "ui_UiIpUtils.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 
 UiIpUtils::UiIpUtils(QWidget *parent): QWidget(parent), ui(new Ui::UiIpUtils)
 {

@@ -1,7 +1,8 @@
 #include "UiEntropyAnalyzer.h"
 #include "ui_UiEntropyAnalyzer.h"
 
-#include "base/utils/utils.h"
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
 #include "RandomAnalyzer.h"
 
 UiEntropyAnalyzer::UiEntropyAnalyzer(QWidget *parent): QMainWindow(parent), ui(new Ui::UiEntropyAnalyzer)
@@ -25,7 +26,7 @@ void UiEntropyAnalyzer::on_pushButton_AnalyzeInput_clicked()
     if( this->ui->lineEdit_InputBytes->text().isEmpty() )
         return;
 
-    RandomAnalyzer a(this->ui->checkBox_BinaryMode->isChecked(), Utils_RawHexStrToQByteArr(this->ui->lineEdit_InputBytes->text()));
+    RandomAnalyzer a(this->ui->checkBox_BinaryMode->isChecked(), Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->lineEdit_InputBytes->text()));
 
     this->ui->plainTextEdit_Output->setPlainText( a.GetResultHumanReadable() );
 
