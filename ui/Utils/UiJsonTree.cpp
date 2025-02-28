@@ -1,8 +1,8 @@
 #include <QDebug>
+#include <QJsonModel/QJsonModel.h>
 
 #include "UiJsonTree.h"
 #include "ui_UiJsonTree.h"
-
 
 UiJsonTree::UiJsonTree(QWidget *parent, QString RawJson): QWidget(parent), ui(new Ui::UiJsonTree)
 {

@@ -82,7 +82,7 @@ void UiAesGmac::on_pushButton_VerifyMac_clicked()
 
     if( retVal == 0 )
     {
-        Utils_MsgBox("MAC Result", "MAC is OK");
+        Base::Utils::Widgets::MsgBoxPopup("MAC Result", "MAC is OK");
     }
     else if( retVal == GMAC_AES_TAG_INCORRECT )
     {

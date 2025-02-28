@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
-    <height>457</height>
+    <width>595</width>
+    <height>380</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Vector Pocket Knife</string>
+   <string>Crypto Pocket Knife</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../res/main.qrc">
+   <iconset>
     <normaloff>:/icon.ico</normaloff>:/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -81,7 +81,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>987</width>
+     <width>595</width>
      <height>22</height>
     </rect>
    </property>
@@ -99,6 +99,9 @@
     </property>
     <addaction name="action_Logs"/>
     <addaction name="separator"/>
+    <addaction name="action_BugReport"/>
+    <addaction name="action_FeatureRequest"/>
+    <addaction name="action_CheckForUpdates"/>
     <addaction name="action_About"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -113,6 +116,7 @@
    <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Logs">
    <property name="text">
     <string>Logs</string>
@@ -187,7 +191,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../res/main.qrc"/>
+  <include location="../res/res.qrc"/>
  </resources>
  <connections/>
 </ui>

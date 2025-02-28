@@ -30,6 +30,9 @@ private slots:
     void on_action_Exit_triggered();
     void on_action_Logs_triggered();
     void on_action_About_triggered();
+    void on_action_CheckForUpdates_triggered();
+    void on_action_BugReport_triggered();
+    void on_action_FeatureRequest_triggered();
     void on_action_Preferences_triggered();
     void on_action_StickToTheTop_triggered();
 };

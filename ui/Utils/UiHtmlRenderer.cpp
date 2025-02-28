@@ -5,7 +5,7 @@
 UiHtmlRenderer::UiHtmlRenderer(QWidget *parent, QString html_content): QWidget(parent), ui(new Ui::UiHtmlRenderer)
 {
     ui->setupUi(this);
-    this->model = new DomModel(QDomDocument());
+    this->model = new QDomModel(QDomDocument());
     this->ui->treeView->setModel( this->model );
     this->ui->plainTextEdit->setPlainText(html_content);
 }
@@ -42,7 +42,7 @@ void UiHtmlRenderer::on_plainTextEdit_textChanged()
     }
     else
     {
-        this->model = new DomModel(doc);
+        this->model = new QDomModel(doc);
         this->ui->treeView->setModel(this->model);
     }
 

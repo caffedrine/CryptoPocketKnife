@@ -58,7 +58,7 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 
     if( exception != "ascii" )
     {
-        this->ui->textEdit_EncodeDecode_General_Ascii->setPlainText(Utils_BytesToPrintableAsciiString(&bytes));
+        this->ui->textEdit_EncodeDecode_General_Ascii->setPlainText(Base::Utils::ByteArrays::BytesToPrintableAsciiString(&bytes));
     }
 
     if( exception != "hex" )
@@ -68,12 +68,12 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 
     if( exception != "bin" )
     {
-        this->ui->textEdit_EncodeDecode_General_BIN->setText( Utils_BytesToBinaryString(&bytes) );
+        this->ui->textEdit_EncodeDecode_General_BIN->setText( Base::Utils::ByteArrays::BytesToBinaryString(&bytes) );
     }
 
     if( exception != "dec" )
     {
-        this->ui->textEdit_EncodeDecode_General_DEC->setText( Utils_BytesToDECString(&bytes) );
+        this->ui->textEdit_EncodeDecode_General_DEC->setText( Base::Utils::ByteArrays::BytesToDECString(&bytes) );
     }
 
     if( exception != "base64" )
@@ -83,7 +83,7 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
 
     if( exception != "alnum" )
     {
-        this->ui->textEdit_EncodeDecode_General_AlphanumericStrings->setText(Utils_BytesToAlphanumericString(&bytes));
+        this->ui->textEdit_EncodeDecode_General_AlphanumericStrings->setText(Base::Utils::ByteArrays::BytesToAlphanumericString(&bytes));
     }
 
     if( exception != "number" )

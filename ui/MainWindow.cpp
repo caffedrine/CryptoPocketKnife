@@ -7,9 +7,8 @@
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include "MainWidget.h"
 #include "src/gendata/Config.h"
-#include "UiTrace32.h"
-#include "VectorStorageParser.h"
 
 #include <QDesktopServices>
 #include <QSizeGrip>
@@ -17,9 +16,6 @@
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    // This for QVariant to perform default conversion to string to print dictionary
-    QMetaType::registerConverter(&VectorStorageElement::toString);
 
     // Init needed modules - needed before the UI as the theme is loaded before
     this->InitUiLogger(this);
@@ -55,17 +51,17 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     // Enable adding new tabs
     QObject::connect(this->ui->tabWidget, &QTabWidgetExtended::NewTabRequested, [=](){
         // main window central Widgets
-        UiTrace32 *mainWidget = new UiTrace32(this);
-        mainWidget->setWindowFlags(Qt::Widget);
+        MainWidget *mathWidget = new MainWidget(this->ui->statusBar, this->ui->tabWidget->tabBar());
+        mathWidget->setWindowFlags(Qt::Widget);
 
         // Init settings manager
 //        UiMathEvaluator::InitGlobalSettings({}, [=](QMathEvaluatorSettings mathEvalSettings)
 //        {
 //            // Propagate the settings changes to the instances onChange - these are only math eval settings, NOT the UI settings
-//            mainWidget->UpdateSettings(mathEvalSettings);
+//            mathWidget->UpdateSettings(mathEvalSettings);
 //        });
 
-        this->ui->tabWidget->addTab(mainWidget, "Tab " + QString::number(this->ui->tabWidget->count() + 1));
+        this->ui->tabWidget->addTab(mathWidget, "Tab " + QString::number(this->ui->tabWidget->count() + 1));
     });
 
     // Create an initial tab by default if no workspace was found or restoration not enabled
@@ -112,6 +108,21 @@ void MainWindow::on_action_Logs_triggered()
 void MainWindow::on_action_About_triggered()
 {
     this->TriggerAboutPopup(this);
+}
+
+void MainWindow::on_action_CheckForUpdates_triggered()
+{
+    this->TriggerUpdaterPopup(this);
+}
+
+void MainWindow::on_action_BugReport_triggered()
+{
+    this->TriggerBugReport(this);
+}
+
+void MainWindow::on_action_FeatureRequest_triggered()
+{
+    this->TriggerFeatureRequest(this);
 }
 
 void MainWindow::on_action_Preferences_triggered()

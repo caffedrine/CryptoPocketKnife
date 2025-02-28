@@ -9,6 +9,7 @@
 
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
+#include <QCrypto/X509Certificate.h>
 
 UiCertificates::UiCertificates(QWidget *parent): QWidget(parent), ui(new Ui::UiCertificates)
 {
@@ -123,7 +124,7 @@ void UiCertificates::ParseCert()
 
     ui->textEdit_certificates_Parse_ParsedCertificate->clear();
 
-    ui->textEdit_certificates_Parse_ParsedCertificate->append(Core::Crypto::x509::GetCertHumanReadableFormat(this->LastParsedCert) + "\n");
+    ui->textEdit_certificates_Parse_ParsedCertificate->append(Base::Crypto::x509::GetCertHumanReadableFormat(this->LastParsedCert) + "\n");
     if( this->ui->checkBox_CertOpensslOutput->isChecked() )
     {
         // Use openssl to parse certificate
@@ -256,7 +257,7 @@ void UiCertificates::on_pushButton_certificates_Parse_LoadCertificate_clicked()
 
     QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
 
-    this->ui->textEdit_certificates_Parse_InputCertificate->setText(ParseCertOrCsrFromFileToHexStr(fileName));
+    this->ui->textEdit_certificates_Parse_InputCertificate->setText(Base::Utils::ParseCertOrCsrFromFileToHexStr(fileName));
 }
 
 void UiCertificates::on_pushButton_certificates_Parse_LoadCSR_clicked()
@@ -266,7 +267,7 @@ void UiCertificates::on_pushButton_certificates_Parse_LoadCSR_clicked()
 
     QString fileName =  QFileDialog::getOpenFileName(this, tr("Load binary file"), "", "");
 
-    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(ParseCertOrCsrFromFileToHexStr(fileName));
+    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(Base::Utils::ParseCertOrCsrFromFileToHexStr(fileName));
 }
 
 void UiCertificates::on_pushButton_certificates_Parse_CopyCertHEX_clicked()
@@ -367,10 +368,10 @@ void UiCertificates::on_pushButton_certificates_Parse_ExportCRT_clicked()
 
 void UiCertificates::OnCertFileDragged(QString fileName)
 {
-    this->ui->textEdit_certificates_Parse_InputCertificate->setText(ParseCertOrCsrFromFileToHexStr(fileName));
+    this->ui->textEdit_certificates_Parse_InputCertificate->setText(Base::Utils::ParseCertOrCsrFromFileToHexStr(fileName));
 }
 
 void UiCertificates::OnCsrFileDragged(QString fileName)
 {
-    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(ParseCertOrCsrFromFileToHexStr(fileName));
+    this->ui->textEdit_certificates_ParseCsr_InputCsr->setText(Base::Utils::ParseCertOrCsrFromFileToHexStr(fileName));
 }

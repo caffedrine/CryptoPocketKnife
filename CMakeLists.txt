@@ -33,7 +33,10 @@ SET(BASE_LIB_DEPENDENCIES
         QBackendServer
         QAppPreferences
         QWorkspace
+        QCrypto
         QX509
+        QWidgetModels
+        QGeoIP
 )
 
 # Add base dependencies
@@ -68,7 +71,15 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/libs/QBaseLibs/cmake/Config.h.in ${CMAK
 configure_file("res/img/icon.ico" "${CMAKE_EXTRA_OUTPUT_DIRECTORY}/icon.ico" COPYONLY)
 # Dummy source file to trigger post build steps after every run of cmake
 file(WRITE "${CMAKE_BINARY_DIR}/gendata/include/DummyTriggerRebuild.h" "")
-include_directories(${CMAKE_BINARY_DIR}/gendata/include  "src" "ui")
+
+# include all ui dirs recursively
+file(GLOB_RECURSE TMP_UI_HEADERS "ui/*.h")
+foreach (_headerFile ${TMP_UI_HEADERS})
+    get_filename_component(_dir ${_headerFile} PATH)
+    list (APPEND UI_HEADERS ${_dir})
+endforeach()
+list(REMOVE_DUPLICATES UI_HEADERS)
+include_directories("${CMAKE_BINARY_DIR}/gendata/include" "src/" ${UI_HEADERS})
 
 # All source code files (including generated resources)
 file(GLOB_RECURSE ALL_SOURCES "src/*.c" "src/*.cpp" "ui/*.cpp" "ui/*.ui" "res/main.qrc" ${THIRD_PARTY_SRC} )

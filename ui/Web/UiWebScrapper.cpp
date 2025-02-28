@@ -2,6 +2,14 @@
 #include "ui_UiWebScrapper.h"
 #include "UiDomainWhois.h"
 
+#include <QUtils/QWebUtils.h>
+#include <QUtils/QNetworkUtils.h>
+#include <QGeoIP/GeoIP.h>
+#include <QGeoIP/TldCountry.h>
+#include <QUtils/QUtils.h>
+#include <QWidgets/QWidgetsUtils.h>
+#include "utils/LambdaEventFilter.h"
+
 UiWebScrapper::UiWebScrapper(QWidget *parent): QWidget(parent), ui(new Ui::UiWebScrapper)
 {
     ui->setupUi(this);
@@ -20,7 +28,7 @@ UiWebScrapper::UiWebScrapper(QWidget *parent): QWidget(parent), ui(new Ui::UiWeb
 
 UiWebScrapper::~UiWebScrapper()
 {
-    GeoIP::DestroyInstance();
+    Base::GeoIP::Instance()->Cleanup();
     delete this->WebScrapperEngine;
     delete ui;
 }
@@ -71,7 +79,7 @@ void UiWebScrapper::tableWidget_WebScraper_OnRowsCopy(const QModelIndexList& sel
 
 void UiWebScrapper::tableWidget_WebScraper_OnTextPasted(const QString& text)
 {
-    auto urls = Utils_ExtractAllUrls(text);
+    auto urls = Base::Utils::Network::ExtractAllUrls(text);
 
     if( !urls.size() )
     {
@@ -154,7 +162,7 @@ void UiWebScrapper::webScraper_OnRequestError(QString requestId, QString request
     // Set host IP
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setText(response.HostIp);
     // Set IP organization
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( Base::GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
 }
 
 void UiWebScrapper::webScraper_OnRequestFinished(QString requestId, QString requestUrl, HttpResponse response)
@@ -171,11 +179,11 @@ void UiWebScrapper::webScraper_OnRequestFinished(QString requestId, QString requ
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 5)->setText(QString::number(response.Code) + " - " + response.CodeDesc);
 
     // Set IP organization
-    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
+    this->ui->tableWidget_WebScraper->item(requestId.toInt(), 4)->setText( Base::GeoIP::Instance()->IP2Org(response.HostIp.split(',')[0]) );
 
     // Set host IP and show country flag of the host
     this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setText(response.HostIp);
-    QString resPath = ":/img/flags/"+GeoIP::Instance()->IP2CountryISO(response.HostIp.split(',')[0]).toLower()+".svg";
+    QString resPath = ":/img/flags/"+Base::GeoIP::Instance()->IP2CountryISO(response.HostIp.split(',')[0]).toLower()+".svg";
     if( QFile::exists(resPath) )
     {
         this->ui->tableWidget_WebScraper->item(requestId.toInt(), 3)->setIcon(QIcon(resPath));
@@ -306,7 +314,7 @@ void UiWebScrapper::on_tableWidget_WebScraper_customContextMenuRequested(const Q
 
         connect(&Item_WHOIS, &QAction::triggered, this, [this, row, rowUrl]()
         {
-            UiDomainWhois *whois = new UiDomainWhois(nullptr, utils::web::GetDomainNameFromUrl(ui->tableWidget_WebScraper->model()->index(row, 1).data().toString()));
+            UiDomainWhois *whois = new UiDomainWhois(nullptr, Base::Utils::Web::GetDomainNameFromUrl(ui->tableWidget_WebScraper->model()->index(row, 1).data().toString()));
             whois->setAttribute( Qt::WA_DeleteOnClose, true );
             whois->show();
             whois->TriggerWhois();

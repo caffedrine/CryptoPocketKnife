@@ -4,10 +4,9 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QMessageBox>
-#include "base/services/Shodan/Shodan.h"
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
-#include "base/utils/WidgetsUtils.h"
+#include "Shodan/Shodan.h"
 
 UiShodan::UiShodan(QWidget *parent): QWidget(parent), ui(new Ui::UiShodan)
 {
@@ -35,23 +34,23 @@ void UiShodan::pushButton_shodanSettings_SaveKey_clicked()
 
 void UiShodan::pushButton_shodanSettings_TestApiKey_clicked()
 {
-    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_shodanSettings_TestApiKey );
+    Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_shodanSettings_TestApiKey );
 
     Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
-    Utils_MsgBox("Shodan reply", shodan.GetAccountInfo());
+    Base::Utils::Widgets::MsgBoxPopup("Shodan reply", shodan.GetAccountInfo());
 
-    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_shodanSettings_TestApiKey );
+    Base::Utils::Widgets::push_button::PushButtonEndLoading( this->ui->pushButton_shodanSettings_TestApiKey );
 
 }
 
 void UiShodan::pushButton_shodanSettings_GetSearchFilters_clicked()
 {
-    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
+    Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
 
     Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
-    Utils_RichTextBoxPopup("Shodan reply", shodan.GetSearchFilters());
+    Base::Utils::Widgets::RichTextBoxPopup("Shodan reply", shodan.GetSearchFilters());
 
-    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
+    Base::Utils::Widgets::push_button::PushButtonEndLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
 }
 
 void UiShodan::pushButton_ManualQuery_GetResults_clicked()
@@ -63,7 +62,7 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
     this->ui->plainTextEdit_ManualQuery_Results->clear();
     this->ui->lineEdit_ManualQuery_Count->clear();
 
-    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_ManualQuery_GetResults );
+    Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_ManualQuery_GetResults );
 
     QString header = "ip,timestamp,product,country,isp,hostname,asn";
     this->ui->plainTextEdit_ManualQuery_Results->setPlainText(header);
@@ -109,23 +108,23 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
         while( QDateTime::currentMSecsSinceEpoch() - startTimestamp <= 2000 )
         {
             QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-            SleepMs(10);
+            Base::Utils::Time::SleepMs(10);
         }
     }
 
-    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_GetResults );
+    Base::Utils::Widgets::push_button::PushButtonEndLoading( this->ui->pushButton_ManualQuery_GetResults );
     this->ui->pushButton_ManualQuery_GetResults->setText(pushButtonOrigText);
 }
 
 void UiShodan::pushButton_ManualQuery_Count_clicked()
 {
-    utils::widgets::Utils_PushButtonStartLoading( this->ui->pushButton_ManualQuery_Count );
+    Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_ManualQuery_Count );
 
     Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
     QString total = shodan.GetCountByQuery(this->ui->lineEdit_ManualQuery_Query->text());
     this->ui->lineEdit_ManualQuery_Count->setText(total);
 
-    utils::widgets::Utils_PushButtonEndLoading( this->ui->pushButton_ManualQuery_Count );
+    Base::Utils::Widgets::push_button::PushButtonEndLoading( this->ui->pushButton_ManualQuery_Count );
 }
 
 void UiShodan::on_pushButton_ManualQuery_CopyOutputData_clicked()

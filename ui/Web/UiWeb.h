@@ -8,17 +8,7 @@
 #include <QPlainTextEdit>
 #include <QtConcurrent>
 #include <QFuture>
-
-#include "UiHttpWebRequests.h"
-#include "base/extensions/QTabWidgetExtended.h"
-#include "base/extensions/AdvancedTableWidget.h"
-#include "base/services/TldCountry/TldCountry.h"
-#include "base/services/GeoIP/GeoIP.h"
-#include "base/services/Web/WebScraper.h"
-#include <QUtils/QUtils.h>
-#include <QWidgets/QWidgetsUtils.h>
-#include "base/utils/WebUtils.h"
-#include "base/utils/LambdaEventFilter.h"
+#include <QWidgets/QTabWidgetExtended/QTabWidgetExtended.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui

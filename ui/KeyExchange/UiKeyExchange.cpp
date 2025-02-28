@@ -4,7 +4,8 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include <eddsa.h>
-#include "base/crypto/Hash.h"
+
+#include <QCrypto/Hash.h>
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
 
@@ -87,10 +88,10 @@ void UiKeyExchange::on_x25519_pushButton_GenerateEphemeralKeys_clicked()
 
 
     // Send calculated keys to UI
-    ui->x25529_textEdit_ownPrivateKey->setText( Utils_Uint8ArrToHexQStr(own_private_key, sizeof(own_private_key)));
-    ui->x25529_textEdit_ownPublicKey->setText( Utils_Uint8ArrToHexQStr(own_public_key, sizeof(own_public_key)));
-    ui->x25529_textEdit_otherPrivateKey->setText( Utils_Uint8ArrToHexQStr(other_private_key, sizeof(other_private_key)));
-    ui->x25529_textEdit_otherPublicKey->setText( Utils_Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
+    ui->x25529_textEdit_ownPrivateKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(own_private_key, sizeof(own_private_key)));
+    ui->x25529_textEdit_ownPublicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(own_public_key, sizeof(own_public_key)));
+    ui->x25529_textEdit_otherPrivateKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_private_key, sizeof(other_private_key)));
+    ui->x25529_textEdit_otherPublicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
 }
 
 void UiKeyExchange::on_x25519_pushButton_CalculateSharedSecret_clicked()
@@ -101,22 +102,22 @@ void UiKeyExchange::on_x25519_pushButton_CalculateSharedSecret_clicked()
     ssize_t own_public_key_len, own_private_key_len, other_public_key_len, other_private_key_len;
 
     // Read keys from UI
-    if( !Utils_RawHexStrToArr(ui->x25529_textEdit_ownPrivateKey->text(), own_private_key, &own_private_key_len, sizeof(own_private_key)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_ownPrivateKey->text(), own_private_key, &own_private_key_len, sizeof(own_private_key)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
     }
-    if( !Utils_RawHexStrToArr(ui->x25529_textEdit_ownPublicKey->text(), own_public_key, &own_public_key_len, sizeof(own_public_key)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_ownPublicKey->text(), own_public_key, &own_public_key_len, sizeof(own_public_key)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
     }
-    if( ! Utils_RawHexStrToArr(ui->x25529_textEdit_otherPrivateKey->text(), other_private_key, &other_private_key_len, sizeof(other_private_key)) )
+    if( ! Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_otherPrivateKey->text(), other_private_key, &other_private_key_len, sizeof(other_private_key)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
     }
-    if( ! Utils_RawHexStrToArr(ui->x25529_textEdit_otherPublicKey->text(), other_public_key, &other_public_key_len, sizeof(other_public_key)) )
+    if( ! Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_otherPublicKey->text(), other_public_key, &other_public_key_len, sizeof(other_public_key)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
@@ -127,14 +128,14 @@ void UiKeyExchange::on_x25519_pushButton_CalculateSharedSecret_clicked()
     x25519(other_shared_secret, other_private_key, own_public_key);
 
     // Send again to the UI the input that was used (properly formatted)
-    ui->x25529_textEdit_ownPrivateKey->setText( Utils_Uint8ArrToHexQStr(own_private_key, sizeof(own_private_key)));
-    ui->x25529_textEdit_ownPublicKey->setText( Utils_Uint8ArrToHexQStr(own_public_key, sizeof(own_public_key)));
-    ui->x25529_textEdit_otherPrivateKey->setText( Utils_Uint8ArrToHexQStr(other_private_key, sizeof(other_private_key)));
-    ui->x25529_textEdit_otherPublicKey->setText( Utils_Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
+    ui->x25529_textEdit_ownPrivateKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(own_private_key, sizeof(own_private_key)));
+    ui->x25529_textEdit_ownPublicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(own_public_key, sizeof(own_public_key)));
+    ui->x25529_textEdit_otherPrivateKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_private_key, sizeof(other_private_key)));
+    ui->x25529_textEdit_otherPublicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
 
     // Send calculated keys to UI
-    ui->x25529_textEdit_ownSharedSecret->setText( Utils_Uint8ArrToHexQStr(own_shared_secret, sizeof(own_shared_secret)));
-    ui->x25529_textEdit_otherSharedSecret->setText( Utils_Uint8ArrToHexQStr(other_shared_secret, sizeof(other_shared_secret)));
+    ui->x25529_textEdit_ownSharedSecret->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(own_shared_secret, sizeof(own_shared_secret)));
+    ui->x25529_textEdit_otherSharedSecret->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_shared_secret, sizeof(other_shared_secret)));
 }
 
 void UiKeyExchange::on_x25519_pushButton_CalcSymKeys_clicked()
@@ -146,17 +147,17 @@ void UiKeyExchange::on_x25519_pushButton_CalcSymKeys_clicked()
     uint8_t nonce[32] = {0};
     uint8_t hashMaterial[sizeof(ownSharedSecret) + sizeof(nonce)] = {0}, hashResult[64] = {0};
 
-    if( !Utils_RawHexStrToArr(ui->x25529_textEdit_ownSharedSecret->text(), ownSharedSecret, &ownSharedSecret_len, sizeof(ownSharedSecret)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_ownSharedSecret->text(), ownSharedSecret, &ownSharedSecret_len, sizeof(ownSharedSecret)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
     }
-    if( !Utils_RawHexStrToArr(ui->x25529_textEdit_otherSharedSecret->text(), otherSharedSecret, &otherSharedSecret_len, sizeof(otherSharedSecret)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_otherSharedSecret->text(), otherSharedSecret, &otherSharedSecret_len, sizeof(otherSharedSecret)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
     }
-    if( !Utils_RawHexStrToArr(ui->x25529_textEdit_nonce->text(), nonce, &nonce_len, sizeof(nonce)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->x25529_textEdit_nonce->text(), nonce, &nonce_len, sizeof(nonce)) )
     {
         this->Status_EndWithError("Failed to read data from UI");
         return;
@@ -185,9 +186,9 @@ void UiKeyExchange::on_x25519_pushButton_CalcSymKeys_clicked()
     memcpy(otherAesIv, &hashResult[sizeof (hashResult) - 16u], 16u);
 
     // Send data to ui
-    ui->x25529_textEdit_ownAesKey->setText(Utils_Uint8ArrToHexQStr(ownSymKey, sizeof(ownSymKey)));
-    ui->x25529_textEdit_ownAesIv->setText(Utils_Uint8ArrToHexQStr(ownAesIv, sizeof(ownAesIv)));
-    ui->x25529_textEdit_otherAesKey->setText(Utils_Uint8ArrToHexQStr(otherSymKey, sizeof(otherSymKey)));
-    ui->x25529_textEdit_otherAesIv->setText(Utils_Uint8ArrToHexQStr(otherAesIv, sizeof(otherAesIv)));
+    ui->x25529_textEdit_ownAesKey->setText(Base::Utils::ByteArrays::Uint8ArrToHexQStr(ownSymKey, sizeof(ownSymKey)));
+    ui->x25529_textEdit_ownAesIv->setText(Base::Utils::ByteArrays::Uint8ArrToHexQStr(ownAesIv, sizeof(ownAesIv)));
+    ui->x25529_textEdit_otherAesKey->setText(Base::Utils::ByteArrays::Uint8ArrToHexQStr(otherSymKey, sizeof(otherSymKey)));
+    ui->x25529_textEdit_otherAesIv->setText(Base::Utils::ByteArrays::Uint8ArrToHexQStr(otherAesIv, sizeof(otherAesIv)));
 
 }

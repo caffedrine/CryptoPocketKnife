@@ -3,6 +3,8 @@
 
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
+#include <QUtils/QNetworkUtils.h>
+#include <QUtils/QRegexUtils.h>
 
 UiIpUtils::UiIpUtils(QWidget *parent): QWidget(parent), ui(new Ui::UiIpUtils)
 {
@@ -30,7 +32,7 @@ UiIpUtils::UiIpUtils(QWidget *parent): QWidget(parent), ui(new Ui::UiIpUtils)
     // Connect button to remove duplicates from list
     connect(this->ui->pushButton_RemoveDuplicates, &QPushButton::clicked, [=](bool checked) {
         QStringList text = this->ui->plainTextEdit_Output->toPlainText().split("\n");
-        Utils_MsgBox("Duplicates removing result", "Found and removed " + QString::number(text.removeDuplicates()) + " duplicates");
+        Base::Utils::Widgets::MsgBoxPopup("Duplicates removing result", "Found and removed " + QString::number(text.removeDuplicates()) + " duplicates");
         this->ui->plainTextEdit_Output->setPlainText(text.join('\n'));
     });
 }
@@ -45,7 +47,7 @@ void UiIpUtils::on_pushButton_ExtractIP_clicked()
     this->ui->plainTextEdit_Output->clear();
 
     /* Extract IPv4 addresses from given string */
-    QStringList ips = utils::network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
+    QStringList ips = Base::Utils::Network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
 
     for (QString ip: ips)
     {
@@ -58,7 +60,7 @@ void UiIpUtils::on_pushButton_ExtractIpPort_clicked()
     this->ui->plainTextEdit_Output->clear();
 
     /* Extract IPv4 addresses from given string */
-    QStringList proxies = utils::network::ipv4::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
+    QStringList proxies = Base::Utils::Network::ipv4::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
 
     for (QString proxy: proxies)
     {
@@ -71,7 +73,7 @@ void UiIpUtils::on_pushButton_ExtractIPv6_clicked()
     this->ui->plainTextEdit_Output->clear();
 
     /* Extract IPv4 addresses from given string */
-    QStringList ips = utils::network::ipv6::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
+    QStringList ips = Base::Utils::Network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
 
     for (QString ip: ips)
     {
@@ -83,7 +85,7 @@ void UiIpUtils::on_pushButton_ExtractIPv6Port_clicked()
     this->ui->plainTextEdit_Output->clear();
 
     /* Extract IPv4 addresses from given string */
-    QStringList proxies = utils::network::ipv6::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
+    QStringList proxies = Base::Utils::Network::ipv4::ExtractIpPortProxies(this->ui->plainTextEdit_Input->toPlainText());
 
     for (QString proxy: proxies)
     {
@@ -100,11 +102,11 @@ void UiIpUtils::on_pushButton_Decimal2Dotted_clicked()
     QString pattern = "[0-9]{8,12}";
 
     /* Extract IPv4 addresses from given string */
-    QStringList ips = utils::regex::GetAllMatches(pattern, this->ui->plainTextEdit_Input->toPlainText());
+    QStringList ips = Base::Utils::Regex::GetAllMatches(pattern, this->ui->plainTextEdit_Input->toPlainText());
 
     for (QString ip: ips)
     {
-        ui->plainTextEdit_Output->appendPlainText(utils::network::ipv4::Dec2Dotted( ip.toULongLong() ));
+        ui->plainTextEdit_Output->appendPlainText(Base::Utils::Network::ipv4::Dec2Dotted( ip.toULongLong() ));
     }
 }
 
@@ -113,11 +115,11 @@ void UiIpUtils::on_pushButton_Dotted2Decimal_clicked()
     this->ui->plainTextEdit_Output->clear();
 
     /* Extract IPv4 addresses from given string */
-    QStringList ips = utils::network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
+    QStringList ips = Base::Utils::Network::ipv4::ExtractIpAddresses(this->ui->plainTextEdit_Input->toPlainText());
 
     for (QString ip: ips)
     {
-        ui->plainTextEdit_Output->appendPlainText(QString::number(utils::network::ipv4::Dotted2Long(ip)));
+        ui->plainTextEdit_Output->appendPlainText(QString::number(Base::Utils::Network::ipv4::Dotted2Long(ip)));
     }
 }
 

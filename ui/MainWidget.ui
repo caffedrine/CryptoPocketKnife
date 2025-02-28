@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWidget</class>
+ <widget class="QWidget" name="MainWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>925</width>
+    <height>568</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Crypto Pocket Knife</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../res/res.qrc">
+    <normaloff>:/img/icon.png</normaloff>:/img/icon.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_7">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout_23">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QTabWidget" name="tabWidget_MainTabs">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="currentIndex">
+        <number>13</number>
+       </property>
+       <property name="documentMode">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="tab_Signature">
+        <property name="toolTip">
+         <string>Digital Signature Algorithms</string>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <attribute name="title">
+         <string>DS</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Digital Signature Algorithms</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiDigitalSignatures" name="tabWidget_Signature">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_keyExchange">
+        <property name="toolTip">
+         <string>Key Exchange Algorithms</string>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <attribute name="title">
+         <string>KEX</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Key Exchange Algorithms</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiKeyExchange" name="keyExchange_tabWidget_X25519">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Ciphers">
+        <property name="toolTip">
+         <string>Ciphering Algorithms</string>
+        </property>
+        <attribute name="title">
+         <string>Ciphers</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Crypto Ciphers Algorithms</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_10">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiCiphers" name="keyExchange_tabWidget_X25519_2">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Hashes">
+        <property name="toolTip">
+         <string>Hashing Algorithms</string>
+        </property>
+        <attribute name="title">
+         <string>Hashes</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Hashing Algorithms</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_18">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiHashes" name="hashes_TabWidget">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Certificates">
+        <property name="toolTip">
+         <string>X509 Digital Certificates Tool</string>
+        </property>
+        <attribute name="title">
+         <string>X509</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>X509 digital certificates tool</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_11">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiCertificates" name="tabWidget_OSINT_2">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Mac">
+        <property name="toolTip">
+         <string>Message Authentication Code Algorithms</string>
+        </property>
+        <attribute name="title">
+         <string>MAC</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Message Authentication Code Algorithms</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_AuthenticatedEncryption">
+        <property name="toolTip">
+         <string>Authenticated Encryption Algorithms</string>
+        </property>
+        <attribute name="title">
+         <string>AE</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Authenticated Encryption Algorithms</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_AuthEnc">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_KDF">
+        <property name="toolTip">
+         <string>Key Derivation Functions Algorithms</string>
+        </property>
+        <attribute name="title">
+         <string>KDF</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Key Derivation Functions</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_KDF"/>
+       </widget>
+       <widget class="QWidget" name="tab_KeyEncapsulation">
+        <attribute name="title">
+         <string>KEM</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Key Encapsulation Mechanism Algorithms</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_KeyWrap">
+        <attribute name="title">
+         <string>KW</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Key Wrapping Algorithms</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_Random">
+        <property name="toolTip">
+         <string>Random Algorithms, Generators and Analyzers</string>
+        </property>
+        <attribute name="title">
+         <string>Random</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Random generators and analyzers</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_Random">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiRandom" name="widget_5" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Encoding">
+        <property name="toolTip">
+         <string>Encoding/Decoding Algorithms</string>
+        </property>
+        <attribute name="title">
+         <string>Enc/Dec</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Encoding/Decoding Tool</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_14">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiEncoding" name="encoding_TabName_General">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Web">
+        <property name="toolTip">
+         <string>Web tools</string>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <attribute name="title">
+         <string>Web</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Web Utils</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_25">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QWidget" name="widget" native="true">
+           <layout class="QGridLayout" name="gridLayout_27">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="UiWeb" name="tabWidget_Web">
+              <property name="currentIndex">
+               <number>-1</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_OSINT">
+        <property name="toolTip">
+         <string>Open-Source Intelligence Tools</string>
+        </property>
+        <attribute name="title">
+         <string>OSINT</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Open-Source Intelligence Tools</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_37">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="UiOSINT" name="tabWidget_OSINT">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_Utils">
+        <property name="toolTip">
+         <string>Utils tools</string>
+        </property>
+        <property name="statusTip">
+         <string/>
+        </property>
+        <attribute name="title">
+         <string>Utils</string>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Utils tools</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QTabWidget" name="utils_TabWidget_MathExpEval">
+           <property name="currentIndex">
+            <number>5</number>
+           </property>
+           <widget class="QWidget" name="tab_Utils_DateTimeConversion">
+            <attribute name="title">
+             <string>Date/TimeConversion</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_24">
+             <item row="0" column="1">
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Orientation::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="group_Box_linuxTimeConversion">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="title">
+                <string>Linux timestamp conversion</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_22">
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_48">
+                  <property name="text">
+                   <string>DateTime</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QPushButton" name="pushButton_Utils_CurrentDateTime">
+                  <property name="text">
+                   <string>Current datetime</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_47">
+                  <property name="text">
+                   <string>Linux timestamp</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1" colspan="2">
+                 <widget class="QLineEdit" name="lineEdit_Utils_LinuxTimestamp">
+                  <property name="clearButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QPushButton" name="pushButton_Utils_CurrentTimestamp">
+                  <property name="text">
+                   <string>Current timestamp</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1" colspan="2">
+                 <widget class="QLineEdit" name="lineEdit_Utils_DateTime">
+                  <property name="clearButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0" colspan="2">
+                 <widget class="QPushButton" name="pushButton_TimestampToDatetime">
+                  <property name="text">
+                   <string>StartTimestampMs to Datetime</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="2" colspan="2">
+                 <widget class="QPushButton" name="pushButton_dateTimeToTimestamp">
+                  <property name="text">
+                   <string>Datetime to StartTimestampMs</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_Utils_IpAddressUtils">
+            <attribute name="title">
+             <string>IP Address</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_36">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="UiIpUtils" name="widget_IpUtils" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_Utils_JsonTree">
+            <attribute name="title">
+             <string>JSON Tree</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_3">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="UiJsonTree" name="widget_2" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_Utils_XmlTree">
+            <attribute name="title">
+             <string>XML Tree</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_6">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="UiXmlTree" name="widget_4" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_Utils_HtmlRenderer">
+            <attribute name="title">
+             <string>HTML Renderer</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="UiHtmlRenderer" name="widget_3" native="true"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_MathExpEval">
+            <attribute name="title">
+             <string>Math eval</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_9">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <layout class="QGridLayout" name="gridLayout_MathExpEval"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionSupport">
+   <property name="text">
+    <string>Support</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionLogs">
+   <property name="text">
+    <string>Logs</string>
+   </property>
+  </action>
+  <action name="action_StickToTop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Stick to top</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UiHashes</class>
+   <extends>QTabWidget</extends>
+   <header>UiHashes.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiCertificates</class>
+   <extends>QTabWidget</extends>
+   <header>UiCertificates.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiEncoding</class>
+   <extends>QTabWidget</extends>
+   <header>UiEncoding.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiOSINT</class>
+   <extends>QTabWidget</extends>
+   <header>UiOSINT.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiIpUtils</class>
+   <extends>QWidget</extends>
+   <header>UiIpUtils.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiWeb</class>
+   <extends>QTabWidget</extends>
+   <header>UiWeb.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiCiphers</class>
+   <extends>QTabWidget</extends>
+   <header>UiCiphers.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiKeyExchange</class>
+   <extends>QTabWidget</extends>
+   <header>UiKeyExchange.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiDigitalSignatures</class>
+   <extends>QTabWidget</extends>
+   <header>UiDigitalSignatures.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiJsonTree</class>
+   <extends>QWidget</extends>
+   <header>UiJsonTree.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiHtmlRenderer</class>
+   <extends>QWidget</extends>
+   <header>UiHtmlRenderer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiXmlTree</class>
+   <extends>QWidget</extends>
+   <header>UiXmlTree.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UiRandom</class>
+   <extends>QWidget</extends>
+   <header>UiRandom.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../res/res.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>on_pushButton_Signature_ED25519_Clear_clicked()</slot>
+ </slots>
+</ui>

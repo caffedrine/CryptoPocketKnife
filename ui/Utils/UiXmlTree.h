@@ -2,7 +2,7 @@
 #define CRYPTOPOCKETKNIFE_UIXMLTREE_H
 
 #include <QWidget>
-#include "base/data_structures/DomModel.h"
+#include <QDataStructures/QDomModel.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -24,7 +24,7 @@ protected slots:
 
 private:
     Ui::UiXmlTree *ui;
-    DomModel *model = nullptr;
+    QDomModel *model = nullptr;
 };
 
 

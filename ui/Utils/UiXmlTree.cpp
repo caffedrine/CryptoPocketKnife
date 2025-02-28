@@ -4,7 +4,7 @@
 UiXmlTree::UiXmlTree(QWidget *parent, QString dom_data): QWidget(parent), ui(new Ui::UiXmlTree)
 {
     ui->setupUi(this);
-    this->model = new DomModel(QDomDocument());
+    this->model = new QDomModel(QDomDocument());
     this->ui->treeView->setModel( this->model );
     this->ui->plainTextEdit->setPlainText(dom_data);
 }
@@ -41,7 +41,7 @@ void UiXmlTree::on_plainTextEdit_textChanged()
     }
     else
     {
-        this->model = new DomModel(doc);
+        this->model = new QDomModel(doc);
         this->ui->treeView->setModel(this->model);
     }
     this->ui->plainTextEdit->setStyleSheet(styleSheetString);

@@ -49,7 +49,7 @@ void UiDigitalSignatures::on_ed25519_pushButton_GenerateKeysPair_clicked()
 
 
     // Generate a random private key if one is not already set
-    if( (!Utils_RawHexStrToArr( this->ui->ed25529_textEdit_privateKey->text(), private_key, &len, (ssize_t)sizeof(private_key)) || (len != 32) ))
+    if( (!Base::Utils::ByteArrays::RawHexStrToArr( this->ui->ed25529_textEdit_privateKey->text(), private_key, &len, (ssize_t)sizeof(private_key)) || (len != 32) ))
     {
         for(uint8_t & i : private_key)
         {
@@ -61,8 +61,8 @@ void UiDigitalSignatures::on_ed25519_pushButton_GenerateKeysPair_clicked()
     ed25519_genpub(public_key, private_key);
 
     // Write generated keys pair to the output
-    ui->ed25529_textEdit_privateKey->setText( Utils_Uint8ArrToHexQStr(private_key, sizeof(private_key)) );
-    ui->ed25529_textEdit_publicKey->setText( Utils_Uint8ArrToHexQStr(public_key, sizeof(public_key)));
+    ui->ed25529_textEdit_privateKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(private_key, sizeof(private_key)) );
+    ui->ed25529_textEdit_publicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(public_key, sizeof(public_key)));
 
     this->Status_EndWithSuccess("Public/Private keys pair generated");
 }
@@ -72,7 +72,7 @@ void UiDigitalSignatures::on_ed25529_textEdit_privateKey_textChanged(const QStri
     uint8_t ReadBytes[128] = {0xFF};
     ssize_t ReadSize = 0;
 
-    if( Utils_RawHexStrToArr(arg1, ReadBytes, &ReadSize, sizeof(ReadBytes)))
+    if( Base::Utils::ByteArrays::RawHexStrToArr(arg1, ReadBytes, &ReadSize, sizeof(ReadBytes)))
     {
         QString displayText = QString("Private key (" + QString::number((uint32_t)ReadSize) + " bytes)");
         ui->ed25519_label_PrivateKey->setText(displayText);
@@ -99,17 +99,17 @@ void UiDigitalSignatures::on_ed25519_pushButton_CalculateSignature_clicked()
     ssize_t message_len, public_key_len, private_key_len;
 
     // Read relevant data from ui
-    if( !Utils_RawHexStrToArr(ui->ed25529_textEdit_publicKey->text(), public_key, &public_key_len, sizeof(public_key)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->ed25529_textEdit_publicKey->text(), public_key, &public_key_len, sizeof(public_key)) )
     {
         this->Status_EndWithError("Failed to read public key from UI");
         return;
     }
-    if( !Utils_RawHexStrToArr(ui->ed25529_textEdit_privateKey->text(), private_key, &private_key_len, sizeof(private_key)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->ed25529_textEdit_privateKey->text(), private_key, &private_key_len, sizeof(private_key)) )
     {
         this->Status_EndWithError("Failed to read private key from UI");
         return;
     }
-    if( ! Utils_RawHexStrToArr(ui->ed25529_textEdit_Message->toPlainText(), message, &message_len, sizeof(message)) )
+    if( ! Base::Utils::ByteArrays::RawHexStrToArr(ui->ed25529_textEdit_Message->toPlainText(), message, &message_len, sizeof(message)) )
     {
         this->Status_EndWithError("Failed to read message from UI");
         return;
@@ -119,7 +119,7 @@ void UiDigitalSignatures::on_ed25519_pushButton_CalculateSignature_clicked()
     ed25519_sign(signature, private_key, public_key, message, message_len);
 
     // Write signature to UI
-    ui->ed25529_textEdit_Signature->setText( Utils_Uint8ArrToHexQStr(signature, sizeof(signature)));
+    ui->ed25529_textEdit_Signature->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(signature, sizeof(signature)));
 
     this->Status_EndWithSuccess("Signature generated");
 
@@ -133,17 +133,17 @@ void UiDigitalSignatures::on_ed25519_pushButton_VerifySignature_clicked()
     ssize_t message_len, public_key_len, signature_len;
 
     // Read relevant data from ui
-    if( !Utils_RawHexStrToArr(ui->ed25529_textEdit_publicKey->text(), public_key, &public_key_len, sizeof(public_key)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->ed25529_textEdit_publicKey->text(), public_key, &public_key_len, sizeof(public_key)) )
     {
         this->Status_EndWithError("Failed to read public key from UI");
         return;
     }
-    if( !Utils_RawHexStrToArr(ui->ed25529_textEdit_Signature->text(), signature, &signature_len, sizeof(signature)) )
+    if( !Base::Utils::ByteArrays::RawHexStrToArr(ui->ed25529_textEdit_Signature->text(), signature, &signature_len, sizeof(signature)) )
     {
         this->Status_EndWithError("Failed to read signature from UI");
         return;
     }
-    if( ! Utils_RawHexStrToArr(ui->ed25529_textEdit_Message->toPlainText(), message, &message_len, sizeof(message)) )
+    if( ! Base::Utils::ByteArrays::RawHexStrToArr(ui->ed25529_textEdit_Message->toPlainText(), message, &message_len, sizeof(message)) )
     {
         this->Status_EndWithError("Failed to read message from UI");
         return;
@@ -152,7 +152,7 @@ void UiDigitalSignatures::on_ed25519_pushButton_VerifySignature_clicked()
     /* verify the signature */
     if (ed25519_verify(signature, public_key, message, message_len))
     {
-        Utils_MsgBox("Signature status", "Signature OK");
+        Base::Utils::Widgets::MsgBoxPopup("Signature status", "Signature OK");
     }
     else
     {

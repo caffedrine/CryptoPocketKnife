@@ -2,8 +2,6 @@
 #define CRYPTOPOCKETKNIFE_UIIPUTILS_H
 
 #include <QWidget>
-#include <base/utils/NetworkUtils.h>
-#include <base/utils/RegexUtils.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui

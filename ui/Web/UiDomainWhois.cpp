@@ -2,10 +2,10 @@
 #include "ui_UiDomainWhois.h"
 
 #include <QHostInfo>
+#include <QUrl>
 #include <QUtils/QUtils.h>
+#include <QUtils/QWebUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
-#include "base/utils/WebUtils.h"
-#include "base/utils/WidgetsUtils.h"
 
 UiDomainWhois::UiDomainWhois(QWidget *parent, QString domain): QWidget(parent), ui(new Ui::UiDomainWhois)
 {
@@ -20,11 +20,11 @@ UiDomainWhois::~UiDomainWhois()
 
 void UiDomainWhois::on_pushButton_Lookup_clicked()
 {
-    utils::widgets::Utils_PushButtonStartLoading(this->ui->pushButton_Lookup);
+    Base::Utils::Widgets::push_button::PushButtonStartLoading(this->ui->pushButton_Lookup);
 
     // Query domain info
     Services::Whois::DomainWhois whoisHandler;
-    whoisHandler.GetDomainInfo(utils::web::GetDomainNameFromUrl(this->ui->lineEdit_DomainName->text().trimmed()));
+    whoisHandler.GetDomainInfo(Base::Utils::Web::GetDomainNameFromUrl(this->ui->lineEdit_DomainName->text().trimmed()));
 
     if( !whoisHandler.WhoisServers.isEmpty() && !whoisHandler.ServersResponses.isEmpty())
     {
@@ -33,5 +33,5 @@ void UiDomainWhois::on_pushButton_Lookup_clicked()
         this->ui->plainTextEdit_LookupResult->appendPlainText(whoisHandler.ServersResponses.last().trimmed());
     }
 
-    utils::widgets::Utils_PushButtonEndLoading(this->ui->pushButton_Lookup);
+    Base::Utils::Widgets::push_button::PushButtonEndLoading(this->ui->pushButton_Lookup);
 }

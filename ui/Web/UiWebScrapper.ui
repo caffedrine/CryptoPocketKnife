@@ -119,7 +119,7 @@
    <item row="3" column="2">
     <spacer name="horizontalSpacer_7">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -149,7 +149,7 @@
   <customwidget>
    <class>AdvancedTableWidget</class>
    <extends>QTableWidget</extends>
-   <header>base/extensions/AdvancedTableWidget.h</header>
+   <header>extensions/AdvancedTableWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

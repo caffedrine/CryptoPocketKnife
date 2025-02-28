@@ -3,7 +3,7 @@
 
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
-#include "RandomAnalyzer.h"
+#include "Random/RandomAnalyzer.h"
 
 UiEntropyAnalyzer::UiEntropyAnalyzer(QWidget *parent): QMainWindow(parent), ui(new Ui::UiEntropyAnalyzer)
 {
