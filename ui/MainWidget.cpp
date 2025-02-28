@@ -30,7 +30,6 @@ MainWidget::MainWidget(QStatusBar *statusBar, QWidget *parent): QWidget(parent),
     kdf->setWindowFlags(Qt::Widget);
     this->ui->gridLayout_MathExpEval->addWidget(math);
 
-    qDebug() << BASE_COUNTRYFLAGS_CountryIcon("RO");
 }
 
 MainWidget::~MainWidget()
