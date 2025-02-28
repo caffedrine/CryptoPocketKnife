@@ -4,6 +4,7 @@
 
 #include "ui/KDF/UiKdf.h"
 #include "ui/Utils/UiMathExpEval.h"
+#include <QGeoIP/CountryFlags.h>
 
 MainWidget::MainWidget(QStatusBar *statusBar, QWidget *parent): QWidget(parent), ui(new Ui::MainWidget), statusBar(statusBar)
 {
@@ -28,6 +29,8 @@ MainWidget::MainWidget(QStatusBar *statusBar, QWidget *parent): QWidget(parent),
     UiMathExpEval *math = new UiMathExpEval(this);
     kdf->setWindowFlags(Qt::Widget);
     this->ui->gridLayout_MathExpEval->addWidget(math);
+
+    qDebug() << BASE_COUNTRYFLAGS_CountryIcon("RO");
 }
 
 MainWidget::~MainWidget()

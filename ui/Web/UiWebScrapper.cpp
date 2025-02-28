@@ -5,6 +5,7 @@
 #include <QUtils/QWebUtils.h>
 #include <QUtils/QNetworkUtils.h>
 #include <QGeoIP/GeoIP.h>
+#include <QGeoIP/CountryFlags.h>
 #include <QGeoIP/TldCountry.h>
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
@@ -101,10 +102,11 @@ void UiWebScrapper::tableWidget_WebScraper_OnTextPasted(const QString& text)
             if( url.host().contains(".") )
             {
                 QString tld =  url.host().split(".").last();
-                QString resPath = ":/img/flags/" + tld + ".svg";
-                if( QFile::exists(resPath) )
+                QString countrycode = Base::TldCountry::GetCountryShortcodeByTLD(tld);
+                QIcon icon = BASE_COUNTRYFLAGS_CountryIcon( countrycode );
+                if( !icon.isNull() )
                 {
-                    this->ui->tableWidget_WebScraper->item(currentRow, 1)->setIcon(QIcon(resPath));
+                    this->ui->tableWidget_WebScraper->item(currentRow, 1)->setIcon(icon);
                 }
             }
             this->ui->tableWidget_WebScraper->setItem(currentRow, 2, new QTableWidgetItem(url_str.split(url.host())[1]));
