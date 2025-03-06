@@ -29,11 +29,11 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget_Signature">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabName_ED25519">
       <attribute name="title">
-       <string>ED25519</string>
+       <string>Ed25519</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="7" column="0" colspan="5">
@@ -167,6 +167,11 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="tab_ed448">
+      <attribute name="title">
+       <string>Ed448</string>
+      </attribute>
      </widget>
      <widget class="QWidget" name="tab_secp">
       <attribute name="title">
