@@ -29,7 +29,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabWidget_Signature">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabName_ED25519">
       <attribute name="title">
@@ -100,7 +100,7 @@
           <string>Private key size</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -163,6 +163,340 @@
         <widget class="QLabel" name="ed25519_label_PrivateKey">
          <property name="text">
           <string notr="true">Private key</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_secp">
+      <attribute name="title">
+       <string>SECP</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="secp_label_PrivateKey">
+         <property name="text">
+          <string notr="true">Private key</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="5">
+        <widget class="QLineEdit" name="secp_textEdit_privateKey">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="secp_label_PublicKey">
+         <property name="text">
+          <string>Public key</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="5">
+        <widget class="QLineEdit" name="secp_textEdit_publicKey">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="secp_pushButton_GenerateKeysPair">
+         <property name="text">
+          <string>Generate keys pair</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="secp_pushButton_Signature_Clear">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>* If private key already set, it will calculate public key for that.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Curve name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="4">
+        <widget class="QComboBox" name="secp_comboBox">
+         <item>
+          <property name="text">
+           <string>secp224r1 (P-224)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>secp256r1 (P-256)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>secp384r1 (P-384)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>secp521r1 (P-521)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>secp192k1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>secp224k1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>secp256k1</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Message (HEX bytes to be signed or verified)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="5">
+        <widget class="QTextEdit" name="secp_textEdit_Message">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Signature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="5">
+        <widget class="QLineEdit" name="secp_textEdit_Signature">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="secp_pushButton_CalculateSignature">
+         <property name="text">
+          <string>Calculate signature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QPushButton" name="secp_pushButton_VerifySignature">
+         <property name="text">
+          <string>Verify signature</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_brainpool">
+      <attribute name="title">
+       <string>Brainpool</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
+        <widget class="QLabel" name="brainpool_label_PrivateKey">
+         <property name="text">
+          <string notr="true">Private key</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="5">
+        <widget class="QLineEdit" name="brainpool_textEdit_privateKey">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="brainpool_label_PublicKey">
+         <property name="text">
+          <string>Public key</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="5">
+        <widget class="QLineEdit" name="brainpool_textEdit_publicKey">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="brainpool_pushButton_GenerateKeysPair">
+         <property name="text">
+          <string>Generate keys pair</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="brainpool_pushButton_Keys_Clear">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2">
+        <widget class="QLabel" name="label_23">
+         <property name="text">
+          <string>* If private key already set, it will calculate public key for that.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="3">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Curve name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="4">
+        <widget class="QComboBox" name="brainpool_comboBox">
+         <item>
+          <property name="text">
+           <string>brainpoolP160r1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brainpoolP192r1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brainpoolP224r1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brainpoolP256r1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brainpoolP320r1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brainpoolP384r1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brainpoolP512r1</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="3">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Message (text to be signed or verified)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0" colspan="5">
+        <widget class="QTextEdit" name="brainpool_textEdit_Message">
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Signature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0" colspan="5">
+        <widget class="QLineEdit" name="brainpool_textEdit_Signature">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="brainpool_pushButton_CalculateSignature">
+         <property name="text">
+          <string>Calculate signature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QPushButton" name="brainpool_pushButton_VerifySignature">
+         <property name="text">
+          <string>Verify signature</string>
          </property>
         </widget>
        </item>

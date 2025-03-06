@@ -10,6 +10,10 @@
 UiDigitalSignatures::UiDigitalSignatures(QWidget *parent): QWidget(parent), ui(new Ui::UiDigitalSignatures)
 {
     ui->setupUi(this);
+
+    // Show key sizes based on current selection
+    on_secp_comboBox_currentTextChanged();
+    on_brainpool_comboBox_currentTextChanged();
 }
 
 UiDigitalSignatures::~UiDigitalSignatures()
@@ -164,4 +168,70 @@ void UiDigitalSignatures::on_pushButton_Signature_ED25519_Clear_clicked()
 {
     this->ui->ed25529_textEdit_privateKey->clear();
     this->ui->ed25529_textEdit_publicKey->clear();
+}
+
+/* SECP TAB */
+
+void UiDigitalSignatures::on_secp_comboBox_currentTextChanged()
+{
+    // Update keys sizes based on the combo selection. Combo contains
+    QString privateKeySize, publicKeySize;
+
+    // Secp keys sizes
+    static QMap<QString, QPair<int, int>> secpKeysSizes = {
+        // secp r1 sizes
+        {"secp224r1 (P-224)", {28, 56}},
+        {"secp256r1 (P-256)", {32, 64}},
+        {"secp384r1 (P-384)", {48, 96}},
+        {"secp521r1 (P-521)", {66, 132}},
+        // secp K1 sizes
+        {"secp192k1", {24, 48}},
+        {"secp224k1", {28, 56}},
+        {"secp256k1", {32, 64}}
+    };
+
+    // find the match in combobox and populate output strings
+    for(auto it = secpKeysSizes.begin(); it != secpKeysSizes.end(); ++it)
+    {
+        if( this->ui->secp_comboBox->currentText().toLower().contains(it.key().toLower()) )
+        {
+            privateKeySize = QString::number(it.value().first);
+            publicKeySize = QString::number(it.value().second);
+            break;
+        }
+    }
+
+    // Update the ui
+    this->ui->secp_label_PrivateKey->setText("Private key ("+privateKeySize+" bytes)");
+    this->ui->secp_label_PublicKey->setText("Public key ("+publicKeySize+" bytes)");
+}
+
+/* BRAINPOOL */
+
+void UiDigitalSignatures::on_brainpool_comboBox_currentTextChanged()
+{
+    QString privateKeySize, publicKeySize;
+
+    static QMap<QString, QPair<int, int>> brainpoolKeysSizes = {
+            {"brainpoolP160r1", {20, 40}},
+            {"brainpoolP192r1", {24, 48}},
+            {"brainpoolP224r1", {28, 56}},
+            {"brainpoolP256r1", {32, 64}},
+            {"brainpoolP320r1", {40, 80}},
+            {"brainpoolP384r1", {48, 96}},
+            {"brainpoolP512r1", {64, 128}}
+    };
+
+    for(auto it = brainpoolKeysSizes.begin(); it != brainpoolKeysSizes.end(); ++it)
+    {
+        if( this->ui->brainpool_comboBox->currentText().toLower().contains(it.key().toLower()) )
+        {
+            privateKeySize = QString::number(it.value().first);
+            publicKeySize = QString::number(it.value().second);
+            break;
+        }
+    }
+
+    this->ui->brainpool_label_PrivateKey->setText("Private key ("+privateKeySize+" bytes)");
+    this->ui->brainpool_label_PublicKey->setText("Public key ("+publicKeySize+" bytes)");
 }
