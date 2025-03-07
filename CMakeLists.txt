@@ -45,6 +45,9 @@ foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
     # find_package(${subdirectory} PATHS libs/QBaseLibs/install)
 endforeach()
 
+# Add thirdparty CMake modules
+add_subdirectory(thirdparty/CryptoPrimitives)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -117,8 +120,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Xml
         Qt${QT_VERSION_MAJOR}::Concurrent
-        ${THIRD_PARTY_LIBS}
-)
+        Base::CryptoPrimitives
+        ${THIRD_PARTY_LIBS})
+
 # Link base dependencies
 foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
     target_link_libraries(${PROJECT_NAME} PUBLIC Base::${subdirectory})

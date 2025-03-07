@@ -3,8 +3,8 @@
 
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
-#include "HmacSha1.h"
-#include "HmacSha2.h"
+#include <CryptoPrimitives/HmacSha1.h>
+#include <CryptoPrimitives/HmacSha2.h>
 
 UiHmacSha::UiHmacSha(QWidget *parent): QMainWindow(parent), ui(new Ui::UiHmacSha)
 {

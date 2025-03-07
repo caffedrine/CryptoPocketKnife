@@ -4,15 +4,24 @@ set(THIRD_PARTY_LIBS "")
 set(THIRD_PARTY_INCLUDES "")
 set(THIRD_PARTY_COPY_TO_OUTPUT "")
 
-# Include AES-CMAC
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/crypto)
-list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/crypto/*.c ${CMAKE_CURRENT_LIST_DIR}/crypto/*.cpp)
+## Include AES-CMAC
+#list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/crypto)
+#list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/crypto/*.c ${CMAKE_CURRENT_LIST_DIR}/crypto/*.cpp)
+#
+## Include crypto primitives
+#list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/crypto2
+#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/vCfg
+#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/vSecPrim
+#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/vStd
+#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/Crypto_30_LibCv
+#)
+#list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/crypto2/*.c ${CMAKE_CURRENT_LIST_DIR}/crypto2/*.cpp)
 
-# Include x509 parser
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src)
-file(GLOB_RECURSE lib_x509_parser_src ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.cpp ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.c)
-add_library(x509-parser-lib ${lib_x509_parser_src})
-list(APPEND THIRD_PARTY_LIBS x509-parser-lib)
+## Include x509 parser
+#list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src)
+#file(GLOB_RECURSE lib_x509_parser_src ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.cpp ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.c)
+#add_library(x509-parser-lib ${lib_x509_parser_src})
+#list(APPEND THIRD_PARTY_LIBS x509-parser-lib)
 
 # Include GnuTLS
 #list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/GnuTLS/includes)
@@ -30,10 +39,6 @@ list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/BigInt/*.cpp)
 # Tiny expr - math expressions eval
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/tinyexpr)
 list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/tinyexpr/*.cpp)
-
-# Include QJsonModel
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/QJsonModel)
-list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/QJsonModel/*.cpp)
 
 # Add AES as a separete library since this is C code
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/Qt-AES)
@@ -53,11 +58,6 @@ file(GLOB_RECURSE lib_eddsa_src ${CMAKE_CURRENT_LIST_DIR}/libeddsa/lib/*.c)
 add_library(eddsa-lib ${lib_eddsa_src})
 list(APPEND THIRD_PARTY_LIBS eddsa-lib)
 
-# Add URI parser lib
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/uriparser-0.9.6/include)
-file(GLOB_RECURSE uri_parser_src ${CMAKE_CURRENT_LIST_DIR}/uriparser-0.9.6/src/*.c)
-add_library(uriparser-lib ${uri_parser_src})
-list(APPEND THIRD_PARTY_LIBS uriparser-lib)
 
 #
 # Resolve wildchars

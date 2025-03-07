@@ -4,7 +4,7 @@
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
 
-#include "AeAesGcm.h"
+#include <CryptoPrimitives/AeAesGcm.h>
 
 UiAeAesGcm::UiAeAesGcm(QWidget *parent): QMainWindow(parent), ui(new Ui::UiAeAesGcm)
 {

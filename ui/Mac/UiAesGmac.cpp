@@ -3,7 +3,7 @@
 
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
-#include "GmacAes.h"
+#include <CryptoPrimitives/GmacAes.h>
 
 UiAesGmac::UiAesGmac(QWidget *parent): QMainWindow(parent), ui(new Ui::UiAesGmac)
 {
