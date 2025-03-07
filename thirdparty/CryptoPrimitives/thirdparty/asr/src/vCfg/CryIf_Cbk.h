@@ -25,8 +25,9 @@
  *  \synchronous   TRUE
  *  \trace         CREQ-127574
  *********************************************************************************************************************/
-FUNC(void, CRYIF_CODE) CryIf_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, CRYIF_APPL_VAR) job,
-  Std_ReturnType result);
+//FUNC(void, CRYIF_CODE) CryIf_CallbackNotification(P2VAR(Crypto_JobType, AUTOMATIC, CRYIF_APPL_VAR) job,
+//  Std_ReturnType result);
+#define CryIf_CallbackNotification(a, b)
 
 # define CRYIF_STOP_SEC_CODE
 # include "CryIf_MemMap.h" /* PRQA S 5087 */ /* MD_MSR_MemMap */

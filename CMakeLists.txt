@@ -17,7 +17,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Libraries to be included from base library
 SET(BASE_LIB_DEPENDENCIES
-        BigNum
         OpenSslLoader
         QDataStructures
         fmt
@@ -37,6 +36,9 @@ SET(BASE_LIB_DEPENDENCIES
         QX509
         QWidgetModels
         QGeoIP
+        BigNum
+        QMathEvaluator
+        QWidgetMathEvaluator
 )
 
 # Add base dependencies

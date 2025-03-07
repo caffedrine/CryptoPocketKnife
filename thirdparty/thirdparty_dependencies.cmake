@@ -4,19 +4,6 @@ set(THIRD_PARTY_LIBS "")
 set(THIRD_PARTY_INCLUDES "")
 set(THIRD_PARTY_COPY_TO_OUTPUT "")
 
-## Include AES-CMAC
-#list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/crypto)
-#list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/crypto/*.c ${CMAKE_CURRENT_LIST_DIR}/crypto/*.cpp)
-#
-## Include crypto primitives
-#list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/crypto2
-#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/vCfg
-#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/vSecPrim
-#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/vStd
-#                            ${CMAKE_CURRENT_LIST_DIR}/crypto2/Crypto_30_LibCv
-#)
-#list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/crypto2/*.c ${CMAKE_CURRENT_LIST_DIR}/crypto2/*.cpp)
-
 ## Include x509 parser
 #list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src)
 #file(GLOB_RECURSE lib_x509_parser_src ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.cpp ${CMAKE_CURRENT_LIST_DIR}/x509-parser/src/*.c)
@@ -31,14 +18,6 @@ set(THIRD_PARTY_COPY_TO_OUTPUT "")
 # Include random analyzer
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/random_test)
 list(APPEND THIRD_PARTY_LIBS Random::RandomTest)
-
-# Include BigIntegers
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/BigInt)
-list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/BigInt/*.cpp)
-
-# Tiny expr - math expressions eval
-list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/tinyexpr)
-list(APPEND THIRD_PARTY_SRC ${CMAKE_CURRENT_LIST_DIR}/tinyexpr/*.cpp)
 
 # Add AES as a separete library since this is C code
 list(APPEND THIRD_PARTY_INCLUDES ${CMAKE_CURRENT_LIST_DIR}/Qt-AES)

@@ -19,6 +19,8 @@ add_library(Base::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # Link current library
 target_link_libraries(${PROJECT_NAME} PRIVATE Base::AsrCrypto)
+# In case of linking issues in the app, try this -> forcefully include all AsrCrypto symbols to avoid linking issue in the end app
+# target_link_libraries(${PROJECT_NAME} PRIVATE "-Wl,--whole-archive" Base::AsrCrypto "-Wl,--no-whole-archive")
 
 # Set the include directories for users of this library
 target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})

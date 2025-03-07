@@ -84,7 +84,7 @@ extern "C"
  *  \reentrant      TRUE, for different workspaces.
  *  \synchronous    TRUE
  *********************************************************************************************************************/
-VSECPRIM_FUNC(void) actAESCCMInit(
+void actAESCCMInit(
  VSECPRIM_P2VAR_PARA(actAESCCMSTRUCT) info,
  VSECPRIM_P2CONST_PARA(actU8) key,
  const actLengthType keyLength,

@@ -7,7 +7,7 @@
 
 #include "UiEncoding.h"
 #include "ui_UiEncoding.h"
-#include "BigInt.h"
+#include <BigNum/BigNum.h>
 
 
 UiEncoding::UiEncoding(QWidget *parent): QWidget(parent), ui(new Ui::UiEncoding)
@@ -89,10 +89,10 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
     if( exception != "number" )
     {
         // Currently handling of very very big numbers does not work :(
-        if( bytes.size() <= 128 )
+        if( bytes.size() <= 20000 )
         {
-            BigInt n = BigInt().from_hex(bytes.toHex().toStdString());
-            this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string()));
+            Base::BigNum::BigNum n( bytes.toHex().toStdString(), 16 );
+            this->ui->textEdit_EncodeDecode_General_Number->setText(QString::fromStdString(n.to_string(10)));
         }
         else
         {
@@ -280,8 +280,8 @@ void UiEncoding::on_textEdit_EncodeDecode_General_Number_textChanged()
         return;
     }
 
-    BigInt n(number.toStdString());
-    bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr( QString::fromStdString(n.to_hex_str()) );
+    Base::BigNum::BigNum n( number.toStdString() );
+    bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr( QString::fromStdString(n.to_string(16)) );
 
     // Set only bytes hex, there all the other boxes will be converted
     this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "number");

@@ -2,16 +2,18 @@
 #include "UiMathExpEval.h"
 #include "ui_UiMathExpEval.h"
 
-#include "MathExpEvalWidget.h"
-#include "ui/widgets/MathExpEvalWidget.h"
+#include <QWidgetMathEvaluator/UiMathEvaluator.h>
 
-UiMathExpEval::UiMathExpEval(QWidget *parent) :
-        QWidget(parent), ui(new Ui::UiMathExpEval)
+UiMathExpEval::UiMathExpEval(QWidget *parent): QWidget(parent), ui(new Ui::UiMathExpEval)
 {
     ui->setupUi(this);
 
     // Init math exp evaluator
-    MathExpEvalWidget *math = new MathExpEvalWidget();
+    UiMathEvaluatorSettings sett;
+    sett.EnableEditing = true;
+    sett.ShowToolbox = true;
+
+    UiMathEvaluator *math = new UiMathEvaluator(sett);
     this->ui->verticalLayout_Widget->addWidget(math);
 }
 
@@ -23,9 +25,14 @@ UiMathExpEval::~UiMathExpEval()
 void UiMathExpEval::on_pushButton_NewWindow_clicked()
 {
     QMainWindow *newWindow = new QMainWindow(this);
+    newWindow->setWindowTitle("Math Expression Evaluator");
 
     // Init math exp evaluator
-    MathExpEvalWidget *math = new MathExpEvalWidget(newWindow);
+    UiMathEvaluatorSettings sett;
+    sett.EnableEditing = true;
+    sett.ShowToolbox = true;
+
+    UiMathEvaluator *math = new UiMathEvaluator(sett);
 
     // Set new window attributes
     newWindow->resize(math->size());
