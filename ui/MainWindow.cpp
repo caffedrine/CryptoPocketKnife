@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     });
 
     // Create an initial tab by default if no workspace was found or restoration not enabled
-    if( !Base::QBaseAppSettings::IsWorkspaceRestoreEnabled() || !this->RestoreMainWindowState(this) )
+    //if( !Base::QBaseAppSettings::IsWorkspaceRestoreEnabled() || !this->RestoreMainWindowState(this) )
     {
         this->ui->tabWidget->RequestNewTab();
         this->ui->tabWidget->setCurrentIndex(0);
@@ -89,8 +89,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 MainWindow::~MainWindow()
 {
     // Preserve object state if option enabled
-    if( Base::QBaseAppSettings::IsWorkspaceSaveEnabled() )
-        this->SaveMainWindowState(this);
+//    if( Base::QBaseAppSettings::IsWorkspaceSaveEnabled() )
+//        this->SaveMainWindowState(this);
 
     delete ui;
 }
