@@ -63,7 +63,7 @@
       <number>0</number>
      </property>
      <item row="0" column="0">
-      <widget class="QTabWidget" name="tabWidget_MainTabs">
+      <widget class="QTabWidgetExtended" name="tabWidget_MainTabs">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -828,6 +828,12 @@
    <class>UiRandom</class>
    <extends>QWidget</extends>
    <header>UiRandom.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QTabWidgetExtended</class>
+   <extends>QTabWidget</extends>
+   <header>QWidgets/QtabWidgetExtended/QTabWidgetExtended.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
