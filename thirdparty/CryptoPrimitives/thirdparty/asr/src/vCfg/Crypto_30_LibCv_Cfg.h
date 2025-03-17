@@ -748,8 +748,8 @@
 #define CRYPTO_30_LIBCV_SIGNATURE_VERIFY_SECFAM_SHA2_512                                            STD_OFF
 
 #define Crypto_30_LibCv_GetDefaultRandomKey()                                                       CryptoConf_CryptoKey_CryptoKey_DefaultRandomSource
-#define CRYPTO_30_LIBCV_DEFAULT_RANDOM_SOURCE                                                       STD_ON
-#define CRYPTO_30_LIBCV_RANDOM_SOURCE_DRBG_AES                                                      STD_ON
+#define CRYPTO_30_LIBCV_DEFAULT_RANDOM_SOURCE                                                       STD_OFF
+#define CRYPTO_30_LIBCV_RANDOM_SOURCE_DRBG_AES                                                      STD_OFF
 #define CRYPTO_30_LIBCV_RANDOM_SOURCE_DRBG_HASH                                                     STD_OFF
 
 

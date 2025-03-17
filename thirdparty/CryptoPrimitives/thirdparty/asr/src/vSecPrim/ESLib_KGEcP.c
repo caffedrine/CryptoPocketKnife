@@ -146,7 +146,7 @@ VSECPRIM_FUNC(eslt_ErrorCode) esl_generateKeyEcP_prim(
   else
   {
     /* Call actCLib EC key pair generation */
-    actRetVal = actECGenerateKeyPair(TRUE, privateKey, publicKey_x, publicKey_y, &workSpace->wsEcP, workSpace->header.watchdog); /* SBSW_VSECPRIM_FCT_CALL_PASSED_BUFFER_GENERATEKEY_ECP */
+    actRetVal = actECGenerateKeyPair(FALSE, privateKey, publicKey_x, publicKey_y, &workSpace->wsEcP, workSpace->header.watchdog); /* SBSW_VSECPRIM_FCT_CALL_PASSED_BUFFER_GENERATEKEY_ECP */
 
     if (actRetVal == actEXCEPTION_UNKNOWN)
     {

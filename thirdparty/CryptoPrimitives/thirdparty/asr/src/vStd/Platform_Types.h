@@ -30,6 +30,7 @@
 #define CPU_TYPE_32      32u
 #define CPU_TYPE_64      64u
 
+
 #define MSB_FIRST        0u  /* big endian bit ordering */
 #define LSB_FIRST        1u  /* little endian bit ordering */
 
@@ -44,7 +45,7 @@
 # define FALSE           0u
 #endif
 
-#define CPU_TYPE          CPU_TYPE_32
+#define CPU_TYPE          CPU_TYPE_64
 
 #define CPU_BIT_ORDER     LSB_FIRST       /* little endian bit ordering */
 

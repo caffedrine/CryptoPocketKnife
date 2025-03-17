@@ -9,6 +9,7 @@ UiDsaSECP::UiDsaSECP(QWidget *parent): QWidget(parent), ui(new Ui::UiDsaSECP)
     ui->setupUi(this);
 
     this->on_comboBox_AlgoName_currentTextChanged();
+    this->ui->comboBox_AlgoName->setCurrentIndex(4); // secp521r1 vby default
 }
 
 UiDsaSECP::~UiDsaSECP()
@@ -21,6 +22,7 @@ void UiDsaSECP::on_comboBox_AlgoName_currentTextChanged()
     // Secp keys sizes
     static QList secpKeysInfo = {
             // secp r1 sizes
+            UiDsaSecp_CurrAlgo("secp160r1 (P-160)", 21, 20, Base::CryptoPrimitives::secp160r1),
             UiDsaSecp_CurrAlgo("secp224r1 (P-224)", 28, 56, Base::CryptoPrimitives::secp224r1),
             UiDsaSecp_CurrAlgo("secp256r1 (P-256)", 32, 64, Base::CryptoPrimitives::secp256r1),
             UiDsaSecp_CurrAlgo("secp384r1 (P-384)", 48, 96, Base::CryptoPrimitives::secp384r1),
@@ -89,6 +91,7 @@ void UiDsaSECP::on_pushButton_GenerateKeysPair_clicked()
     if( currBytes.isEmpty() )
     {
         currBytes = Base::Crypto::Rng::GetRandomBytes(this->currAlgo.privKeySizeBytes);
+        currBytes[0] = 0x00; // all keys starting with 0x00 will be valid? don't know why.
         this->ui->textEdit_privateKey->setText(currBytes.toHex(' '));
     }
 

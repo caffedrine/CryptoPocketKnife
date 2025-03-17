@@ -31,8 +31,13 @@
    <item row="4" column="4">
     <widget class="QComboBox" name="comboBox_AlgoName">
      <property name="currentText">
-      <string>secp521r1 (P-521)</string>
+      <string>secp160r1 (P-160)</string>
      </property>
+     <item>
+      <property name="text">
+       <string>secp160r1 (P-160)</string>
+      </property>
+     </item>
      <item>
       <property name="text">
        <string>secp224r1 (P-224)</string>
@@ -82,8 +87,7 @@
    <item row="4" column="0">
     <widget class="QPushButton" name="pushButton_GenerateKeysPair">
      <property name="toolTip">
-      <string>If private key is set, public key will be generated based on that.
-If no private key is given, a new one will be generated.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If private key is set, public key will be generated based on that.&lt;/p&gt;&lt;p&gt;If no private key is given, a new one will be generated.&lt;br/&gt;PS: Private key must be valid otherwise no public key could be calculated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
       <string>Generate keys pair</string>
@@ -108,7 +112,8 @@ If no private key is given, a new one will be generated.</string>
    <item row="4" column="2">
     <widget class="QLabel" name="label_22">
      <property name="text">
-      <string>* If private key already set, it will calculate public key for that.</string>
+      <string>* If private key already set, it will calculate public key for that.
+It will only work it the priv key is valid (usually starts with 0x00)</string>
      </property>
     </widget>
    </item>

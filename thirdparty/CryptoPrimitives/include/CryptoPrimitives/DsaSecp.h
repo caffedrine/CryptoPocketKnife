@@ -10,6 +10,7 @@ namespace Base::CryptoPrimitives
 
 typedef enum
 {
+    secp160r1,
     secp224r1,
     secp256r1,
     secp384r1,
@@ -17,7 +18,9 @@ typedef enum
 
     secp192k1,
     secp224k1,
-    secp256k1
+    secp256k1,
+
+    secp_algo_no
 } dsa_secp_curve_t;
 
 class DsaSecp
@@ -25,7 +28,7 @@ class DsaSecp
 public:
     DsaSecp(dsa_secp_curve_t secpCurve);
     ~DsaSecp();
-    std::vector<std::byte> CalcPubKey(const std::vector<std::byte> &privKey);
+    std::vector<std::byte> CalcPubKey(std::vector<std::byte> privKey);
 
 private:
     class impl;

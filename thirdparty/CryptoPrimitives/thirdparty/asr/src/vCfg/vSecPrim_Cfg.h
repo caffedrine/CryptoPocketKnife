@@ -583,7 +583,7 @@
 #define vSecPrim_IsECDH_GenericEnabledOfKeyExchangeOfPCConfig()                                     (((TRUE)) != FALSE)
 #define vSecPrim_IsECDSA_25519EnabledOfSignatureOfPCConfig()                                        (((FALSE)) != FALSE)
 #define vSecPrim_IsECDSA_GenericEnabledOfSignatureOfPCConfig()                                      (((TRUE)) != FALSE)
-#define vSecPrim_GetECPMaxKeySizeOfGeneralOfPCConfig()                                              VSECPRIM_ECP_MAX_KEY_SIZE_256
+#define vSecPrim_GetECPMaxKeySizeOfGeneralOfPCConfig()                                              VSECPRIM_ECP_MAX_KEY_SIZE_521
 #define vSecPrim_IsFIPS186EnabledOfRandomNumberGenerationOfPCConfig()                               (((TRUE)) != FALSE)
 #define vSecPrim_IsGMacEnabledOfMacOfPCConfig()                                                     (((FALSE)) != FALSE)
 #define vSecPrim_IsGcmEnabledOfCipherOfPCConfig()                                                   (((TRUE)) != FALSE)
