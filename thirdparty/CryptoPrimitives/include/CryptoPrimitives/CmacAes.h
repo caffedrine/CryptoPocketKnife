@@ -8,7 +8,7 @@
 #define CMAC_AES_MAC_SIZE       (16u)
 #define CMAC_AES128_KEY_SIZE    (16u)
 #define CMAC_AES256_KEY_SIZE    (32u)
-#define CMAC_INCORRECT_MAC       (0x2000u + 0x000Fu)
+#define CMAC_INCORRECT_MAC      (0x2000u + 0x000Fu)
 
 class CmacAes
 {

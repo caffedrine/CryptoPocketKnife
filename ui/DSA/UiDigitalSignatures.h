@@ -35,9 +35,6 @@ private slots:
     void on_ed25519_pushButton_VerifySignature_clicked();
     void on_pushButton_Signature_ED25519_Clear_clicked();
 
-    // Secp slots
-    void on_secp_comboBox_currentTextChanged();
-
     // Brainpool slots
     void on_brainpool_comboBox_currentTextChanged();
 };

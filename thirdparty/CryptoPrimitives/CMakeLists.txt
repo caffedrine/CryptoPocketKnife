@@ -23,7 +23,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Base::AsrCrypto)
 # target_link_libraries(${PROJECT_NAME} PRIVATE "-Wl,--whole-archive" Base::AsrCrypto "-Wl,--no-whole-archive")
 
 # Set the include directories for users of this library
-target_include_directories(${PROJECT_NAME} PRIVATE include/${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} PRIVATE include/CryptoPrimitives)
+target_include_directories(${PROJECT_NAME} PRIVATE include/CryptoServices)
 target_include_directories(${PROJECT_NAME} PRIVATE src/)
 
 target_include_directories(${PROJECT_NAME} PUBLIC

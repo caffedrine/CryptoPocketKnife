@@ -247,7 +247,7 @@ void UiEncoding::on_textEdit_EncodeDecode_General_DEC_textChanged()
 
     // Convert content to bytes array
     QByteArray bytes;
-    QStringList ints = this->ui->textEdit_EncodeDecode_General_DEC->toPlainText().trimmed().split(" ");
+    QStringList ints = this->ui->textEdit_EncodeDecode_General_DEC->toPlainText().simplified().split(" ");
     for(int i = 0; i < ints.count(); i++)
     {
         bytes.append( QString(ints.at(i)).toInt(nullptr, 10) );

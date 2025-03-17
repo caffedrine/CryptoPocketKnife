@@ -82,9 +82,9 @@
        <property name="documentMode">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="tab_Signature">
+       <widget class="QWidget" name="tab_DSA">
         <property name="toolTip">
-         <string>Digital Signature Algorithms</string>
+         <string/>
         </property>
         <property name="statusTip">
          <string/>
@@ -119,7 +119,7 @@
        </widget>
        <widget class="QWidget" name="tab_keyExchange">
         <property name="toolTip">
-         <string>Key Exchange Algorithms</string>
+         <string/>
         </property>
         <property name="statusTip">
          <string/>
@@ -154,7 +154,7 @@
        </widget>
        <widget class="QWidget" name="tab_Ciphers">
         <property name="toolTip">
-         <string>Ciphering Algorithms</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>Ciphers</string>
@@ -186,7 +186,7 @@
        </widget>
        <widget class="QWidget" name="tab_Hashes">
         <property name="toolTip">
-         <string>Hashing Algorithms</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>Hashes</string>
@@ -218,7 +218,7 @@
        </widget>
        <widget class="QWidget" name="tab_Certificates">
         <property name="toolTip">
-         <string>X509 Digital Certificates Tool</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>X509</string>
@@ -250,7 +250,7 @@
        </widget>
        <widget class="QWidget" name="tab_Mac">
         <property name="toolTip">
-         <string>Message Authentication Code Algorithms</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>MAC</string>
@@ -275,7 +275,7 @@
        </widget>
        <widget class="QWidget" name="tab_AuthenticatedEncryption">
         <property name="toolTip">
-         <string>Authenticated Encryption Algorithms</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>AE</string>
@@ -300,7 +300,7 @@
        </widget>
        <widget class="QWidget" name="tab_KDF">
         <property name="toolTip">
-         <string>Key Derivation Functions Algorithms</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>KDF</string>
@@ -328,7 +328,7 @@
        </widget>
        <widget class="QWidget" name="tab_Random">
         <property name="toolTip">
-         <string>Random Algorithms, Generators and Analyzers</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>Random</string>
@@ -356,7 +356,7 @@
        </widget>
        <widget class="QWidget" name="tab_Encoding">
         <property name="toolTip">
-         <string>Encoding/Decoding Algorithms</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>Enc/Dec</string>
@@ -385,7 +385,7 @@
        </widget>
        <widget class="QWidget" name="tab_Web">
         <property name="toolTip">
-         <string>Web tools</string>
+         <string/>
         </property>
         <property name="statusTip">
          <string/>
@@ -438,7 +438,7 @@
        </widget>
        <widget class="QWidget" name="tab_OSINT">
         <property name="toolTip">
-         <string>Open-Source Intelligence Tools</string>
+         <string/>
         </property>
         <attribute name="title">
          <string>OSINT</string>
@@ -470,7 +470,7 @@
        </widget>
        <widget class="QWidget" name="tab_Utils">
         <property name="toolTip">
-         <string>Utils tools</string>
+         <string/>
         </property>
         <property name="statusTip">
          <string/>
