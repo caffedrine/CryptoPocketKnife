@@ -166,7 +166,7 @@ void UiEncoding::on_textEdit_EncodeDecode_General_HEX_textChanged()
         return;
 
     // Convert content to bytes array
-    QByteArray bytes = QByteArray::fromHex(this->ui->textEdit_EncodeDecode_General_HEX->toPlainText().toLatin1());
+    QByteArray bytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_EncodeDecode_General_HEX->toPlainText());
 
     // Set only bytes hex, there all the other boxes will be converted
     this->EncodeDecode_General_UpdateAllFieldsFromQByteArray(bytes, "hex");
