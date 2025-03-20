@@ -179,35 +179,31 @@ void UiEncoding::on_textEdit_EncodeDecode_General_BIN_textChanged()
         return;
 
     // Read current string from the ui
-    QString content = this->ui->textEdit_EncodeDecode_General_BIN->toPlainText().replace(" ", "");
+    QString content = this->ui->textEdit_EncodeDecode_General_BIN->toPlainText().simplified().remove(" ").remove("0b");
 
     // Convert content to bytes array
     QByteArray bytes;
     if( !content.isEmpty() )
     {
-        // Content needs to be 8bit aligned
-        int misalign_bytes = content.length() % 8;
-        if( content.length() < 8 )
+        // Process 8 bits at a time
+        for (int i = 0; i < content.length(); i += 8)
         {
-            misalign_bytes = 8 - misalign_bytes;
-        }
+            // Get a substring of up to 8 bits
+            QString byte = content.mid(i, 8);
 
-        for( int i = 0; i < misalign_bytes; i++ )
-        {
-            content = "0" + content;
-        }
+            // Skip if empty
+            if (byte.isEmpty())
+                continue;
 
-        for(int i = 0; i < content.length(); i+= 8)
-        {
-            QString currBytesStr = "";
-            for(int j = i; j < i+8; j++)
-            {
-                currBytesStr += content[j];
-            }
+            // Convert binary string to decimal
+            bool ok;
+            int value = byte.toInt(&ok, 2);
 
-            int parsed = currBytesStr.toInt(nullptr, 2);
-
-            bytes.append( parsed );
+            // Add to byte array only if conversion succeeded
+            if (ok)
+                bytes.append(static_cast<char>(value));
+            else
+                qWarning().nospace().noquote() << "Invalid binary data detected";
         }
     }
 
