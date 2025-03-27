@@ -143,7 +143,12 @@ void UiEncoding::EncodeDecode_General_UpdateAllFieldsFromQByteArray(QByteArray b
     // Since the boxes were updated, enable event back. As any further change will be a user change.
     this->BypassOnChangeEventFlag = false;
 
-    this->ui->label_ElapsedTime->setText( "Processed " + QString::number(bytes.length()) +  " bytes in " + QString::number( (float)((float)globalTimer.elapsed() / 1000.0)) + "s"  );
+    // Show the size in human readable format
+    QString sizeHumanReadbaleFormat = this->locale().formattedDataSize(bytes.length());
+    if( bytes.length() > 1024 )
+        sizeHumanReadbaleFormat += " (" + locale().toString(bytes.length()) +  " bytes)";
+
+    this->ui->label_ElapsedTime->setText( "Processed " + sizeHumanReadbaleFormat + " in " + QString::number( (float)((float)globalTimer.elapsed() / 1000.0)) + "s"  );
 }
 
 void UiEncoding::on_textEdit_EncodeDecode_General_Ascii_textChanged()
