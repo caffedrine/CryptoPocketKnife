@@ -29,9 +29,10 @@ public:
     DsaSecp(dsa_secp_curve_t secpCurve);
     ~DsaSecp();
     std::vector<std::byte> CalcPubKey(std::vector<std::byte> privKey);
+    std::vector<std::byte> SignData(uint8_t *in_data, uint32_t data_len, std::vector<std::byte> privKey);
 
 private:
-    class impl;
+    struct impl;
     std::unique_ptr<impl> pimpl;
     dsa_secp_curve_t curve;
 };

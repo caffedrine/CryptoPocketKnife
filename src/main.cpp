@@ -1,6 +1,5 @@
-#include <QApplication>
 #include <csignal>
-#include <DummyTriggerRebuild.h>
+#include <QApplication>
 #include <QGlobals/QAppInfo.h>
 #include <QLogger/QLogger.h>
 #include <OpenSslLoader/OpenSslLoader.h>
@@ -32,13 +31,14 @@ int main(int argc, char *argv[])
     // Enable loading of libraries from the same folder as the executable
     QCoreApplication::addLibraryPath(QCoreApplication::applicationDirPath());
 
-    QAppInfo::SetProjectInfo(PROJECT_NAME, PROJECT_DESC, PROJECT_VER);
+    QAppInfo::SetProjectInfo(PROJECT_NAME, PROJECT_DESC);
+    QAppInfo::SetProjectVersion(PROJECT_VER_MAJOR, PROJECT_VER_MINOR, PROJECT_VER_PATCH );
     QAppInfo::SetCompanyInfo(PROJECT_APP_COMPANY, PROJECT_APP_WEBSITE);
     QAppInfo::SetAppInfo(PROJECT_APP_ID, PROJECT_APP_BACKEND_API_URL);
 
     // Set application info based on the config file
     QCoreApplication::setApplicationName(QAppInfo::ProjectName()->GetVal().toString());
-    QCoreApplication::setApplicationVersion(QAppInfo::ProjectVer()->GetVal().toString());
+    QCoreApplication::setApplicationVersion(QAppInfo::ProjectVerFullStr()->GetVal().toString());
     QCoreApplication::setOrganizationName(QAppInfo::CompanyName()->GetVal().toString());
     QCoreApplication::setOrganizationDomain(QAppInfo::CompanyWebsite()->GetVal().toString());
 

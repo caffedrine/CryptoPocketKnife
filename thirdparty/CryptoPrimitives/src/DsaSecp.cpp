@@ -43,9 +43,8 @@ uint16_t SignaturesSizes[secp_algo_no] = {
 
 namespace Base::CryptoPrimitives
 {
-    class DsaSecp::impl
+    struct DsaSecp::impl
     {
-    public:
         eslt_WorkSpaceEcP workspace;
     };
 
@@ -103,5 +102,66 @@ namespace Base::CryptoPrimitives
             output.push_back(static_cast<std::byte>(publicValuePtr[i]));
         }
         return output;
+    }
+
+    std::vector<std::byte> DsaSecp::SignData(uint8_t *in_data, uint32_t data_len, std::vector<std::byte> privKey)
+    {
+        // Check private key size
+        if( privKey.size() != PrivateKeysSizes[this->curve] )
+            return std::vector<std::byte>();
+
+        Std_ReturnType retVal = E_NOT_OK;
+        eslt_ErrorCode retValCv = ESL_ERC_ERROR;
+        eslt_Length sigLength = 0u, doubleSigLength = 0u, sigLengthR = 0u, sigLengthS = 0u;
+        uint32 sigKeyLength = 0u;
+
+        eslt_Byte signatureR[CRYPTO_30_LIBCV_SIZEOF_ECC_521_N] = {0u};
+        eslt_Byte signatureS[CRYPTO_30_LIBCV_SIZEOF_ECC_521_N] = {0u};
+
+
+        /* # Initialize ECC workspace header. */
+        if ( esl_initWorkSpaceHeader(&this->pimpl->workspace.header, ESL_MAXSIZEOF_WS_ECP, reinterpret_cast<esl_WatchdogFuncPtr>((esl_WatchdogFuncPtr *) NULL_PTR)) == ESL_ERC_NO_ERROR ) /* PRQA S 3395 */ /* MD_CRYPTO_30_LIBCV_3395 */ /* SBSW_CRYPTO_30_LIBCV_INIT_ESL_WORKSPACE */
+        {
+//                retVal = E_NOT_OK;
+//                if (esl_initSignDSAEcP_prim((P2VAR(eslt_WorkSpaceEcP, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))&(workSpace->wsEcP), EcDomainPtr, EcDomainExtPtr, EcSpeedUpExtPtr) == ESL_ERC_NO_ERROR) /* PRQA S 0310 */ /* MD_CRYPTO_30_LIBCV_0310 */ /* SBSW_CRYPTO_30_LIBCV_ESL_CALL_WITH_WORKSPACE_AND_NULL_PTR */
+//                {
+//                # if (CRYPTO_30_LIBCV_ECP160GENERATE == STD_ON)
+//                                    if (sigKeyLength == (keyElements[0].keyElementLength + 1u))
+//                        {
+//                          privateKeyElementBuffer[0] = 0u; /* SBSW_CRYPTO_30_LIBCV_STACK_ARRAY_ACCESS_WITH_SIZE */
+//                          Crypto_30_LibCv_CopyData(&privateKeyElementBuffer[1u], Crypto_30_LibCv_GetAddrKeyStorage(keyElements[0].keyElementIndex), (keyElements[0].keyElementLength)); /* PRQA S 0315 */ /* MD_MSR_VStdLibCopy */  /* SBSW_CRYPTO_30_LIBCV_CSL02_KEY_STORAGE_VIA_KEY_ELEMENT */
+//                          privateKeyElementPtr = privateKeyElementBuffer;
+//                        }
+//                        else
+//                # endif
+//                    {
+//                        privateKeyElementPtr = Crypto_30_LibCv_GetAddrKeyStorage(keyElements[0u].keyElementIndex);
+//                    }
+//
+//                    /* # Calculate signature. */
+//                    /* # get esl size of signature length for r and s (signature = [signature_r|signature_s]) */
+//                    sigLength = esl_getLengthOfEcPsignature_comp(EcDomainPtr); /* SBSW_CRYPTO_30_LIBCV_ESL_CONST_WORKSPACE */
+//                    doubleSigLength = (eslt_Length)Crypto_30_LibCv_Math_Mul2(sigLength);
+//                    if (*(job->CRYPTO_30_LIBCV_JOB_PRIMITIVE_INPUT_OUTPUT_MEMBER.outputLengthPtr) >= doubleSigLength)
+//                    {
+//                        sigLengthS = sigLength;
+//                        sigLengthR = sigLength;
+//
+//                        /* # Finalize and store output. */
+//                        retValCv = esl_signDSAEcP_prim(&(workSpace->wsEcP), /* SBSW_CRYPTO_30_LIBCV_ESL_CALL_WITH_WORKSPACE_AND_BUFFERS */
+//                                                       (eslt_Length)messageLength, (P2CONST(eslt_Byte, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))messagePtr,
+//                                                       (P2CONST(eslt_Byte, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))privateKeyElementPtr,
+//                                                       (P2VAR(eslt_Length, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))&sigLengthR, (P2VAR(eslt_Byte, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))signatureR,
+//                                                       (P2VAR(eslt_Length, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))&sigLengthS, (P2VAR(eslt_Byte, AUTOMATIC, CRYPTO_30_LIBCV_CRYPTOCV_APPL_VAR))signatureS);
+//
+//                        if (retValCv == ESL_ERC_NO_ERROR)
+//                        {
+//                            retVal = Crypto_30_LibCv_EccPrimeGenerateSignature_ConvertSignatureForOutputBuffer(job, sigLength, doubleSigLength, sigLengthR, sigLengthS, expectedKeyLength, signatureR, signatureS); /* SBSW_CRYPTO_30_LIBCV_FORWARDING_PTR_AND_MEMBER_OF_JOB_PTR */
+//                        }
+//                    }
+//                }
+        }
+
+        return std::vector<std::byte>();
     }
 }

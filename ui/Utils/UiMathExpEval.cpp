@@ -13,7 +13,8 @@ UiMathExpEval::UiMathExpEval(QWidget *parent): QWidget(parent), ui(new Ui::UiMat
     sett.EnableEditing = true;
     sett.ShowToolbox = true;
 
-    UiMathEvaluator *math = new UiMathEvaluator(sett);
+    UiMathEvaluator *math = new UiMathEvaluator();
+    math->UpdateUiSettings(sett);
     this->ui->verticalLayout_Widget->addWidget(math);
 }
 
@@ -32,7 +33,8 @@ void UiMathExpEval::on_pushButton_NewWindow_clicked()
     sett.EnableEditing = true;
     sett.ShowToolbox = true;
 
-    UiMathEvaluator *math = new UiMathEvaluator(sett);
+    UiMathEvaluator *math = new UiMathEvaluator();
+    math->UpdateUiSettings(sett);
 
     // Set new window attributes
     newWindow->resize(math->size());

@@ -28,6 +28,7 @@ SET(BASE_LIB_DEPENDENCIES
         QGlobals
         QWidgets
         QWidgetAppElements
+        QWidgetHelp
         QWidgetsThemes
         QBackendServer
         QAppPreferences
@@ -72,10 +73,8 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Network Core Gui Xml Concu
 include(thirdparty/thirdparty_dependencies.cmake)
 
 # Create config file based on CMake definitions
-configure_file(${CMAKE_CURRENT_LIST_DIR}/libs/QBaseLibs/cmake/Config.h.in ${CMAKE_CURRENT_LIST_DIR}/src/gendata/Config.h)
+string(TIMESTAMP PROJECT_BUILD_TIME "%Y-%m-%d %H:%M:%S UTC" UTC)
 configure_file("res/img/icon.ico" "${CMAKE_EXTRA_OUTPUT_DIRECTORY}/icon.ico" COPYONLY)
-# Dummy source file to trigger post build steps after every run of cmake
-file(WRITE "${CMAKE_BINARY_DIR}/gendata/include/DummyTriggerRebuild.h" "")
 
 # include all ui dirs recursively
 file(GLOB_RECURSE TMP_UI_HEADERS "ui/*.h")
@@ -129,6 +128,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
     target_link_libraries(${PROJECT_NAME} PUBLIC Base::${subdirectory})
 endforeach()
+
+# Copy the app config and build time to the generated data
+configure_file("${CMAKE_CURRENT_LIST_DIR}/libs/QBaseLibs/cmake/Config.h.in" "${CMAKE_CURRENT_LIST_DIR}/src/gendata/Config.h")
 
 # Move OpenSSL library to the same folder as the binary
 include(${CMAKE_CURRENT_SOURCE_DIR}/libs/QBaseLibs/OpenSslLoader/deploy_openssl.cmake)

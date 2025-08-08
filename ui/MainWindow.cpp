@@ -61,7 +61,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 //            mathWidget->UpdateSettings(mathEvalSettings);
 //        });
 
-        this->ui->tabWidget->addTab(mathWidget, "Tab " + QString::number(this->ui->tabWidget->count() + 1));
+        int newTab = this->ui->tabWidget->addTab(mathWidget, "Tab " + QString::number(this->ui->tabWidget->count() + 1));
+
+        // Switch to newly added tab
+        this->ui->tabWidget->setCurrentIndex(newTab);
     });
 
     // Create an initial tab by default if no workspace was found or restoration not enabled

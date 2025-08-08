@@ -8,13 +8,13 @@
 
 #define PROJECT_NAME                "CryptoPocketKnife"
 #define PROJECT_DESC                "Crypto Pocket Knife"
-#define PROJECT_VER                 "1.0.0"
 #define PROJECT_APP_COMPANY         "ByteSight"
 #define PROJECT_APP_WEBSITE         "www.bytesight.net"
 #define PROJECT_APP_ID              "cryptopocketknife"
 #define PROJECT_APP_BACKEND_API_URL "https://bytesight.net/api/v1"
 #define PROJECT_VER_MAJOR           "1"
 #define PROJECT_VER_MINOR           "0"
-#define PTOJECT_VER_PATCH           "0"
+#define PROJECT_VER_PATCH           "0"
+#define PROJECT_BUILD_TIME          "2025-08-08 14:41:34 UTC"
 
 #endif //_BASE_CONFIG_H_
