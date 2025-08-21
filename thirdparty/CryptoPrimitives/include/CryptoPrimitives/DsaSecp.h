@@ -30,6 +30,7 @@ public:
     ~DsaSecp();
     std::vector<std::byte> CalcPubKey(std::vector<std::byte> privKey);
     std::vector<std::byte> SignData(uint8_t *in_data, uint32_t data_len, std::vector<std::byte> privKey);
+    bool VerifySignature(uint8_t *in_data, uint32_t data_len, std::vector<std::byte> publicKey, std::vector<std::byte> signature);
 
 private:
     struct impl;

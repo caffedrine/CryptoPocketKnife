@@ -10,6 +10,10 @@ UiDsaSECP::UiDsaSECP(QWidget *parent): QWidget(parent), ui(new Ui::UiDsaSECP)
 
     this->on_comboBox_AlgoName_currentTextChanged();
     this->ui->comboBox_AlgoName->setCurrentIndex(4); // secp521r1 vby default
+
+    // Make sure sizes are updated in case there is initial text
+    on_textEdit_privateKey_textChanged("");
+    on_textEdit_Message_textChanged();
 }
 
 UiDsaSECP::~UiDsaSECP()
@@ -76,6 +80,20 @@ void UiDsaSECP::on_textEdit_publicKey_textChanged(const QString &arg1)
     this->ui->label_PublicKey->setText( QString("Public key (%1/%2 bytes)").arg(currSize, targetSize) );
 }
 
+void UiDsaSECP::on_textEdit_Signature_textChanged(const QString &arg1)
+{
+    QByteArray currBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_Signature->text());
+    QString currSize = QString::number(currBytes.length());
+    this->ui->label_Signature->setText( QString("Signature (%1 bytes)").arg(currSize) );
+}
+
+void UiDsaSECP::on_textEdit_Message_textChanged()
+{
+    QByteArray currBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_Message->toPlainText());
+    QString currSize = QString::number(currBytes.length());
+    this->ui->label_Message->setText( QString("Message in HEX format (%1 bytes)").arg(currSize) );
+}
+
 void UiDsaSECP::on_pushButton_GenerateKeysPair_clicked()
 {
     QByteArray currBytes = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_privateKey->text());
@@ -101,6 +119,8 @@ void UiDsaSECP::on_pushButton_GenerateKeysPair_clicked()
 
     // Send it to the ui
     this->ui->textEdit_publicKey->setText(publicKey.toHex(' '));
+    this->ui->textEdit_privateKey->setCursorPosition(QTextCursor::Start);
+    this->ui->textEdit_publicKey->setCursorPosition(QTextCursor::Start);
 }
 
 void UiDsaSECP::on_pushButton_Keys_Clear_clicked()
@@ -111,10 +131,58 @@ void UiDsaSECP::on_pushButton_Keys_Clear_clicked()
 
 void UiDsaSECP::on_pushButton_CalculateSignature_clicked()
 {
+    // Calculate SHA-512 hash of the message
+    QByteArray message = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_Message->toPlainText());
+    if (message.isEmpty())
+    {
+        this->ui->textEdit_Signature->clear();
+        return;
+    }
+    std::vector<std::byte> privKey = Base::Utils::ByteArrays::QByteArrayToStdVector(Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_privateKey->text()));
 
+    // Perform signature calculation over the hash
+    Base::CryptoPrimitives::DsaSecp secpHandler((Base::CryptoPrimitives::dsa_secp_curve_t) currAlgo.algoId);
+    std::vector<std::byte> signature = secpHandler.SignData(reinterpret_cast<uint8_t *>(message.data()), message.length(), privKey);
+    this->ui->textEdit_Signature->setText(Base::Utils::ByteArrays::StdVectorToQByteArray(signature).toHex(' '));
+    // Move cursor to the beginning
+    this->ui->textEdit_Signature->setCursorPosition(QTextCursor::Start);
 }
 
 void UiDsaSECP::on_pushButton_VerifySignature_clicked()
 {
+    QByteArray publicKey = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_publicKey->text());
+    if (publicKey.isEmpty())
+    {
+        Base::Utils::Widgets::AlertPopup("Invalid public key", "Public key is empty!");
+        return;
+    }
 
+    QByteArray message = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_Message->toPlainText());
+    if (message.isEmpty())
+    {
+        Base::Utils::Widgets::AlertPopup("Invalid message", "Message is empty!");
+
+        return;
+    }
+
+    QByteArray signature = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_Signature->text());
+    if (message.isEmpty())
+    {
+        Base::Utils::Widgets::AlertPopup("Invalid signature", "Signature cannot be empty!");
+        return;
+    }
+
+    Base::CryptoPrimitives::DsaSecp secpHandler((Base::CryptoPrimitives::dsa_secp_curve_t) currAlgo.algoId);
+    bool result = secpHandler.VerifySignature(reinterpret_cast<uint8_t *>(message.data()), message.length(), Base::Utils::ByteArrays::QByteArrayToStdVector(publicKey), Base::Utils::ByteArrays::QByteArrayToStdVector(signature));
+
+    if( result )
+    {
+        Base::Utils::Widgets::MsgBoxPopup("Signature OK", "Signature matches the public key!");
+    }
+    else
+    {
+        Base::Utils::Widgets::ErrorPopup("Signature NOT ok", "Signature does NOT match the public key!");
+    }
 }
+
+

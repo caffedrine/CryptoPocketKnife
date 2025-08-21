@@ -30,13 +30,13 @@ public:
 private slots:
     void on_textEdit_privateKey_textChanged(const QString &arg1);
     void on_textEdit_publicKey_textChanged(const QString &arg1);
+    void on_textEdit_Signature_textChanged(const QString &arg1);
+    void on_textEdit_Message_textChanged();
 
     void on_pushButton_GenerateKeysPair_clicked();
     void on_pushButton_Keys_Clear_clicked();
-
     void on_pushButton_CalculateSignature_clicked();
     void on_pushButton_VerifySignature_clicked();
-
     void on_comboBox_AlgoName_currentTextChanged();
 
 private:

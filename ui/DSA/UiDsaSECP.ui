@@ -14,13 +14,6 @@
    <string>UiDsaSECP</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="1">
-    <widget class="QPushButton" name="pushButton_VerifySignature">
-     <property name="text">
-      <string>Verify signature</string>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="1">
     <widget class="QPushButton" name="pushButton_Keys_Clear">
      <property name="text">
@@ -82,6 +75,16 @@
        <family>Consolas</family>
       </font>
      </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;29 AB 61 3C DF CA 79 20 89 19 F9 08 C8 AA CA EC D0 BE C6 DC B6 FB 22 83 C2 8F FA DF F1 03 F0 E9&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
     </widget>
    </item>
    <item row="4" column="0">
@@ -103,6 +106,9 @@
       <font>
        <family>Consolas</family>
       </font>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
      </property>
      <property name="clearButtonEnabled">
       <bool>true</bool>
@@ -143,15 +149,18 @@ It will only work it the priv key is valid (usually starts with 0x00)</string>
        <family>Consolas</family>
       </font>
      </property>
+     <property name="text">
+      <string>01485D1B9D5A5085656DC97360EAE07AFBDC8B7747DC8355092C3116B046D67CC789AF8DAF625D85FD1B395C207C871D0A1CA558C91E5BD81FE14E8DB1CCBF90A829</string>
+     </property>
      <property name="clearButtonEnabled">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="label_Signature">
      <property name="text">
-      <string>Signature</string>
+      <string>Signature (0 bytes)</string>
      </property>
     </widget>
    </item>
@@ -159,13 +168,6 @@ It will only work it the priv key is valid (usually starts with 0x00)</string>
     <widget class="QPushButton" name="pushButton_CalculateSignature">
      <property name="text">
       <string>Calculate signature</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="3">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Message (HEX bytes to be signed or verified)</string>
      </property>
     </widget>
    </item>
@@ -183,6 +185,20 @@ It will only work it the priv key is valid (usually starts with 0x00)</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="5">
+    <widget class="QLabel" name="label_Message">
+     <property name="text">
+      <string>Message in HEX format (0 bytes)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QPushButton" name="pushButton_VerifySignature">
+     <property name="text">
+      <string>Verify signature</string>
      </property>
     </widget>
    </item>

@@ -44,7 +44,7 @@ SET(BASE_LIB_DEPENDENCIES
 
 # Add base dependencies
 foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
-    add_subdirectory(libs/QBaseLibs/${subdirectory})
+    add_subdirectory(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/${subdirectory})
     # find_package(${subdirectory} PATHS libs/QBaseLibs/install)
 endforeach()
 
@@ -90,7 +90,7 @@ file(GLOB_RECURSE ALL_SOURCES "src/*.c" "src/*.cpp" "ui/*.cpp" "ui/*.ui" "res/ma
 
 # Proj executable files - if this is not added, application will launch a console simultaneously with the gui app.
 IF (WIN32)
-    configure_file(${CMAKE_CURRENT_LIST_DIR}/libs/QBaseLibs/DeploySupport/Windows/res/win.rc.in ${CMAKE_BINARY_DIR}/gendata/win.rc)
+    configure_file(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/Windows/res/win.rc.in ${CMAKE_BINARY_DIR}/gendata/win.rc)
     list(APPEND ${ALL_SOURCES} ${CMAKE_BINARY_DIR}/gendata/win.rc)
 
     # Icon How-To: https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
@@ -106,7 +106,7 @@ ELSEIF(APPLE)
     # Add Apple icon
     set(MACOSX_BUNDLE_ICON_FILE icon_apple.icns)
     # And the following tells CMake where to find and install the file itself.
-    set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/res/img/icon_apple.icns")
+    set(app_icon_macos "${PROJECT_SOURCE_DIR}/res/img/icon_apple.icns")
     set_source_files_properties(${app_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
     add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${app_icon_macos})
@@ -130,10 +130,10 @@ foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
 endforeach()
 
 # Copy the app config and build time to the generated data
-configure_file("${CMAKE_CURRENT_LIST_DIR}/libs/QBaseLibs/cmake/Config.h.in" "${CMAKE_CURRENT_LIST_DIR}/src/gendata/Config.h")
+configure_file("${PROJECT_SOURCE_DIR}/libs/QBaseLibs/cmake/Config.h.in" "${PROJECT_SOURCE_DIR}/src/gendata/Config.h")
 
 # Move OpenSSL library to the same folder as the binary
-include(${CMAKE_CURRENT_SOURCE_DIR}/libs/QBaseLibs/OpenSslLoader/deploy_openssl.cmake)
+include(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/OpenSslLoader/deploy_openssl.cmake)
 
 # Copy logo to the output for LINUX OS, so that it can be used as an icon
 if(UNIX AND NOT APPLE)
@@ -141,5 +141,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # Include relevant deployment modules
-include(${CMAKE_CURRENT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/deploy_app.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/create_deliverables.cmake)
+include(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/deploy_app.cmake)
+include(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/create_deliverables.cmake)
+
+

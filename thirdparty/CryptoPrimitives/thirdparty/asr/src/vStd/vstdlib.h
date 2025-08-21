@@ -13,6 +13,10 @@
 #  include "Det.h"
 # endif
 
+# ifdef __cplusplus                                       /* COV_VSECPRIM_CPLUSPLUS XF */
+extern "C" {
+# endif
+
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
@@ -4248,6 +4252,10 @@ VSTDLIB_LOCAL_INLINE FUNC(Std_ReturnType, VSTDLIB_CODE) VStdLib_MemCpyEndianPlat
 # define VStdMemCpyRom_Macro(d, s, c)        VStdLib_MemCpyRomMacro((d), (s), (c))
 
 /* PRQA L:VSTDLIB_FUNCTION_LIKE_MACRO */
+
+# ifdef __cplusplus                                       /* COV_VSECPRIM_CPLUSPLUS XF */
+} /* extern "C" */
+# endif
 
 #endif /* VSTDLIB_H */
 
