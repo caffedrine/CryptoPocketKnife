@@ -73,7 +73,6 @@ namespace Base::CryptoPrimitives
         eslt_ErrorCode eslRet;
 
         eslRet = esl_initWorkSpaceHeader(&pimpl->workspace.header, ESL_MAXSIZEOF_WS_ECP, reinterpret_cast<esl_WatchdogFuncPtr>((esl_WatchdogFuncPtr *) NULL_PTR)); /* SBSW_CRYPTO_30_LIBCV_INIT_ESL_STACK_WORKSPACE */
-
         if (eslRet == ESL_ERC_NO_ERROR)
         {
             eslRet = esl_initGenerateKeyEcP_prim( &pimpl->workspace, curveInfo.Domain, curveInfo.DomainExt, curveInfo.SpeedLvl);

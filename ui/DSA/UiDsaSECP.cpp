@@ -26,7 +26,7 @@ void UiDsaSECP::on_comboBox_AlgoName_currentTextChanged()
     // Secp keys sizes
     static QList secpKeysInfo = {
             // secp r1 sizes
-            UiDsaSecp_CurrAlgo("secp160r1 (P-160)", 21, 20, Base::CryptoPrimitives::secp160r1),
+            UiDsaSecp_CurrAlgo("secp160r1 (P-160)", 20, 40, Base::CryptoPrimitives::secp160r1),
             UiDsaSecp_CurrAlgo("secp224r1 (P-224)", 28, 56, Base::CryptoPrimitives::secp224r1),
             UiDsaSecp_CurrAlgo("secp256r1 (P-256)", 32, 64, Base::CryptoPrimitives::secp256r1),
             UiDsaSecp_CurrAlgo("secp384r1 (P-384)", 48, 96, Base::CryptoPrimitives::secp384r1),
