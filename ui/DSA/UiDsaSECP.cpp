@@ -140,6 +140,13 @@ void UiDsaSECP::on_pushButton_CalculateSignature_clicked()
     }
     std::vector<std::byte> privKey = Base::Utils::ByteArrays::QByteArrayToStdVector(Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_privateKey->text()));
 
+    // Input message cannot be longer than the private key size
+    if (message.length() > privKey.size())
+    {
+        Base::Utils::Widgets::AlertPopup("Invalid input", QString("Message length (%1 bytes) cannot be longer than private key size (%2 bytes)!\nHash the message before signing it!").arg(message.length()).arg(privKey.size()));
+        return;
+    }
+
     // Perform signature calculation over the hash
     Base::CryptoPrimitives::DsaSecp secpHandler((Base::CryptoPrimitives::dsa_secp_curve_t) currAlgo.algoId);
     std::vector<std::byte> signature = secpHandler.SignData(reinterpret_cast<uint8_t *>(message.data()), message.length(), privKey);
@@ -169,6 +176,13 @@ void UiDsaSECP::on_pushButton_VerifySignature_clicked()
     if (message.isEmpty())
     {
         Base::Utils::Widgets::AlertPopup("Invalid signature", "Signature cannot be empty!");
+        return;
+    }
+
+    // Input message cannot be longer than the private key size
+    if (message.length() > publicKey.length()/2)
+    {
+        Base::Utils::Widgets::AlertPopup("Invalid input", QString("Message length (%1 bytes) cannot be longer than public key size (%2 bytes)!\nHash the message to have a shorter length before sign/verify!").arg(message.length()).arg(publicKey.length()/2));
         return;
     }
 
