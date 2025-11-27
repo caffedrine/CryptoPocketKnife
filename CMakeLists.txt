@@ -11,10 +11,19 @@ set(PROJECT_APP_BACKEND_API_URL "https://bytesight.net/api/v1")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output_lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output_bin")
 SET(CMAKE_EXTRA_OUTPUT_DIRECTORY   "${CMAKE_BINARY_DIR}/output_extra" CACHE INTERNAL "CMAKE_EXTRA_OUTPUT_DIRECTORY")
+set(CMAKE_OUTPUT_TESTS_REPORTS     "${CMAKE_BINARY_DIR}/output_tests_reports")
+set(CMAKE_OUTPUT_TESTS_BIN         "${CMAKE_BINARY_DIR}/output_tests_bin")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Assume error console to print out data always
+set(QT_ASSUME_STDERR_HAS_CONSOLE 1)
+# To be able to build also statically linked libs inside the packages
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Base libs directory
+SET(BASE_LIBS_DIR ${PROJECT_SOURCE_DIR}/libs/QBaseLibs)
 # Libraries to be included from base library
 SET(BASE_LIB_DEPENDENCIES
         OpenSslLoader
@@ -44,26 +53,23 @@ SET(BASE_LIB_DEPENDENCIES
 
 # Add base dependencies
 foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
-    add_subdirectory(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/${subdirectory})
-    # find_package(${subdirectory} PATHS libs/QBaseLibs/install)
+    add_subdirectory(${BASE_LIBS_DIR}/${subdirectory})
+    # find_package(${subdirectory} PATHS ${BASE_LIBS_DIR}/install)
 endforeach()
 
 # Add thirdparty CMake modules
 add_subdirectory(thirdparty/CryptoPrimitives)
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-
-# Assume error console to print out data always
-set(QT_ASSUME_STDERR_HAS_CONSOLE 1)
-
 # Default build release
 if(NOT CMAKE_BUILD_TYPE)
     message(STATUS "Building ${PROJECT_NAME} by default in Release mode unless a different mode is specified")
     set(CMAKE_BUILD_TYPE Release)
 endif()
+
+# Enable Qt MOC
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 # Find required Qt5 or Qt6 dependencies
 find_package(QT NAMES Qt6 Qt5)
@@ -76,6 +82,13 @@ include(thirdparty/thirdparty_dependencies.cmake)
 string(TIMESTAMP PROJECT_BUILD_TIME "%Y-%m-%d %H:%M:%S UTC" UTC)
 configure_file("res/img/icon.ico" "${CMAKE_EXTRA_OUTPUT_DIRECTORY}/icon.ico" COPYONLY)
 
+# Copy the app config and build time to the generated data
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/gendata")
+configure_file("${BASE_LIBS_DIR}/cmake/Config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/src/gendata/Config.h")
+
+# Add the include directories
+include_directories(${PROJECT_SOURCE_DIR}/src/gendata)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 # include all ui dirs recursively
 file(GLOB_RECURSE TMP_UI_HEADERS "ui/*.h")
 foreach (_headerFile ${TMP_UI_HEADERS})
@@ -83,36 +96,18 @@ foreach (_headerFile ${TMP_UI_HEADERS})
     list (APPEND UI_HEADERS ${_dir})
 endforeach()
 list(REMOVE_DUPLICATES UI_HEADERS)
-include_directories("${CMAKE_BINARY_DIR}/gendata/include" "src/" ${UI_HEADERS})
+include_directories(${UI_HEADERS})
 
 # All source code files (including generated resources)
 file(GLOB_RECURSE ALL_SOURCES "src/*.c" "src/*.cpp" "ui/*.cpp" "ui/*.ui" "res/main.qrc" ${THIRD_PARTY_SRC} )
 
-# Proj executable files - if this is not added, application will launch a console simultaneously with the gui app.
-IF (WIN32)
-    configure_file(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/Windows/res/win.rc.in ${CMAKE_BINARY_DIR}/gendata/win.rc)
-    list(APPEND ${ALL_SOURCES} ${CMAKE_BINARY_DIR}/gendata/win.rc)
+# Include the executable setup module
+include(${BASE_LIBS_DIR}/cmake/executable_config.cmake)
+# Setup platform-specific executable configuration
+setup_executable_config(GLOBAL_EXE_FLAGS GLOBAL_EXE_RESOURCES)
 
-    # Icon How-To: https://forum.qt.io/topic/122430/setting-up-the-application-information-in-cmake/4
-    set(APP_ICON_RESOURCE_WINDOWS ${CMAKE_BINARY_DIR}/gendata/win.rc)
-    add_executable(${PROJECT_NAME} WIN32 ${ALL_SOURCES} ${APP_ICON_RESOURCE_WINDOWS})
-
-    # Workaround: disable win executable for debugging mode in order to show console messages in CLION.
-    # If this will be enabled, the application will also launch a console in the background.
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE OFF)
-    endif()
-ELSEIF(APPLE)
-    # Add Apple icon
-    set(MACOSX_BUNDLE_ICON_FILE icon_apple.icns)
-    # And the following tells CMake where to find and install the file itself.
-    set(app_icon_macos "${PROJECT_SOURCE_DIR}/res/img/icon_apple.icns")
-    set_source_files_properties(${app_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-
-    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${ALL_SOURCES} ${app_icon_macos})
-ELSE()
-    add_executable(${PROJECT_NAME} ${ALL_SOURCES})
-ENDIF()
+# Add executable with the needed lags
+add_executable(${PROJECT_NAME} ${GLOBAL_EXE_FLAGS} ${ALL_SOURCES} ${GLOBAL_EXE_RESOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt${QT_VERSION_MAJOR}::Core
@@ -129,19 +124,24 @@ foreach(subdirectory ${BASE_LIB_DEPENDENCIES})
     target_link_libraries(${PROJECT_NAME} PUBLIC Base::${subdirectory})
 endforeach()
 
-# Copy the app config and build time to the generated data
-configure_file("${PROJECT_SOURCE_DIR}/libs/QBaseLibs/cmake/Config.h.in" "${PROJECT_SOURCE_DIR}/src/gendata/Config.h")
-
 # Move OpenSSL library to the same folder as the binary
-include(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/OpenSslLoader/deploy_openssl.cmake)
+include(${BASE_LIBS_DIR}/OpenSslLoader/deploy_openssl.cmake)
 
 # Copy logo to the output for LINUX OS, so that it can be used as an icon
 if(UNIX AND NOT APPLE)
     configure_file("res/img/logo.png" "${CMAKE_EXTRA_OUTPUT_DIRECTORY}/${PROJECT_NAME}.png" COPYONLY)
 endif()
 
+# Tests
+#include(CTest)
+#if(BUILD_TESTING)
+#    add_subdirectory(tests)
+#endif()
+
 # Include relevant deployment modules
-include(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/deploy_app.cmake)
-include(${PROJECT_SOURCE_DIR}/libs/QBaseLibs/DeploySupport/create_deliverables.cmake)
+include(${BASE_LIBS_DIR}/DeploySupport/deploy_app.cmake)
+include(${BASE_LIBS_DIR}/DeploySupport/create_deliverables.cmake)
 
-
+# Remove old docs and copy documentation files to the output (overwrite if exists)
+#file(REMOVE_RECURSE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/docs)
+#file(COPY ${CMAKE_SOURCE_DIR}/docs/source/ DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/docs)
