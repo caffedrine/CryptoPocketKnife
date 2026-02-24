@@ -9,6 +9,7 @@
 #include "ui_MainWindow.h"
 #include "MainWidget.h"
 #include "src/gendata/Config.h"
+#include "UserSettings.h"
 
 #include <QDesktopServices>
 #include <QSizeGrip>
@@ -17,10 +18,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 {
     ui->setupUi(this);
 
+    // Initialize user settings
+    UserSettings::Init();
+
     // Init needed modules - needed before the UI as the theme is loaded before
-    this->InitUiLogger(this);
+    this->InitUiLogger();
     Base::ThemesManager::Init(this);
-    this->StartBgUpdateChecker(this);
+    this->StartBgUpdateChecker();
 
     // Update default base settings to have workspace enabled by default
     Base::QBaseAppSettingsDefault defaultBaseSettings;
@@ -105,32 +109,32 @@ void MainWindow::on_action_Exit_triggered()
 
 void MainWindow::on_action_Logs_triggered()
 {
-    this->TriggerLogsPopup(this);
+    this->TriggerLogsPopup();
 }
 
 void MainWindow::on_action_About_triggered()
 {
-    this->TriggerAboutPopup(this);
+    this->TriggerAboutPopup();
 }
 
 void MainWindow::on_action_CheckForUpdates_triggered()
 {
-    this->TriggerUpdaterPopup(this);
+    this->TriggerUpdaterPopup();
 }
 
 void MainWindow::on_action_BugReport_triggered()
 {
-    this->TriggerBugReport(this);
+    this->TriggerBugReport();
 }
 
 void MainWindow::on_action_FeatureRequest_triggered()
 {
-    this->TriggerFeatureRequest(this);
+    this->TriggerFeatureRequest();
 }
 
 void MainWindow::on_action_Preferences_triggered()
 {
-    this->TriggerPreferencesPopup(this);
+    this->TriggerPreferencesPopup();
 }
 
 void MainWindow::on_action_StickToTheTop_triggered()

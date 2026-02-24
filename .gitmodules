@@ -1,3 +1,4 @@
 [submodule "libs/QBaseLibs"]
 	path = libs/QBaseLibs
 	url = git@github.com:caffedrine/QBaseLibs.git
+	branch = master

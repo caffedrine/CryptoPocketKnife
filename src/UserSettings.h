@@ -3,36 +3,27 @@
 
 #include <QSettings>
 #include <QString>
+#include <QAppPreferences/QAppPreferences.h>
 
 #if !defined(DLL_DECL_SPEC)
 #define DLL_DECL_SPEC
 #endif
 
-#define UserSettings User_Settings::inst()
-
-class DLL_DECL_SPEC User_Settings
+// Default base app settings to allow user to modify them easily before InitBaseSettings()
+struct DLL_DECL_SPEC UserSettingsDefaults
 {
-public:
-    Q_DISABLE_COPY(User_Settings)
-    static User_Settings *inst();
+    QString ShodanApiKey = "";
+};
 
-    // Location where user can place its custom resources, downloads etx
-    QString Get_UserBasePathAbs();
-    QString Get_UserDataPathAbs();
+struct DLL_DECL_SPEC UserSettings
+{
+    /// TODO: Somehow the widgets (that are used to manage the settings for UI apps) shall be moved outside, to keep this base settings compatible with non-widget apps
 
-    // Get/Set shodan key
-    QString Get_OSINT_ShodanApiKey();
-    void Set_OSINT_ShodanApiKey(QString newKey);
+    /// Register other global settings (AFTER app settings are initialized)
+    static void Init(const UserSettingsDefaults &defaultSettings = UserSettingsDefaults());
 
-protected:
-    QByteArray encryptData(QByteArray &decrypted);
-    QByteArray decryptData(QByteArray &encrypted);
-
-
-private:
-    static User_Settings *instance;
-    QSettings *settings {};
-    explicit User_Settings();
+    /// Pointers to the settings handlers to allow user to modify these settings easily
+    static QAppPreferenceInfo *ShodanApiKey;
 };
 
 

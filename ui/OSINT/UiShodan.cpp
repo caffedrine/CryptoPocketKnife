@@ -19,7 +19,7 @@ UiShodan::UiShodan(QWidget *parent): QWidget(parent), ui(new Ui::UiShodan)
     QObject::connect(this->ui->pushButton_ManualQuery_Count, SIGNAL(clicked()), this, SLOT(pushButton_ManualQuery_Count_clicked()));
 
 
-    this->ui->lineEdit_shodanSettings_ApiKey->setText( UserSettings->Get_OSINT_ShodanApiKey() );
+    this->ui->lineEdit_shodanSettings_ApiKey->setText( UserSettings::ShodanApiKey->GetVal().toString() );
 }
 
 UiShodan::~UiShodan()
@@ -29,25 +29,24 @@ UiShodan::~UiShodan()
 
 void UiShodan::pushButton_shodanSettings_SaveKey_clicked()
 {
-    UserSettings->Set_OSINT_ShodanApiKey( this->ui->lineEdit_shodanSettings_ApiKey->text() );
+    UserSettings::ShodanApiKey->SetVal( this->ui->lineEdit_shodanSettings_ApiKey->text() );
 }
 
 void UiShodan::pushButton_shodanSettings_TestApiKey_clicked()
 {
     Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_shodanSettings_TestApiKey );
 
-    Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
+    Shodan shodan( UserSettings::ShodanApiKey->GetVal().toString() );
     Base::Utils::Widgets::MsgBoxPopup("Shodan reply", shodan.GetAccountInfo());
 
     Base::Utils::Widgets::push_button::PushButtonEndLoading( this->ui->pushButton_shodanSettings_TestApiKey );
-
 }
 
 void UiShodan::pushButton_shodanSettings_GetSearchFilters_clicked()
 {
     Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
 
-    Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
+    Shodan shodan( UserSettings::ShodanApiKey->GetVal().toString() );
     Base::Utils::Widgets::RichTextBoxPopup("Shodan reply", shodan.GetSearchFilters());
 
     Base::Utils::Widgets::push_button::PushButtonEndLoading( this->ui->pushButton_shodanSettings_GetSearchFilters );
@@ -67,7 +66,7 @@ void UiShodan::pushButton_ManualQuery_GetResults_clicked()
     QString header = "ip,timestamp,product,country,isp,hostname,asn";
     this->ui->plainTextEdit_ManualQuery_Results->setPlainText(header);
 
-    Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
+    Shodan shodan( UserSettings::ShodanApiKey->GetVal().toString() );
     int resultsCount = shodan.GetCountByQuery(this->ui->lineEdit_ManualQuery_Query->text()).toInt();
     this->ui->lineEdit_ManualQuery_Count->setText(QString::number(resultsCount));
 
@@ -120,7 +119,7 @@ void UiShodan::pushButton_ManualQuery_Count_clicked()
 {
     Base::Utils::Widgets::push_button::PushButtonStartLoading( this->ui->pushButton_ManualQuery_Count );
 
-    Shodan shodan( UserSettings->Get_OSINT_ShodanApiKey() );
+    Shodan shodan( UserSettings::ShodanApiKey->GetVal().toString() );
     QString total = shodan.GetCountByQuery(this->ui->lineEdit_ManualQuery_Query->text());
     this->ui->lineEdit_ManualQuery_Count->setText(total);
 
