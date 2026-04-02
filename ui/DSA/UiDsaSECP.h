@@ -34,7 +34,7 @@ private slots:
     void on_textEdit_Message_textChanged();
 
     void on_pushButton_GenerateKeysPair_clicked();
-    void on_pushButton_Keys_Clear_clicked();
+    void on_pushButton_Clear_clicked();
     void on_pushButton_CalculateSignature_clicked();
     void on_pushButton_VerifySignature_clicked();
     void on_comboBox_AlgoName_currentTextChanged();

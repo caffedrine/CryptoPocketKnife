@@ -33,6 +33,8 @@ private slots:
     void on_pushButton_Clear_clicked();
     void on_textEdit_privateKey_textChanged(const QString &arg1);
     void on_textEdit_publicKey_textChanged(const QString &arg1);
+    void on_textEdit_Message_textChanged();
+    void on_textEdit_Signature_textChanged(const QString &arg1);
 };
 
 

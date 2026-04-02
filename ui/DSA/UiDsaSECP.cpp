@@ -123,7 +123,7 @@ void UiDsaSECP::on_pushButton_GenerateKeysPair_clicked()
     this->ui->textEdit_publicKey->setCursorPosition(QTextCursor::Start);
 }
 
-void UiDsaSECP::on_pushButton_Keys_Clear_clicked()
+void UiDsaSECP::on_pushButton_Clear_clicked()
 {
     this->ui->textEdit_privateKey->clear();
     this->ui->textEdit_publicKey->clear();

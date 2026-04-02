@@ -77,7 +77,18 @@ void UiDsaEd25519::on_textEdit_privateKey_textChanged(const QString &arg1)
 
 void UiDsaEd25519::on_textEdit_publicKey_textChanged(const QString &arg1)
 {
-
+    uint8_t ReadBytes[128] = {0xFF};
+    ssize_t ReadSize = 0;
+    if( Base::Utils::ByteArrays::RawHexStrToArr(arg1, ReadBytes, &ReadSize, sizeof(ReadBytes)))
+    {
+        QString displayText = QString("Public key (" + QString::number((uint32_t)ReadSize) + " bytes)");
+        ui->label_PublicKey->setText(displayText);
+    }
+    else
+    {
+        QString displayText = QString("Public key (0 bytes)");
+        ui->label_PublicKey->setText(displayText);
+    }
 }
 
 void UiDsaEd25519::on_pushButton_CalculateSignature_clicked()
@@ -155,4 +166,34 @@ void UiDsaEd25519::on_pushButton_Clear_clicked()
 {
     this->ui->textEdit_privateKey->clear();
     this->ui->textEdit_publicKey->clear();
+}
+
+void UiDsaEd25519::on_textEdit_Message_textChanged()
+{
+    int inputLength = Base::Utils::ByteArrays::RawHexStrToQByteArr(this->ui->textEdit_Message->toPlainText()).length();
+    if( inputLength)
+    {
+        QString displayText = QString("Message to be signed/verified in HEX format (" + QString::number(inputLength) + " bytes)");
+        ui->label_Message->setText(displayText);
+    }
+    else
+    {
+        QString displayText = QString("Message to be signed/verified in HEX format (0 bytes)");
+        ui->label_Message->setText(displayText);
+    }
+}
+
+void UiDsaEd25519::on_textEdit_Signature_textChanged(const QString &arg1)
+{
+    int inputLength = Base::Utils::ByteArrays::RawHexStrToQByteArr(arg1).length();
+    if( inputLength)
+    {
+        QString displayText = QString("Signature (" + QString::number(inputLength) + " bytes)");
+        ui->label_Signature->setText(displayText);
+    }
+    else
+    {
+        QString displayText = QString("Signature (0 bytes)");
+        ui->label_Signature->setText(displayText);
+    }
 }
