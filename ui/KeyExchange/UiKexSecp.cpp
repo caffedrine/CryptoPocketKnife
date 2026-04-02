@@ -1,41 +1,35 @@
-//
-// Created by 616C6578 on 2026-04-02.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_UiSecp.h" resolved
-
-#include "UiSecp.h"
-#include "ui_UiSecp.h"
+#include "UiKexSecp.h"
+#include "ui_UiKexSecp.h"
 
 
-UiSecp::UiSecp(QWidget *parent) :
-        QWidget(parent), ui(new Ui::UiSecp)
+UiKexSecp::UiKexSecp(QWidget *parent) :
+        QWidget(parent), ui(new Ui::UiKexSecp)
 {
     ui->setupUi(this);
 }
 
-UiSecp::~UiSecp()
+UiKexSecp::~UiKexSecp()
 {
     delete ui;
 }
 
 
-void UiSecp::Status_EndWithError(QString err_msg)
+void UiKexSecp::Status_EndWithError(QString err_msg)
 {
     qCritical().nospace().noquote() << "ERROR: " + err_msg;
 }
 
-void UiSecp::Status_EndWithSuccess(QString err_msg)
+void UiKexSecp::Status_EndWithSuccess(QString err_msg)
 {
     qDebug().nospace().noquote() << "SUCCESS: " + err_msg;
 }
 
-void UiSecp::Status_Clear()
+void UiKexSecp::Status_Clear()
 {
 
 }
 
-void UiSecp::on_pushButton_Clear_clicked()
+void UiKexSecp::on_pushButton_Clear_clicked()
 {
     ui->textEdit_ownCalcSecret->setText("");
     ui->textEdit_otherCalcSecret->setText("");
@@ -45,7 +39,7 @@ void UiSecp::on_pushButton_Clear_clicked()
     ui->textEdit_otherPublicKey->setText("");
 }
 
-void UiSecp::on_pushButton_GenerateEphemeralKeys_clicked()
+void UiKexSecp::on_pushButton_GenerateEphemeralKeys_clicked()
 {
 //    uint8_t own_public_key[X25519_KEY_LEN], other_public_key[X25519_KEY_LEN];
 //    uint8_t own_private_key[X25519_KEY_LEN], other_private_key[X25519_KEY_LEN];
@@ -86,7 +80,7 @@ void UiSecp::on_pushButton_GenerateEphemeralKeys_clicked()
 //    ui->textEdit_otherPublicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
 }
 
-void UiSecp::on_pushButton_CalculateSharedSecret_clicked()
+void UiKexSecp::on_pushButton_CalculateSharedSecret_clicked()
 {
 //    uint8_t own_shared_secret[X25519_KEY_LEN], other_shared_secret[X25519_KEY_LEN];
 //    uint8_t own_public_key[X25519_KEY_LEN], other_public_key[X25519_KEY_LEN];

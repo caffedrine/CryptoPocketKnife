@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UiSecp</class>
- <widget class="QWidget" name="UiSecp">
+ <class>UiKexSecp</class>
+ <widget class="QWidget" name="UiKexSecp">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>UiSecp</string>
+   <string>UiKexSecp</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -29,17 +29,7 @@
          </font>
         </property>
         <property name="text">
-         <string>ECDSA (Elliptic Curve Digital Signature Algorithm)</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>A signature scheme where you sign a message using your private key and a random nonce, producing a pair (r, s). Anyone with your public key can verify the signature. The random nonce is a vulnerability — if it's ever reused or weak, your private key can be recovered.</string>
+         <string>ECDH using SECP curves</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -70,7 +60,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_PrivateKey">
         <property name="text">
-         <string notr="true">Own private key (32 bytes)</string>
+         <string notr="true">Own private key (0 bytes)</string>
         </property>
        </widget>
       </item>
@@ -82,7 +72,7 @@
          </font>
         </property>
         <property name="text">
-         <string>c8 a0 c8 23 86 7f 9c 1f 19 14 c6 ee aa 40 20 32 c3 16 ad af 0e 24 74 64 98 ba 64 a3 c0 6c 15 6c</string>
+         <string/>
         </property>
         <property name="clearButtonEnabled">
          <bool>true</bool>
@@ -92,7 +82,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_PublicKey">
         <property name="text">
-         <string>Own public key (32 bytes)</string>
+         <string>Own public key (0 bytes)</string>
         </property>
        </widget>
       </item>
@@ -104,7 +94,7 @@
          </font>
         </property>
         <property name="text">
-         <string>85 20 F0 09 89 30 A7 54 74 8B 7D DC B4 3E F7 5A 0D BF 3A 0D 26 38 1A F4 EB A4 A9 8E AA 9B 4E 6A</string>
+         <string/>
         </property>
         <property name="clearButtonEnabled">
          <bool>true</bool>
@@ -121,14 +111,14 @@
       <item row="4" column="0">
        <widget class="QLabel" name="label_OwnCalcSecret">
         <property name="text">
-         <string>Own calculated shared secret</string>
+         <string>Own calculated secret (0 bytes)</string>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
        <widget class="QLabel" name="label_OtherPrivateKey">
         <property name="text">
-         <string notr="true">Other private key (32 bytes)</string>
+         <string notr="true">Other private key (0 bytes)</string>
         </property>
        </widget>
       </item>
@@ -147,7 +137,7 @@
       <item row="4" column="2">
        <widget class="QLabel" name="label_OtherCalcSecret">
         <property name="text">
-         <string>Other calculated shared secret</string>
+         <string>Other calculated secret (0 bytes)</string>
         </property>
        </widget>
       </item>
@@ -159,10 +149,10 @@
          </font>
         </property>
         <property name="text">
-         <string>77 07 6D 0A 73 18 A5 7D 3C 16 C1 72 51 B2 66 45 DF 4C 2F 87 EB C0 99 2A B1 77 FB A5 1D B9 2C 2A</string>
+         <string/>
         </property>
         <property name="cursorPosition">
-         <number>95</number>
+         <number>0</number>
         </property>
         <property name="clearButtonEnabled">
          <bool>true</bool>
@@ -191,7 +181,7 @@
       <item row="2" column="2">
        <widget class="QLabel" name="label_OtherPublicKey">
         <property name="text">
-         <string>Other public key (32 bytes)</string>
+         <string>Other public key (0 bytes)</string>
         </property>
        </widget>
       </item>
@@ -210,7 +200,7 @@
          </font>
         </property>
         <property name="text">
-         <string>30 23 27 a9 07 bd 94 aa ff d5 7b b2 d9 97 1f a0 4c 7f df cd e5 3f 6f 9b 2b b7 2a 4f 22 95 b0 4c</string>
+         <string/>
         </property>
         <property name="clearButtonEnabled">
          <bool>true</bool>

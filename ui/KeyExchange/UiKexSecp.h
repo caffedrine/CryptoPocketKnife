@@ -1,9 +1,5 @@
-//
-// Created by 616C6578 on 2026-04-02.
-//
-
-#ifndef CRYPTOPOCKETKNIFE_UISECP_H
-#define CRYPTOPOCKETKNIFE_UISECP_H
+#ifndef CRYPTOPOCKETKNIFE_UIKEXSECP_H
+#define CRYPTOPOCKETKNIFE_UIKEXSECP_H
 
 #include <QWidget>
 
@@ -11,21 +7,21 @@
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-    class UiSecp;
+    class UiKexSecp;
 }
 QT_END_NAMESPACE
 
-class UiSecp : public QWidget
+class UiKexSecp : public QWidget
 {
 Q_OBJECT
 
 public:
-    explicit UiSecp(QWidget *parent = nullptr);
+    explicit UiKexSecp(QWidget *parent = nullptr);
 
-    ~UiSecp() override;
+    ~UiKexSecp() override;
 
 private:
-    Ui::UiSecp *ui;
+    Ui::UiKexSecp *ui;
     void Status_EndWithError(QString err_msg);
     void Status_EndWithSuccess(QString err_msg);
     void Status_Clear();
@@ -37,4 +33,4 @@ private slots:
 };
 
 
-#endif //CRYPTOPOCKETKNIFE_UISECP_H
+#endif //CRYPTOPOCKETKNIFE_UIKEXSECP_H

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Uix25519</class>
- <widget class="QWidget" name="Uix25519">
+ <class>UiKexX25519</class>
+ <widget class="QWidget" name="UiKexX25519">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Uix25519</string>
+   <string>UiKexX25519</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -29,17 +29,7 @@
          </font>
         </property>
         <property name="text">
-         <string>EdDSA (Edwards-curve Digital Signature Algorithm)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>A modern signature scheme built on Edwards curves (e.g. Ed25519) where the nonce is deterministically derived from the private key and the message, eliminating the random nonce risk. It's faster, safer to implement, and produces smaller signatures.</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
+         <string>ECDH using x25519 curve</string>
         </property>
        </widget>
       </item>

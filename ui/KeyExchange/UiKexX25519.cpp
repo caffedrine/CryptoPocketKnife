@@ -1,5 +1,5 @@
-#include "Uix25519.h"
-#include "ui_Uix25519.h"
+#include "UiKexX25519.h"
+#include "ui_UiKexX25519.h"
 #include <QDebug>
 #include <QRandomGenerator>
 #include <eddsa.h>
@@ -8,33 +8,33 @@
 #include <QUtils/QUtils.h>
 #include <QWidgets/QWidgetsUtils.h>
 
-Uix25519::Uix25519(QWidget *parent) :
-        QWidget(parent), ui(new Ui::Uix25519)
+UiKexX25519::UiKexX25519(QWidget *parent) :
+        QWidget(parent), ui(new Ui::UiKexX25519)
 {
     ui->setupUi(this);
 }
 
-Uix25519::~Uix25519()
+UiKexX25519::~UiKexX25519()
 {
     delete ui;
 }
 
-void Uix25519::Status_EndWithError(QString err_msg)
+void UiKexX25519::Status_EndWithError(QString err_msg)
 {
     qCritical().nospace().noquote() << "ERROR: " + err_msg;
 }
 
-void Uix25519::Status_EndWithSuccess(QString err_msg)
+void UiKexX25519::Status_EndWithSuccess(QString err_msg)
 {
     qDebug().nospace().noquote() << "SUCCESS: " + err_msg;
 }
 
-void Uix25519::Status_Clear()
+void UiKexX25519::Status_Clear()
 {
 
 }
 
-void Uix25519::on_pushButton_Clear_clicked()
+void UiKexX25519::on_pushButton_Clear_clicked()
 {
     ui->textEdit_ownCalcKey->setText("");
     ui->textEdit_otherCalcKey->setText("");
@@ -44,7 +44,7 @@ void Uix25519::on_pushButton_Clear_clicked()
     ui->textEdit_otherPublicKey->setText("");
 }
 
-void Uix25519::on_pushButton_GenerateEphemeralKeys_clicked()
+void UiKexX25519::on_pushButton_GenerateEphemeralKeys_clicked()
 {
     uint8_t own_public_key[X25519_KEY_LEN], other_public_key[X25519_KEY_LEN];
     uint8_t own_private_key[X25519_KEY_LEN], other_private_key[X25519_KEY_LEN];
@@ -85,7 +85,7 @@ void Uix25519::on_pushButton_GenerateEphemeralKeys_clicked()
     ui->textEdit_otherPublicKey->setText( Base::Utils::ByteArrays::Uint8ArrToHexQStr(other_public_key, sizeof(other_public_key)));
 }
 
-void Uix25519::on_pushButton_CalculateSharedSecret_clicked()
+void UiKexX25519::on_pushButton_CalculateSharedSecret_clicked()
 {
     uint8_t own_shared_secret[X25519_KEY_LEN], other_shared_secret[X25519_KEY_LEN];
     uint8_t own_public_key[X25519_KEY_LEN], other_public_key[X25519_KEY_LEN];

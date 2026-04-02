@@ -49,7 +49,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="Uix25519" name="widget_x25519" native="true"/>
+        <widget class="UiKexX25519" name="widget_x25519" native="true"/>
        </item>
       </layout>
      </widget>
@@ -76,7 +76,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="UiSecp" name="widget" native="true"/>
+        <widget class="UiKexSecp" name="widget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -91,15 +91,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Uix25519</class>
+   <class>UiKexX25519</class>
    <extends>QWidget</extends>
-   <header>Uix25519.h</header>
+   <header>UiKexX25519.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UiSecp</class>
+   <class>UiKexSecp</class>
    <extends>QWidget</extends>
-   <header>UiSecp.h</header>
+   <header>UiKexSecp.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
