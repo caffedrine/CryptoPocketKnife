@@ -8,10 +8,10 @@
 
 #define PROJECT_NAME                "CryptoPocketKnife"
 #define PROJECT_DESC                "Crypto Pocket Knife"
-#define PROJECT_APP_COMPANY         "ByteSight"
-#define PROJECT_APP_WEBSITE         "www.bytesight.net"
+#define PROJECT_APP_COMPANY         "SparkyByte"
+#define PROJECT_APP_WEBSITE         "www.sparkybyte.com"
 #define PROJECT_APP_ID              "cryptopocketknife"
-#define PROJECT_APP_BACKEND_API_URL "https://bytesight.net/api/v1"
+#define PROJECT_APP_BACKEND_API_URL "https://sparkybyte.com/api/v1"
 #define PROJECT_VER_MAJOR           "1"
 #define PROJECT_VER_MINOR           "0"
 #define PROJECT_VER_PATCH           "0"

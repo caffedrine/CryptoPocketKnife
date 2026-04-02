@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 
 set(PROJECT_NAME CryptoPocketKnife)
 project(${PROJECT_NAME} DESCRIPTION "Crypto Pocket Knife" VERSION 1.0.0 LANGUAGES CXX C)
-set(PROJECT_APP_COMPANY "ByteSight")
-set(PROJECT_APP_WEBSITE "www.bytesight.net")
+set(PROJECT_APP_COMPANY "SparkyByte")
+set(PROJECT_APP_WEBSITE "www.sparkybyte.com")
 set(PROJECT_APP_ID "cryptopocketknife")
-set(PROJECT_APP_BACKEND_API_URL "https://bytesight.net/api/v1")
+set(PROJECT_APP_BACKEND_API_URL "https://sparkybyte.com/api/v1")
 
 # Put all the artifacts on a single place so they can be easily copied when application is deployed
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/output_lib")
