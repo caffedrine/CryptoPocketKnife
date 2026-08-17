@@ -25,6 +25,15 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    void InitTabWidget();
+    void InitWorkspace();
+
+    void SaveMainWindow();
+    bool RestoreMainWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private slots:
     void on_action_NewTab_triggered();
     void on_action_Exit_triggered();

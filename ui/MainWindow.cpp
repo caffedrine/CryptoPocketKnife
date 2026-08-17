@@ -13,6 +13,7 @@
 
 #include <QDesktopServices>
 #include <QSizeGrip>
+#include <QStyle>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), QAppMainWindowExtension(this), ui(new Ui::MainWindow)
 {
@@ -28,55 +29,18 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), QAppMainWindowExte
 
     // Update default base settings to have workspace enabled by default
     Base::QBaseAppSettingsDefault defaultBaseSettings;
-    defaultBaseSettings.IsWorkspaceSaveEnabled = true;
-    defaultBaseSettings.IsWorkspaceRestoreEnabled = true;
+    defaultBaseSettings.EnableWorkspaces = false;
+    defaultBaseSettings.IsWorkspaceSaveEnabled = false;
+    defaultBaseSettings.IsWorkspaceRestoreEnabled = false;
 
     // Load the default base application settings (logs settings, settings location, etc)
     Base::QBaseAppSettings::InitBaseSettings(defaultBaseSettings);
 
-    // Enable "ADD NEW" tab widget button
-    this->ui->tabWidget->SetEnableAddNewButton(true);
-    this->ui->tabWidget->RemoveAllTabs();
-    this->ui->tabWidget->setTabsClosable(true);
-    this->ui->tabWidget->SetPreventLastTabClosure(true);
-    this->ui->tabWidget->setMovable(true);
-    this->ui->tabWidget->SetEnableTabsRename(true);
+    // Init tab wiget
+    this->InitTabWidget();
 
-    // Register a default context menu to manage the tabs
-    QTabCtxMenuCustom *contextMenu = this->ui->tabWidget->GetDefaultTabsManagementContextMenu();
-    this->ui->tabWidget->RegisterCustomContextMenuFunc([=](QContextMenuEvent *event, QTabWidgetExtended *widget, int tabIndex){
-        // Notify custom menu about current tab
-        contextMenu->tabIdx = tabIndex;
-
-        // Execute the custom context menu
-        QAction *selectedAction = contextMenu->exec(event->globalPos());
-    });
-
-    // Enable adding new tabs
-    QObject::connect(this->ui->tabWidget, &QTabWidgetExtended::NewTabRequested, [=](){
-        // main window central Widgets
-        MainWidget *mathWidget = new MainWidget(this->ui->statusBar, this->ui->tabWidget->tabBar());
-        mathWidget->setWindowFlags(Qt::Widget);
-
-        // Init settings manager
-//        UiMathEvaluator::InitGlobalSettings({}, [=](QMathEvaluatorSettings mathEvalSettings)
-//        {
-//            // Propagate the settings changes to the instances onChange - these are only math eval settings, NOT the UI settings
-//            mathWidget->UpdateSettings(mathEvalSettings);
-//        });
-
-        int newTab = this->ui->tabWidget->addTab(mathWidget, "Tab " + QString::number(this->ui->tabWidget->count() + 1));
-
-        // Switch to newly added tab
-        this->ui->tabWidget->setCurrentIndex(newTab);
-    });
-
-    // Create an initial tab by default if no workspace was found or restoration not enabled
-    //if( !Base::QBaseAppSettings::IsWorkspaceRestoreEnabled() || !this->RestoreMainWindowState(this) )
-    {
-        this->ui->tabWidget->RequestNewTab();
-        this->ui->tabWidget->setCurrentIndex(0);
-    }
+    // Init workspace
+    this->InitWorkspace();
 
     // Add a debugging test button
     #ifdef QT_DEBUG
@@ -91,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), QAppMainWindowExte
         });
         debugMenu->addAction(newAction);
     #endif
+
 }
 
 MainWindow::~MainWindow()
@@ -102,9 +67,106 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (!this->WorkspaceSaved && !this->ExitWithoutWsSave)
+    {
+        this->SaveMainWindow();
+        this->WorkspaceSaved = true;
+    }
+    QMainWindow::closeEvent(event);
+}
+
+
+void MainWindow::SaveMainWindow()
+{
+//    QJsonObject mainWindowSetts;
+//    mainWindowSetts.insert("pythonScriptPath",  Base::Utils::Path::Normalize(this->ui->lineEdit_pythonScript->text()));
+//    mainWindowSetts.insert("curr_root_section", currentConfigName);
+    this->SaveMainWindowState(this/*, mainWindowSetts*/);
+}
+
+bool MainWindow::RestoreMainWindow()
+{
+    QJsonObject mainWindowSetts;
+    if ( !this->RestoreMainWindowState(this, &mainWindowSetts) )
+    {
+        return false;
+    }
+
+    return true;
+}
+
+void MainWindow::InitTabWidget()
+{
+    // Init tab widget options
+    this->ui->tabWidget->RemoveAllTabs();
+    this->ui->tabWidget->SetEnableAddNewButton(true);
+    this->ui->tabWidget->setTabsClosable(true);
+    this->ui->tabWidget->SetPreventLastTabClosure(true);
+    this->ui->tabWidget->setMovable(true);
+    this->ui->tabWidget->SetEnableTabsRename(true);
+    this->ui->tabWidget->SetEnableDetachableTabs(true);
+
+    // Get default context menu options for closing the tabs (right, left, this, etc)
+    QTabCtxMenuCustom *contextMenu = this->ui->tabWidget->GetDefaultTabsManagementContextMenu();
+    this->ui->tabWidget->RegisterCustomContextMenuFunc([=](QContextMenuEvent *event, QTabWidgetExtended *widget, int tabIndex){
+        // Notify custom menu about current tab
+        contextMenu->tabIdx = tabIndex;
+        // Execute the custom context menu
+        QAction *selectedAction = contextMenu->exec(event->globalPos());
+    });
+
+    // The one place that knows how to construct a page of a given type
+    this->ui->tabWidget->RegisterTabFactory([=](const QString &tabType) -> QPair<QWidget*, QVariant>
+    {
+        // main window central Widgets
+        MainWidget *mathWidget = new MainWidget(this->ui->statusBar, this->ui->tabWidget->tabBar());
+        mathWidget->setWindowFlags(Qt::Widget);
+
+        return {mathWidget, QVariant()};
+    });
+}
+
+void MainWindow::InitWorkspace()
+{
+    // Create an initial tab by default if no workspace was found or restoration not enabled
+    if( !Base::QBaseAppSettings::WorkspacesEnabled->GetVal().toBool() || !Base::QBaseAppSettings::IsWorkspaceRestoreEnabled->GetVal().toBool() || !this->RestoreMainWindow() )
+    {
+        this->ui->tabWidget->CreateNewTab();    // Create one default tab in case there is nothing to restore
+        this->ui->tabWidget->setCurrentIndex(0);
+    }
+
+    // Add workspaces toolbar item and handling for workspace changes
+    this->InitWorkspacesMenu(this->ui->menubar, 2, [this](QString newWs)-> bool
+    // Workspace about to change callback
+    {
+        bool confirmSave;
+        if ( !Base::Utils::Widgets::ShowConfirmationDialog("Save current workspace?", "Do you want to save the current workspace before switching?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Yes, &confirmSave) )
+        {
+            // action aborted/window closed
+            return false;
+        }
+
+        // Accepted workspace change. Check if current ws shall be saved
+        if (confirmSave)
+        {
+            this->SaveMainWindow(); // Save current workspace before switching
+        }
+        return true;
+    },
+    // Workspace changed callback
+    [this](QString newWs)
+    {
+        // Restore main window
+        this->RestoreMainWindow();
+
+    });
+}
+
 void MainWindow::on_action_Exit_triggered()
 {
-    qApp->quit();
+    this->close();
 }
 
 void MainWindow::on_action_Logs_triggered()
@@ -144,5 +206,5 @@ void MainWindow::on_action_StickToTheTop_triggered()
 
 void MainWindow::on_action_NewTab_triggered()
 {
-    this->ui->tabWidget->RequestNewTab();
+    this->ui->tabWidget->CreateNewTab();
 }
