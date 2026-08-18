@@ -107,6 +107,8 @@ void MainWindow::InitTabWidget()
     this->ui->tabWidget->setMovable(true);
     this->ui->tabWidget->SetEnableTabsRename(true);
     this->ui->tabWidget->SetEnableDetachableTabs(true);
+    // Tabs only have bottom margins. add one on top since this is first widget from top
+    this->ui->gridLayout->layout()->setContentsMargins(0, 1, 0, 0);
 
     // Get default context menu options for closing the tabs (right, left, this, etc)
     QTabCtxMenuCustom *contextMenu = this->ui->tabWidget->GetDefaultTabsManagementContextMenu();
